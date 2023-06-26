@@ -1,0 +1,16 @@
+<StoryMode>:
+    do_default_tab: False
+
+<Area>:
+    size_hint: None, 1
+    width: self.minimum_width
+
+<Level>:
+    size_hint: (None, None)
+    size: ("150dp", "150dp")
+    font_size: self.width / 4
+    color: "#A04623"
+    font_name: "fonts/Coda-Regular.ttf"
+    background_normal: "images/buttons/level.png"
+    background_down: "images/buttons/level.png"
+    on_press: self.message()

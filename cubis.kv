@@ -1,0 +1,148 @@
+#:import boxlayout_with_action_bar boxlayout_with_action_bar
+#:import story_mode story_mode
+#:import infinite_mode infinite_mode
+#:import message message
+#:import menu menu
+#:import game game
+
+
+<MyScreenManager>:
+    Screen:
+        name: "MainMenu"
+        MainMenu:
+    Screen:
+        name: "StoryMode"
+        BoxLayoutWithActionBar:
+            title: "Mode Histoire"
+            StoryModeFloat:
+    Screen:
+        name: "InfiniteMode"
+        BoxLayoutWithActionBar:
+            title: "Mode Infini"
+            InfiniteMode:
+    Screen:
+        name: "Setting"
+        Setting:
+    Screen:
+        name: "Credits"
+        on_pre_enter: self.children[0].children[0].time_reset()
+        Credits:
+    TransitionScreen:
+        name: "TransitionScreen"
+
+
+<MainMenu@FloatLayout>:
+    Image:
+        source: "images/backgrounds/menu.jpg"
+        fit_mode: "cover"
+    Button:
+        size_hint: (None, None)
+        size: ("75dp", "75dp")
+        pos: (0, 0)
+        background_normal: "images/buttons/setting.png"
+        background_down: "images/buttons/setting.png"
+        on_press: app.manager.push("Setting", transition_screen=False)
+    AnchorLayout:
+        anchor_x: "center"
+        anchor_y: "center"
+        CenterBoxLayout:
+            Logo:
+            MenuBoxLayout:
+                orientation: "vertical"
+                Button:
+                    background_normal: "images/buttons/story_mode.png"
+                    background_down: "images/buttons/story_mode.png"
+                    on_press: app.manager.push("StoryMode")
+                Button:
+                    background_normal: "images/buttons/infinite_mode.png"
+                    background_down: "images/buttons/infinite_mode.png"
+                    on_press: app.manager.push("InfiniteMode")
+
+
+<Setting@FloatLayout>:
+    Image:
+        source: "images/backgrounds/menu.jpg"
+        fit_mode: "cover"
+    SettingImage:
+        id: setting_image
+        source: "images/elements/setting.png"
+        fit_mode: "cover"
+        pos_hint: {"center_x": 0.5, "center_y": 0.5}
+    MusicSlider:
+        id: musique_slider
+        size_hint: (None, None)
+        width: setting_image.width/3
+        pos_hint: {"center_y": 0.5}
+        x: setting_image.x+setting_image.width*15/100
+        min: 0
+        max: 100
+    Label:
+        size_hint: (None, None)
+        width: musique_slider.width
+        x: musique_slider.x
+        y: musique_slider.y+30
+        text: "Musiques"
+        font_size: self.width/10
+        color: "#A04623"
+        font_name: "fonts/Coda-Regular.ttf"
+    EffectSlider:
+        id: effect_slider
+        size_hint: (None, None)
+        width: setting_image.width/3
+        pos_hint: {"center_y": 0.5}
+        x: setting_image.x+setting_image.width*55/100
+        min: 0
+        max: 100
+    Label:
+        size_hint: (None, None)
+        width: effect_slider.width
+        x: effect_slider.x
+        y: effect_slider.y+30
+        text: "Effets sonores"
+        font_size: self.width/10
+        color: "#A04623"
+        font_name: "fonts/Coda-Regular.ttf"
+    Button:
+        size_hint: (None, None)
+        width: effect_slider.width
+        height: self.width/1222*561
+        pos_hint: {"center_x": 0.5}
+        y: setting_image.y+setting_image.width*0.2
+        text: "Crédits"
+        font_size: self.width/10
+        color: "#A04623"
+        font_name: "fonts/Coda-Regular.ttf"
+        background_normal: ""
+        background_down: ""
+        background_color: (0, 0, 0, 0)
+        on_press: app.manager.push("Credits")
+        canvas.before:
+            Color:
+                rgba: (0.82, 0.44, 0.15, 1)
+            RoundedRectangle:
+                pos: self.pos
+                size: self.size
+                radius: [10,]
+    Button:
+        pos: (0, self.parent.height-self.height)
+        size_hint: (None, None)
+        size: ("50dp", "50dp")
+        background_normal: "images/buttons/left2.png"
+        background_down: "images/buttons/left2.png"
+        on_press: app.manager.pop(transition_screen=False)
+
+
+
+<Credits@FloatLayout>:
+    Button:
+        size_hint: (1, 1)
+        background_normal: ""
+        background_down: ""
+        background_color: (0, 0, 0, 1)
+        on_press: app.manager.pop()
+    CreditLabel:
+        halign: 'center'
+        valign: 'middle'
+        font_size: self.parent.width/20
+        pos_hint: {"center_x": 0.5, "center_y": 0.5}
+        text: "Game created by MAT06mat \n\nLogo design by Livou_BAB"

@@ -1,0 +1,119 @@
+{
+  "1": {
+    "Grid": [
+      [null, null],
+      [null, null]
+    ],
+    "Pieces": [{ "Grid": [[2, 2]] }, { "Grid": [[1]] }, { "Grid": [[4]] }]
+  },
+  "2": {
+    "Grid": [
+      [null, null, null],
+      [null, null, null],
+      [null, null, null]
+    ],
+    "Pieces": [
+      {
+        "Grid": [
+          [4, 4, 4],
+          [4, null, null]
+        ]
+      },
+      {
+        "Grid": [
+          [3, 3],
+          [3, 3]
+        ]
+      },
+      { "Grid": [[2]] }
+    ]
+  },
+  "3": {
+    "Grid": [
+      [0, null, null],
+      [0, null, null],
+      [0, 0, null]
+    ],
+    "Pieces": [
+      {
+        "Grid": [
+          [1, 1],
+          [1, null]
+        ]
+      },
+      { "Grid": [[3], [3]] }
+    ]
+  },
+  "4": {
+    "Grid": [
+      [0, null, null, null],
+      [null, null, null, null],
+      [null, null, null, null],
+      [null, null, null, null]
+    ],
+    "Pieces": [
+      {
+        "Grid": [
+          [1, 1],
+          [1, null],
+          [1, null]
+        ]
+      },
+      { "Grid": [[2, 2]] },
+      {
+        "Grid": [
+          [3, 3],
+          [3, 3],
+          [3, 3],
+          [3, 3]
+        ]
+      }
+    ]
+  },
+  "5": {
+    "Grid": [
+      ["1", "1", "1", "1"],
+      ["2", "2", "3", "3"],
+      ["2", "3", "3", "3"],
+      ["2", "3", "3", "3"]
+    ],
+    "Pieces": [
+      { "Grid": [[1, 1, 1, 1]] },
+      {
+        "Grid": [
+          [1, 1],
+          [null, 3]
+        ]
+      },
+      {
+        "Grid": [
+          [2, 2],
+          [2, null],
+          [2, null],
+          [2, null]
+        ]
+      },
+      {
+        "Grid": [
+          [3, 3, null],
+          [3, 3, 3]
+        ]
+      }
+    ]
+  },
+  "6": { "Grid": "8x4", "Pieces": [] },
+  "7": { "Grid": "8x4", "Pieces": [] },
+  "8": { "Grid": "8x4", "Pieces": [] },
+  "9": { "Grid": "8x4", "Pieces": [] },
+  "10": { "Grid": "8x4", "Pieces": [] },
+  "11": { "Grid": "8x4", "Pieces": [] },
+  "12": { "Grid": "8x4", "Pieces": [] },
+  "13": { "Grid": "8x4", "Pieces": [] },
+  "14": { "Grid": "8x4", "Pieces": [] },
+  "15": { "Grid": "8x4", "Pieces": [] },
+  "16": { "Grid": "8x4", "Pieces": [] },
+  "17": { "Grid": "8x4", "Pieces": [] },
+  "18": { "Grid": "8x4", "Pieces": [] },
+  "19": { "Grid": "8x4", "Pieces": [] },
+  "20": { "Grid": "8x4", "Pieces": [] }
+}

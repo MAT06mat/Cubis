@@ -1,0 +1,25 @@
+<Page>:
+    MenuButton:
+        size_hint: (None, 0.1)
+        width: self.height
+        pos_hint: {"top": 1.01, "right": 1.02}
+        background_normal: "images/buttons/menu.png"
+        background_down: "images/buttons/menu.png"
+    ZonePieces:
+        size_hint: (1, None)
+        padding: ("10dp", "0dp", "10dp", "10dp")
+        ScrollView:
+            size_hint: (1, 1)
+            GridPiece:
+                size_hint: 1, None
+                height: self.minimum_height
+
+<LeftArrow>:
+    pos_hint: {"left": 1}
+    background_down: "images/buttons/left2.png"
+    background_normal: "images/buttons/left2.png"
+
+<RightArrow>:
+    pos_hint: {"right": 1}
+    background_down: "images/buttons/right2.png"
+    background_normal: "images/buttons/right2.png"

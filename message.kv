@@ -1,0 +1,18 @@
+<PlayButtonStory>:
+    size_hint: (0.75, None)
+    height: self.width/1192*501
+    pos_hint: {"center_x": 0.5, "center_y": 0.3}
+    background_normal: "images/buttons/play.png"
+    background_down: "images/buttons/play.png"
+    on_press: self.parent.message_pop()
+
+
+<LevelName>:
+    color: "#59173D"
+    pos_hint: {"center_x": 0.5, "center_y": 0.8}
+    font_name: "fonts/Forum-Regular.otf"
+
+<ModeLabel>:
+    color: "#59173D"
+    pos_hint: {"center_x": 0.5, "center_y": 0.6}
+    font_name: "fonts/Forum-Regular.otf"
