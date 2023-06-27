@@ -18,7 +18,7 @@ import json
 Builder.load_file("game.kv")
 COLOR = ((0.65, 0.65, 0.65), (1, 0, 0), (0, 0, 1), (0, 1, 0), (1, 1, 0), (1, 0, 1), (0, 1, 1))
 def get_min_x(self):
-        return self.width/2-self.size_line_h/2
+    return self.width/2-self.size_line_h/2
 def get_max_x(self):
     return self.width/2+self.size_line_h/2
 def get_min_y(self):
@@ -86,6 +86,37 @@ class Grid(RelativeLayout):
         self.center_y = self.parent.grid_image.center_y
         dispaly_grid(self=self, background=True, border=True, relative=True)
 
+
+class ValidationButton(Button):
+    def on_press(self):
+        self.disabled = True
+        self.marg = int(self.parent.grid.size_line/2)
+        for y_p in range(len(self.parent.current_piece.grid)):
+            for x_p in range(len(self.parent.current_piece.grid[y_p])):
+                if self.parent.current_piece.grid[y_p][x_p] != None:
+                    for y_g in range(len(self.parent.grid.grid)):
+                        for x_g in range(len(self.parent.grid.grid[y_g])):
+                            # Calculation Global of x and y for piece and grid
+                            x_piece = get_min_x(self.parent.current_piece)+self.parent.current_piece.x+x_p*self.parent.current_piece.size_line
+                            y_piece = get_max_y(self.parent.current_piece)+self.parent.current_piece.y-(y_p+1)*self.parent.current_piece.size_line
+                            x_grid = get_min_x(self.parent.grid)+self.parent.grid.x+x_g*self.parent.grid.size_line
+                            y_grid = get_max_y(self.parent.grid)+self.parent.grid.y-(y_g+1)*self.parent.grid.size_line
+                            # if grid block match with piece block and if is void or if is a motifs
+                            if abs(x_piece - x_grid) < self.marg and abs(y_piece - y_grid) < self.marg and (self.parent.grid.grid[y_g][x_g] == None or (self.parent.grid.grid[y_g][x_g] == str(self.parent.current_piece.grid[y_p][x_p]) and type(self.parent.grid.grid[y_g][x_g]) == str)):
+                                self.parent.grid.grid[y_g][x_g] = self.parent.current_piece.grid[y_p][x_p]
+        self.parent.remove_widget(self.parent.current_piece)
+        piece_find = False
+        while not piece_find:
+            for piece in self.parent.zone_piece.my_scroll_view.grid_piece.piece_button:
+                if piece.grid == self.parent.current_piece.grid:
+                    piece_find = True
+                    self.parent.zone_piece.my_scroll_view.grid_piece.piece_button.remove(piece)
+                    self.parent.zone_piece.my_scroll_view.grid_piece.remove_widget(piece)
+            self.parent.left()
+        self.parent.current_piece = None
+        return super().on_press()
+
+
 class Page(FloatLayout):
     def __init__(self, arrows, id_level, **kwargs):
         super().__init__(**kwargs)
@@ -95,13 +126,39 @@ class Page(FloatLayout):
         with open("levels.json") as data:
             levels = json.loads(data.read())
         self.level = levels[str(id_level)]
+        self.current_piece = None
         self.grid_image = GridImage()
         self.add_widget(self.grid_image)
         self.grid = Grid(self.level)
         self.add_widget(self.grid)
         self.zone_piece = ZonePieces(level=self.level)
         self.add_widget(self.zone_piece)
-        self.current_piece = None
+        self.validation_button = ValidationButton()
+        self.add_widget(self.validation_button)
+        Clock.schedule_interval(self.loop, 1/60)
+    
+    def loop(self, *args):
+        try:
+            if self.current_piece:
+                self.marg = int(self.grid.size_line/2)
+                check = []
+                for y_p in range(len(self.current_piece.grid)):
+                    for x_p in range(len(self.current_piece.grid[y_p])):
+                        one = []
+                        for y_g in range(len(self.grid.grid)):
+                            for x_g in range(len(self.grid.grid[y_g])):
+                                # Calculation Global of x and y for piece and grid
+                                x_piece = get_min_x(self.current_piece)+self.current_piece.x+x_p*self.current_piece.size_line
+                                y_piece = get_max_y(self.current_piece)+self.current_piece.y-(y_p+1)*self.current_piece.size_line
+                                x_grid = get_min_x(self.grid)+self.grid.x+x_g*self.grid.size_line
+                                y_grid = get_max_y(self.grid)+self.grid.y-(y_g+1)*self.grid.size_line
+                                # if grid block match with piece block and if is void or if is a motis
+                                one.append(abs(x_piece - x_grid) < self.marg and abs(y_piece - y_grid) < self.marg and (self.grid.grid[y_g][x_g] == None or (self.grid.grid[y_g][x_g] == str(self.current_piece.grid[y_p][x_p]) and type(self.grid.grid[y_g][x_g]) == str) or self.current_piece.grid[y_p][x_p] == None))
+                        check.append(any(one))
+                self.validation_button.disabled = not all(check)
+        except:
+            pass
+                    
     
     def change_current_piece(self, grid):
         if self.current_piece != None:
@@ -128,7 +185,7 @@ class CurrentPiece(RelativeLayout):
         self.first_click = True
         self.init = True
         self.pos = (Window.mouse_pos[0]+dp(10), Window.mouse_pos[1]+dp(10))
-        self.schedule_id = Clock.schedule_interval(self.loop, 1/60)
+        Clock.schedule_interval(self.loop, 1/60)
         Window.bind(on_resize=self.on_window_resize)
     
     def on_window_resize(self, *args):
@@ -261,8 +318,11 @@ class GridPiece(GridLayout):
         self.cols = 3
         self.spacing = dp(10)
         self.current_level = current_level
+        self.piece_button = []
         for piece in self.current_level["Pieces"]:
-            self.add_widget(PieceButton(piece=piece))
+            button = PieceButton(piece=piece)
+            self.piece_button.append(button)
+            self.add_widget(button)
 
 
 class ZonePieces(BoxLayout):

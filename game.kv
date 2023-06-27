@@ -17,6 +17,16 @@
     size_hint: 1, None
     height: self.minimum_height
 
+<ValidationButton>:
+    size_hint: (None, 0.1)
+    width: self.height
+    pos_hint: {"top": 1.01, "left": 1.02}
+    background_normal: "images/buttons/coche.png"
+    background_down: "images/buttons/coche.png"
+    background_disabled_normal: "images/buttons/coche_disabled.png"
+    background_disabled_down: "images/buttons/coche_disabled.png"
+    disabled: True
+
 <LeftArrow>:
     pos_hint: {"left": 1}
     background_down: "images/buttons/left2.png"
