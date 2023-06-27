@@ -61,7 +61,10 @@ def dispaly_grid(self, background=False, border=False, relative=False):
                         Rectangle(pos=(self.x+get_min_x(self)+x*self.size_line,self.y+get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), source="images/elements/bloc.png")
                     else:
                         Rectangle(pos=(get_min_x(self)+x*self.size_line,get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), source="images/elements/bloc.png")
-        if border:
+        if background and not relative:
+            self.background_debug.size = (self.width, self.height)
+            self.background_debug.pos = self.pos
+        elif background and relative:
             self.background_debug.size = (self.width, self.height)
 
 
@@ -243,14 +246,13 @@ class PieceButton(Button):
         self.nb_l = len(self.grid)
         self.nb_c = len(self.grid[0])
         self.size_hint_y = None
-        Clock.schedule_interval(self.resize, 1/60)
+        Clock.schedule_interval(self.loop, 1/60)
     
     def on_press(self):
         self.parent.parent.parent.parent.change_current_piece(grid=self.grid)
         return super().on_press()
     
-    def resize(self, *args):
-        self.height = self.width
+    def loop(self, *args):
         dispaly_grid(self)
 
 class GridPiece(GridLayout):
