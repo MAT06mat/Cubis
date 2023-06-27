@@ -17,6 +17,52 @@ import json
 
 Builder.load_file("game.kv")
 COLOR = ((0.65, 0.65, 0.65), (1, 0, 0), (0, 0, 1), (0, 1, 0), (1, 1, 0), (1, 0, 1), (0, 1, 1))
+def get_min_x(self):
+        return self.width/2-self.size_line_h/2
+def get_max_x(self):
+    return self.width/2+self.size_line_h/2
+def get_min_y(self):
+    return self.height/2-self.size_line_v/2
+def get_max_y(self):
+    return self.height/2+self.size_line_v/2
+
+def dispaly_grid(self, background=False, border=False, relative=False):
+    self.canvas.clear()
+    with self.canvas:
+        if background:
+            Color(1, 1, 1)
+            self.background_debug = Rectangle(pos=(0, 0), size=(self.width, self.width)) 
+        Color(0.91, 0.72, 0.27)
+        # Line Size Calculation
+        if self.nb_l >= self.nb_c:
+            self.size_line = self.width/self.nb_l
+            self.size_line_v = self.width
+            self.size_line_h = self.size_line*self.nb_c
+        else:
+            self.size_line = self.width/self.nb_c
+            self.size_line_v = self.size_line*self.nb_l
+            self.size_line_h = self.width
+        if border:
+            # Create cols
+            for i in range(self.nb_c + 1):
+                Line(points=(get_min_x(self)+i*self.size_line, get_min_y(self), get_min_x(self)+i*self.size_line, get_max_y(self)), width=2)
+            # Create rows
+            for i in range(self.nb_l + 1):
+                Line(points=(get_min_x(self), get_min_y(self)+i*self.size_line, get_max_x(self), get_min_y(self)+i*self.size_line), width=2)
+        # Create block in the grid
+        for y in range(len(self.grid)):
+            for x in range(len(self.grid[y])):
+                if self.grid[y][x] != None:
+                    if type(self.grid[y][x]) == str:
+                        Color(*COLOR[int(self.grid[y][x])], 0.5)
+                    else:
+                        Color(*COLOR[int(self.grid[y][x])])
+                    if not relative:
+                        Rectangle(pos=(self.x+get_min_x(self)+x*self.size_line,self.y+get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), source="images/elements/bloc.png")
+                    else:
+                        Rectangle(pos=(get_min_x(self)+x*self.size_line,get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), source="images/elements/bloc.png")
+        if border:
+            self.background_debug.size = (self.width, self.width)
 
 
 class Grid(RelativeLayout):
@@ -26,11 +72,7 @@ class Grid(RelativeLayout):
         self.nb_l = len(self.grid)
         self.nb_c = len(self.grid[0])
         self.pieces = level["Pieces"]
-        self.size_hint = (None, None)
-        with self.canvas:
-            Color(0, 0.5, 0)
-            self.border = Rectangle(pos=(0, 0), size=(self.width, self.width))    
-            
+        self.size_hint = (None, None) 
         Clock.schedule_interval(self.loop, 1/60)
     
     def loop(self, *args):
@@ -39,45 +81,7 @@ class Grid(RelativeLayout):
         self.height = self.width
         self.center_x = self.parent.grid_image.center_x
         self.center_y = self.parent.grid_image.center_y
-        self.canvas.clear()
-        with self.canvas:
-            Color(1, 1, 1)
-            self.background_debug = Rectangle(pos=(0, 0), size=(self.width, self.width)) 
-            Color(0.91, 0.72, 0.27)
-            # Line Size Calculation
-            if self.nb_l >= self.nb_c:
-                self.size_line = self.width/self.nb_l
-                self.size_line_v = self.width
-                self.size_line_h = self.size_line*self.nb_c
-            else:
-                self.size_line = self.width/self.nb_c
-                self.size_line_v = self.size_line*self.nb_l
-                self.size_line_h = self.width
-            # Create cols
-            for i in range(self.nb_c + 1):
-                Line(points=(self.get_min_x()+i*self.size_line, self.get_min_y(), self.get_min_x()+i*self.size_line, self.get_max_y()), width=2)
-            # Create rows
-            for i in range(self.nb_l + 1):
-                Line(points=(self.get_min_x(), self.get_min_y()+i*self.size_line, self.get_max_x(), self.get_min_y()+i*self.size_line), width=2)
-            # Create block in the grid
-            for y in range(len(self.grid)):
-                for x in range(len(self.grid[y])):
-                    if self.grid[y][x] != None:
-                        if type(self.grid[y][x]) == str:
-                            Color(*COLOR[int(self.grid[y][x])], 0.5)
-                        else:
-                            Color(*COLOR[int(self.grid[y][x])])
-                        Rectangle(pos=(self.get_min_x()+x*self.size_line,self.get_max_y()-(y+1)*self.size_line), size=(self.size_line, self.size_line), source="images/elements/bloc.png")
-            self.background_debug.size = (self.width, self.width)
-
-    def get_min_x(self):
-        return self.width/2-self.size_line_h/2
-    def get_max_x(self):
-        return self.width/2+self.size_line_h/2
-    def get_min_y(self):
-        return self.height/2-self.size_line_v/2
-    def get_max_y(self):
-        return self.height/2+self.size_line_v/2
+        dispaly_grid(self=self, background=True, border=True, relative=True)
 
 class Page(FloatLayout):
     def __init__(self, arrows, id_level, **kwargs):
@@ -94,6 +98,25 @@ class Page(FloatLayout):
         self.add_widget(self.grid)
         self.zone_piece = ZonePieces(level=self.level)
         self.add_widget(self.zone_piece)
+        self.current_piece = None
+    
+    def change_current_piece(self, grid):
+        if self.current_piece != None:
+            self.remove_widget(self.current_piece)
+        self.current_piece = CurrentPiece(grid)
+        self.add_widget(self.current_piece)
+
+
+class CurrentPiece(RelativeLayout):
+    def __init__(self, grid, **kw):
+        super().__init__(**kw)
+        self.grid = grid
+        self.nb_l = len(self.grid)
+        self.nb_c = len(self.grid[0])
+        self.schedule_id = Clock.schedule_interval(self.loop, 1/60)
+    
+    def loop(self, *args):
+        dispaly_grid(self, relative=True)
 
 
 class MenuButton(Button):
@@ -157,35 +180,13 @@ class PieceButton(Button):
         self.size_hint_y = None
         Clock.schedule_interval(self.resize, 1/60)
     
+    def on_press(self):
+        self.parent.parent.parent.parent.change_current_piece(grid=self.grid)
+        return super().on_press()
+    
     def resize(self, *args):
         self.height = self.width
-        self.canvas.clear()
-        with self.canvas:
-            # Line Size Calculation
-            if self.nb_l >= self.nb_c:
-                self.size_line = self.width/self.nb_l
-                self.size_line_v = self.width
-                self.size_line_h = self.size_line*self.nb_c
-            else:
-                self.size_line = self.width/self.nb_c
-                self.size_line_v = self.size_line*self.nb_l
-                self.size_line_h = self.width
-            # Create block in the grid
-            for y in range(len(self.grid)):
-                for x in range(len(self.grid[y])):
-                    if self.grid[y][x] != None:
-                        Color(*COLOR[int(self.grid[y][x])])
-                        Rectangle(pos=(self.x+self.get_min_x()+x*self.size_line,self.y+self.get_max_y()-(y+1)*self.size_line), size=(self.size_line, self.size_line), source="images/elements/bloc.png")
-
-    def get_min_x(self):
-        return self.width/2-self.size_line_h/2
-    def get_max_x(self):
-        return self.width/2+self.size_line_h/2
-    def get_min_y(self):
-        return self.height/2-self.size_line_v/2
-    def get_max_y(self):
-        return self.height/2+self.size_line_v/2
-
+        dispaly_grid(self)
 
 class GridPiece(GridLayout):
     def __init__(self, current_level, **kwargs):
