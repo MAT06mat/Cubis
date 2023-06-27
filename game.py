@@ -147,13 +147,54 @@ class GridImage(Image):
             self.width -= 1
 
 
+class PieceButton(Button):
+    def __init__(self, piece,**kwargs):
+        super().__init__(**kwargs)
+        self.piece = piece
+        self.grid = self.piece["Grid"]
+        self.nb_l = len(self.grid)
+        self.nb_c = len(self.grid[0])
+        self.size_hint_y = None
+        Clock.schedule_interval(self.resize, 1/60)
+    
+    def resize(self, *args):
+        self.height = self.width
+        self.canvas.clear()
+        with self.canvas:
+            # Line Size Calculation
+            if self.nb_l >= self.nb_c:
+                self.size_line = self.width/self.nb_l
+                self.size_line_v = self.width
+                self.size_line_h = self.size_line*self.nb_c
+            else:
+                self.size_line = self.width/self.nb_c
+                self.size_line_v = self.size_line*self.nb_l
+                self.size_line_h = self.width
+            # Create block in the grid
+            for y in range(len(self.grid)):
+                for x in range(len(self.grid[y])):
+                    if self.grid[y][x] != None:
+                        Color(*COLOR[int(self.grid[y][x])])
+                        Rectangle(pos=(self.x+self.get_min_x()+x*self.size_line,self.y+self.get_max_y()-(y+1)*self.size_line), size=(self.size_line, self.size_line), source="images/elements/bloc.png")
+
+    def get_min_x(self):
+        return self.width/2-self.size_line_h/2
+    def get_max_x(self):
+        return self.width/2+self.size_line_h/2
+    def get_min_y(self):
+        return self.height/2-self.size_line_v/2
+    def get_max_y(self):
+        return self.height/2+self.size_line_v/2
+
+
 class GridPiece(GridLayout):
     def __init__(self, current_level, **kwargs):
         super().__init__(**kwargs)
         self.cols = 3
+        self.spacing = dp(10)
         self.current_level = current_level
         for piece in self.current_level["Pieces"]:
-            self.add_widget(Button(text = str(piece["Grid"]), size_hint_y=None, height=80))
+            self.add_widget(PieceButton(piece=piece))
 
 
 class ZonePieces(BoxLayout):
