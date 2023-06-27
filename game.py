@@ -31,12 +31,12 @@ def dispaly_grid(self, background=False, border=False, relative=False):
     with self.canvas:
         if background:
             Color(1, 1, 1)
-            self.background_debug = Rectangle(pos=(0, 0), size=(self.width, self.width)) 
+            self.background_debug = Rectangle(pos=(0, 0), size=(self.width, self.height)) 
         Color(0.91, 0.72, 0.27)
         # Line Size Calculation
         if self.nb_l >= self.nb_c:
-            self.size_line = self.width/self.nb_l
-            self.size_line_v = self.width
+            self.size_line = self.height/self.nb_l
+            self.size_line_v = self.height
             self.size_line_h = self.size_line*self.nb_c
         else:
             self.size_line = self.width/self.nb_c
@@ -62,7 +62,7 @@ def dispaly_grid(self, background=False, border=False, relative=False):
                     else:
                         Rectangle(pos=(get_min_x(self)+x*self.size_line,get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), source="images/elements/bloc.png")
         if border:
-            self.background_debug.size = (self.width, self.width)
+            self.background_debug.size = (self.width, self.height)
 
 
 class Grid(RelativeLayout):
@@ -120,10 +120,38 @@ class CurrentPiece(RelativeLayout):
         self.grid = grid
         self.nb_l = len(self.grid)
         self.nb_c = len(self.grid[0])
+        self.size_hint = (None, None)
+        self.delta_pos = None
+        self.first_click = True
+        self.init = True
+        self.pos = (Window.mouse_pos[0]+dp(10), Window.mouse_pos[1]+dp(10))
         self.schedule_id = Clock.schedule_interval(self.loop, 1/60)
+        Window.bind(on_resize=self.on_window_resize)
+    
+    def on_window_resize(self, *args):
+        self.pos = (Window.width/2-self.width/2, Window.height/2-self.width/2)
     
     def loop(self, *args):
+        try:
+            self.size_line = self.parent.grid.size_line
+        except:
+            self.size_line = dp(50)
+        self.width = self.nb_c*self.size_line
+        self.height = self.nb_l*self.size_line
         dispaly_grid(self, relative=True)
+    
+    def on_touch_move(self, touch):
+            if self.pos[0] < touch.pos[0] < (self.pos[0] + self.width) and self.pos[1] < touch.pos[1] < (self.pos[1] + self.height):
+                if self.first_click == True:
+                    self.delta_pos = (touch.pos[0] - self.pos[0], touch.pos[1] - self.pos[1])
+                    self.first_click = False
+            if self.delta_pos != None:
+                self.pos = (touch.pos[0] - self.delta_pos[0], touch.pos[1] - self.delta_pos[1])
+
+    def on_touch_up(self, touch):
+        if touch.button == 'left':
+            self.first_click = True
+            self.delta_pos = None
     
     def right(self):
         self.new_grid = []
