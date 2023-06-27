@@ -105,7 +105,14 @@ class Page(FloatLayout):
             self.remove_widget(self.current_piece)
         self.current_piece = CurrentPiece(grid)
         self.add_widget(self.current_piece)
+    
+    def right(self):
+        if self.current_piece != None:
+            self.current_piece.right()
 
+    def left(self):
+        if self.current_piece != None:
+            self.current_piece.left()
 
 class CurrentPiece(RelativeLayout):
     def __init__(self, grid, **kw):
@@ -117,10 +124,44 @@ class CurrentPiece(RelativeLayout):
     
     def loop(self, *args):
         dispaly_grid(self, relative=True)
+    
+    def right(self):
+        self.new_grid = []
+        for y in range(self.nb_c):
+            self.new_grid.append([])
+            for x in range(self.nb_l):
+                self.new_grid[y].append(None)
+        for y in range(len(self.grid)):
+            for x in range(len(self.grid[y])):
+                self.new_grid[x][-(y+1)] = self.grid[y][x]
+        self.grid = self.new_grid
+        self.nb_l = len(self.grid)
+        self.nb_c = len(self.grid[0])
+    
+    def left(self):
+        self.new_grid = []
+        for y in range(self.nb_c):
+            self.new_grid.append([])
+            for x in range(self.nb_l):
+                self.new_grid[y].append(None)
+        for y in range(len(self.grid)):
+            for x in range(len(self.grid[y])):
+                self.new_grid[-(x+1)][y] = self.grid[y][x]
+        self.grid = self.new_grid
+        self.nb_l = len(self.grid)
+        self.nb_c = len(self.grid[0])
 
 
 class MenuButton(Button):
     pass
+
+
+class MyScrollView(ScrollView):
+    def __init__(self, current_level, **kwargs):
+        super().__init__(**kwargs)
+        self.current_level = current_level
+        self.grid_piece = GridPiece(current_level=self.current_level)
+        self.add_widget(self.grid_piece)
 
 
 class Arrow(Button):
@@ -135,20 +176,16 @@ class Arrow(Button):
         self.y = self.parent.grid_image.y - self.height/1.2
 
 
-class MyScrollView(ScrollView):
-    def __init__(self, current_level, **kwargs):
-        super().__init__(**kwargs)
-        self.current_level = current_level
-        self.grid_piece = GridPiece(current_level=self.current_level)
-        self.add_widget(self.grid_piece)
-
-
 class RightArrow(Arrow):
-    pass
+    def on_press(self):
+        self.parent.right()
+        return super().on_press()
 
 
 class LeftArrow(Arrow):
-    pass
+    def on_press(self):
+        self.parent.left()
+        return super().on_press()
 
 
 class GridImage(Image):
