@@ -4,6 +4,7 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.relativelayout import RelativeLayout
+from kivy.uix.scrollview import ScrollView
 from kivy.uix.button import Button
 from kivy.uix.image import Image
 from kivy.core.window import Window
@@ -91,6 +92,8 @@ class Page(FloatLayout):
         self.add_widget(self.grid_image)
         self.grid = Grid(self.level)
         self.add_widget(self.grid)
+        self.zone_piece = ZonePieces(level=self.level)
+        self.add_widget(self.zone_piece)
 
 
 class MenuButton(Button):
@@ -107,6 +110,14 @@ class Arrow(Button):
     def resize(self, *args):
         self.width = self.height
         self.y = self.parent.grid_image.y - self.height/1.2
+
+
+class MyScrollView(ScrollView):
+    def __init__(self, current_level, **kwargs):
+        super().__init__(**kwargs)
+        self.current_level = current_level
+        self.grid_piece = GridPiece(current_level=self.current_level)
+        self.add_widget(self.grid_piece)
 
 
 class RightArrow(Arrow):
@@ -137,16 +148,20 @@ class GridImage(Image):
 
 
 class GridPiece(GridLayout):
-    def __init__(self, **kwargs):
+    def __init__(self, current_level, **kwargs):
         super().__init__(**kwargs)
         self.cols = 3
-        for i in range(40):
-            self.add_widget(Button(text = str(i), size_hint_y=None, height=80))
+        self.current_level = current_level
+        for piece in self.current_level["Pieces"]:
+            self.add_widget(Button(text = str(piece["Grid"]), size_hint_y=None, height=80))
 
 
 class ZonePieces(BoxLayout):
-    def __init__(self, **kwargs):
+    def __init__(self, level, **kwargs):
         super().__init__(**kwargs)
+        self.level = level
+        self.my_scroll_view = MyScrollView(current_level=level)
+        self.add_widget(self.my_scroll_view)
         Clock.schedule_interval(self.resize, 1/60)
     
     def resize(self, *args):
