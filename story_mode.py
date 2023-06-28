@@ -59,7 +59,7 @@ class Level(Button):
         level_height += 1
         
     def on_press(self):
-        self.parent.parent.parent.parent.parent.message_push(self.text, self.mode)
+        self.parent.parent.parent.parent.parent.message_push(self.text, self.mode, self.id)
         return super().on_press()
 
 
@@ -144,9 +144,9 @@ class StoryModeFloat(FloatLayout):
         self.add_widget(background_image)
         self.add_widget(StoryMode())
         
-    def message_push(self, text, mode):
+    def message_push(self, text, mode, id_level):
         if not self.message:
-            self.message = PlayMessage(text_var=text, mode=mode)
+            self.message = PlayMessage(text_var=text, mode=mode, id_level=id_level)
             self.add_widget(self.message)
         
     def message_pop(self):

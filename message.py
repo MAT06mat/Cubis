@@ -12,7 +12,9 @@ Builder.load_file("message.kv")
 
 
 class PlayButtonStory(Button):
-    pass
+    def __init__(self, id_level, **kwargs):
+        super().__init__(**kwargs)
+        self.id_level = id_level
 
 
 class ModeLabel(Label):
@@ -56,7 +58,7 @@ class Back(Button):
         return super().on_press()
 
 class PlayMessage(RelativeLayout):
-    def __init__(self, text_var, mode, **kw):
+    def __init__(self, text_var, mode, id_level, **kw):
         super().__init__(**kw)
         self.pos_hint = {"center_x": 0.5, "center_y": 0.5}
         self.size_hint = (None, None)
@@ -64,7 +66,7 @@ class PlayMessage(RelativeLayout):
         self.add_widget(Back())
         self.add_widget(LevelName(text_var=text_var))
         self.add_widget(ModeLabel(mode=mode))
-        self.add_widget(PlayButtonStory())
+        self.add_widget(PlayButtonStory(id_level=id_level))
         self.on_window_resize()
         Window.bind(on_resize=self.on_window_resize)
     
@@ -102,10 +104,6 @@ class ResetButton(Button):
         self.height = self.width
         self.y = self.parent.setting_button.y
         self.x = self.parent.setting_button.x - self.width*0.7
-
-    def on_press(self):
-        Window.app.manager.start_level(self.id_level)
-        return super().on_press()
 
 
 class QuitButton(Button):

@@ -23,7 +23,11 @@ class TransitionScreen(Screen):
 
 
 class MyScreenManager(NavigationScreenManager):
+    level = None
+
     def start_level(self, id_level=0):
+        if self.level != None:
+            self.remove_widget(self.level)
         self.level = Game(name="Level", id_level=id_level)
         self.add_widget(self.level)
         self.push("Level")
@@ -36,7 +40,7 @@ class CubisApp(App):
     def build(self):
         Window.clearcolor = (1, 1, 1, 1)
         self.manager = MyScreenManager()
-        # return self.manager
+        return self.manager
         return Game(name="Level", id_level=5)
 
 
