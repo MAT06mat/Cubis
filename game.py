@@ -14,6 +14,8 @@ from kivy.graphics.vertex_instructions import Line, Rectangle
 from kivy.graphics import Color
 from kivy.metrics import dp
 
+from message import MenuMessage
+
 import copy
 import json
 
@@ -99,6 +101,8 @@ class ValidationButton(Button):
         self.y = Window.height - self.height*0.9
 
     def on_press(self):
+        if self.parent.message != None:
+            return super().on_press()
         self.disabled = True
         self.parent.save()
         self.marg = int(self.parent.grid.size_line/2)
@@ -138,6 +142,8 @@ class UndoButton(Button):
         self.y = Window.height - self.height*0.9
 
     def on_press(self):
+        if self.parent.message != None:
+            return super().on_press()
         self.parent.undo()
         return super().on_press()
 
@@ -152,12 +158,14 @@ class RedoButton(Button):
         self.y = Window.height - self.height*0.9
 
     def on_press(self):
+        if self.parent.message != None:
+            return super().on_press()
         self.parent.redo()
         return super().on_press()
 
 
 class Page(FloatLayout):
-    def __init__(self, arrows, id_level, **kwargs):
+    def __init__(self, arrows, id_level, mode, **kwargs):
         super().__init__(**kwargs)
         if arrows:
             self.add_widget(RightArrow())
@@ -165,7 +173,10 @@ class Page(FloatLayout):
         with open("levels.json") as data:
             levels = json.loads(data.read())
         self.level = levels[str(id_level)]
+        self.id_level = id_level
+        self.mode = mode
         self.current_piece = None
+        self.message = None
         self.saves = []
         self.undo_saves = []
         self.grid_image = GridImage()
@@ -205,7 +216,7 @@ class Page(FloatLayout):
                 self.validation_button.disabled = not all(check)
         except:
             pass
-               
+    
     def save(self, redo=False):
         if not redo:
             self.undo_saves = []
@@ -263,6 +274,16 @@ class Page(FloatLayout):
     def left(self):
         if self.current_piece != None:
             self.current_piece.left()
+    
+    def message_push(self):
+        if not self.message:
+            self.message = MenuMessage(id_level=self.id_level, mode=self.mode)
+            self.add_widget(self.message)
+        
+    def message_pop(self):
+        if self.message:
+            self.remove_widget(self.message)
+            self.message = None
 
 class CurrentPiece(RelativeLayout):
     def __init__(self, grid, **kw):
@@ -291,14 +312,18 @@ class CurrentPiece(RelativeLayout):
         dispaly_grid(self, relative=True)
     
     def on_touch_move(self, touch):
-            if self.pos[0] < touch.pos[0] < (self.pos[0] + self.width) and self.pos[1] < touch.pos[1] < (self.pos[1] + self.height):
-                if self.first_click == True:
-                    self.delta_pos = (touch.pos[0] - self.pos[0], touch.pos[1] - self.pos[1])
-                    self.first_click = False
-            if self.delta_pos != None:
-                self.pos = (touch.pos[0] - self.delta_pos[0], touch.pos[1] - self.delta_pos[1])
+        if self.parent.message != None:
+            return
+        if self.pos[0] < touch.pos[0] < (self.pos[0] + self.width) and self.pos[1] < touch.pos[1] < (self.pos[1] + self.height):
+            if self.first_click == True:
+                self.delta_pos = (touch.pos[0] - self.pos[0], touch.pos[1] - self.pos[1])
+                self.first_click = False
+        if self.delta_pos != None:
+            self.pos = (touch.pos[0] - self.delta_pos[0], touch.pos[1] - self.delta_pos[1])
 
     def on_touch_up(self, touch):
+        if self.parent.message != None:
+            return
         if touch.button == 'left':
             self.first_click = True
             self.delta_pos = None
@@ -338,6 +363,12 @@ class MenuButton(Button):
     def loop(self, *args):
         self.x = Window.width - self.width*0.9
         self.y = Window.height - self.height*0.9
+    
+    def on_press(self):
+        if self.parent.message != None:
+            return super().on_press()
+        self.parent.message_push()
+        return super().on_press()
 
 
 class MyScrollView(ScrollView):
@@ -346,6 +377,10 @@ class MyScrollView(ScrollView):
         self.current_level = current_level
         self.grid_piece = GridPiece(current_level=self.current_level)
         self.add_widget(self.grid_piece)
+        Clock.schedule_interval(self.loop, 1/60)
+    
+    def loop(self, *args):
+        self.disabled = self.parent.parent.message != None
 
 
 class Arrow(Button):
@@ -353,7 +388,7 @@ class Arrow(Button):
         super().__init__(**kwargs)
         self.size_hint = (None, 0.12)
         self.width = self.height
-        self.schedule_id = Clock.schedule_interval(self.resize, 1/60)
+        Clock.schedule_interval(self.resize, 1/60)
     
     def resize(self, *args):
         self.width = self.height
@@ -362,12 +397,16 @@ class Arrow(Button):
 
 class RightArrow(Arrow):
     def on_press(self):
+        if self.parent.message != None:
+            return super().on_press()
         self.parent.right()
         return super().on_press()
 
 
 class LeftArrow(Arrow):
     def on_press(self):
+        if self.parent.message != None:
+            return super().on_press()
         self.parent.left()
         return super().on_press()
 
@@ -402,6 +441,8 @@ class PieceButton(Button):
         Clock.schedule_interval(self.loop, 1/60)
     
     def on_press(self):
+        if self.parent.parent.parent.parent.message != None:
+            return super().on_press()
         self.parent.parent.parent.parent.change_current_piece(grid=self.grid)
         return super().on_press()
     
@@ -450,6 +491,6 @@ class Game(Screen):
         self.arrows = "Rotation" in self.mode
         self.my_float = FloatLayout()
         self.my_float.add_widget(Image(source=self.background, fit_mode="cover"))
-        self.my_float.add_widget(Page(arrows=self.arrows, id_level=id_level))
+        self.my_float.add_widget(Page(arrows=self.arrows, id_level=id_level, mode=self.mode))
         self.add_widget(self.my_float)
         

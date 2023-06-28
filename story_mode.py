@@ -58,8 +58,9 @@ class Level(Button):
             self.pos_hint = {"center_y": 0.30}
         level_height += 1
         
-    def message(self):
+    def on_press(self):
         self.parent.parent.parent.parent.parent.message_push(self.text, self.mode)
+        return super().on_press()
 
 
 class Area(BoxLayout):

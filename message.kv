@@ -16,3 +16,26 @@
     color: "#59173D"
     pos_hint: {"center_x": 0.5, "center_y": 0.6}
     font_name: "fonts/Forum-Regular.otf"
+
+
+<MenuMessage>:
+    #ResetButton:
+    #SettingButton:
+
+<QuitButton>:
+    size_hint: (None, None)
+    pos_hint: {"center_x": 0.5}
+    text: "Quitter"
+    font_size: self.width/5
+    color: "#A04623"
+    font_name: "fonts/Coda-Regular.ttf"
+    background_normal: ""
+    background_down: ""
+    background_color: (0, 0, 0, 0)
+    canvas.before:
+        Color:
+            rgba: (0.82, 0.44, 0.15, 1)
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [10,]
