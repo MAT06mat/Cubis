@@ -45,7 +45,6 @@ class EffectSlider(Slider):
 class SettingImage(Image):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.size_hint = (None, None)
         Clock.schedule_interval(self.loop, 1/60)
         
     def loop(self, *args):
@@ -59,9 +58,6 @@ class SettingImage(Image):
 class Logo(Image):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.source = "images/elements/logo.png"
-        self.pos_hint = {"center_x": 0.5}
-        self.size_hint= (None, None)
         self.on_window_resize()
         Window.bind(on_resize=self.on_window_resize)
         
@@ -75,8 +71,6 @@ class Logo(Image):
 class MenuBoxLayout(BoxLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.pos_hint = {"center_x": 0.5}
-        self.size_hint = (None, None)
         self.on_window_resize()
         Window.bind(on_resize=self.on_window_resize)
     

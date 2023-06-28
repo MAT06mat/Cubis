@@ -47,7 +47,12 @@
         anchor_y: "center"
         CenterBoxLayout:
             Logo:
+                source: "images/elements/logo.png"
+                pos_hint: {"center_x": 0.5}
+                size_hint: (None, None)
             MenuBoxLayout:
+                pos_hint: {"center_x": 0.5}
+                size_hint: (None, None)
                 orientation: "vertical"
                 Button:
                     background_normal: "images/buttons/story_mode.png"
@@ -65,6 +70,7 @@
         fit_mode: "cover"
     SettingImage:
         id: setting_image
+        size_hint: (None, None)
         source: "images/elements/setting.png"
         fit_mode: "cover"
         pos_hint: {"center_x": 0.5, "center_y": 0.5}

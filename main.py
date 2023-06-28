@@ -3,16 +3,7 @@ from kivy.properties import ObjectProperty
 from kivy.uix.screenmanager import Screen
 from kivy.core.window import Window
 
-from game import Game
 from navigation_sreen_manager import NavigationScreenManager
-
-# Exemple open data
-"""with open("data.json", "r") as data:
-    data_open = json.loads(data.read())
-    data_open["Best_score"] += 1
-
-with open("data.json", "w") as data:
-    data.write(json.dumps(data_open))""" 
 
 
 class TransitionScreen(Screen):
@@ -34,7 +25,6 @@ class CubisApp(App):
         Window.clearcolor = (1, 1, 1, 1)
         self.manager = MyScreenManager()
         return self.manager
-        return Game(name="Level", id_level=5)
 
 
 CubisApp().run()

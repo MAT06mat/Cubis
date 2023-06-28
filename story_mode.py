@@ -26,14 +26,11 @@ BACKGROUND_BASE = AREAS[0]["Background"]
 class Level(Button):
     def __init__(self, level, **kwargs):
         super().__init__(**kwargs)
-        # new var
         self.id = level["Id"]
         self.mode = level["Mode"]
-        # define object
         self.text = str(self.id)
         if self.id > CURRENT_LEVEL:
             self.disabled = True
-        
         # Mettre 0 devant les chiffres pour en faire des nombre à deux chiffres
         self.lines = []
         if len(self.text) == 1:
@@ -66,7 +63,6 @@ class Level(Button):
 class Area(BoxLayout):
     def __init__(self, levels, **kwargs):
         super().__init__(**kwargs)
-        self.padding = dp(30)
         # define level and put the firt on bottom
         global level_height
         level_height = 1
@@ -92,7 +88,6 @@ class TabItem(TabbedPanelItem):
     def __init__(self, name, levels, image, **kwargs):
         super().__init__(**kwargs)
         self.text = name
-        self.font_name = "fonts/Coda-Regular.ttf"
         self.image = image
         self.scroll_view = MyScrollView(nb_levels=len(levels))
         self.scroll_view.add_widget(Area(levels=levels))
@@ -114,8 +109,6 @@ class TabItem(TabbedPanelItem):
 class StoryMode(TabbedPanel):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.background_color = (0, 0, 0, 0)
-
         # create tab item
         level = 0
         for area in AREAS:
@@ -128,7 +121,6 @@ class StoryMode(TabbedPanel):
 class MyBackgroundImage(FloatLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.size_hint = (1, 1)
         self.add_widget(Image(source=BACKGROUND_BASE, fit_mode="cover"))
 
 

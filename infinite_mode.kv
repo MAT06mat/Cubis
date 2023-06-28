@@ -2,15 +2,18 @@
     Image:
         source: "images/backgrounds/infinite_mode.jpg"
         fit_mode: "cover"
-    AnchorLayout:
-        anchor_x: "center"
-        anchor_y: "center"
-        CenterBoxLayout:
-            Score:
-                Cadre:
-                ScoreLabel:
-                    font_size: self.parent.width / 15
-            PlayButton:
-                pos_hint: {"center_x": 0.5}
-                background_normal: "images/buttons/play.png"
-                background_down: "images/buttons/play.png"
+    CenterBoxLayout:
+        pos_hint: {"center_x": 0.5, "center_y": 0.5}
+        Score:
+            pos_hint: {"center_x": 0.5}
+            size_hint: (None, None)
+            Cadre:
+            ScoreLabel:
+                color: "#4B1A36"
+                font_name: "fonts/Forum-Regular.otf"
+                font_size: self.parent.width / 15
+        PlayButton:
+            size_hint: (None, None)
+            pos_hint: {"center_x": 0.5}
+            background_normal: "images/buttons/play.png"
+            background_down: "images/buttons/play.png"

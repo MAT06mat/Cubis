@@ -20,8 +20,6 @@ class Cadre(Image):
 class ScoreLabel(Label):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.color = "#4B1A36"
-        self.font_name = "fonts/Forum-Regular.otf"
         # add 0 before the score to have a 4-digit number
         data = open("data.json")
         data_open = json.load(data)
@@ -44,8 +42,6 @@ class ScoreLabel(Label):
 class Score(RelativeLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.pos_hint = {"center_x": 0.5}
-        self.size_hint = (None, None)
         self.on_window_resize()
         Window.bind(on_resize=self.on_window_resize)
     
@@ -61,7 +57,6 @@ class Score(RelativeLayout):
 class PlayButton(Button):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.size_hint = (None, None)
         self.on_window_resize()
         Window.bind(on_resize=self.on_window_resize)
     

@@ -6,6 +6,11 @@
     background_down: "images/buttons/play.png"
     on_press: app.manager.start_level(self.id_level)
 
+<Back>:
+    background_normal: "images/buttons/croix.png"
+    background_down: "images/buttons/croix.png"
+    size_hint: (None, None)
+    pos_hint: {"right": 0.94, "top": 0.92}
 
 <LevelName>:
     color: "#59173D"
@@ -16,6 +21,14 @@
     color: "#59173D"
     pos_hint: {"center_x": 0.5, "center_y": 0.6}
     font_name: "fonts/Forum-Regular.otf"
+
+<PlayMessage>:
+    pos_hint: {"center_x": 0.5, "center_y": 0.5}
+    size_hint: (None, None)
+
+<MenuMessage>:
+    pos_hint: {"center_x": 0.5, "top": 0.87}
+    size_hint: (1, None)
 
 <SettingButton>:
     size_hint: (None, None)

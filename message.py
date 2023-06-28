@@ -42,16 +42,11 @@ class LevelName(Label):
 class Back(Button):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.background_normal = "images/buttons/croix.png"
-        self.background_down = "images/buttons/croix.png"
-        self.size_hint = (None, None)
         Clock.schedule_interval(self.loop, 1/60)
         
     def loop(self, *args):
-        w, h = self.parent.size
-        self.width = w/6
+        self.width = self.parent.width/6
         self.height = self.width
-        self.pos_hint = {"right": 0.94, "top": 0.92}
     
     def on_press(self):
         self.parent.message_pop()
@@ -60,8 +55,6 @@ class Back(Button):
 class PlayMessage(RelativeLayout):
     def __init__(self, text_var, mode, id_level, **kw):
         super().__init__(**kw)
-        self.pos_hint = {"center_x": 0.5, "center_y": 0.5}
-        self.size_hint = (None, None)
         self.add_widget(Cadre())
         self.add_widget(Back())
         self.add_widget(LevelName(text_var=text_var))
@@ -121,8 +114,6 @@ class QuitButton(Button):
 class MenuMessage(RelativeLayout):
     def __init__(self, id_level, mode, **kw):
         super().__init__(**kw)
-        self.pos_hint = {"center_x": 0.5, "top": 0.87}
-        self.size_hint = (1, None)
         self.id_level = id_level
         self.mode = mode
         self.cadre = Cadre()

@@ -13,6 +13,8 @@
     size_hint: (1, 1)
 
 <GridPiece>:
+    cols: 3
+    spacing: "10dp"
     size_hint: 1, None
     height: self.minimum_height
 
@@ -42,6 +44,16 @@
     background_disabled_normal: "images/buttons/redo_disabled.png"
     background_disabled_down: "images/buttons/redo_disabled.png"
     disabled: True
+
+<GridImage>:
+    pos_hint: {"center_x": 0.5, "top": 0.94}
+    size_hint: (None, None)
+    fit_mode: "contain"
+    source: "images/elements/grid.png"
+
+<Arrow>:
+    size_hint: (None, 0.12)
+    width: self.height
 
 <LeftArrow>:
     pos_hint: {"left": 1}
