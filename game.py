@@ -1,3 +1,4 @@
+from typing import Any
 from kivy.lang import Builder
 from kivy.uix.screenmanager import Screen
 from kivy.uix.floatlayout import FloatLayout
@@ -89,6 +90,14 @@ class Grid(RelativeLayout):
 
 
 class ValidationButton(Button):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        Clock.schedule_interval(self.loop, 1/60)
+    
+    def loop(self, *args):
+        self.x = -self.width*0.1
+        self.y = Window.height - self.height*0.9
+
     def on_press(self):
         self.disabled = True
         self.parent.save()
@@ -120,12 +129,28 @@ class ValidationButton(Button):
 
 
 class UndoButton(Button):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        Clock.schedule_interval(self.loop, 1/60)
+    
+    def loop(self, *args):
+        self.x = self.width*0.8
+        self.y = Window.height - self.height*0.9
+
     def on_press(self):
         self.parent.undo()
         return super().on_press()
 
 
 class RedoButton(Button):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        Clock.schedule_interval(self.loop, 1/60)
+    
+    def loop(self, *args):
+        self.x = self.width*1.6
+        self.y = Window.height - self.height*0.9
+
     def on_press(self):
         self.parent.redo()
         return super().on_press()
@@ -306,7 +331,13 @@ class CurrentPiece(RelativeLayout):
 
 
 class MenuButton(Button):
-    pass
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        Clock.schedule_interval(self.loop, 1/60)
+    
+    def loop(self, *args):
+        self.x = Window.width - self.width*0.9
+        self.y = Window.height - self.height*0.9
 
 
 class MyScrollView(ScrollView):
