@@ -13,6 +13,7 @@ from kivy.graphics.vertex_instructions import Line, Rectangle
 from kivy.graphics import Color
 from kivy.metrics import dp
 
+import copy
 import json
 
 Builder.load_file("game.kv")
@@ -90,6 +91,7 @@ class Grid(RelativeLayout):
 class ValidationButton(Button):
     def on_press(self):
         self.disabled = True
+        self.parent.save()
         self.marg = int(self.parent.grid.size_line/2)
         for y_p in range(len(self.parent.current_piece.grid)):
             for x_p in range(len(self.parent.current_piece.grid[y_p])):
@@ -117,6 +119,12 @@ class ValidationButton(Button):
         return super().on_press()
 
 
+class UndoButton(Button):
+    def on_press(self):
+        self.parent.undo()
+        return super().on_press()
+
+
 class Page(FloatLayout):
     def __init__(self, arrows, id_level, **kwargs):
         super().__init__(**kwargs)
@@ -127,6 +135,7 @@ class Page(FloatLayout):
             levels = json.loads(data.read())
         self.level = levels[str(id_level)]
         self.current_piece = None
+        self.saves = []
         self.grid_image = GridImage()
         self.add_widget(self.grid_image)
         self.grid = Grid(self.level)
@@ -135,9 +144,12 @@ class Page(FloatLayout):
         self.add_widget(self.zone_piece)
         self.validation_button = ValidationButton()
         self.add_widget(self.validation_button)
+        self.undo_button = UndoButton()
+        self.add_widget(self.undo_button)
         Clock.schedule_interval(self.loop, 1/60)
     
     def loop(self, *args):
+        self.undo_button.disabled = len(self.saves) < 1
         try:
             if self.current_piece:
                 self.marg = int(self.grid.size_line/2)
@@ -158,7 +170,26 @@ class Page(FloatLayout):
                 self.validation_button.disabled = not all(check)
         except:
             pass
-                    
+               
+    def save(self):
+        grid = copy.deepcopy(self.grid.grid)
+        pieces = []
+        for piece in self.zone_piece.my_scroll_view.grid_piece.piece_button:
+            pieces.append(piece.piece)
+        self.saves.append((grid, pieces))
+    
+    def undo(self):
+        self.grid.grid = self.saves[-1][0]
+        if self.current_piece != None:
+            self.remove_widget(self.current_piece)
+            self.current_piece = None
+        self.zone_piece.my_scroll_view.grid_piece.piece_button = []
+        self.zone_piece.my_scroll_view.grid_piece.clear_widgets()
+        for piece in self.saves[-1][1]:
+            button = PieceButton(piece=piece)
+            self.zone_piece.my_scroll_view.grid_piece.piece_button.append(button)
+            self.zone_piece.my_scroll_view.grid_piece.add_widget(button)
+        self.saves.pop(-1)
     
     def change_current_piece(self, grid):
         if self.current_piece != None:
@@ -310,6 +341,8 @@ class PieceButton(Button):
         return super().on_press()
     
     def loop(self, *args):
+        self.width = (Window.width-dp(40))/3
+        self.height = self.width
         dispaly_grid(self)
 
 class GridPiece(GridLayout):
