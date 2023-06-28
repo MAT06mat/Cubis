@@ -125,6 +125,12 @@ class UndoButton(Button):
         return super().on_press()
 
 
+class RedoButton(Button):
+    def on_press(self):
+        self.parent.redo()
+        return super().on_press()
+
+
 class Page(FloatLayout):
     def __init__(self, arrows, id_level, **kwargs):
         super().__init__(**kwargs)
@@ -136,6 +142,7 @@ class Page(FloatLayout):
         self.level = levels[str(id_level)]
         self.current_piece = None
         self.saves = []
+        self.undo_saves = []
         self.grid_image = GridImage()
         self.add_widget(self.grid_image)
         self.grid = Grid(self.level)
@@ -146,10 +153,13 @@ class Page(FloatLayout):
         self.add_widget(self.validation_button)
         self.undo_button = UndoButton()
         self.add_widget(self.undo_button)
+        self.redo_button = RedoButton()
+        self.add_widget(self.redo_button)
         Clock.schedule_interval(self.loop, 1/60)
     
     def loop(self, *args):
         self.undo_button.disabled = len(self.saves) < 1
+        self.redo_button.disabled = len(self.undo_saves) < 1
         try:
             if self.current_piece:
                 self.marg = int(self.grid.size_line/2)
@@ -171,14 +181,24 @@ class Page(FloatLayout):
         except:
             pass
                
-    def save(self):
+    def save(self, redo=False):
+        if not redo:
+            self.undo_saves = []
         grid = copy.deepcopy(self.grid.grid)
         pieces = []
         for piece in self.zone_piece.my_scroll_view.grid_piece.piece_button:
             pieces.append(piece.piece)
         self.saves.append((grid, pieces))
     
+    def undo_save(self):
+        grid = copy.deepcopy(self.grid.grid)
+        pieces = []
+        for piece in self.zone_piece.my_scroll_view.grid_piece.piece_button:
+            pieces.append(piece.piece)
+        self.undo_saves.append((grid, pieces))
+    
     def undo(self):
+        self.undo_save()
         self.grid.grid = self.saves[-1][0]
         if self.current_piece != None:
             self.remove_widget(self.current_piece)
@@ -190,6 +210,20 @@ class Page(FloatLayout):
             self.zone_piece.my_scroll_view.grid_piece.piece_button.append(button)
             self.zone_piece.my_scroll_view.grid_piece.add_widget(button)
         self.saves.pop(-1)
+    
+    def redo(self):
+        self.save(redo=True)
+        self.grid.grid = copy.deepcopy(self.undo_saves[-1][0])
+        if self.current_piece != None:
+            self.remove_widget(self.current_piece)
+            self.current_piece = None
+        self.zone_piece.my_scroll_view.grid_piece.piece_button = []
+        self.zone_piece.my_scroll_view.grid_piece.clear_widgets()
+        for piece in self.undo_saves[-1][1]:
+            button = PieceButton(piece=piece)
+            self.zone_piece.my_scroll_view.grid_piece.piece_button.append(button)
+            self.zone_piece.my_scroll_view.grid_piece.add_widget(button)
+        self.undo_saves.pop(-1)
     
     def change_current_piece(self, grid):
         if self.current_piece != None:

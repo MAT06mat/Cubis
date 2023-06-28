@@ -38,6 +38,17 @@
     background_disabled_down: "images/buttons/undo_disabled.png"
     disabled: True
 
+<RedoButton>:
+    size_hint: (None, 0.1)
+    width: self.height
+    pos_hint: {"top": 1.01}
+    x: "80dp"
+    background_normal: "images/buttons/redo.png"
+    background_down: "images/buttons/redo.png"
+    background_disabled_normal: "images/buttons/redo_disabled.png"
+    background_disabled_down: "images/buttons/redo_disabled.png"
+    disabled: True
+
 <LeftArrow>:
     pos_hint: {"left": 1}
     background_down: "images/buttons/left2.png"
