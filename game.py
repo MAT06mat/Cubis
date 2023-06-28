@@ -14,7 +14,7 @@ from kivy.graphics.vertex_instructions import Line, Rectangle
 from kivy.graphics import Color
 from kivy.metrics import dp
 
-from message import MenuMessage
+from message import MenuMessage, VictoireMessage
 
 import copy
 import json
@@ -361,6 +361,7 @@ class Page(FloatLayout):
         self.mode = mode
         self.current_piece = None
         self.message = None
+        self.victoire = False
         self.saves = []
         self.undo_saves = []
         self.grid = Grid(self.level)
@@ -400,6 +401,15 @@ class Page(FloatLayout):
                 self.validation_button.disabled = not all(check)
         except:
             pass
+        if not self.victoire:
+            for y in self.grid.grid:
+                for x in y:
+                    if type(x) != int:
+                        return
+            self.victoire = True
+            self.message = VictoireMessage(id_level=self.id_level)
+            self.add_widget(self.message)
+            
     
     def save(self, redo=False):
         if not redo:

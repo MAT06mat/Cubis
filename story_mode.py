@@ -138,7 +138,7 @@ class StoryModeFloat(FloatLayout):
         
     def message_push(self, text, mode, id_level):
         if not self.message:
-            self.message = PlayMessage(text_var=text, mode=mode, id_level=id_level)
+            self.message = PlayMessage(mode=mode, id_level=id_level)
             self.add_widget(self.message)
         
     def message_pop(self):

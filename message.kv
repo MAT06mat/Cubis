@@ -12,7 +12,7 @@
     size_hint: (None, None)
     pos_hint: {"right": 0.94, "top": 0.92}
 
-<LevelName>:
+<Title>:
     color: "#59173D"
     pos_hint: {"center_x": 0.5, "center_y": 0.8}
     font_name: "fonts/Forum-Regular.otf"
@@ -30,6 +30,10 @@
     pos_hint: {"center_x": 0.5, "top": 0.87}
     size_hint: (1, None)
 
+<VictoireMessage>:
+    pos_hint: {"center_x": 0.5, "top": 0.87}
+    size_hint: (1, None)
+
 <SettingButton>:
     size_hint: (None, None)
     pos_hint: {"center_x": 0.5}
@@ -39,8 +43,6 @@
 
 <QuitButton>:
     size_hint: (None, None)
-    background_normal: "images/buttons/quit.png"
-    background_down: "images/buttons/quit.png"
     on_press: app.manager.quit_level()
 
 <ResetButton>:

@@ -29,10 +29,9 @@ class ModeLabel(Label):
         self.font_size = self.parent.width / 15
 
 
-class LevelName(Label):
-    def __init__(self, text_var, **kwargs):
+class Title(Label):
+    def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.text = "Niveau " + str(text_var)
         Clock.schedule_interval(self.loop, 1/60)
         
     def loop(self, *args):
@@ -53,11 +52,11 @@ class Back(Button):
         return super().on_press()
 
 class PlayMessage(RelativeLayout):
-    def __init__(self, text_var, mode, id_level, **kw):
+    def __init__(self, mode, id_level, **kw):
         super().__init__(**kw)
         self.add_widget(Cadre())
         self.add_widget(Back())
-        self.add_widget(LevelName(text_var=text_var))
+        self.add_widget(Title(text="Niveau "+str(id_level)))
         self.add_widget(ModeLabel(mode=mode))
         self.add_widget(PlayButtonStory(id_level=id_level))
         self.on_window_resize()
@@ -87,28 +86,42 @@ class SettingButton(Button):
 
 
 class ResetButton(Button):
-    def __init__(self, id_level, **kwargs):
+    def __init__(self, id_level, mult_x=-0.7,**kwargs):
         super().__init__(**kwargs)
         self.id_level = id_level
+        self.mult_x = mult_x
         Clock.schedule_interval(self.loop, 1/60)
     
     def loop(self, *args):
         self.width = self.parent.height/3
         self.height = self.width
-        self.y = self.parent.setting_button.y
-        self.x = self.parent.setting_button.x - self.width*0.7
+        self.y = self.parent.height/6
+        self.x = Window.width/2 - self.width/2 + self.width*self.mult_x
 
 
 class QuitButton(Button):
-    def __init__(self, **kwargs):
+    def __init__(self, mult_x=0.7, mult_height=1, new_image=None, **kwargs):
         super().__init__(**kwargs)
+        self.mult_x = mult_x
+        self.mult_height = mult_height
+        self.new_image = new_image
+        if self.new_image:
+            self.background_normal = self.new_image
+            self.background_down = self.new_image
+        else:
+            self.background_normal = "images/buttons/quit.png"
+            self.background_down = "images/buttons/quit.png"
         Clock.schedule_interval(self.loop, 1/60)
     
     def loop(self, *args):
-        self.width = self.parent.height/3
-        self.height = self.width
-        self.y = self.parent.setting_button.y
-        self.x = self.parent.setting_button.x + self.width*0.7
+        if not self.new_image:
+            self.height = self.parent.height/3*self.mult_height
+            self.width = self.height
+        else:
+            self.height = self.parent.height/3*self.mult_height
+            self.width = self.height/823*1886
+        self.y = self.parent.height/6
+        self.x = Window.width/2 - self.width/2 + self.width*self.mult_x
 
 
 class MenuMessage(RelativeLayout):
@@ -122,7 +135,7 @@ class MenuMessage(RelativeLayout):
         self.add_widget(self.back)
         self.mode_label = ModeLabel(mode=mode)
         self.add_widget(self.mode_label)
-        self.level_name = LevelName(text_var=self.id_level)
+        self.level_name = Title(text="Niveau "+str(self.id_level))
         self.add_widget(self.level_name)
         self.quit_button = QuitButton()
         self.add_widget(self.quit_button)
@@ -133,6 +146,31 @@ class MenuMessage(RelativeLayout):
         Clock.schedule_interval(self.loop, 1/60)
     
     def loop(self, *args):
+        self.height = self.width / 1894 * 1400
+        while self.height > 0.5 * Window.height:
+            self.height -= 1
+        while self.width / 1894 * 1400 > self.height:
+            self.width -= 1
+    
+    def message_pop(self):
+        self.parent.message_pop()
+
+
+class VictoireMessage(RelativeLayout):
+    def __init__(self, id_level,**kw):
+        super().__init__(**kw)
+        self.id_level = id_level
+        self.add_widget(Cadre())
+        self.add_widget(Title(text="Victoire !"))
+        self.quit_button = QuitButton(mult_x=0.2, mult_height=0.95, new_image="images/buttons/next.png")
+        self.add_widget(self.quit_button)
+        self.reset_button = ResetButton(id_level=self.id_level, mult_x=-0.9)
+        self.add_widget(self.reset_button)
+        self.on_window_resize()
+        Window.bind(on_resize=self.on_window_resize)
+    
+    def on_window_resize(self, *args):
+        self.width = Window.width - dp(30)
         self.height = self.width / 1894 * 1400
         while self.height > 0.5 * Window.height:
             self.height -= 1
