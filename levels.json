@@ -101,7 +101,36 @@
       }
     ]
   },
-  "6": { "Grid": "8x4", "Pieces": [] },
+  "6": {
+    "Grid": [
+      [null, null, null, null],
+      [null, null, null, null],
+      [null, null, null, null],
+      [null, null, null, null]
+    ],
+    "Pieces": [
+      { "Grid": [[2, 2, 2, 2]] },
+      {
+        "Grid": [
+          [4],
+          [4],
+          [4]
+        ]
+      },
+      {
+        "Grid": [
+          [null, null, 5],
+          [5, 5, 5]
+        ]
+      },
+      {
+        "Grid": [
+          [1, 1, 1],
+          [1, 1, null]
+        ]
+      }
+    ]
+  },
   "7": { "Grid": "8x4", "Pieces": [] },
   "8": { "Grid": "8x4", "Pieces": [] },
   "9": { "Grid": "8x4", "Pieces": [] },

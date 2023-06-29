@@ -1,1 +1,129 @@
-{"Best_score": 0, "Last_score": [0, 0, 0, 0, 0], "Current_level": 78, "Music": 48, "Effect": 53, "Areas": [{"Name": "Tutoriel", "Background": "images/backgrounds/tutoriel.jpg", "Levels": [{"Id": 1, "Mode": ["Classique"]}, {"Id": 2, "Mode": ["Classique"]}, {"Id": 3, "Mode": ["Blocks dur"]}, {"Id": 4, "Mode": ["Rotation", "Blocks dur"]}, {"Id": 5, "Mode": ["Motifs"]}]}, {"Name": "Plaines", "Background": "images/backgrounds/plaine.jpg", "Levels": [{"Id": 6, "Mode": ["Classique"]}, {"Id": 7, "Mode": ["Classique"]}, {"Id": 8, "Mode": ["Classique"]}, {"Id": 9, "Mode": ["Classique"]}, {"Id": 10, "Mode": ["Rotation", "Motifs"]}, {"Id": 11, "Mode": ["Classique"]}, {"Id": 12, "Mode": ["Classique"]}, {"Id": 13, "Mode": ["Classique"]}, {"Id": 14, "Mode": ["Classique"]}, {"Id": 15, "Mode": ["Classique"]}, {"Id": 16, "Mode": ["Classique"]}, {"Id": 17, "Mode": ["Classique"]}, {"Id": 18, "Mode": ["Classique"]}, {"Id": 19, "Mode": ["Classique"]}, {"Id": 20, "Mode": ["Classique"]}]}, {"Name": "Jungle", "Background": "images/backgrounds/jungle.jpg", "Levels": [{"Id": 21, "Mode": ["Classique"]}, {"Id": 22, "Mode": ["Classique"]}, {"Id": 23, "Mode": ["Classique"]}, {"Id": 24, "Mode": ["Classique"]}, {"Id": 25, "Mode": ["Classique"]}, {"Id": 26, "Mode": ["Classique"]}, {"Id": 27, "Mode": ["Classique"]}, {"Id": 28, "Mode": ["Classique"]}, {"Id": 29, "Mode": ["Classique"]}, {"Id": 30, "Mode": ["Classique"]}, {"Id": 31, "Mode": ["Classique"]}, {"Id": 32, "Mode": ["Classique"]}, {"Id": 33, "Mode": ["Classique"]}, {"Id": 34, "Mode": ["Classique"]}, {"Id": 35, "Mode": ["Classique"]}, {"Id": 36, "Mode": ["Classique"]}, {"Id": 37, "Mode": ["Classique"]}, {"Id": 38, "Mode": ["Classique"]}, {"Id": 39, "Mode": ["Classique"]}, {"Id": 40, "Mode": ["Classique"]}]}, {"Name": "Lune", "Background": "images/backgrounds/lune.jpg", "Levels": [{"Id": 41, "Mode": ["Classique"]}, {"Id": 42, "Mode": ["Classique"]}, {"Id": 43, "Mode": ["Classique"]}, {"Id": 44, "Mode": ["Classique"]}, {"Id": 45, "Mode": ["Classique"]}, {"Id": 46, "Mode": ["Classique"]}, {"Id": 47, "Mode": ["Classique"]}, {"Id": 48, "Mode": ["Classique"]}, {"Id": 49, "Mode": ["Classique"]}, {"Id": 50, "Mode": ["Classique"]}, {"Id": 51, "Mode": ["Classique"]}, {"Id": 52, "Mode": ["Classique"]}, {"Id": 53, "Mode": ["Classique"]}, {"Id": 54, "Mode": ["Classique"]}, {"Id": 55, "Mode": ["Classique"]}, {"Id": 56, "Mode": ["Classique"]}, {"Id": 57, "Mode": ["Classique"]}, {"Id": 58, "Mode": ["Classique"]}, {"Id": 59, "Mode": ["Classique"]}, {"Id": 60, "Mode": ["Classique"]}, {"Id": 61, "Mode": ["Classique"]}, {"Id": 62, "Mode": ["Classique"]}, {"Id": 63, "Mode": ["Classique"]}, {"Id": 64, "Mode": ["Classique"]}, {"Id": 65, "Mode": ["Classique"]}]}, {"Name": "Enfer", "Background": "images/backgrounds/enfer.jpg", "Levels": [{"Id": 66, "Mode": ["Classique"]}, {"Id": 67, "Mode": ["Classique"]}, {"Id": 68, "Mode": ["Classique"]}, {"Id": 69, "Mode": ["Classique"]}, {"Id": 70, "Mode": ["Classique"]}, {"Id": 71, "Mode": ["Classique"]}, {"Id": 72, "Mode": ["Classique"]}, {"Id": 73, "Mode": ["Classique"]}, {"Id": 74, "Mode": ["Classique"]}, {"Id": 75, "Mode": ["Classique"]}, {"Id": 76, "Mode": ["Classique"]}, {"Id": 77, "Mode": ["Classique"]}, {"Id": 78, "Mode": ["Classique"]}, {"Id": 79, "Mode": ["Classique"]}, {"Id": 80, "Mode": ["Classique"]}, {"Id": 81, "Mode": ["Classique"]}, {"Id": 82, "Mode": ["Classique"]}, {"Id": 83, "Mode": ["Classique"]}, {"Id": 84, "Mode": ["Classique"]}, {"Id": 85, "Mode": ["Classique"]}, {"Id": 86, "Mode": ["Classique"]}, {"Id": 87, "Mode": ["Classique"]}, {"Id": 88, "Mode": ["Classique"]}, {"Id": 89, "Mode": ["Classique"]}, {"Id": 90, "Mode": ["Classique"]}]}]}
+{
+  "Best_score": 0,
+  "Last_score": [0, 0, 0, 0, 0],
+  "Current_level": 3,
+  "Music": 50,
+  "Effect": 50,
+  "Areas": [
+    {
+      "Name": "Tutoriel",
+      "Background": "images/backgrounds/tutoriel.jpg",
+      "Levels": [
+        { "Id": 1, "Mode": ["Classique"] },
+        { "Id": 2, "Mode": ["Classique"] },
+        { "Id": 3, "Mode": ["Blocks dur"] },
+        { "Id": 4, "Mode": ["Rotation", "Blocks dur"] },
+        { "Id": 5, "Mode": ["Motifs"] }
+      ]
+    },
+    {
+      "Name": "Plaines",
+      "Background": "images/backgrounds/plaine.jpg",
+      "Levels": [
+        { "Id": 6, "Mode": ["Classique"] },
+        { "Id": 7, "Mode": ["Classique"] },
+        { "Id": 8, "Mode": ["Classique"] },
+        { "Id": 9, "Mode": ["Classique"] },
+        { "Id": 10, "Mode": ["Rotation", "Motifs"] },
+        { "Id": 11, "Mode": ["Classique"] },
+        { "Id": 12, "Mode": ["Classique"] },
+        { "Id": 13, "Mode": ["Classique"] },
+        { "Id": 14, "Mode": ["Classique"] },
+        { "Id": 15, "Mode": ["Classique"] },
+        { "Id": 16, "Mode": ["Classique"] },
+        { "Id": 17, "Mode": ["Classique"] },
+        { "Id": 18, "Mode": ["Classique"] },
+        { "Id": 19, "Mode": ["Classique"] },
+        { "Id": 20, "Mode": ["Classique"] }
+      ]
+    },
+    {
+      "Name": "Jungle",
+      "Background": "images/backgrounds/jungle.jpg",
+      "Levels": [
+        { "Id": 21, "Mode": ["Classique"] },
+        { "Id": 22, "Mode": ["Classique"] },
+        { "Id": 23, "Mode": ["Classique"] },
+        { "Id": 24, "Mode": ["Classique"] },
+        { "Id": 25, "Mode": ["Classique"] },
+        { "Id": 26, "Mode": ["Classique"] },
+        { "Id": 27, "Mode": ["Classique"] },
+        { "Id": 28, "Mode": ["Classique"] },
+        { "Id": 29, "Mode": ["Classique"] },
+        { "Id": 30, "Mode": ["Classique"] },
+        { "Id": 31, "Mode": ["Classique"] },
+        { "Id": 32, "Mode": ["Classique"] },
+        { "Id": 33, "Mode": ["Classique"] },
+        { "Id": 34, "Mode": ["Classique"] },
+        { "Id": 35, "Mode": ["Classique"] },
+        { "Id": 36, "Mode": ["Classique"] },
+        { "Id": 37, "Mode": ["Classique"] },
+        { "Id": 38, "Mode": ["Classique"] },
+        { "Id": 39, "Mode": ["Classique"] },
+        { "Id": 40, "Mode": ["Classique"] }
+      ]
+    },
+    {
+      "Name": "Lune",
+      "Background": "images/backgrounds/lune.jpg",
+      "Levels": [
+        { "Id": 41, "Mode": ["Classique"] },
+        { "Id": 42, "Mode": ["Classique"] },
+        { "Id": 43, "Mode": ["Classique"] },
+        { "Id": 44, "Mode": ["Classique"] },
+        { "Id": 45, "Mode": ["Classique"] },
+        { "Id": 46, "Mode": ["Classique"] },
+        { "Id": 47, "Mode": ["Classique"] },
+        { "Id": 48, "Mode": ["Classique"] },
+        { "Id": 49, "Mode": ["Classique"] },
+        { "Id": 50, "Mode": ["Classique"] },
+        { "Id": 51, "Mode": ["Classique"] },
+        { "Id": 52, "Mode": ["Classique"] },
+        { "Id": 53, "Mode": ["Classique"] },
+        { "Id": 54, "Mode": ["Classique"] },
+        { "Id": 55, "Mode": ["Classique"] },
+        { "Id": 56, "Mode": ["Classique"] },
+        { "Id": 57, "Mode": ["Classique"] },
+        { "Id": 58, "Mode": ["Classique"] },
+        { "Id": 59, "Mode": ["Classique"] },
+        { "Id": 60, "Mode": ["Classique"] },
+        { "Id": 61, "Mode": ["Classique"] },
+        { "Id": 62, "Mode": ["Classique"] },
+        { "Id": 63, "Mode": ["Classique"] },
+        { "Id": 64, "Mode": ["Classique"] },
+        { "Id": 65, "Mode": ["Classique"] }
+      ]
+    },
+    {
+      "Name": "Enfer",
+      "Background": "images/backgrounds/enfer.jpg",
+      "Levels": [
+        { "Id": 66, "Mode": ["Classique"] },
+        { "Id": 67, "Mode": ["Classique"] },
+        { "Id": 68, "Mode": ["Classique"] },
+        { "Id": 69, "Mode": ["Classique"] },
+        { "Id": 70, "Mode": ["Classique"] },
+        { "Id": 71, "Mode": ["Classique"] },
+        { "Id": 72, "Mode": ["Classique"] },
+        { "Id": 73, "Mode": ["Classique"] },
+        { "Id": 74, "Mode": ["Classique"] },
+        { "Id": 75, "Mode": ["Classique"] },
+        { "Id": 76, "Mode": ["Classique"] },
+        { "Id": 77, "Mode": ["Classique"] },
+        { "Id": 78, "Mode": ["Classique"] },
+        { "Id": 79, "Mode": ["Classique"] },
+        { "Id": 80, "Mode": ["Classique"] },
+        { "Id": 81, "Mode": ["Classique"] },
+        { "Id": 82, "Mode": ["Classique"] },
+        { "Id": 83, "Mode": ["Classique"] },
+        { "Id": 84, "Mode": ["Classique"] },
+        { "Id": 85, "Mode": ["Classique"] },
+        { "Id": 86, "Mode": ["Classique"] },
+        { "Id": 87, "Mode": ["Classique"] },
+        { "Id": 88, "Mode": ["Classique"] },
+        { "Id": 89, "Mode": ["Classique"] },
+        { "Id": 90, "Mode": ["Classique"] }
+      ]
+    }
+  ]
+}

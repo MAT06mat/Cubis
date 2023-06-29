@@ -1,4 +1,5 @@
 import json
+from kivy.app import App
 from kivy.lang import Builder
 from kivy.core.window import Window
 from kivy.uix.button import Button
@@ -6,6 +7,7 @@ from kivy.uix.label import Label
 from kivy.uix.relativelayout import RelativeLayout
 from kivy.clock import Clock
 from kivy.metrics import dp
+
 from infinite_mode import Cadre
 
 Builder.load_file("message.kv")
@@ -52,8 +54,17 @@ class Back(Button):
         return super().on_press()
 
 class PlayMessage(RelativeLayout):
-    def __init__(self, mode, id_level, **kw):
+    def __init__(self, id_level, **kw):
         super().__init__(**kw)
+        self.id_level = id_level
+        
+        with open("data.json", "r") as data:
+            self.data = json.load(data)
+            areas = self.data["Areas"]
+        for area in areas:
+            for level in area["Levels"]:
+                if level["Id"] == self.id_level:
+                    mode = level["Mode"]
         self.add_widget(Cadre())
         self.add_widget(Back())
         self.add_widget(Title(text="Niveau "+str(id_level)))
@@ -100,11 +111,12 @@ class ResetButton(Button):
 
 
 class QuitButton(Button):
-    def __init__(self, mult_x=0.7, mult_height=1, new_image=None, **kwargs):
+    def __init__(self, mult_x=0.7, mult_height=1, new_image=None, victoire=False, **kwargs):
         super().__init__(**kwargs)
         self.mult_x = mult_x
         self.mult_height = mult_height
         self.new_image = new_image
+        self.victoire = victoire
         if self.new_image:
             self.background_normal = self.new_image
             self.background_down = self.new_image
@@ -122,6 +134,21 @@ class QuitButton(Button):
             self.width = self.height/823*1886
         self.y = self.parent.height/6
         self.x = Window.width/2 - self.width/2 + self.width*self.mult_x
+    
+    def on_press(self):
+        if self.victoire != False:
+            with open("data.json", "r") as data:
+                self.data = json.load(data)
+                self.new_level = self.victoire == self.data["Current_level"]
+            if self.new_level:
+                self.data["Current_level"] += 1
+                with open("data.json", "w") as data:
+                    data.write(json.dumps(self.data))
+            app = App.get_running_app()
+            for screen in app.manager.screens:
+                if screen.name == "StoryMode":
+                    screen.children[0].children[0].reset()
+        return super().on_press()
 
 
 class MenuMessage(RelativeLayout):
@@ -162,7 +189,7 @@ class VictoireMessage(RelativeLayout):
         self.id_level = id_level
         self.add_widget(Cadre())
         self.add_widget(Title(text="Victoire !"))
-        self.quit_button = QuitButton(mult_x=0.2, mult_height=0.95, new_image="images/buttons/next.png")
+        self.quit_button = QuitButton(mult_x=0.2, mult_height=0.95, new_image="images/buttons/next.png", victoire=self.id_level)
         self.add_widget(self.quit_button)
         self.reset_button = ResetButton(id_level=self.id_level, mult_x=-0.9)
         self.add_widget(self.reset_button)
