@@ -187,9 +187,16 @@ class VictoireMessage(RelativeLayout):
     def __init__(self, id_level,**kw):
         super().__init__(**kw)
         self.id_level = id_level
+        with open("data.json") as data:
+                self.data = json.load(data)
+        current_level = self.data["Current_level"]
+        if id_level == current_level:
+            self.victoire = (0.2, 0.95, "images/buttons/next.png", self.id_level)
+        else:
+            self.victoire = ()
         self.add_widget(Cadre())
         self.add_widget(Title(text="Victoire !"))
-        self.quit_button = QuitButton(mult_x=0.2, mult_height=0.95, new_image="images/buttons/next.png", victoire=self.id_level)
+        self.quit_button = QuitButton(*self.victoire)
         self.add_widget(self.quit_button)
         self.reset_button = ResetButton(id_level=self.id_level, mult_x=-0.9)
         self.add_widget(self.reset_button)

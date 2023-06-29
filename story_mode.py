@@ -128,7 +128,6 @@ class StoryMode(TabbedPanel):
             for level in area["Levels"]:
                 for tab in self.tabs:
                     if CURRENT_LEVEL == level["Id"] and area["Name"] == tab.text:
-                        print("switch to : " + tab.text)
                         self.switch_to(tab)
                         tab.on_press()
 
@@ -159,7 +158,6 @@ class StoryModeFloat(FloatLayout):
         self.remove_widget(self.story_mode)
         self.story_mode = StoryMode()
         self.add_widget(self.story_mode)
-        self.story_mode.change_tab(0.1)
         self.message_pop()
         self.message_push(CURRENT_LEVEL)
         
