@@ -116,6 +116,10 @@ class StoryMode(TabbedPanel):
         self.tabs = []
         for area in AREAS:
             new_TabbedPanelItem = TabItem(name=area["Name"], levels=area["Levels"], image=area["Background"])
+            new_TabbedPanelItem.background_color = (1, 1, 1, 1)
+            new_TabbedPanelItem.border = [0, 0, 0, 0]
+            new_TabbedPanelItem.background_normal  = "images/buttons/tab.png"
+            new_TabbedPanelItem.background_down = "images/buttons/tab.png"
             self.tabs.append(new_TabbedPanelItem)
             if level < CURRENT_LEVEL:
                 self.add_widget(new_TabbedPanelItem)
