@@ -19,7 +19,6 @@
 
 <ModeLabel>:
     color: "#59173D"
-    pos_hint: {"center_x": 0.5, "center_y": 0.6}
     font_name: "fonts/Forum-Regular.otf"
 
 <PlayMessage>:
@@ -50,3 +49,30 @@
     background_normal: "images/buttons/reset.png"
     background_down: "images/buttons/reset.png"
     on_press: app.manager.start_level(self.id_level)
+
+<InfoMessage>:
+    pos_hint: {"center_x": 0.5, "top": 0.87}
+    size_hint: (1, None)
+    Cadre:
+    Title:
+        text: "Tutoriel"
+    Button:
+        size_hint: (None, None)
+        width: root.width/4
+        height: self.width/1222*561
+        pos_hint: {"center_x": 0.5, "center_y": 0.2}
+        text: "Suivant"
+        font_size: self.width/8
+        color: "#A04623"
+        font_name: "fonts/Coda-Regular.ttf"
+        background_normal: ""
+        background_down: ""
+        background_color: (0, 0, 0, 0)
+        on_press: root.next()
+        canvas.before:
+            Color:
+                rgba: (0.82, 0.44, 0.15, 1)
+            RoundedRectangle:
+                pos: self.pos
+                size: self.size
+                radius: [10,]

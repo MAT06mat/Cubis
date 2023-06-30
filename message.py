@@ -7,6 +7,7 @@ from kivy.uix.label import Label
 from kivy.uix.relativelayout import RelativeLayout
 from kivy.clock import Clock
 from kivy.metrics import dp
+from kivy.properties import StringProperty
 
 from infinite_mode import Cadre
 
@@ -20,15 +21,26 @@ class PlayButtonStory(Button):
 
 
 class ModeLabel(Label):
-    def __init__(self, mode, **kwargs):
+    def __init__(self, mode, m=True, multi_s=1/15, **kwargs):
         super().__init__(**kwargs)
-        self.text = "Mode : " + mode[0]
-        if len(mode) == 2:
-            self.text += ", " + mode[1]
+        self.halign = "center"
+        self.valign = "middle"
+        self.multi_s = multi_s
+        if m:
+            self.pos_hint = {"center_x": 0.5, "center_y": 0.6}
+            self.text = "Mode : " + mode[0]
+            if len(mode) == 2:
+                self.text += ", " + mode[1]
+        else:
+            self.pos_hint = {"center_x": 0.5, "center_y": 0.5}
+            self.text = mode
         Clock.schedule_interval(self.loop, 1/60)
         
     def loop(self, *args):
-        self.font_size = self.parent.width / 15
+        try:
+            self.font_size = self.parent.width * self.multi_s
+        except:
+            pass
 
 
 class Title(Label):
@@ -219,3 +231,34 @@ class VictoireMessage(RelativeLayout):
     
     def message_pop(self):
         self.parent.message_pop()
+
+
+class InfoMessage(RelativeLayout):
+    message = "None"
+    def __init__(self, message, **kw):
+        super().__init__(**kw)
+        self.message = message
+        self.on_window_resize()
+        Window.bind(on_resize=self.on_window_resize)
+        Clock.schedule_once(self.add_label)
+
+    def next(self):
+        i = self.message.index(self.label.text)
+        try:
+            self.label.text = self.message[i+1]
+        except:
+            my = self.parent.message
+            self.parent.message = None
+            self.parent.remove_widget(my)
+    
+    def add_label(self, *args):
+        self.label = ModeLabel(mode=self.message[0], m=False, multi_s=1/15)
+        self.add_widget(self.label)
+    
+    def on_window_resize(self, *args):
+        self.width = Window.width
+        self.height = self.width / 1894 * 1400
+        while self.height > 0.5 * Window.height:
+            self.height -= 1
+        while self.width / 1894 * 1400 > self.height:
+            self.width -= 1

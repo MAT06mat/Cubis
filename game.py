@@ -13,7 +13,7 @@ from kivy.graphics.vertex_instructions import Line, Rectangle
 from kivy.graphics import Color
 from kivy.metrics import dp
 
-from message import MenuMessage, VictoireMessage
+from message import MenuMessage, VictoireMessage, InfoMessage
 
 import copy
 import json
@@ -376,6 +376,13 @@ class Page(FloatLayout):
         self.add_widget(self.undo_button)
         self.add_widget(self.redo_button)
         Clock.schedule_interval(self.loop, 1/60)
+        try:
+            message = self.level["Message"]
+            self.message = InfoMessage(message=message)
+            self.add_widget(self.message)
+        except:
+            # Il n'y a pas de messages
+            pass
     
     def loop(self, *args):
         self.undo_button.disabled = len(self.saves) < 1

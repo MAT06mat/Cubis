@@ -4,6 +4,12 @@
       [null, null],
       [null, null]
     ],
+    "Message": [
+      "Bienvenue dans le\nmode histoire de Cubis !",
+      "Ici le but est de remplir\nune grille avec des blocs.",
+      "Astuce : Pour utiliser un block\ncliquez dessus et deplacer-le\navec votre doigt.",
+      "Objectif : Remplir la grille."
+    ],
     "Pieces": [{ "Grid": [[2, 2]] }, { "Grid": [[1]] }, { "Grid": [[4]] }]
   },
   "2": {
@@ -11,6 +17,11 @@
       [null, null, null],
       [null, null, null],
       [null, null, null]
+    ],
+    "Message": [
+      "Comme vous pouvez le voir,\nla taille de la grille change.",
+      "Astuce : Vous pouvez revenir\nsur vos pas avec les fleches\nen haut sur la gauche.",
+      "Objectif : Remplir la grille."
     ],
     "Pieces": [
       {
@@ -34,6 +45,11 @@
       [0, null, null],
       [0, 0, null]
     ],
+    "Message": [
+      "Dans les niveaux 'Blocs durs'\ndes blocs sont sur la grille\n au lancement du niveau.",
+      "Evitez ces blocs et\nremplissez le reste de la grille.",
+      "Objectif : Remplir\nle reste de la grille."
+    ],
     "Pieces": [
       {
         "Grid": [
@@ -50,6 +66,10 @@
       [null, null, null, null],
       [null, null, null, null],
       [null, null, null, null]
+    ],
+    "Message": [
+      "Dans beaucoup de niveaux\nvous pourrez tourner les blocs\navec des fleches.",
+      "Objectif : Remplir la grille\n en tournant les blocs."
     ],
     "Pieces": [
       {
@@ -77,6 +97,11 @@
       ["2", "2", "3", "3"],
       ["2", "2", "2", "3"],
       ["2", "2", "2", "2"]
+    ],
+    "Message": [
+      "Certain niveau\nauront des motifs.",
+      "Vous ne pourrez posez des\nblocs que si leur couleur\nest la meme que celle\ndu motif.",
+      "Objectif : Remplir la grille\n avec les bons blocs."
     ],
     "Pieces": [
       { "Grid": [[3, 3, 3, 3]] },
@@ -107,6 +132,10 @@
       [null, null, null, null],
       [null, null, null, null],
       [null, null, null, null]
+    ],
+    "Message": [
+      "C'est la fin du tutoriel.\nBonne chance !",
+      "Objectif : Finir le jeu."
     ],
     "Pieces": [
       { "Grid": [[2, 2, 2, 2]] },
@@ -519,39 +548,44 @@
     ],
     "Pieces": [
       {
-      "Grid": [
-        [4, 4, 4],
-        [4, null, null]
-      ]
-    },{
-      "Grid": [
-        [5, 5, 5],
-        [5, null, null]
-      ]
-    },{
-      "Grid": [
-        [3, 3, 3],
-        [3, null, null]
-      ]
-    },{
-      "Grid": [
-        [null, 2],
-        [null, 2],
-        [2, 2]
-      ]
-    },{
-      "Grid": [
-        [null, null, 2],
-        [2, 2, 2]
-      ]
-    },{
-      "Grid": [
-        [null, null, 3],
-        [3, 3, 3]
-      ]
-    },
-    { "Grid": [[1]] }
-  ]
+        "Grid": [
+          [4, 4, 4],
+          [4, null, null]
+        ]
+      },
+      {
+        "Grid": [
+          [5, 5, 5],
+          [5, null, null]
+        ]
+      },
+      {
+        "Grid": [
+          [3, 3, 3],
+          [3, null, null]
+        ]
+      },
+      {
+        "Grid": [
+          [null, 2],
+          [null, 2],
+          [2, 2]
+        ]
+      },
+      {
+        "Grid": [
+          [null, null, 2],
+          [2, 2, 2]
+        ]
+      },
+      {
+        "Grid": [
+          [null, null, 3],
+          [3, 3, 3]
+        ]
+      },
+      { "Grid": [[1]] }
+    ]
   },
   "18": {
     "Grid": [
@@ -561,27 +595,30 @@
       [null, null, null, null, null],
       [null, null, null, null, null]
     ],
-    "Pieces": [{
-      "Grid": [
-        [1, 1],
-        [1, null],
-        [1, null],
-        [1, null]
-      ]
-    },{
-      "Grid": [
-        [2, 2],
-        [2, null],
-        [2, null],
-        [2, null]
-      ]
-    },
-    {
-    "Grid": [
-      [5, 5, null],
-      [5, 5, 5]
+    "Pieces": [
+      {
+        "Grid": [
+          [1, 1],
+          [1, null],
+          [1, null],
+          [1, null]
         ]
-      },{
+      },
+      {
+        "Grid": [
+          [2, 2],
+          [2, null],
+          [2, null],
+          [2, null]
+        ]
+      },
+      {
+        "Grid": [
+          [5, 5, null],
+          [5, 5, 5]
+        ]
+      },
+      {
         "Grid": [
           [3, null],
           [3, 3],
@@ -614,17 +651,21 @@
           [1, 1]
         ]
       },
-      { "Grid": [[6]] },{
+      { "Grid": [[6]] },
+      {
         "Grid": [
           [3, null],
           [3, 3]
         ]
-      },{ "Grid": [[2], [2]] },{
+      },
+      { "Grid": [[2], [2]] },
+      {
         "Grid": [
           [4, 4],
           [null, 4]
         ]
-      },{
+      },
+      {
         "Grid": [
           [5, 5],
           [null, 5],
@@ -643,32 +684,39 @@
       ["1", "3", "6", "6", "3"]
     ],
     "Pieces": [
-      { "Grid": [[6, 1]] }, {
+      { "Grid": [[6, 1]] },
+      {
         "Grid": [
           [null, 6],
           [3, null]
         ]
-      },{ "Grid": [[6, 3]] },{
+      },
+      { "Grid": [[6, 3]] },
+      {
         "Grid": [
           [null, 1],
           [1, 3]
         ]
-      },{
+      },
+      {
         "Grid": [
           [6, 3],
           [6, 3]
         ]
-      },{
+      },
+      {
         "Grid": [
           [1, 1],
           [1, null]
         ]
-      },{
+      },
+      {
         "Grid": [
           [3, null, null],
           [6, 6, 3]
         ]
-      },{
+      },
+      {
         "Grid": [
           [null, 6],
           [null, 3],
@@ -680,17 +728,304 @@
   },
   "20": {
     "Grid": [
-      [null, 0, 0, 0, null, null, null, 0, 0, 0, null, null, null, 0, 0, 0, null, null, 0, null, null, null, null, null, 0],
-      [0, null, null, null, null, null, 0, null, null, null, 0, null, 0, null, null, null, 0, null, 0, 0, null, null, null, null, 0],
-      [0, null, null, null, null, null, 0, null, null, null, 0, null, 0, null, null, null, 0, null, 0, 0, null, null, null, null, 0],
-      [0, null, null, null, null, null, 0, null, null, null, 0, null, 0, null, null, null, 0, null, 0, null, 0, null, null, null, 0],
-      [0, null, null, null, null, null, 0, null, null, null, 0, null, 0, null, null, null, 0, null, 0, null, 0, null, null, null, 0],
-      [null, 0, 0, 0, null, null, 0, null, null, null, 0, null, 0, null, null, null, 0, null, 0, null, null, 0, null, null, 0],
-      [null, null, null, null, 0, null, 0, null, null, null, 0, null, 0, null, null, null, 0, null, 0, null, null, 0, null, null, 0],
-      [null, null, null, null, 0, null, 0, null, null, null, 0, null, 0, null, null, null, 0, null, 0, null, null, null, 0, null, 0],
-      [null, null, null, null, 0, null, 0, null, null, null, 0, null, 0, null, null, null, 0, null, 0, null, null, null, 0, null, 0],
-      [null, null, null, null, 0, null, 0, null, null, null, 0, null, 0, null, null, null, 0, null, 0, null, null, null, null, 0, 0],
-      [null, 0, 0, 0, null, null, null, 0, 0, 0, null, null, null, 0, 0, 0, null, null, 0, null, null, null, null, 0, 0]
+      [
+        null,
+        0,
+        0,
+        0,
+        null,
+        null,
+        null,
+        0,
+        0,
+        0,
+        null,
+        null,
+        null,
+        0,
+        0,
+        0,
+        null,
+        null,
+        0,
+        null,
+        null,
+        null,
+        null,
+        null,
+        0
+      ],
+      [
+        0,
+        null,
+        null,
+        null,
+        null,
+        null,
+        0,
+        null,
+        null,
+        null,
+        0,
+        null,
+        0,
+        null,
+        null,
+        null,
+        0,
+        null,
+        0,
+        0,
+        null,
+        null,
+        null,
+        null,
+        0
+      ],
+      [
+        0,
+        null,
+        null,
+        null,
+        null,
+        null,
+        0,
+        null,
+        null,
+        null,
+        0,
+        null,
+        0,
+        null,
+        null,
+        null,
+        0,
+        null,
+        0,
+        0,
+        null,
+        null,
+        null,
+        null,
+        0
+      ],
+      [
+        0,
+        null,
+        null,
+        null,
+        null,
+        null,
+        0,
+        null,
+        null,
+        null,
+        0,
+        null,
+        0,
+        null,
+        null,
+        null,
+        0,
+        null,
+        0,
+        null,
+        0,
+        null,
+        null,
+        null,
+        0
+      ],
+      [
+        0,
+        null,
+        null,
+        null,
+        null,
+        null,
+        0,
+        null,
+        null,
+        null,
+        0,
+        null,
+        0,
+        null,
+        null,
+        null,
+        0,
+        null,
+        0,
+        null,
+        0,
+        null,
+        null,
+        null,
+        0
+      ],
+      [
+        null,
+        0,
+        0,
+        0,
+        null,
+        null,
+        0,
+        null,
+        null,
+        null,
+        0,
+        null,
+        0,
+        null,
+        null,
+        null,
+        0,
+        null,
+        0,
+        null,
+        null,
+        0,
+        null,
+        null,
+        0
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        0,
+        null,
+        0,
+        null,
+        null,
+        null,
+        0,
+        null,
+        0,
+        null,
+        null,
+        null,
+        0,
+        null,
+        0,
+        null,
+        null,
+        0,
+        null,
+        null,
+        0
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        0,
+        null,
+        0,
+        null,
+        null,
+        null,
+        0,
+        null,
+        0,
+        null,
+        null,
+        null,
+        0,
+        null,
+        0,
+        null,
+        null,
+        null,
+        0,
+        null,
+        0
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        0,
+        null,
+        0,
+        null,
+        null,
+        null,
+        0,
+        null,
+        0,
+        null,
+        null,
+        null,
+        0,
+        null,
+        0,
+        null,
+        null,
+        null,
+        0,
+        null,
+        0
+      ],
+      [
+        null,
+        null,
+        null,
+        null,
+        0,
+        null,
+        0,
+        null,
+        null,
+        null,
+        0,
+        null,
+        0,
+        null,
+        null,
+        null,
+        0,
+        null,
+        0,
+        null,
+        null,
+        null,
+        null,
+        0,
+        0
+      ],
+      [
+        null,
+        0,
+        0,
+        0,
+        null,
+        null,
+        null,
+        0,
+        0,
+        0,
+        null,
+        null,
+        null,
+        0,
+        0,
+        0,
+        null,
+        null,
+        0,
+        null,
+        null,
+        null,
+        null,
+        0,
+        0
+      ]
     ],
-    "Pieces": [] }
+    "Pieces": []
+  }
 }
