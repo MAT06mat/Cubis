@@ -192,14 +192,20 @@ class VictoireMessage(RelativeLayout):
         current_level = self.data["Current_level"]
         if id_level == current_level:
             self.victoire = (0.2, 0.95, "images/buttons/next.png", self.id_level)
+            self.mult_x = -0.9
+            self.setting = False
         else:
+            self.mult_x = -0.7
             self.victoire = ()
+            self.setting = True
         self.add_widget(Cadre())
         self.add_widget(Title(text="Victoire !"))
         self.quit_button = QuitButton(*self.victoire)
         self.add_widget(self.quit_button)
-        self.reset_button = ResetButton(id_level=self.id_level, mult_x=-0.9)
+        self.reset_button = ResetButton(id_level=self.id_level, mult_x=self.mult_x)
         self.add_widget(self.reset_button)
+        if self.setting:
+            self.add_widget(SettingButton())
         self.on_window_resize()
         Window.bind(on_resize=self.on_window_resize)
     
