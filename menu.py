@@ -119,5 +119,5 @@ class CreditLabel(Label):
         self.time += 1
         if self.time == 50:
             self.color = (randint(0, 100)/100, randint(0, 100)/100, randint(0, 100)/100)
-        elif self.time >= 100:
-            self.time = 0
+        elif self.time >= 56:
+            self.time = 49

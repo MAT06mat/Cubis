@@ -58,21 +58,13 @@
         text: "Tutoriel"
     Button:
         size_hint: (None, None)
-        width: root.width/4
-        height: self.width/1222*561
+        width: root.width/2.5
+        height: self.width/1222*661
         pos_hint: {"center_x": 0.5, "center_y": 0.2}
         text: "Suivant"
-        font_size: self.width/8
+        font_size: self.width/10
         color: "#A04623"
         font_name: "fonts/Coda-Regular.ttf"
-        background_normal: ""
-        background_down: ""
-        background_color: (0, 0, 0, 0)
+        background_normal: "images/buttons/2.png"
+        background_down: "images/buttons/2.png"
         on_press: root.next()
-        canvas.before:
-            Color:
-                rgba: (0.82, 0.44, 0.15, 1)
-            RoundedRectangle:
-                pos: self.pos
-                size: self.size
-                radius: [10,]
