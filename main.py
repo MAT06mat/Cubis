@@ -1,16 +1,8 @@
 from kivy.app import App
 from kivy.properties import ObjectProperty
-from kivy.uix.screenmanager import Screen
 from kivy.core.window import Window
 
 from navigation_sreen_manager import NavigationScreenManager
-
-
-class TransitionScreen(Screen):
-    def on_enter(self, *args):
-        app = App.get_running_app()
-        app.manager.suivant()
-        return super().on_enter(*args)
 
 
 class MyScreenManager(NavigationScreenManager):

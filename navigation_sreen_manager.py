@@ -1,6 +1,15 @@
+from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, FadeTransition
+from kivy.uix.screenmanager import Screen
 
 from game import Game
+
+
+class TransitionScreen(Screen):
+    def on_enter(self, *args):
+        app = App.get_running_app()
+        app.manager.suivant()
+        return super().on_enter(*args)
 
 
 class NavigationScreenManager(ScreenManager):
