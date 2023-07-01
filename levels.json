@@ -345,7 +345,7 @@
         ]
       },
       {
-        "Grid": [[2], [2], [2]]
+        "Grid": [[2, 2, 2]]
       },
       {
         "Grid": [[4]]
@@ -1027,5 +1027,53 @@
       ]
     ],
     "Pieces": []
+  },
+  "27": {
+    "Grid": [
+      [null, null, null, null, null],
+      [null, null, null, null, null],
+      [null, null, null, null, null],
+      [null, null, null, null, null],
+      [null, null, null, null, null]
+    ],
+    "Pieces": [
+      {
+        "Grid": [
+          [null, 4, 4],
+          [4, 4, null]
+        ]
+      },
+      {
+        "Grid": [
+          [2, 2],
+          [2, 2]
+        ]
+      },
+      {
+        "Grid": [
+          [1, 1],
+          [1, 1],
+          [1, null]
+        ]
+      },
+      {
+        "Grid": [[3], [3], [3]]
+      },
+      {
+        "Grid": [[5]]
+      },
+      {
+        "Grid": [
+          [5, 5, 5],
+          [null, null, 5]
+        ]
+      },
+      {
+        "Grid": [
+          [null, null, 1],
+          [1, 1, 1]
+        ]
+      }
+    ]
   }
 }
