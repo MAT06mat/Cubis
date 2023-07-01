@@ -21,11 +21,11 @@ class PlayButtonStory(Button):
 
 
 class ModeLabel(Label):
-    def __init__(self, mode, m=True, multi_s=1/15, **kwargs):
+    def __init__(self, mode, m=True, coeff_s=1/15, **kwargs):
         super().__init__(**kwargs)
         self.halign = "center"
         self.valign = "middle"
-        self.multi_s = multi_s
+        self.coeff_s = coeff_s
         if m:
             self.pos_hint = {"center_x": 0.5, "center_y": 0.6}
             self.text = "Mode : " + mode[0]
@@ -38,7 +38,7 @@ class ModeLabel(Label):
         
     def loop(self, *args):
         try:
-            self.font_size = self.parent.width * self.multi_s
+            self.font_size = self.parent.width * self.coeff_s
         except:
             pass
 
@@ -109,24 +109,24 @@ class SettingButton(Button):
 
 
 class ResetButton(Button):
-    def __init__(self, id_level, mult_x=-0.7,**kwargs):
+    def __init__(self, id_level, coeff_x=-0.7,**kwargs):
         super().__init__(**kwargs)
         self.id_level = id_level
-        self.mult_x = mult_x
+        self.coeff_x = coeff_x
         Clock.schedule_interval(self.loop, 1/60)
     
     def loop(self, *args):
         self.width = self.parent.height/3
         self.height = self.width
         self.y = self.parent.height/6
-        self.x = Window.width/2 - self.width/2 + self.width*self.mult_x
+        self.x = Window.width/2 - self.width/2 + self.width*self.coeff_x
 
 
 class QuitButton(Button):
-    def __init__(self, mult_x=0.7, mult_height=1, new_image=None, victoire=False, **kwargs):
+    def __init__(self, coeff_x=0.7, coeff_h=1, new_image=None, victoire=False, **kwargs):
         super().__init__(**kwargs)
-        self.mult_x = mult_x
-        self.mult_height = mult_height
+        self.coeff_x = coeff_x
+        self.coeff_h = coeff_h
         self.new_image = new_image
         self.victoire = victoire
         if self.new_image:
@@ -139,13 +139,13 @@ class QuitButton(Button):
     
     def loop(self, *args):
         if not self.new_image:
-            self.height = self.parent.height/3*self.mult_height
+            self.height = self.parent.height/3*self.coeff_h
             self.width = self.height
         else:
-            self.height = self.parent.height/3*self.mult_height
+            self.height = self.parent.height/3*self.coeff_h
             self.width = self.height/823*1886
         self.y = self.parent.height/6
-        self.x = Window.width/2 - self.width/2 + self.width*self.mult_x
+        self.x = Window.width/2 - self.width/2 + self.width*self.coeff_x
     
     def on_press(self):
         if self.victoire != False:
@@ -204,17 +204,17 @@ class VictoireMessage(RelativeLayout):
         current_level = self.data["Current_level"]
         if id_level == current_level:
             self.victoire = (0.2, 0.95, "images/buttons/next.png", self.id_level)
-            self.mult_x = -0.9
+            self.coeff_x = -0.9
             self.setting = False
         else:
-            self.mult_x = -0.7
+            self.coeff_x = -0.7
             self.victoire = ()
             self.setting = True
         self.add_widget(Cadre())
         self.add_widget(Title(text="Victoire !"))
         self.quit_button = QuitButton(*self.victoire)
         self.add_widget(self.quit_button)
-        self.reset_button = ResetButton(id_level=self.id_level, mult_x=self.mult_x)
+        self.reset_button = ResetButton(id_level=self.id_level, coeff_x=self.coeff_x)
         self.add_widget(self.reset_button)
         if self.setting:
             self.add_widget(SettingButton())
@@ -252,7 +252,7 @@ class InfoMessage(RelativeLayout):
             self.parent.remove_widget(my)
     
     def add_label(self, *args):
-        self.label = ModeLabel(mode=self.message[0], m=False, multi_s=1/15)
+        self.label = ModeLabel(mode=self.message[0], m=False, coeff_s=1/15)
         self.add_widget(self.label)
     
     def on_window_resize(self, *args):
