@@ -323,7 +323,7 @@ class Grid(RelativeLayout):
                         return
             self.victoire = True
             self.parent.message = VictoireMessage(id_level=self.id_level)
-            self.add_widget(self.parent.message)
+            self.parent.add_widget(self.parent.message)
 
 
 class Page(FloatLayout):
