@@ -367,30 +367,12 @@ class Page(FloatLayout):
     def loop(self, *args):
         self.undo_button.disabled = not (len(self.saves) >= 1 or self.current_piece != None)
         self.redo_button.disabled = len(self.undo_saves) < 1
-        try:
-            if self.current_piece:
-                self.marg = int(self.grid.size_line/2)
-                check = []
-                for y_p in range(len(self.current_piece.grid)):
-                    for x_p in range(len(self.current_piece.grid[y_p])):
-                        one = []
-                        for y_g in range(len(self.grid.grid)):
-                            for x_g in range(len(self.grid.grid[y_g])):
-                                # Calculation Global of x and y for piece and grid
-                                x_piece = get_min_x(self.current_piece)+self.current_piece.x+x_p*self.current_piece.size_line
-                                y_piece = get_max_y(self.current_piece)+self.current_piece.y-(y_p+1)*self.current_piece.size_line
-                                x_grid = get_min_x(self.grid)+self.grid.x+x_g*self.grid.size_line
-                                y_grid = get_max_y(self.grid)+self.grid.y-(y_g+1)*self.grid.size_line
-                                # if grid block match with piece block and if is void or if is a motis
-                                one.append(abs(x_piece - x_grid) < self.marg and abs(y_piece - y_grid) < self.marg and (self.grid.grid[y_g][x_g] == None or (self.grid.grid[y_g][x_g] == str(self.current_piece.grid[y_p][x_p]) and type(self.grid.grid[y_g][x_g]) == str) or self.current_piece.grid[y_p][x_p] == None))
-                        check.append(any(one))
-                self.can_place = all(check)
-        except:
-            pass
+        self.verify()    
     
     def on_touch_up(self, touch):
         if self.message:
             return
+        self.verify()
         if self.can_place:
             self.can_place = False
             self.save()
@@ -488,6 +470,28 @@ class Page(FloatLayout):
         if self.message:
             self.remove_widget(self.message)
             self.message = None
+    
+    def verify(self):
+        try:
+            if self.current_piece:
+                self.marg = int(self.grid.size_line/2)
+                check = []
+                for y_p in range(len(self.current_piece.grid)):
+                    for x_p in range(len(self.current_piece.grid[y_p])):
+                        one = []
+                        for y_g in range(len(self.grid.grid)):
+                            for x_g in range(len(self.grid.grid[y_g])):
+                                # Calculation Global of x and y for piece and grid
+                                x_piece = get_min_x(self.current_piece)+self.current_piece.x+x_p*self.current_piece.size_line
+                                y_piece = get_max_y(self.current_piece)+self.current_piece.y-(y_p+1)*self.current_piece.size_line
+                                x_grid = get_min_x(self.grid)+self.grid.x+x_g*self.grid.size_line
+                                y_grid = get_max_y(self.grid)+self.grid.y-(y_g+1)*self.grid.size_line
+                                # if grid block match with piece block and if is void or if is a motis
+                                one.append(abs(x_piece - x_grid) < self.marg and abs(y_piece - y_grid) < self.marg and (self.grid.grid[y_g][x_g] == None or (self.grid.grid[y_g][x_g] == str(self.current_piece.grid[y_p][x_p]) and type(self.grid.grid[y_g][x_g]) == str) or self.current_piece.grid[y_p][x_p] == None))
+                        check.append(any(one))
+                self.can_place = all(check)
+        except:
+            self.can_place = False
 
 
 class Game(Screen):
