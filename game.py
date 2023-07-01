@@ -298,13 +298,15 @@ class ZonePieces(BoxLayout):
 
 
 class Grid(RelativeLayout):
-    def __init__(self, level, **kwargs):
+    def __init__(self, level, id_level, **kwargs):
         super().__init__(**kwargs)
+        self.id_level = id_level
         self.grid = level["Grid"]
         self.nb_l = len(self.grid)
         self.nb_c = len(self.grid[0])
         self.pieces = level["Pieces"]
         self.size_hint = (None, None)
+        self.victoire = False
         Clock.schedule_interval(self.loop, 1/60)
     
     def loop(self, *args):
@@ -314,6 +316,14 @@ class Grid(RelativeLayout):
         self.center_x = self.parent.grid_image.center_x
         self.center_y = self.parent.grid_image.center_y
         dispaly_grid(self=self, background=True, border=True, relative=True)
+        if not self.victoire:
+            for y in self.grid:
+                for x in y:
+                    if type(x) != int:
+                        return
+            self.victoire = True
+            self.parent.message = VictoireMessage(id_level=self.id_level)
+            self.add_widget(self.parent.message)
 
 
 class Page(FloatLayout):
@@ -332,10 +342,9 @@ class Page(FloatLayout):
         self.message = None
         self.mouse_pos = None
         self.can_place = False
-        self.victoire = False
         self.saves = []
         self.undo_saves = []
-        self.grid = Grid(self.level)
+        self.grid = Grid(level=self.level, id_level=self.id_level)
         self.zone_piece = ZonePieces(level=self.level)
         self.undo_button = UndoButton()
         self.redo_button = RedoButton()
@@ -378,14 +387,6 @@ class Page(FloatLayout):
                 self.can_place = all(check)
         except:
             pass
-        if not self.victoire:
-            for y in self.grid.grid:
-                for x in y:
-                    if type(x) != int:
-                        return
-            self.victoire = True
-            self.message = VictoireMessage(id_level=self.id_level)
-            self.add_widget(self.message)
     
     def on_touch_up(self, touch):
         if self.message:
