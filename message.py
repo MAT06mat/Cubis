@@ -234,10 +234,11 @@ class VictoireMessage(RelativeLayout):
 
 
 class InfoMessage(RelativeLayout):
-    message = "None"
-    def __init__(self, message, **kw):
-        super().__init__(**kw)
+    message = ("None")
+    def __init__(self, message, title="Tutoriel",**kw):
         self.message = message
+        self.title = title
+        super().__init__(**kw)
         self.on_window_resize()
         Window.bind(on_resize=self.on_window_resize)
         Clock.schedule_once(self.add_label)

@@ -10,7 +10,7 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.clock import Clock
 from kivy.metrics import dp
 
-from message import PlayMessage
+from message import PlayMessage, InfoMessage
 
 Builder.load_file("story_mode.kv")
 
@@ -116,10 +116,6 @@ class StoryMode(TabbedPanel):
         self.tabs = []
         for area in AREAS:
             new_TabbedPanelItem = TabItem(name=area["Name"], levels=area["Levels"], image=area["Background"])
-            new_TabbedPanelItem.background_color = (1, 1, 1, 1)
-            new_TabbedPanelItem.border = [0, 0, 0, 0]
-            new_TabbedPanelItem.background_normal  = "images/buttons/tab.png"
-            new_TabbedPanelItem.background_down = "images/buttons/tab.png"
             self.tabs.append(new_TabbedPanelItem)
             if level < CURRENT_LEVEL:
                 self.add_widget(new_TabbedPanelItem)
@@ -158,12 +154,19 @@ class StoryModeFloat(FloatLayout):
     
     def reset(self):
         define()
-        # Pb arrière plan !!!!
         self.remove_widget(self.story_mode)
         self.story_mode = StoryMode()
         self.add_widget(self.story_mode)
-        self.message_pop()
-        self.message_push(CURRENT_LEVEL)
+        message = False
+        for area in AREAS:
+            if CURRENT_LEVEL == area["Levels"][0]["Id"]:
+                self.message_pop()
+                self.message = InfoMessage(message=("Nouvelle zone débloqué !"," Nouvelle zone : "+area["Name"]), title="Information")
+                self.add_widget(self.message)
+                message = True
+        if not message:
+            self.message_pop()
+            self.message_push(CURRENT_LEVEL)
         
     def message_push(self, id_level):
         if not self.message:
