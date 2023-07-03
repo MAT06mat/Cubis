@@ -731,6 +731,14 @@
     ]
   },
   "20": {
+    "Message": [
+      "Bien joue !\n Tu a reussi a arriver\n jusqu'a ce niveau !",
+      "Malheureusement,\nce niveau est le dernier.\n Pour le moment :)",
+      "Tu as donc fini\n la version beta de ce jeu.",
+      "Je t'invite donc a\n m'envoyer ton avis sur\n le jeu, les fonctionalitees\n a ameliorer, et tes impressions.",
+      "Tu peux me contacter a\nmat06mat22@gmail.com.",
+      "Bonne continuation !"
+    ],
     "Grid": [
       [
         null,
