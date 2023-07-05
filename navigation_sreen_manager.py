@@ -2,7 +2,8 @@ from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, FadeTransition
 from kivy.uix.screenmanager import Screen
 
-from game import Game
+from story_game import StoryGame
+from infinite_game import InfiniteGame
 
 
 class TransitionScreen(Screen):
@@ -49,7 +50,10 @@ class NavigationScreenManager(ScreenManager):
         self.last_level = None
         if self.level != None:
             self.last_level = self.level
-        self.level = Game(name="Level"+str(self.id), id_level=id_level)
+        if id_level == 0:
+            self.level = InfiniteGame(name="Level"+str(self.id))
+        else:
+            self.level = StoryGame(name="Level"+str(self.id), id_level=id_level)
         self.add_widget(self.level)
         self.push("Level"+str(self.id))
         if self.last_level != None:
