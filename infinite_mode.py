@@ -27,8 +27,8 @@ class ScoreLabel(Label):
         self.best_score = data_open["Best_score"]
         self.last_score = data_open["Last_score"]
         
-        text = "Votre meilleur score : " + self.format_score(self.best_score) + "\nDérniers scores : "
-        for score in self.last_score:
+        text = "Votre dérnier score : " + self.format_score(self.last_score) + "\nVos meilleurs scores : "
+        for score in self.best_score:
             text = text + "\n - " + self.format_score(score)
         self.text = text
 
