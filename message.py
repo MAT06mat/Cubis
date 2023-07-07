@@ -21,7 +21,7 @@ class PlayButtonStory(Button):
 
 
 class ModeLabel(Label):
-    def __init__(self, mode, m=True, coeff_s=1/15, **kwargs):
+    def __init__(self, mode, m=True, coeff_s=1/15, middle=True, **kwargs):
         super().__init__(**kwargs)
         self.halign = "center"
         self.valign = "middle"
@@ -32,8 +32,9 @@ class ModeLabel(Label):
             if len(mode) == 2:
                 self.text += ", " + mode[1]
         else:
-            self.pos_hint = {"center_x": 0.5, "center_y": 0.5}
             self.text = mode
+        if middle:
+            self.pos_hint = {"center_x": 0.5, "center_y": 0.5}
         Clock.schedule_interval(self.loop, 1/60)
         
     def loop(self, *args):
@@ -164,23 +165,27 @@ class QuitButton(Button):
 
 
 class MenuMessage(RelativeLayout):
-    def __init__(self, id_level, mode, **kw):
+    def __init__(self, id_level=0, mode=0, score=0, **kw):
         super().__init__(**kw)
         self.id_level = id_level
         self.mode = mode
-        self.cadre = Cadre()
-        self.add_widget(self.cadre)
         self.back = Back()
-        self.add_widget(self.back)
-        self.mode_label = ModeLabel(mode=mode)
-        self.add_widget(self.mode_label)
-        self.level_name = Title(text="Niveau "+str(self.id_level))
-        self.add_widget(self.level_name)
+        self.cadre = Cadre()
+        if self.id_level == 0:
+            self.mode_label = ModeLabel(mode="Votre score : "+str(score), m=False, middle=True)
+            self.level_name = Title(text="Mode Infini")
+        else:
+            self.mode_label = ModeLabel(mode=mode)
+            self.level_name = Title(text="Niveau "+str(self.id_level))
         self.quit_button = QuitButton()
-        self.add_widget(self.quit_button)
         self.setting_button = SettingButton()
-        self.add_widget(self.setting_button)
         self.reset_button = ResetButton(id_level=self.id_level)
+        self.add_widget(self.cadre)
+        self.add_widget(self.back)
+        self.add_widget(self.mode_label)
+        self.add_widget(self.level_name)
+        self.add_widget(self.quit_button)
+        self.add_widget(self.setting_button)
         self.add_widget(self.reset_button)
         Clock.schedule_interval(self.loop, 1/60)
     
@@ -253,7 +258,7 @@ class InfoMessage(RelativeLayout):
             self.parent.remove_widget(my)
     
     def add_label(self, *args):
-        self.label = ModeLabel(mode=self.message[0], m=False, coeff_s=1/15)
+        self.label = ModeLabel(mode=self.message[0], m=False, coeff_s=1/15, middle=False)
         self.add_widget(self.label)
     
     def on_window_resize(self, *args):

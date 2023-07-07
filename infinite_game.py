@@ -295,9 +295,8 @@ class InfinitePage(FloatLayout):
         self.message = None
         self.mouse_pos = None
         self.can_place = False
+        self.score = 0
         self.saves = []
-        self.add_widget(RightArrow())
-        self.add_widget(LeftArrow())
         self.grid = InfiniteGrid()
         self.zone_piece = ZonePieces()
         self.undo_button = UndoButton()
@@ -306,6 +305,8 @@ class InfinitePage(FloatLayout):
         self.add_widget(self.grid)
         self.add_widget(self.zone_piece)
         self.add_widget(self.undo_button)
+        self.add_widget(RightArrow())
+        self.add_widget(LeftArrow())
         if BEST_SCORE[0] == 0:
             self.message = InfoMessage(message=("Bienvenue dans le\n mode infini de Cubis !", "Dans ce mode,\nle but est de remplir le\nplus possible de grilles.", "Vous aurez à chaque fois\n6 pièces pour la remplir.","A chaque pièce posé,\nvous en regagnerez une autre.", "Le but est donc de faire\nle meilleur score possible.", "Vous avez le droit de tourner\nles pièces autant de fois\nque vous le souhaitez.", "Bonne chance !"))
             self.add_widget(self.message)
@@ -385,7 +386,7 @@ class InfinitePage(FloatLayout):
 
     def message_push(self):
         if not self.message:
-            self.message = MenuMessage(id_level=self.id_level, mode=self.mode)
+            self.message = MenuMessage(score=self.score)
             self.add_widget(self.message)
         
     def message_pop(self):
