@@ -29,8 +29,10 @@ def define():
         data = json.load(file)
         global BEST_SCORE
         global LAST_SCORE
+        global PIECES
         BEST_SCORE = data["Best_score"]
         LAST_SCORE = data["Last_score"]
+        PIECES = data["Pieces"]
 
 def get_min_x(self):
     return self.width/2-self.size_line_h/2
@@ -191,73 +193,32 @@ class GridPiece(GridLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.piece_button = []
+        self.tiers = 3
+        self.piece_generated = 54
         for i in range(6):
-            try:
-                grid = self.generation(2)
-            except:
-                grid = [None]
+            grid = self.generation()
             button = PieceButton(grid=grid)
             self.piece_button.append(button)
             self.add_widget(button)
     
-    def generation(self, size=2):
+    def generation(self):
         color = random.randint(1, 6)
+        tier = random.randint(1, self.tiers)
+        pieces = PIECES[str(tier)]
+        piece = pieces[random.randint(0, len(pieces)-1)]
         grid = []
-        for y in range(size):
+        for y in range(len(piece)):
             grid.append([])
-            for x  in range(size):
-                r = random.randint(1, 100)
-                if r > 35:
+            for x  in range(len(piece[y])):
+                if piece[y][x] == 0:
                     grid[y].append(color)
                 else:
                     grid[y].append(None)
-        grid = self.simplify(grid)
-        if grid == []:
-            grid = self.generation(size)
-        return grid
-
-    def simplify(self, grid):
-        operation = 0
-        top = []
-        try:
-            for x in grid[0]:
-                top.append(x != None)
-            if not any(top):
-                grid.pop(0)
-                operation = 1
-        except:
-            pass
-        bottom = []
-        try:
-            for x in grid[-1]:
-                bottom.append(x != None)
-            if not any(bottom):
-                grid.pop(-1)
-                operation = 1
-        except:
-            pass
-        left = []
-        try:
-            for y in grid:
-                left.append(y[0] != None)
-            if not any(left):
-                for y in grid:
-                    y.pop(0)
-                operation = 1
-        except:
-            pass
-        right = []
-        try:
-            for y in grid:
-                right.append(y[-1] != None)
-            if not any(right):
-                for y in grid:
-                    y.pop(-1)
-                operation = 1
-        except:
-            pass
-        if operation == 1:
-            grid = self.simplify(grid)
+        self.piece_generated += 1
+        if self.piece_generated > 60:
+            self.tiers = int(self.piece_generated//20)
+        if self.tiers > 13:
+            self.tiers = 13
         return grid
 
 
@@ -346,7 +307,6 @@ class InfinitePage(FloatLayout):
         self.add_widget(self.zone_piece)
         self.add_widget(self.undo_button)
         if BEST_SCORE[0] == 0:
-            print("Bonjour")
             self.message = InfoMessage(message=("Bienvenue dans le\n mode infini de Cubis !", "Dans ce mode,\nle but est de remplir le\nplus possible de grilles.", "Vous aurez à chaque fois\n6 pièces pour la remplir.","A chaque pièce posé,\nvous en regagnerez une autre.", "Le but est donc de faire\nle meilleur score possible.", "Vous avez le droit de tourner\nles pièces autant de fois\nque vous le souhaitez.", "Bonne chance !"))
             self.add_widget(self.message)
         Clock.schedule_interval(self.loop, 1/60)
@@ -391,10 +351,7 @@ class InfinitePage(FloatLayout):
                         self.zone_piece.my_scroll_view.grid_piece.remove_widget(piece)
                 self.left()
             self.current_piece = None
-            try:
-                grid = self.zone_piece.my_scroll_view.grid_piece.generation(2)
-            except:
-                grid = [None]
+            grid = self.zone_piece.my_scroll_view.grid_piece.generation()
             button = PieceButton(grid=grid)
             self.zone_piece.my_scroll_view.grid_piece.piece_button.append(button)
             self.zone_piece.my_scroll_view.grid_piece.add_widget(button)
