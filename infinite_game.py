@@ -130,6 +130,33 @@ class CurrentPiece(RelativeLayout):
     
     def on_window_resize(self, *args):
         self.pos = (Window.width/2-self.width/2, Window.height/2-self.width/2)
+    
+    
+    def right(self):
+        self.new_grid = []
+        for y in range(self.nb_c):
+            self.new_grid.append([])
+            for x in range(self.nb_l):
+                self.new_grid[y].append(None)
+        for y in range(len(self.grid)):
+            for x in range(len(self.grid[y])):
+                self.new_grid[x][-(y+1)] = self.grid[y][x]
+        self.grid = self.new_grid
+        self.nb_l = len(self.grid)
+        self.nb_c = len(self.grid[0])
+    
+    def left(self):
+        self.new_grid = []
+        for y in range(self.nb_c):
+            self.new_grid.append([])
+            for x in range(self.nb_l):
+                self.new_grid[y].append(None)
+        for y in range(len(self.grid)):
+            for x in range(len(self.grid[y])):
+                self.new_grid[-(x+1)][y] = self.grid[y][x]
+        self.grid = self.new_grid
+        self.nb_l = len(self.grid)
+        self.nb_c = len(self.grid[0])
 
 
 class PieceButton(Button):
@@ -268,6 +295,32 @@ class InfiniteGrid(RelativeLayout):
         dispaly_grid(self=self, background=True, border=True, relative=True)
 
 
+class Arrow(Button):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        Clock.schedule_interval(self.resize, 1/60)
+    
+    def resize(self, *args):
+        self.width = self.height
+        self.y = self.parent.grid_image.y - self.height/1.2
+
+
+class RightArrow(Arrow):
+    def on_press(self):
+        if self.parent.message != None:
+            return super().on_press()
+        self.parent.right()
+        return super().on_press()
+
+
+class LeftArrow(Arrow):
+    def on_press(self):
+        if self.parent.message != None:
+            return super().on_press()
+        self.parent.left()
+        return super().on_press()
+
+
 class InfinitePage(FloatLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -276,6 +329,8 @@ class InfinitePage(FloatLayout):
         self.mouse_pos = None
         self.can_place = False
         self.saves = []
+        self.add_widget(RightArrow())
+        self.add_widget(LeftArrow())
         self.grid = InfiniteGrid()
         self.zone_piece = ZonePieces()
         self.undo_button = UndoButton()
@@ -318,11 +373,13 @@ class InfinitePage(FloatLayout):
                                     self.grid.grid[y_g][x_g] = self.current_piece.grid[y_p][x_p]
             self.remove_widget(self.current_piece)
             piece_find = False
-            for piece in self.zone_piece.my_scroll_view.grid_piece.piece_button:
-                if piece.grid == self.current_piece.grid and not piece_find:
-                    piece_find = True
-                    self.zone_piece.my_scroll_view.grid_piece.piece_button.remove(piece)
-                    self.zone_piece.my_scroll_view.grid_piece.remove_widget(piece)
+            while not piece_find:
+                for piece in self.zone_piece.my_scroll_view.grid_piece.piece_button:
+                    if piece.grid == self.current_piece.grid and not piece_find:
+                        piece_find = True
+                        self.zone_piece.my_scroll_view.grid_piece.piece_button.remove(piece)
+                        self.zone_piece.my_scroll_view.grid_piece.remove_widget(piece)
+                self.left()
             self.current_piece = None
             try:
                 grid = self.zone_piece.my_scroll_view.grid_piece.generation(2)
@@ -390,6 +447,14 @@ class InfinitePage(FloatLayout):
                 self.can_place = all(check)
         except:
             self.can_place = False
+
+    def right(self):
+        if self.current_piece != None:
+            self.current_piece.right()
+
+    def left(self):
+        if self.current_piece != None:
+            self.current_piece.left()
 
 
 class InfiniteGame(Screen):
