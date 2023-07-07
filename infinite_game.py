@@ -84,6 +84,13 @@ def dispaly_grid(self, background=False, border=False, relative=False):
         elif background and relative:
             self.background_debug.size = (self.width, self.height)
 
+def generate_grid(size):
+    grid = []
+    for y in range(size):
+        grid.append([])
+        for x  in range(size):
+            grid[y].append(None)
+    return grid
 
 class MenuButton(Button):
     def __init__(self, **kwargs):
@@ -194,7 +201,7 @@ class GridPiece(GridLayout):
         super().__init__(**kwargs)
         self.piece_button = []
         self.tiers = 3
-        self.piece_generated = 54
+        self.piece_generated = 70
         for i in range(6):
             grid = self.generation()
             button = PieceButton(grid=grid)
@@ -214,13 +221,25 @@ class GridPiece(GridLayout):
                     grid[y].append(color)
                 else:
                     grid[y].append(None)
+        for i in range(random.randint(0, 3)):
+            grid = self.turn(grid)
         self.piece_generated += 1
-        if self.piece_generated > 60:
-            self.tiers = int(self.piece_generated//20)
+        if self.piece_generated > 90:
+            self.tiers = int(self.piece_generated//30)
         if self.tiers > 13:
             self.tiers = 13
         return grid
 
+    def turn(self, grid):
+        new_grid = []
+        for y in range(len(grid[0])):
+            new_grid.append([])
+            for x in range(len(grid)):
+                new_grid[y].append(None)
+        for y in range(len(grid)):
+            for x in range(len(grid[y])):
+                new_grid[-(x+1)][y] = grid[y][x]
+        return new_grid
 
 class MyScrollView(ScrollView):
     def __init__(self, **kwargs):
@@ -247,9 +266,9 @@ class ZonePieces(BoxLayout):
 class InfiniteGrid(RelativeLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.grid = [[None, None, None, None], [None, None, None, None], [None, None, None, None], [None, None, None, None]]
-        self.nb_l = 4
-        self.nb_c = 4
+        self.grid = generate_grid(4)
+        self.nb_l = len(self.grid)
+        self.nb_c = len(self.grid[0])
         self.size_hint = (None, None)
         Clock.schedule_interval(self.loop, 1/60)
     
@@ -259,6 +278,8 @@ class InfiniteGrid(RelativeLayout):
         self.height = self.width
         self.center_x = self.parent.grid_image.center_x
         self.center_y = self.parent.grid_image.center_y
+        self.nb_l = len(self.grid)
+        self.nb_c = len(self.grid[0])
         dispaly_grid(self=self, background=True, border=True, relative=True)
 
 
@@ -319,7 +340,7 @@ class InfinitePage(FloatLayout):
             for x in y:
                 if type(x) != int:
                     return
-        self.grid.grid = [[None, None, None, None], [None, None, None, None], [None, None, None, None], [None, None, None, None]]
+        self.grid.grid = generate_grid(self.zone_piece.my_scroll_view.grid_piece.tiers+1)
     
     def on_touch_up(self, touch):
         if self.message:
