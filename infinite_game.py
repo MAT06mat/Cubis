@@ -341,6 +341,7 @@ class InfinitePage(FloatLayout):
                 if type(x) != int:
                     return
         self.grid.grid = generate_grid(self.zone_piece.my_scroll_view.grid_piece.tiers+1)
+        self.saves = []
     
     def on_touch_up(self, touch):
         if self.message:
@@ -384,6 +385,8 @@ class InfinitePage(FloatLayout):
         for piece in self.zone_piece.my_scroll_view.grid_piece.piece_button:
             pieces.append(piece.grid)
         self.saves.append((grid, pieces))
+        if len(self.saves) > 3:
+            self.saves.pop(0)
     
     def undo(self):
         if self.current_piece:
