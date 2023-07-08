@@ -6,6 +6,7 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.relativelayout import RelativeLayout
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.button import Button
+from kivy.uix.label import Label
 from kivy.uix.image import Image
 from kivy.core.window import Window
 from kivy.clock import Clock
@@ -91,6 +92,18 @@ def generate_grid(size):
         for x  in range(size):
             grid[y].append(None)
     return grid
+
+class Score(Label):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        Clock.schedule_interval(self.loop, 1/60)
+        self.size_hint = (None, 0.1)
+        self.width = self.height
+    
+    def loop(self, *args):
+        self.x = Window.width - self.width*1.4
+        self.y = Window.height - self.height*0.9
+    
 
 class MenuButton(Button):
     def __init__(self, **kwargs):
@@ -322,12 +335,14 @@ class InfinitePage(FloatLayout):
         self.zone_piece = ZonePieces()
         self.undo_button = UndoButton()
         self.grid_image = GridImage()
+        self.score_label = Score(text="0")
         self.add_widget(self.grid_image)
         self.add_widget(self.grid)
         self.add_widget(self.zone_piece)
         self.add_widget(self.undo_button)
         self.add_widget(RightArrow())
         self.add_widget(LeftArrow())
+        self.add_widget(self.score_label)
         if BEST_SCORE[0] == 0:
             self.message = InfoMessage(message=("Bienvenue dans le\n mode infini de Cubis !", "Dans ce mode,\nle but est de remplir le\nplus possible de grilles.", "Vous aurez à chaque fois\n6 pièces pour la remplir.","A chaque pièce posé,\nvous en regagnerez une autre.", "Le but est donc de faire\nle meilleur score possible.", "Vous avez le droit de tourner\nles pièces autant de fois\nque vous le souhaitez.", "Bonne chance !"))
             self.add_widget(self.message)
@@ -365,6 +380,13 @@ class InfinitePage(FloatLayout):
                                 if abs(x_piece - x_grid) < self.marg and abs(y_piece - y_grid) < self.marg and (self.grid.grid[y_g][x_g] == None or (self.grid.grid[y_g][x_g] == str(self.current_piece.grid[y_p][x_p]) and type(self.grid.grid[y_g][x_g]) == str)):
                                     self.grid.grid[y_g][x_g] = self.current_piece.grid[y_p][x_p]
             self.remove_widget(self.current_piece)
+            score = 0
+            for y in self.current_piece.grid:
+                for x in y:
+                    if x != None:
+                        score += 1
+            self.score += score * score
+            self.score_label.text = str(self.score)
             piece_find = False
             while not piece_find:
                 for piece in self.zone_piece.my_scroll_view.grid_piece.piece_button:
