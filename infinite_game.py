@@ -335,6 +335,7 @@ class InfinitePage(FloatLayout):
         self.can_place = False
         self.score = 0
         self.saves = []
+        self.undo_consecutif = 0
         self.grid = InfiniteGrid()
         self.zone_piece = ZonePieces()
         self.undo_button = UndoButton()
@@ -353,7 +354,7 @@ class InfinitePage(FloatLayout):
         Clock.schedule_interval(self.loop, 1/60)
     
     def loop(self, *args):
-        self.undo_button.disabled = not (len(self.saves) >= 1 or self.current_piece != None)
+        self.undo_button.disabled = (not (len(self.saves) >= 1 or self.current_piece != None)) or (self.undo_consecutif == 1)
         self.verify()
         for y in self.grid.grid:
             for x in y:
@@ -420,8 +421,11 @@ class InfinitePage(FloatLayout):
         pieces = []
         for piece in self.zone_piece.my_scroll_view.grid_piece.piece_button:
             pieces.append(piece.grid)
-        self.saves.append((grid, pieces))
-        if len(self.saves) > 3:
+        if self.undo_consecutif == 1:
+            self.undo_consecutif = 0
+        else:
+            self.saves.append((grid, pieces))
+        if len(self.saves) > 1:
             self.saves.pop(0)
     
     def undo(self):
@@ -429,6 +433,7 @@ class InfinitePage(FloatLayout):
             self.remove_widget(self.current_piece)
             self.current_piece = None
             return
+        self.undo_consecutif = 1
         self.grid.grid = self.saves[-1][0]
         self.zone_piece.my_scroll_view.grid_piece.piece_button = []
         self.zone_piece.my_scroll_view.grid_piece.clear_widgets()
