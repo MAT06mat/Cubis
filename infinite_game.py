@@ -355,7 +355,13 @@ class InfinitePage(FloatLayout):
             for x in y:
                 if type(x) != int:
                     return
-        self.grid.grid = generate_grid(self.zone_piece.my_scroll_view.grid_piece.tiers+1)
+        tiers = self.zone_piece.my_scroll_view.grid_piece.tiers
+        if tiers <= 5:
+            self.grid.grid = generate_grid(4)
+        elif tiers <= 9:
+            self.grid.grid = generate_grid(5)
+        else:
+            self.grid.grid = generate_grid(6)
         self.saves = []
     
     def on_touch_up(self, touch):
