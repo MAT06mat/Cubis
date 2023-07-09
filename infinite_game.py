@@ -362,10 +362,14 @@ class InfinitePage(FloatLayout):
         tiers = self.zone_piece.my_scroll_view.grid_piece.tiers
         if tiers <= 5:
             self.grid.grid = generate_grid(4)
-        elif tiers <= 9:
+        elif tiers <= 7:
             self.grid.grid = generate_grid(5)
-        else:
+        elif tiers <= 9:
             self.grid.grid = generate_grid(6)
+        elif tiers <= 11:
+            self.grid.grid = generate_grid(7)
+        else:
+            self.grid.grid = generate_grid(8)
         self.saves = []
     
     def on_touch_up(self, touch):
@@ -487,6 +491,7 @@ class InfiniteGame(Screen):
         define()
         self.my_float = FloatLayout()
         self.my_float.add_widget(Image(source="images/backgrounds/space.jpg", fit_mode="cover"))
-        self.my_float.add_widget(InfinitePage())
+        self.page = InfinitePage()
+        self.my_float.add_widget(self.page)
         self.add_widget(self.my_float)
         
