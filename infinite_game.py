@@ -93,16 +93,20 @@ def generate_grid(size):
             grid[y].append(None)
     return grid
 
-class Score(Label):
+class ScoreCase(Label):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        Clock.schedule_interval(self.loop, 1/60)
         self.size_hint = (None, 0.1)
         self.width = self.height
+        with self.canvas.before:
+            self.background_r = Rectangle(source='images/elements/score.png')
+        Clock.schedule_interval(self.loop, 1/60)
     
     def loop(self, *args):
         self.x = Window.width - self.width*1.4
         self.y = Window.height - self.height*0.9
+        self.background_r.size = (self.size[0]*0.6, self.size[1]*0.6)
+        self.background_r.pos = (self.pos[0]+self.size[0]*0.2, self.pos[1]+self.size[1]*0.2)
     
 
 class MenuButton(Button):
@@ -335,7 +339,7 @@ class InfinitePage(FloatLayout):
         self.zone_piece = ZonePieces()
         self.undo_button = UndoButton()
         self.grid_image = GridImage()
-        self.score_label = Score(text="0")
+        self.score_label = ScoreCase(text="0")
         self.add_widget(self.grid_image)
         self.add_widget(self.grid)
         self.add_widget(self.zone_piece)
