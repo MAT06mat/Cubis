@@ -1,4 +1,3 @@
-import json
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.core.window import Window
@@ -7,9 +6,9 @@ from kivy.uix.label import Label
 from kivy.uix.relativelayout import RelativeLayout
 from kivy.clock import Clock
 from kivy.metrics import dp
-from kivy.properties import StringProperty
 
 from infinite_mode import Cadre
+from data import AREAS, SETTINGS
 
 Builder.load_file("message.kv")
 
@@ -70,11 +69,7 @@ class PlayMessage(RelativeLayout):
     def __init__(self, id_level, **kw):
         super().__init__(**kw)
         self.id_level = id_level
-        
-        with open("data.json", "r") as data:
-            self.data = json.load(data)
-            areas = self.data["Areas"]
-        for area in areas:
+        for area in AREAS.get("Areas"):
             for level in area["Levels"]:
                 if level["Id"] == self.id_level:
                     mode = level["Mode"]
@@ -150,13 +145,9 @@ class QuitButton(Button):
     
     def on_press(self):
         if self.victoire != False:
-            with open("data.json", "r") as data:
-                self.data = json.load(data)
-                self.new_level = self.victoire == self.data["Current_level"]
-            if self.new_level:
-                self.data["Current_level"] += 1
-                with open("data.json", "w") as data:
-                    data.write(json.dumps(self.data))
+            current_level = SETTINGS.get("Current_level")
+            if self.victoire == current_level:
+                SETTINGS.modify("Current_level", current_level+1)
             app = App.get_running_app()
             for screen in app.manager.screens:
                 if screen.name == "StoryMode":
@@ -204,9 +195,7 @@ class VictoireMessage(RelativeLayout):
     def __init__(self, id_level,**kw):
         super().__init__(**kw)
         self.id_level = id_level
-        with open("data.json") as data:
-                self.data = json.load(data)
-        current_level = self.data["Current_level"]
+        current_level = SETTINGS.get("Current_level")
         if id_level == current_level:
             self.victoire = (0.2, 0.95, "images/buttons/next.png", self.id_level)
             self.coeff_x = -0.9

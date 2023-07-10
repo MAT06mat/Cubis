@@ -16,24 +16,14 @@ from kivy.metrics import dp
 
 from message import MenuMessage, InfoMessage
 from story_game import UndoButton, GridImage
+from data import SETTINGS, PIECES
 
 import copy
-import json
 import random
 
 Builder.load_file("infinite_game.kv")
 
 COLOR = ((0.65, 0.65, 0.65), (1, 0, 0), (0, 0, 1), (0, 1, 0), (1, 1, 0), (1, 0, 1), (0, 1, 1))
-
-def define():
-    with open("data.json", "r") as file:
-        data = json.load(file)
-        global BEST_SCORE
-        global LAST_SCORE
-        global PIECES
-        BEST_SCORE = data["Best_score"]
-        LAST_SCORE = data["Last_score"]
-        PIECES = data["Pieces"]
 
 def get_min_x(self):
     return self.width/2-self.size_line_h/2
@@ -228,7 +218,7 @@ class GridPiece(GridLayout):
     def generation(self):
         color = random.randint(1, 6)
         tier = random.randint(1, self.tiers)
-        pieces = PIECES[str(tier)]
+        pieces = PIECES.get("Pieces")[str(tier)]
         piece = pieces[random.randint(0, len(pieces)-1)]
         grid = []
         for y in range(len(piece)):
@@ -348,7 +338,7 @@ class InfinitePage(FloatLayout):
         self.add_widget(RightArrow())
         self.add_widget(LeftArrow())
         self.add_widget(self.score_label)
-        if BEST_SCORE[0] == 0:
+        if SETTINGS.get("Best_score")[0] == 0:
             self.message = InfoMessage(message=("Bienvenue dans le\n mode infini de Cubis !", "Dans ce mode,\nle but est de remplir le\nplus possible de grilles.", "Vous aurez à chaque fois\n6 pièces pour la remplir.","A chaque pièce posé,\nvous en regagnerez une autre.", "Le but est donc de faire\nle meilleur score possible.", "Vous avez le droit de tourner\nles pièces autant de fois\nque vous le souhaitez.", "Bonne chance !"))
             self.add_widget(self.message)
         Clock.schedule_interval(self.loop, 1/60)
@@ -493,7 +483,6 @@ class InfinitePage(FloatLayout):
 class InfiniteGame(Screen):
     def __init__(self, **kw):
         super().__init__(**kw)
-        define()
         self.my_float = FloatLayout()
         self.my_float.add_widget(Image(source="images/backgrounds/space.jpg", fit_mode="cover"))
         self.page = InfinitePage()

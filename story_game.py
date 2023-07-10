@@ -15,24 +15,13 @@ from kivy.graphics import Color
 from kivy.metrics import dp
 
 from message import MenuMessage, VictoireMessage, InfoMessage
+from data import SETTINGS, AREAS, LEVELS
 
 import copy
-import json
 
 Builder.load_file("story_game.kv")
 
 COLOR = ((0.65, 0.65, 0.65), (1, 0, 0), (0, 0, 1), (0, 1, 0), (1, 1, 0), (1, 0, 1), (0, 1, 1))
-
-
-def define():
-    with open("data.json") as data:
-        DATA = json.load(data)
-    global AREAS
-    AREAS = DATA["Areas"]
-    global BACKGROUND_BASE
-    global CURRENT_LEVEL
-    CURRENT_LEVEL = DATA["Current_level"]
-    BACKGROUND_BASE = AREAS[0]["Background"]
 
 def get_min_x(self):
     return self.width/2-self.size_line_h/2
@@ -329,13 +318,10 @@ class Grid(RelativeLayout):
 class Page(FloatLayout):
     def __init__(self, arrows, id_level, mode, **kwargs):
         super().__init__(**kwargs)
-        define()
         if arrows:
             self.add_widget(RightArrow())
             self.add_widget(LeftArrow())
-        with open("levels.json") as data:
-            levels = json.loads(data.read())
-        self.level = levels[str(id_level)]
+        self.level = LEVELS.get("Levels")[str(id_level)]
         self.id_level = id_level
         self.mode = mode
         self.current_piece = None
@@ -356,7 +342,7 @@ class Page(FloatLayout):
         self.add_widget(self.redo_button)
         Clock.schedule_interval(self.loop, 1/60)
         try:
-            if self.id_level == CURRENT_LEVEL:
+            if self.id_level == SETTINGS.get("Current_level"):
                 message = self.level["Message"]
                 self.message = InfoMessage(message=message)
                 self.add_widget(self.message)
@@ -499,9 +485,7 @@ class StoryGame(Screen):
         super().__init__(**kw)
         self.id_level = id_level
         self.level_name = "Niveau " + str(id_level)
-        with open("data.json", "r") as data:
-            data_open = json.loads(data.read())
-        for area in data_open["Areas"]:
+        for area in AREAS.get("Areas"):
             for level in area["Levels"]:
                 if level["Id"] == id_level:
                     self.mode = level["Mode"]

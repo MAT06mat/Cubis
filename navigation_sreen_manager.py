@@ -4,8 +4,7 @@ from kivy.uix.screenmanager import Screen
 
 from story_game import StoryGame
 from infinite_game import InfiniteGame
-
-import json
+from data import SETTINGS
 
 
 class TransitionScreen(Screen):
@@ -76,21 +75,17 @@ class NavigationScreenManager(ScreenManager):
             try:
                 test = self.level.id_level
             except AttributeError:
-                with open("data.json", "r") as file:
-                    data = json.load(file)
-                data["Last_score"] = self.level.page.score
+                SETTINGS.modify("Last_score", self.level.page.score)
                 b = False
-                for s in data["Best_score"]:
+                for s in SETTINGS.get("Best_score"):
                     if self.level.page.score > s:
                         b = True
                 if b:
-                    best_score = list(data["Best_score"])
+                    best_score = list(SETTINGS.get("Best_score"))
                     best_score.append(self.level.page.score)
                     sorted_list = list(sorted(best_score, reverse=True))
                     sorted_list.pop(-1)
-                    data["Best_score"] = sorted_list
-                with open("data.json", "w") as file:
-                    file.write(json.dumps(data))
+                    SETTINGS.modify("Best_score", sorted_list)
             self.level = None
     
     def suivant(self):

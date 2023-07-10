@@ -1,4 +1,3 @@
-import json
 from kivy.lang import Builder
 from kivy.core.window import Window
 from kivy.uix.button import Button
@@ -11,19 +10,11 @@ from kivy.clock import Clock
 from kivy.metrics import dp
 
 from message import PlayMessage, InfoMessage
+from data import SETTINGS, AREAS
 
 Builder.load_file("story_mode.kv")
 
-def define():
-    with open("data.json") as data:
-        DATA = json.load(data)
-    global AREAS
-    AREAS = DATA["Areas"]
-    global BACKGROUND_BASE
-    global CURRENT_LEVEL
-    CURRENT_LEVEL = DATA["Current_level"]
-    BACKGROUND_BASE = AREAS[0]["Background"]
-
+BACKGROUND_BASE = "images/backgrounds/tutoriel.jpg"
 
 class Level(Button):
     def __init__(self, level, **kwargs):
@@ -31,7 +22,7 @@ class Level(Button):
         self.id = level["Id"]
         self.mode = level["Mode"]
         self.text = str(self.id)
-        if self.id > CURRENT_LEVEL:
+        if self.id > SETTINGS.get("Current_level"):
             self.disabled = True
         # Mettre 0 devant les chiffres pour en faire des nombre à deux chiffres
         self.lines = []
@@ -114,20 +105,20 @@ class StoryMode(TabbedPanel):
         # create tab item
         level = 0
         self.tabs = []
-        for area in AREAS:
+        for area in AREAS.get("Areas"):
             new_TabbedPanelItem = TabItem(name=area["Name"], levels=area["Levels"], image=area["Background"])
             self.tabs.append(new_TabbedPanelItem)
-            if level < CURRENT_LEVEL:
+            if level < SETTINGS.get("Current_level"):
                 self.add_widget(new_TabbedPanelItem)
             level += len(area["Levels"])
         # Wait the loop in top is end
         Clock.schedule_once(self.change_tab, 0.1)
     
     def change_tab(self, dt):
-        for area in AREAS:
+        for area in AREAS.get("Areas"):
             for level in area["Levels"]:
                 for tab in self.tabs:
-                    if CURRENT_LEVEL == level["Id"] and area["Name"] == tab.text:
+                    if SETTINGS.get("Current_level") == level["Id"] and area["Name"] == tab.text:
                         self.switch_to(tab)
                         tab.on_press()
 
@@ -141,7 +132,6 @@ class MyBackgroundImage(FloatLayout):
 class StoryModeFloat(FloatLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        define()
         self.message = None
 
         global background_image, tuto
@@ -153,20 +143,19 @@ class StoryModeFloat(FloatLayout):
         self.add_widget(self.story_mode)
     
     def reset(self):
-        define()
         self.remove_widget(self.story_mode)
         self.story_mode = StoryMode()
         self.add_widget(self.story_mode)
         message = False
-        for area in AREAS:
-            if CURRENT_LEVEL == area["Levels"][0]["Id"]:
+        for area in AREAS.get("Areas"):
+            if SETTINGS.get("Current_level") == area["Levels"][0]["Id"]:
                 self.message_pop()
                 self.message = InfoMessage(message=("Nouvelle zone débloqué !"," Nouvelle zone : "+area["Name"]), title="Information")
                 self.add_widget(self.message)
                 message = True
         if not message:
             self.message_pop()
-            self.message_push(CURRENT_LEVEL)
+            self.message_push(SETTINGS.get("Current_level"))
         
     def message_push(self, id_level):
         if not self.message:

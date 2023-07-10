@@ -5,41 +5,27 @@ from kivy.uix.slider import Slider
 from kivy.core.window import Window
 from kivy.clock import Clock
 from kivy.metrics import dp
-
 from random import randint
-import json
 
-
-with open("data.json") as data:
-    DATA = json.load(data)
-MUSIC = DATA["Music"]
-EFFECT = DATA["Effect"]
+from data import SETTINGS
 
 
 class MusicSlider(Slider):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.value = MUSIC
+        self.value = SETTINGS.get("Music")
     
     def on_value(self, *args):
-        with open("data.json") as data:
-            self.data = json.load(data)
-        self.data["Music"] = int(self.value)
-        with open("data.json", "w") as data:
-            data.write(json.dumps(self.data))
+        SETTINGS.modify("Music", int(self.value))
 
 
 class EffectSlider(Slider):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.value = EFFECT
+        self.value = SETTINGS.get("Effect")
     
     def on_value(self, *args):
-        with open("data.json") as data:
-            self.data = json.load(data)
-        self.data["Effect"] = int(self.value)
-        with open("data.json", "w") as data:
-            data.write(json.dumps(self.data))
+        SETTINGS.modify("Effect", int(self.value))
 
 
 class SettingImage(Image):
