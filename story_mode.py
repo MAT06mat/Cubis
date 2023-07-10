@@ -105,7 +105,7 @@ class StoryMode(TabbedPanel):
         # create tab item
         level = 0
         self.tabs = []
-        for area in AREAS.get("Areas"):
+        for area in AREAS.get("all"):
             new_TabbedPanelItem = TabItem(name=area["Name"], levels=area["Levels"], image=area["Background"])
             self.tabs.append(new_TabbedPanelItem)
             if level < SETTINGS.get("Current_level"):
@@ -115,7 +115,7 @@ class StoryMode(TabbedPanel):
         Clock.schedule_once(self.change_tab, 0.1)
     
     def change_tab(self, dt):
-        for area in AREAS.get("Areas"):
+        for area in AREAS.get("all"):
             for level in area["Levels"]:
                 for tab in self.tabs:
                     if SETTINGS.get("Current_level") == level["Id"] and area["Name"] == tab.text:
@@ -147,7 +147,7 @@ class StoryModeFloat(FloatLayout):
         self.story_mode = StoryMode()
         self.add_widget(self.story_mode)
         message = False
-        for area in AREAS.get("Areas"):
+        for area in AREAS.get("all"):
             if SETTINGS.get("Current_level") == area["Levels"][0]["Id"]:
                 self.message_pop()
                 self.message = InfoMessage(message=("Nouvelle zone débloqué !"," Nouvelle zone : "+area["Name"]), title="Information")

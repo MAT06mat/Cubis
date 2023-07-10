@@ -218,7 +218,7 @@ class GridPiece(GridLayout):
     def generation(self):
         color = random.randint(1, 6)
         tier = random.randint(1, self.tiers)
-        pieces = PIECES.get("Pieces")[str(tier)]
+        pieces = PIECES.get(tier)
         piece = pieces[random.randint(0, len(pieces)-1)]
         grid = []
         for y in range(len(piece)):

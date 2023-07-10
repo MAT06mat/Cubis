@@ -321,7 +321,7 @@ class Page(FloatLayout):
         if arrows:
             self.add_widget(RightArrow())
             self.add_widget(LeftArrow())
-        self.level = LEVELS.get("Levels")[str(id_level)]
+        self.level = LEVELS.get(id_level)
         self.id_level = id_level
         self.mode = mode
         self.current_piece = None
@@ -485,7 +485,7 @@ class StoryGame(Screen):
         super().__init__(**kw)
         self.id_level = id_level
         self.level_name = "Niveau " + str(id_level)
-        for area in AREAS.get("Areas"):
+        for area in AREAS.get("all"):
             for level in area["Levels"]:
                 if level["Id"] == id_level:
                     self.mode = level["Mode"]

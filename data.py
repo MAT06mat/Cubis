@@ -5,7 +5,8 @@ class Data:
     path = "datas/"
     path_rel = None
     
-    def get(self, key):
+    def get(self, key: str):
+        key = str(key)
         with open(self.path+self.path_rel) as file:
             data = json.load(file)
         if key == 'all':
@@ -16,7 +17,8 @@ class Data:
             except KeyError:
                 return KeyError
 
-    def modify(self, key, element):
+    def modify(self, key: str, element):
+        key = str(key)
         if key == 'all':
             data = element
         else:

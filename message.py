@@ -69,7 +69,7 @@ class PlayMessage(RelativeLayout):
     def __init__(self, id_level, **kw):
         super().__init__(**kw)
         self.id_level = id_level
-        for area in AREAS.get("Areas"):
+        for area in AREAS.get("all"):
             for level in area["Levels"]:
                 if level["Id"] == self.id_level:
                     mode = level["Mode"]
