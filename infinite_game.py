@@ -10,6 +10,7 @@ from kivy.uix.label import Label
 from kivy.uix.image import Image
 from kivy.core.window import Window
 from kivy.clock import Clock
+from kivy.properties import ObjectProperty
 from kivy.graphics.vertex_instructions import Line, Rectangle
 from kivy.graphics import Color
 from kivy.metrics import dp
@@ -322,7 +323,6 @@ class InfinitePage(FloatLayout):
         self.current_piece = None
         self.message = None
         self.mouse_pos = None
-        self.can_place = False
         self.score = 0
         self.saves = []
         self.undo_consecutif = 0
@@ -330,7 +330,7 @@ class InfinitePage(FloatLayout):
         self.zone_piece = ZonePieces()
         self.undo_button = UndoButton()
         self.grid_image = GridImage()
-        self.score_label = ScoreCase(text="0")
+        self.score_label = ScoreCase(text=self.score)
         self.add_widget(self.grid_image)
         self.add_widget(self.grid)
         self.add_widget(self.zone_piece)
@@ -345,11 +345,12 @@ class InfinitePage(FloatLayout):
     
     def loop(self, *args):
         self.undo_button.disabled = (not (len(self.saves) >= 1 or self.current_piece != None)) or (self.undo_consecutif == 1)
-        self.verify()
+        # Verifie si la grille est remplit
         for y in self.grid.grid:
             for x in y:
                 if type(x) != int:
                     return
+        # Si oui, on regenère la grille suivant les tiers
         tiers = self.zone_piece.my_scroll_view.grid_piece.tiers
         if tiers <= 5:
             self.grid.grid = generate_grid(4)
@@ -366,11 +367,10 @@ class InfinitePage(FloatLayout):
     def on_touch_up(self, touch):
         if self.message:
             return
-        self.verify()
-        if self.can_place:
-            self.can_place = False
+        if self.verify():
             self.save()
             self.marg = int(self.grid.size_line/2)
+            # Modifie la grille pour ajouter la pièce
             for y_p in range(len(self.current_piece.grid)):
                 for x_p in range(len(self.current_piece.grid[y_p])):
                     if self.current_piece.grid[y_p][x_p] != None:
@@ -408,13 +408,14 @@ class InfinitePage(FloatLayout):
     
     def save(self):
         grid = copy.deepcopy(self.grid.grid)
+        score = copy.deepcopy(self.score)
         pieces = []
         for piece in self.zone_piece.my_scroll_view.grid_piece.piece_button:
             pieces.append(piece.grid)
         if self.undo_consecutif == 1:
             self.undo_consecutif = 0
         else:
-            self.saves.append((grid, pieces))
+            self.saves.append((grid, pieces, score))
         if len(self.saves) > 1:
             self.saves.pop(0)
     
@@ -431,6 +432,8 @@ class InfinitePage(FloatLayout):
             button = PieceButton(grid=piece)
             self.zone_piece.my_scroll_view.grid_piece.piece_button.append(button)
             self.zone_piece.my_scroll_view.grid_piece.add_widget(button)
+        self.score = self.saves[-1][2]
+        self.score_label.text = str(self.score)
         self.saves.pop(-1)
     
     def change_current_piece(self, grid):
@@ -467,9 +470,9 @@ class InfinitePage(FloatLayout):
                                 # if grid block match with piece block and if is void or if is a motis
                                 one.append(abs(x_piece - x_grid) < self.marg and abs(y_piece - y_grid) < self.marg and (self.grid.grid[y_g][x_g] == None or (self.grid.grid[y_g][x_g] == str(self.current_piece.grid[y_p][x_p]) and type(self.grid.grid[y_g][x_g]) == str) or self.current_piece.grid[y_p][x_p] == None))
                         check.append(any(one))
-                self.can_place = all(check)
+                return all(check)
         except:
-            self.can_place = False
+            return False
 
     def right(self):
         if self.current_piece != None:
