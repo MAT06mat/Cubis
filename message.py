@@ -4,6 +4,7 @@ from kivy.core.window import Window
 from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.relativelayout import RelativeLayout
+from kivy.properties import NumericProperty, ListProperty, StringProperty
 from kivy.clock import Clock
 from kivy.metrics import dp
 
@@ -14,25 +15,23 @@ Builder.load_file("message.kv")
 
 
 class PlayButtonStory(Button):
-    def __init__(self, id_level, **kwargs):
-        super().__init__(**kwargs)
-        self.id_level = id_level
+    id_level = NumericProperty()
 
 
 class Texte(Label):
-    def __init__(self, middle=False, mode=None, **kwargs):
+    halign = "center"
+    valign = "middle"
+    pos_hint = {"center_x": 0.5, "center_y": 0.6}
+    mode = ListProperty(None)
+    
+    def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.halign = "center"
-        self.valign = "middle"
-        self.pos_hint = {"center_x": 0.5, "center_y": 0.6}
-        if mode:
+        if self.mode:
             self.text = "Mode : "
-            for m in mode:
-                if mode.index(m) > 0:
+            for m in self.mode:
+                if self.mode.index(m) > 0:
                     self.text += ", "
                 self.text += m
-        if middle:
-            self.pos_hint = {"center_x": 0.5, "center_y": 0.5}
         Clock.schedule_interval(self.loop, 1/60)
         
     def loop(self, *args):
@@ -65,18 +64,19 @@ class Back(Button):
         return super().on_press()
 
 class PlayMessage(RelativeLayout):
-    def __init__(self, id_level, **kw):
+    id_level = NumericProperty(None)
+    
+    def __init__(self, **kw):
         super().__init__(**kw)
-        self.id_level = id_level
         for area in AREAS.get("all"):
             for level in area["Levels"]:
                 if level["Id"] == self.id_level:
                     mode = level["Mode"]
         self.add_widget(Cadre())
         self.add_widget(Back())
-        self.add_widget(Title(text="Niveau "+str(id_level)))
+        self.add_widget(Title(text="Niveau "+str(self.id_level)))
         self.add_widget(Texte(mode=mode))
-        self.add_widget(PlayButtonStory(id_level=id_level))
+        self.add_widget(PlayButtonStory(id_level=self.id_level))
         self.on_window_resize()
         Window.bind(on_resize=self.on_window_resize)
     
@@ -104,10 +104,11 @@ class SettingButton(Button):
 
 
 class ResetButton(Button):
-    def __init__(self, id_level, coeff_x=-0.7,**kwargs):
+    id_level = NumericProperty(None)
+    coef_x = NumericProperty(-0.7)
+    
+    def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.id_level = id_level
-        self.coeff_x = coeff_x
         Clock.schedule_interval(self.loop, 1/60)
     
     def loop(self, *args):
@@ -118,22 +119,24 @@ class ResetButton(Button):
 
 
 class QuitButton(Button):
-    def __init__(self, coeff_x=0.7, coeff_h=1, new_image=None, victoire=False, **kwargs):
+    id_level = NumericProperty(None)
+    
+    def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.coeff_x = coeff_x
-        self.coeff_h = coeff_h
-        self.new_image = new_image
-        self.victoire = victoire
-        if self.new_image:
-            self.background_normal = self.new_image
-            self.background_down = self.new_image
+        if self.id_level:
+            self.coeff_x = 0.2
+            self.coeff_h = 0.95
+            self.background_normal = "images/buttons/next.png"
+            self.background_down = "images/buttons/next.png"
         else:
+            self.coeff_x = 0.7
+            self.coeff_h = 1
             self.background_normal = "images/buttons/quit.png"
             self.background_down = "images/buttons/quit.png"
         Clock.schedule_interval(self.loop, 1/60)
     
     def loop(self, *args):
-        if not self.new_image:
+        if not self.id_level:
             self.height = self.parent.height/3*self.coeff_h
             self.width = self.height
         else:
@@ -143,9 +146,9 @@ class QuitButton(Button):
         self.x = Window.width/2 - self.width/2 + self.width*self.coeff_x
     
     def on_press(self):
-        if self.victoire != False:
+        if self.id_level != False:
             current_level = SETTINGS.get("Current_level")
-            if self.victoire == current_level:
+            if self.id_level == current_level:
                 SETTINGS.modify("Current_level", current_level+1)
             app = App.get_running_app()
             for screen in app.manager.screens:
@@ -155,18 +158,20 @@ class QuitButton(Button):
 
 
 class MenuMessage(RelativeLayout):
-    def __init__(self, id_level=0, mode=0, score=0, **kw):
+    id_level = NumericProperty(0)
+    score = NumericProperty(0)
+    mode = ListProperty(None)
+    
+    def __init__(self, **kw):
         super().__init__(**kw)
-        self.id_level = id_level
-        self.mode = mode
         self.back = Back()
         self.cadre = Cadre()
-        if self.id_level == 0:
-            self.mode_label = Texte(text="Votre score : "+str(score))
-            self.level_name = Title(text="Mode Infini")
-        else:
-            self.mode_label = Texte(mode=mode)
+        if self.mode:
             self.level_name = Title(text="Niveau "+str(self.id_level))
+            self.mode_label = Texte(mode=self.mode)
+        else:
+            self.level_name = Title(text="Mode Infini")
+            self.mode_label = Texte(text="Votre score : "+str(self.score))
         self.quit_button = QuitButton()
         self.setting_button = SettingButton()
         self.reset_button = ResetButton(id_level=self.id_level)
@@ -191,23 +196,23 @@ class MenuMessage(RelativeLayout):
 
 
 class VictoireMessage(RelativeLayout):
-    def __init__(self, id_level,**kw):
+    id_level = NumericProperty(None)
+    
+    def __init__(self,**kw):
         super().__init__(**kw)
-        self.id_level = id_level
-        current_level = SETTINGS.get("Current_level")
-        if id_level == current_level:
-            self.victoire = (0.2, 0.95, "images/buttons/next.png", self.id_level)
+        if self.id_level == SETTINGS.get("Current_level"):
+            self.quit_button = QuitButton(id_level=self.id_level)
             self.coeff_x = -0.9
             self.setting = False
         else:
             self.coeff_x = -0.7
-            self.victoire = ()
+            self.quit_button = QuitButton()
             self.setting = True
+        self.reset_button = ResetButton(id_level=self.id_level, coeff_x=self.coeff_x)
         self.add_widget(Cadre())
         self.add_widget(Title(text="Victoire !"))
-        self.quit_button = QuitButton(*self.victoire)
+        self.add_widget(Texte(text="Niveau " + str(self.id_level)))
         self.add_widget(self.quit_button)
-        self.reset_button = ResetButton(id_level=self.id_level, coeff_x=self.coeff_x)
         self.add_widget(self.reset_button)
         if self.setting:
             self.add_widget(SettingButton())
@@ -227,14 +232,15 @@ class VictoireMessage(RelativeLayout):
 
 
 class InfoMessage(RelativeLayout):
-    message = ("None")
-    def __init__(self, message, title="Tutoriel",**kw):
-        self.message = message
-        self.title = title
+    message = ListProperty(None)
+    title = StringProperty("Tutoriel")
+    
+    def __init__(self,**kw):
         super().__init__(**kw)
+        self.label = Texte(text=self.message[0], pos_hint={"center_x": 0.5, "center_y": 0.5})
+        self.add_widget(self.label)
         self.on_window_resize()
         Window.bind(on_resize=self.on_window_resize)
-        Clock.schedule_once(self.add_label)
 
     def next(self):
         i = self.message.index(self.label.text)
@@ -244,10 +250,6 @@ class InfoMessage(RelativeLayout):
             my = self.parent.message
             self.parent.message = None
             self.parent.remove_widget(my)
-    
-    def add_label(self, *args):
-        self.label = Texte(text=self.message[0], middle=True)
-        self.add_widget(self.label)
     
     def on_window_resize(self, *args):
         self.width = Window.width
