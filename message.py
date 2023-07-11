@@ -19,26 +19,25 @@ class PlayButtonStory(Button):
         self.id_level = id_level
 
 
-class ModeLabel(Label):
-    def __init__(self, mode, m=True, coeff_s=1/15, middle=True, **kwargs):
+class Texte(Label):
+    def __init__(self, middle=False, mode=None, **kwargs):
         super().__init__(**kwargs)
         self.halign = "center"
         self.valign = "middle"
-        self.coeff_s = coeff_s
-        if m:
-            self.pos_hint = {"center_x": 0.5, "center_y": 0.6}
-            self.text = "Mode : " + mode[0]
-            if len(mode) == 2:
-                self.text += ", " + mode[1]
-        else:
-            self.text = mode
+        self.pos_hint = {"center_x": 0.5, "center_y": 0.6}
+        if mode:
+            self.text = "Mode : "
+            for m in mode:
+                if mode.index(m) > 0:
+                    self.text += ", "
+                self.text += m
         if middle:
             self.pos_hint = {"center_x": 0.5, "center_y": 0.5}
         Clock.schedule_interval(self.loop, 1/60)
         
     def loop(self, *args):
         try:
-            self.font_size = self.parent.width * self.coeff_s
+            self.font_size = self.parent.width/15
         except:
             pass
 
@@ -76,7 +75,7 @@ class PlayMessage(RelativeLayout):
         self.add_widget(Cadre())
         self.add_widget(Back())
         self.add_widget(Title(text="Niveau "+str(id_level)))
-        self.add_widget(ModeLabel(mode=mode))
+        self.add_widget(Texte(mode=mode))
         self.add_widget(PlayButtonStory(id_level=id_level))
         self.on_window_resize()
         Window.bind(on_resize=self.on_window_resize)
@@ -163,10 +162,10 @@ class MenuMessage(RelativeLayout):
         self.back = Back()
         self.cadre = Cadre()
         if self.id_level == 0:
-            self.mode_label = ModeLabel(mode="Votre score : "+str(score), m=False, middle=True)
+            self.mode_label = Texte(text="Votre score : "+str(score))
             self.level_name = Title(text="Mode Infini")
         else:
-            self.mode_label = ModeLabel(mode=mode)
+            self.mode_label = Texte(mode=mode)
             self.level_name = Title(text="Niveau "+str(self.id_level))
         self.quit_button = QuitButton()
         self.setting_button = SettingButton()
@@ -247,7 +246,7 @@ class InfoMessage(RelativeLayout):
             self.parent.remove_widget(my)
     
     def add_label(self, *args):
-        self.label = ModeLabel(mode=self.message[0], m=False, coeff_s=1/15, middle=False)
+        self.label = Texte(text=self.message[0], middle=True)
         self.add_widget(self.label)
     
     def on_window_resize(self, *args):
