@@ -1,6 +1,7 @@
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, FadeTransition
 from kivy.uix.screenmanager import Screen
+from kivy.properties import NumericProperty, ListProperty, StringProperty, ObjectProperty
 
 from story_game import StoryGame
 from infinite_game import InfiniteGame
@@ -15,10 +16,10 @@ class TransitionScreen(Screen):
 
 
 class NavigationScreenManager(ScreenManager):
-    screen_stack = []
-    level = None
-    id = 0
-    transition = FadeTransition(duration=0.2)
+    screen_stack = ListProperty([])
+    level = ObjectProperty(None)
+    id = NumericProperty(0)
+    transition = ObjectProperty(FadeTransition(duration=0.2))
 
     def change_transition(self, transition_screen, screen_name):
         if transition_screen:
