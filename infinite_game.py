@@ -16,7 +16,6 @@ from kivy.graphics import Color
 from kivy.metrics import dp
 
 from message import MenuMessage, InfoMessage
-from story_game import UndoButton, GridImage
 from data import SETTINGS, PIECES
 
 import copy
@@ -83,6 +82,54 @@ def generate_grid(size):
         for x  in range(size):
             grid[y].append(None)
     return grid
+
+
+class RedoButton(Button):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        Clock.schedule_interval(self.loop, 1/60)
+    
+    def loop(self, *args):
+        self.x = self.width*0.8
+        self.y = Window.height - self.height*0.9
+
+    def on_press(self):
+        if self.parent.message != None:
+            return super().on_press()
+        self.parent.redo()
+        return super().on_press()
+
+
+class UndoButton(Button):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        Clock.schedule_interval(self.loop, 1/60)
+    
+    def loop(self, *args):
+        self.x = 0
+        self.y = Window.height - self.height*0.9
+
+    def on_press(self):
+        if self.parent.message != None:
+            return super().on_press()
+        self.parent.undo()
+        return super().on_press()
+
+
+class GridImage(Image):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.on_window_resize()
+        Window.bind(on_resize=self.on_window_resize)
+    
+    def on_window_resize(self, *args):
+        self.width = Window.width
+        self.height = self.width
+        while self.height > 0.6 * Window.height:
+            self.height -= 1
+        while self.width > self.height:
+            self.width -= 1
+
 
 class ScoreCase(Label):
     def __init__(self, **kwargs):
@@ -330,7 +377,7 @@ class InfinitePage(FloatLayout):
         self.zone_piece = ZonePieces()
         self.undo_button = UndoButton()
         self.grid_image = GridImage()
-        self.score_label = ScoreCase(text=self.score)
+        self.score_label = ScoreCase(text=str(self.score))
         self.add_widget(self.grid_image)
         self.add_widget(self.grid)
         self.add_widget(self.zone_piece)

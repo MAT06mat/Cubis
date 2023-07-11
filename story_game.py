@@ -5,250 +5,19 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.relativelayout import RelativeLayout
 from kivy.uix.scrollview import ScrollView
-from kivy.effects.scroll import ScrollEffect
 from kivy.uix.button import Button
 from kivy.uix.image import Image
 from kivy.core.window import Window
 from kivy.clock import Clock
-from kivy.graphics.vertex_instructions import Line, Rectangle
-from kivy.graphics import Color
 from kivy.metrics import dp
 
 from message import MenuMessage, VictoireMessage, InfoMessage
 from data import SETTINGS, AREAS, LEVELS
+from infinite_game import get_max_y, get_min_x, dispaly_grid, RightArrow, LeftArrow, CurrentPiece, GridImage, PieceButton, UndoButton, RedoButton
 
 import copy
 
 Builder.load_file("story_game.kv")
-
-COLOR = ((0.65, 0.65, 0.65), (1, 0, 0), (0, 0, 1), (0, 1, 0), (1, 1, 0), (1, 0, 1), (0, 1, 1))
-
-def get_min_x(self):
-    return self.width/2-self.size_line_h/2
-def get_max_x(self):
-    return self.width/2+self.size_line_h/2
-def get_min_y(self):
-    return self.height/2-self.size_line_v/2
-def get_max_y(self):
-    return self.height/2+self.size_line_v/2
-
-def dispaly_grid(self, background=False, border=False, relative=False):
-    self.canvas.clear()
-    with self.canvas:
-        if background:
-            Color(1, 1, 1)
-            self.background_debug = Rectangle(pos=(0, 0), size=(self.width, self.height)) 
-        Color(0.91, 0.72, 0.27)
-        # Line Size Calculation
-        if self.nb_l >= self.nb_c:
-            self.size_line = self.height/self.nb_l
-            self.size_line_v = self.height
-            self.size_line_h = self.size_line*self.nb_c
-        else:
-            self.size_line = self.width/self.nb_c
-            self.size_line_v = self.size_line*self.nb_l
-            self.size_line_h = self.width
-        if border:
-            # Create cols
-            for i in range(self.nb_c + 1):
-                Line(points=(get_min_x(self)+i*self.size_line, get_min_y(self), get_min_x(self)+i*self.size_line, get_max_y(self)), width=2)
-            # Create rows
-            for i in range(self.nb_l + 1):
-                Line(points=(get_min_x(self), get_min_y(self)+i*self.size_line, get_max_x(self), get_min_y(self)+i*self.size_line), width=2)
-        # Create block in the grid
-        for y in range(len(self.grid)):
-            for x in range(len(self.grid[y])):
-                if self.grid[y][x] != None:
-                    if type(self.grid[y][x]) == str:
-                        Color(*COLOR[int(self.grid[y][x])], 0.5)
-                    else:
-                        Color(*COLOR[int(self.grid[y][x])])
-                    if not relative:
-                        Rectangle(pos=(self.x+get_min_x(self)+x*self.size_line,self.y+get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), source="images/elements/bloc.png")
-                    else:
-                        Rectangle(pos=(get_min_x(self)+x*self.size_line,get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), source="images/elements/bloc.png")
-        if background and not relative:
-            self.background_debug.size = (self.width, self.height)
-            self.background_debug.pos = self.pos
-        elif background and relative:
-            self.background_debug.size = (self.width, self.height)
-
-
-class MenuButton(Button):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        Clock.schedule_interval(self.loop, 1/60)
-    
-    def loop(self, *args):
-        self.x = Window.width - self.width*0.9
-        self.y = Window.height - self.height*0.9
-    
-    def on_press(self):
-        if self.parent.message != None:
-            return super().on_press()
-        self.parent.message_push()
-        return super().on_press()
-
-
-class Arrow(Button):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        Clock.schedule_interval(self.resize, 1/60)
-    
-    def resize(self, *args):
-        self.width = self.height
-        self.y = self.parent.grid_image.y - self.height/1.2
-
-
-class RightArrow(Arrow):
-    def on_press(self):
-        if self.parent.message != None:
-            return super().on_press()
-        self.parent.right()
-        return super().on_press()
-
-
-class LeftArrow(Arrow):
-    def on_press(self):
-        if self.parent.message != None:
-            return super().on_press()
-        self.parent.left()
-        return super().on_press()
-
-
-class CurrentPiece(RelativeLayout):
-    def __init__(self, grid, **kw):
-        super().__init__(**kw)
-        self.grid = grid
-        self.nb_l = len(self.grid)
-        self.nb_c = len(self.grid[0])
-        self.size_hint = (None, None)
-        self.loop(self, None)
-        self.delta_pos = (self.width/2, self.height/2)
-        self.pos = (Window.mouse_pos[0] - self.delta_pos[0], Window.mouse_pos[1] - self.delta_pos[1])
-        Clock.schedule_interval(self.loop, 1/60)
-        Window.bind(on_resize=self.on_window_resize)
-    
-    def loop(self, *args):
-        try:
-            self.size_line = self.parent.grid.size_line
-        except:
-            self.size_line = dp(50)
-        self.width = self.nb_c*self.size_line
-        self.height = self.nb_l*self.size_line
-        dispaly_grid(self, relative=True)
-    
-    def on_touch_down(self, touch):
-        if self.parent.message != None:
-            return
-        if self.pos[0] < touch.pos[0] < (self.pos[0] + self.width) and self.pos[1] < touch.pos[1] < (self.pos[1] + self.height):
-            self.delta_pos = (touch.pos[0] - self.pos[0], touch.pos[1] - self.pos[1])
-        else:
-            self.delta_pos = None
-    
-    def on_touch_move(self, touch):
-        if self.parent.message != None:
-            return
-        if self.delta_pos != None:
-            self.pos = (touch.pos[0] - self.delta_pos[0], touch.pos[1] - self.delta_pos[1])
-    
-    def on_window_resize(self, *args):
-        self.pos = (Window.width/2-self.width/2, Window.height/2-self.width/2)
-    
-    def right(self):
-        self.new_grid = []
-        for y in range(self.nb_c):
-            self.new_grid.append([])
-            for x in range(self.nb_l):
-                self.new_grid[y].append(None)
-        for y in range(len(self.grid)):
-            for x in range(len(self.grid[y])):
-                self.new_grid[x][-(y+1)] = self.grid[y][x]
-        self.grid = self.new_grid
-        self.nb_l = len(self.grid)
-        self.nb_c = len(self.grid[0])
-    
-    def left(self):
-        self.new_grid = []
-        for y in range(self.nb_c):
-            self.new_grid.append([])
-            for x in range(self.nb_l):
-                self.new_grid[y].append(None)
-        for y in range(len(self.grid)):
-            for x in range(len(self.grid[y])):
-                self.new_grid[-(x+1)][y] = self.grid[y][x]
-        self.grid = self.new_grid
-        self.nb_l = len(self.grid)
-        self.nb_c = len(self.grid[0])
-
-
-class GridImage(Image):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.on_window_resize()
-        Window.bind(on_resize=self.on_window_resize)
-    
-    def on_window_resize(self, *args):
-        self.width = Window.width
-        self.height = self.width
-        while self.height > 0.6 * Window.height:
-            self.height -= 1
-        while self.width > self.height:
-            self.width -= 1
-
-
-class RedoButton(Button):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        Clock.schedule_interval(self.loop, 1/60)
-    
-    def loop(self, *args):
-        self.x = self.width*0.8
-        self.y = Window.height - self.height*0.9
-
-    def on_press(self):
-        if self.parent.message != None:
-            return super().on_press()
-        self.parent.redo()
-        return super().on_press()
-
-
-class UndoButton(Button):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        Clock.schedule_interval(self.loop, 1/60)
-    
-    def loop(self, *args):
-        self.x = 0
-        self.y = Window.height - self.height*0.9
-
-    def on_press(self):
-        if self.parent.message != None:
-            return super().on_press()
-        self.parent.undo()
-        return super().on_press()
-
-
-class PieceButton(Button):
-    def __init__(self, piece,**kwargs):
-        super().__init__(**kwargs)
-        self.piece = piece
-        self.grid = self.piece["Grid"]
-        self.nb_l = len(self.grid)
-        self.nb_c = len(self.grid[0])
-        self.size_hint_y = None
-        Clock.schedule_interval(self.loop, 1/60)
-    
-    def on_press(self):
-        if self.parent.parent.parent.parent.message != None:
-            return super().on_press()
-        self.parent.parent.parent.parent.change_current_piece(grid=self.grid)
-        return super().on_press()
-    
-    def loop(self, *args):
-        self.width = (Window.width-dp(40))/3
-        self.height = self.width
-        dispaly_grid(self)
 
 
 class GridPiece(GridLayout):
@@ -257,7 +26,7 @@ class GridPiece(GridLayout):
         self.current_level = current_level
         self.piece_button = []
         for piece in self.current_level["Pieces"]:
-            button = PieceButton(piece=piece)
+            button = PieceButton(grid=piece["Grid"])
             self.piece_button.append(button)
             self.add_widget(button)
 
@@ -393,14 +162,14 @@ class Page(FloatLayout):
         grid = copy.deepcopy(self.grid.grid)
         pieces = []
         for piece in self.zone_piece.my_scroll_view.grid_piece.piece_button:
-            pieces.append(piece.piece)
+            pieces.append(piece.grid)
         self.saves.append((grid, pieces))
     
     def undo_save(self):
         grid = copy.deepcopy(self.grid.grid)
         pieces = []
         for piece in self.zone_piece.my_scroll_view.grid_piece.piece_button:
-            pieces.append(piece.piece)
+            pieces.append(piece.grid)
         self.undo_saves.append((grid, pieces))
     
     def undo(self):
@@ -412,8 +181,8 @@ class Page(FloatLayout):
         self.grid.grid = self.saves[-1][0]
         self.zone_piece.my_scroll_view.grid_piece.piece_button = []
         self.zone_piece.my_scroll_view.grid_piece.clear_widgets()
-        for piece in self.saves[-1][1]:
-            button = PieceButton(piece=piece)
+        for grid in self.saves[-1][1]:
+            button = PieceButton(grid=grid)
             self.zone_piece.my_scroll_view.grid_piece.piece_button.append(button)
             self.zone_piece.my_scroll_view.grid_piece.add_widget(button)
         self.saves.pop(-1)
@@ -427,8 +196,8 @@ class Page(FloatLayout):
         self.grid.grid = copy.deepcopy(self.undo_saves[-1][0])
         self.zone_piece.my_scroll_view.grid_piece.piece_button = []
         self.zone_piece.my_scroll_view.grid_piece.clear_widgets()
-        for piece in self.undo_saves[-1][1]:
-            button = PieceButton(piece=piece)
+        for grid in self.undo_saves[-1][1]:
+            button = PieceButton(grid=grid)
             self.zone_piece.my_scroll_view.grid_piece.piece_button.append(button)
             self.zone_piece.my_scroll_view.grid_piece.add_widget(button)
         self.undo_saves.pop(-1)
