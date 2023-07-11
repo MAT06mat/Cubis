@@ -1,7 +1,7 @@
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, FadeTransition
 from kivy.uix.screenmanager import Screen
-from kivy.properties import NumericProperty, ListProperty, StringProperty, ObjectProperty
+from kivy.properties import NumericProperty, ListProperty, ObjectProperty
 
 from story_game import StoryGame
 from infinite_game import InfiniteGame
