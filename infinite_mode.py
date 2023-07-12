@@ -5,6 +5,7 @@ from kivy.uix.button import Button
 from kivy.uix.image import Image
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.relativelayout import RelativeLayout
+from kivy.properties import StringProperty
 from kivy.clock import Clock
 from kivy.metrics import dp
 
@@ -14,9 +15,7 @@ Builder.load_file("infinite_mode.kv")
 
 
 class Cadre(Image):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.source = "images/elements/frame.png"
+    source = StringProperty("images/elements/frame.png")
 
 
 class ScoreLabel(Label):
