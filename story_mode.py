@@ -1,10 +1,10 @@
 from kivy.lang import Builder
-from kivy.core.window import Window
 from kivy.uix.button import Button
 from kivy.uix.image import Image
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.tabbedpanel import TabbedPanel, TabbedPanelItem
+from kivy.properties import NumericProperty, ListProperty, StringProperty, ObjectProperty
 from kivy.uix.floatlayout import FloatLayout
 from kivy.clock import Clock
 from kivy.metrics import dp
@@ -14,13 +14,14 @@ from data import SETTINGS, AREAS
 
 Builder.load_file("story_mode.kv")
 
-BACKGROUND_BASE = "images/backgrounds/tutoriel.jpg"
 
 class Level(Button):
-    def __init__(self, level, **kwargs):
+    level = NumericProperty(None)
+    
+    def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.id = level["Id"]
-        self.mode = level["Mode"]
+        self.id = self.level["Id"]
+        self.mode = self.level["Mode"]
         self.text = str(self.id)
         if self.id > SETTINGS.get("Current_level"):
             self.disabled = True
@@ -54,20 +55,19 @@ class Level(Button):
 
 
 class Area(BoxLayout):
-    def __init__(self, levels, **kwargs):
+    levels = ListProperty(None)
+    def __init__(self, **kwargs):
         super().__init__(**kwargs)
         # define level and put the firt on bottom
         global level_height
         level_height = 1
-        for level in levels:
+        for level in self.levels:
             b = Level(level=level)
             self.add_widget(b)
 
 
 class MyScrollView(ScrollView):
-    def __init__(self, nb_levels, **kwargs):
-        super().__init__(**kwargs)
-        self.nb_levels = nb_levels
+    nb_levels = NumericProperty(None)
     
     def update_from_scroll(self, *largs):
         if tuto:
@@ -78,12 +78,13 @@ class MyScrollView(ScrollView):
 
 
 class TabItem(TabbedPanelItem):
-    def __init__(self, name, levels, image, **kwargs):
+    levels = ListProperty(None)
+    image = StringProperty(None)
+    
+    def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.text = name
-        self.image = image
-        self.scroll_view = MyScrollView(nb_levels=len(levels))
-        self.scroll_view.add_widget(Area(levels=levels))
+        self.scroll_view = MyScrollView(nb_levels=len(self.levels))
+        self.scroll_view.add_widget(Area(levels=self.levels))
         self.add_widget(self.scroll_view)
     
     def on_press(self):
@@ -100,17 +101,18 @@ class TabItem(TabbedPanelItem):
     
 
 class StoryMode(TabbedPanel):
+    level = NumericProperty(0)
+    tabs = ListProperty([])
+    
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         # create tab item
-        level = 0
-        self.tabs = []
         for area in AREAS.get("all"):
-            new_TabbedPanelItem = TabItem(name=area["Name"], levels=area["Levels"], image=area["Background"])
+            new_TabbedPanelItem = TabItem(text=area["Name"], levels=area["Levels"], image=area["Background"])
             self.tabs.append(new_TabbedPanelItem)
-            if level < SETTINGS.get("Current_level"):
+            if self.level < SETTINGS.get("Current_level"):
                 self.add_widget(new_TabbedPanelItem)
-            level += len(area["Levels"])
+            self.level += len(area["Levels"])
         # Wait the loop in top is end
         Clock.schedule_once(self.change_tab, 0.1)
     
@@ -124,22 +126,19 @@ class StoryMode(TabbedPanel):
 
 
 class MyBackgroundImage(FloatLayout):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.add_widget(Image(source=BACKGROUND_BASE, fit_mode="cover"))
+    pass
 
 
 class StoryModeFloat(FloatLayout):
+    message = ObjectProperty(None)
+    story_mode = ObjectProperty(StoryMode())
+    
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.message = None
-
         global background_image, tuto
         tuto = True
         background_image = MyBackgroundImage()
-        
         self.add_widget(background_image)
-        self.story_mode = StoryMode()
         self.add_widget(self.story_mode)
     
     def reset(self):
