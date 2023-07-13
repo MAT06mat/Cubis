@@ -1,7 +1,7 @@
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, FadeTransition
 from kivy.uix.screenmanager import Screen
-from kivy.properties import NumericProperty, ListProperty, ObjectProperty
+from kivy.properties import NumericProperty, ListProperty, ObjectProperty, StringProperty
 
 from story_game import StoryGame
 from infinite_game import InfiniteGame
@@ -17,9 +17,15 @@ class TransitionScreen(Screen):
 
 class NavigationScreenManager(ScreenManager):
     screen_stack = ListProperty([])
-    level = ObjectProperty(None)
-    id = NumericProperty(0)
     transition = ObjectProperty(FadeTransition(duration=0.2))
+    infinite_game = ObjectProperty(InfiniteGame(name="Infinite Game", id_level=0))
+    story_game = ObjectProperty(StoryGame(name="Story Game", id_level=1))
+    
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.level = False
+        self.add_widget(self.infinite_game)
+        self.add_widget(self.story_game)
 
     def change_transition(self, transition_screen, screen_name):
         if transition_screen:
@@ -42,41 +48,34 @@ class NavigationScreenManager(ScreenManager):
             self.change_transition(transition_screen, screen_name)
             self.next_current = screen_name
     
-    def start_level(self, id_level=0):
-        self.id += 1
-        self.last_level = None
-        if self.level != None:
-            self.last_level = self.level
-        name = "Level"+str(self.id)
+    def start_level(self, id_level=0, transition_screen=True):
+        if self.level:
+            self.pop(transition_screen=transition_screen)
         if id_level == 0:
-            self.level = InfiniteGame(name=name)
+            self.push(self.infinite_game.name, transition_screen=transition_screen)
+            self.infinite_game.restart(id_level)
         else:
-            self.level = StoryGame(name=name, id_level=id_level)
-        self.add_widget(self.level)
-        self.push(name)
-        if self.last_level != None:
-            self.remove_widget(self.last_level)
-            self.screen_stack.remove(self.last_level.name)
+            self.push(self.story_game.name, transition_screen=transition_screen)
+            self.story_game.restart(id_level)
+        self.level = True
     
     def quit_level(self, transition_screen=True):
         if len(self.screen_stack) > 0:
-            self.pop(transition_screen)
-            try:
-                test = self.level.id_level
-            except AttributeError:
-                SETTINGS.modify("Last_score", self.level.page.score)
+            if self.current == "Infinite Game":
+                SETTINGS.modify("Last_score", self.infinite_game.page.score)
                 b = False
                 for s in SETTINGS.get("Best_score"):
-                    if self.level.page.score > s:
+                    if self.infinite_game.page.score > s:
                         b = True
                 if b:
                     best_score = list(SETTINGS.get("Best_score"))
-                    best_score.append(self.level.page.score)
+                    best_score.append(self.infinite_game.page.score)
                     sorted_list = list(sorted(best_score, reverse=True))
                     sorted_list.pop(-1)
                     SETTINGS.modify("Best_score", sorted_list)
-            self.level = None
-    
+            self.pop(transition_screen=transition_screen)
+            self.level = False
+            
     def suivant(self):
         if self.next_current:
             self.current = self.next_current

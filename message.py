@@ -15,7 +15,7 @@ Builder.load_file("message.kv")
 
 
 class PlayButtonStory(Button):
-    id_level = NumericProperty()
+    id_level = NumericProperty(None)
 
 
 class Texte(Label):
@@ -105,7 +105,7 @@ class SettingButton(Button):
 
 class ResetButton(Button):
     id_level = NumericProperty(None)
-    coef_x = NumericProperty(-0.7)
+    coeff_x = NumericProperty(-0.7)
     
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -119,11 +119,11 @@ class ResetButton(Button):
 
 
 class QuitButton(Button):
-    id_level = NumericProperty(None)
+    id_level = NumericProperty(0)
     
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        if self.id_level:
+        if self.id_level != 0:
             self.coeff_x = 0.2
             self.coeff_h = 0.95
             self.background_normal = "images/buttons/next.png"
@@ -136,7 +136,7 @@ class QuitButton(Button):
         Clock.schedule_interval(self.loop, 1/60)
     
     def loop(self, *args):
-        if not self.id_level:
+        if self.id_level == 0:
             self.height = self.parent.height/3*self.coeff_h
             self.width = self.height
         else:
@@ -146,7 +146,7 @@ class QuitButton(Button):
         self.x = Window.width/2 - self.width/2 + self.width*self.coeff_x
     
     def on_press(self):
-        if self.id_level != False:
+        if self.id_level != 0:
             current_level = SETTINGS.get("Current_level")
             if self.id_level == current_level:
                 SETTINGS.modify("Current_level", current_level+1)

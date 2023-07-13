@@ -4,10 +4,9 @@ from kivy.uix.image import Image
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.tabbedpanel import TabbedPanel, TabbedPanelItem
-from kivy.properties import NumericProperty, ListProperty, StringProperty, ObjectProperty
+from kivy.properties import NumericProperty, ListProperty, StringProperty, ObjectProperty, DictProperty
 from kivy.uix.floatlayout import FloatLayout
 from kivy.clock import Clock
-from kivy.metrics import dp
 
 from message import PlayMessage, InfoMessage
 from data import SETTINGS, AREAS
@@ -16,7 +15,7 @@ Builder.load_file("story_mode.kv")
 
 
 class Level(Button):
-    level = NumericProperty(None)
+    level = DictProperty(None)
     
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -56,6 +55,7 @@ class Level(Button):
 
 class Area(BoxLayout):
     levels = ListProperty(None)
+    
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         # define level and put the firt on bottom
@@ -130,7 +130,7 @@ class MyBackgroundImage(FloatLayout):
 
 
 class StoryModeFloat(FloatLayout):
-    message = ObjectProperty(None)
+    message = None
     story_mode = ObjectProperty(StoryMode())
     
     def __init__(self, **kwargs):

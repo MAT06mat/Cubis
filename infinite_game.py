@@ -10,7 +10,7 @@ from kivy.uix.label import Label
 from kivy.uix.image import Image
 from kivy.core.window import Window
 from kivy.clock import Clock
-from kivy.properties import ObjectProperty, ListProperty, NumericProperty
+from kivy.properties import ListProperty, NumericProperty
 from kivy.graphics.vertex_instructions import Line, Rectangle
 from kivy.graphics import Color
 from kivy.metrics import dp
@@ -166,8 +166,8 @@ class MenuButton(Button):
 class CurrentPiece(RelativeLayout):
     grid = ListProperty(None)
     
-    def __init__(self, grid, **kw):
-        super().__init__(**kw)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.nb_l = len(self.grid)
         self.nb_c = len(self.grid[0])
         self.size_hint = (None, None)
@@ -203,7 +203,6 @@ class CurrentPiece(RelativeLayout):
     def on_window_resize(self, *args):
         self.pos = (Window.width/2-self.width/2, Window.height/2-self.width/2)
     
-    
     def right(self):
         self.new_grid = []
         for y in range(self.nb_c):
@@ -234,7 +233,7 @@ class CurrentPiece(RelativeLayout):
 class PieceButton(Button):
     grid = ListProperty(None)
     
-    def __init__(self, grid,**kwargs):
+    def __init__(self,**kwargs):
         super().__init__(**kwargs)
         self.nb_l = len(self.grid)
         self.nb_c = len(self.grid[0])
@@ -300,8 +299,6 @@ class GridPiece(GridLayout):
         return new_grid
 
 class MyScrollView(ScrollView):
-    grid_piece = ObjectProperty(None)
-    
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.grid_piece = GridPiece()
@@ -313,8 +310,6 @@ class MyScrollView(ScrollView):
 
 
 class ZonePieces(BoxLayout):
-    my_scroll_view = ObjectProperty(None)
-    
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.my_scroll_view = MyScrollView()
@@ -375,11 +370,11 @@ class InfinitePage(FloatLayout):
     score = NumericProperty(0)
     undo_consecutif = NumericProperty(0)
     saves = ListProperty([])
-    message = ObjectProperty(None)
-    current_piece = ObjectProperty(None)
     
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.message = None
+        self.current_piece = None
         self.grid = InfiniteGrid()
         self.zone_piece = ZonePieces()
         self.undo_button = UndoButton()
@@ -493,7 +488,7 @@ class InfinitePage(FloatLayout):
     def change_current_piece(self, grid):
         if self.current_piece != None:
             self.remove_widget(self.current_piece)
-        self.current_piece = CurrentPiece(grid)
+        self.current_piece = CurrentPiece(grid=grid)
         self.add_widget(self.current_piece)
 
     def message_push(self):
@@ -538,12 +533,21 @@ class InfinitePage(FloatLayout):
 
 
 class InfiniteGame(Screen):
-    my_float = ObjectProperty(FloatLayout())
-    page = ObjectProperty(InfinitePage())
+    id_level = NumericProperty(0)
     
     def __init__(self, **kw):
         super().__init__(**kw)
+        self.my_float = FloatLayout()
+        self.page = InfinitePage()
         self.my_float.add_widget(Image(source="images/backgrounds/space.jpg", fit_mode="cover"))
         self.my_float.add_widget(self.page)
         self.add_widget(self.my_float)
-        
+    
+    def restart(self, id_level):
+        self.remove_widget(self.my_float)
+        self.my_float = FloatLayout()
+        self.page = InfinitePage()
+        self.my_float.add_widget(Image(source="images/backgrounds/space.jpg", fit_mode="cover"))
+        self.my_float.add_widget(self.page)
+        self.add_widget(self.my_float)
+        self.id_level = id_level

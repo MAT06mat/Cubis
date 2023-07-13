@@ -15,7 +15,7 @@ Builder.load_file("infinite_mode.kv")
 
 
 class Cadre(Image):
-    source = StringProperty("images/elements/frame.png")
+    pass
 
 
 class ScoreLabel(Label):
