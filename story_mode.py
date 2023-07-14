@@ -115,6 +115,7 @@ class StoryMode(TabbedPanel):
             self.level += len(area["Levels"])
         # Wait the loop in top is end
         Clock.schedule_once(self.change_tab, 0.1)
+        Clock.schedule_interval(self.loop, 1/60)
     
     def change_tab(self, dt):
         for area in AREAS.get("all"):
@@ -123,6 +124,11 @@ class StoryMode(TabbedPanel):
                     if SETTINGS.get("Current_level") == level["Id"] and area["Name"] == tab.text:
                         self.switch_to(tab)
                         tab.on_press()
+    
+    def loop(self, *args):
+        for tab in self.tabs:
+            tab.color = "#FFFFFF"
+        self.current_tab.color = "#F3E2DB"
 
 
 class MyBackgroundImage(FloatLayout):
