@@ -7,15 +7,13 @@ from kivy.uix.relativelayout import RelativeLayout
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.image import Image
 from kivy.clock import Clock
-from kivy.properties import ObjectProperty, ListProperty, NumericProperty, StringProperty, BooleanProperty, DictProperty
+from kivy.properties import ListProperty, NumericProperty, BooleanProperty, DictProperty
 
 from message import MenuMessage, VictoireMessage, InfoMessage
 from data import SETTINGS, AREAS, LEVELS
-from infinite_game import get_max_y, get_min_x, dispaly_grid, RightArrow, LeftArrow, CurrentPiece, GridImage, PieceButton, UndoButton, RedoButton
+from infinite_game import get_max_y, get_min_x, dispaly_grid, RightArrow, LeftArrow, CurrentPiece, GridImage, PieceButton, UndoButton, RedoButton, MenuButton
 
 import copy
-
-Builder.load_file("story_game.kv")
 
 
 class GridPiece(GridLayout):
@@ -107,11 +105,13 @@ class Page(FloatLayout):
         self.undo_button = UndoButton()
         self.redo_button = RedoButton()
         self.grid_image = GridImage()
+        self.menu_button = MenuButton()
         self.add_widget(self.grid_image)
         self.add_widget(self.grid)
         self.add_widget(self.zone_piece)
         self.add_widget(self.undo_button)
         self.add_widget(self.redo_button)
+        self.add_widget(self.menu_button)
         Clock.schedule_interval(self.loop, 1/60)
         try:
             if self.id_level == SETTINGS.get("Current_level"):

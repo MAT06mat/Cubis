@@ -141,10 +141,10 @@ class ScoreCase(Label):
         Clock.schedule_interval(self.loop, 1/60)
     
     def loop(self, *args):
-        self.x = Window.width - self.width*1.4
+        self.x = self.parent.menu_button.x - self.width
         self.y = Window.height - self.height*0.9
-        self.background_r.size = (self.size[0]*0.6, self.size[1]*0.6)
-        self.background_r.pos = (self.pos[0]+self.size[0]*0.2, self.pos[1]+self.size[1]*0.2)
+        self.background_r.size = (self.size[0]*0.8, self.size[1]*0.6)
+        self.background_r.pos = (self.pos[0]+self.size[0]*0.1, self.pos[1]+self.size[1]*0.2)
     
 
 class MenuButton(Button):
@@ -380,6 +380,7 @@ class InfinitePage(FloatLayout):
         self.undo_button = UndoButton()
         self.grid_image = GridImage()
         self.score_label = ScoreCase(text=str(self.score))
+        self.menu_button = MenuButton()
         self.add_widget(self.grid_image)
         self.add_widget(self.grid)
         self.add_widget(self.zone_piece)
@@ -387,6 +388,7 @@ class InfinitePage(FloatLayout):
         self.add_widget(RightArrow())
         self.add_widget(LeftArrow())
         self.add_widget(self.score_label)
+        self.add_widget(self.menu_button)
         if SETTINGS.get("Best_score")[0] == 0:
             self.message = InfoMessage(message=("Bienvenue dans le\n mode infini de Cubis !", "Dans ce mode,\nle but est de remplir le\nplus possible de grilles.", "Vous aurez à chaque fois\n6 pièces pour la remplir.","A chaque pièce posé,\nvous en regagnerez une autre.", "Le but est donc de faire\nle meilleur score possible.", "Vous avez le droit de tourner\nles pièces autant de fois\nque vous le souhaitez.", "Mais un seul retour\nen arrière possible !", "Bonne chance !"))
             self.add_widget(self.message)
