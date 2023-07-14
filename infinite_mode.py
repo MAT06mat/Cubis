@@ -5,11 +5,10 @@ from kivy.uix.button import Button
 from kivy.uix.image import Image
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.relativelayout import RelativeLayout
-from kivy.properties import StringProperty
-from kivy.clock import Clock
 from kivy.metrics import dp
 
 from data import SETTINGS
+from src.base import Loop
 
 Builder.load_file("infinite_mode.kv")
 
@@ -18,13 +17,8 @@ class Cadre(Image):
     pass
 
 
-class ScoreLabel(Label):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.load_score()
-        Clock.schedule_interval(self.load_score, 1/60)
-    
-    def load_score(self, *args):
+class ScoreLabel(Label, Loop):
+    def loop(self, *args):
         # add 0 before the score to have a 4-digit number
         self.best_score = SETTINGS.get("Best_score")
         self.last_score = SETTINGS.get("Last_score")
@@ -40,13 +34,8 @@ class ScoreLabel(Label):
         return text
         
         
-class Score(RelativeLayout):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.on_window_resize()
-        Window.bind(on_resize=self.on_window_resize)
-    
-    def on_window_resize(self, *args):
+class Score(RelativeLayout, Loop):
+    def loop(self, *args):
         self.width = Window.width - dp(30)
         self.height = self.width / 1894 * 1400
         while self.height > 0.5 * Window.height:
@@ -55,13 +44,8 @@ class Score(RelativeLayout):
             self.width -= 1
     
 
-class PlayButton(Button):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.on_window_resize()
-        Window.bind(on_resize=self.on_window_resize)
-    
-    def on_window_resize(self, *args):
+class PlayButton(Button, Loop):
+    def loop(self, *args):
         self.width = Window.width - dp(30)
         self.height = self.width / 1192 * 501
         while self.height > 0.3 * Window.height:

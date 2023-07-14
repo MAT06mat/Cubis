@@ -9,12 +9,12 @@ from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.image import Image
 from kivy.core.window import Window
-from kivy.clock import Clock
-from kivy.properties import ListProperty, NumericProperty, BooleanProperty, DictProperty
+from kivy.properties import ListProperty, NumericProperty, BooleanProperty
 from kivy.graphics.vertex_instructions import Line, Rectangle
 from kivy.graphics import Color
 from kivy.metrics import dp
 
+from src.base import Loop
 from message import MenuMessage, InfoMessage, VictoireMessage
 from data import SETTINGS, PIECES, AREAS, LEVELS
 
@@ -84,11 +84,7 @@ def generate_grid(size):
     return grid
 
 
-class RedoButton(Button):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        Clock.schedule_interval(self.loop, 1/60)
-    
+class RedoButton(Button, Loop):
     def loop(self, *args):
         self.x = self.width*0.8
         self.y = Window.height - self.height*0.9
@@ -100,13 +96,8 @@ class RedoButton(Button):
         return super().on_press()
 
 
-class UndoButton(Button):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        Clock.schedule_interval(self.loop, 1/60)
-    
+class UndoButton(Button, Loop):
     def loop(self, *args):
-        self.x = 0
         self.y = Window.height - self.height*0.9
 
     def on_press(self):
@@ -116,13 +107,8 @@ class UndoButton(Button):
         return super().on_press()
 
 
-class GridImage(Image):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.on_window_resize()
-        Window.bind(on_resize=self.on_window_resize)
-    
-    def on_window_resize(self, *args):
+class GridImage(Image, Loop):
+    def loop(self, *args):
         self.width = Window.width
         self.height = self.width
         while self.height > 0.6 * Window.height:
@@ -131,14 +117,13 @@ class GridImage(Image):
             self.width -= 1
 
 
-class ScoreCase(Label):
+class ScoreCase(Label, Loop):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.size_hint = (None, 0.1)
         self.width = self.height
         with self.canvas.before:
             self.background_r = Rectangle(source='images/elements/score.png')
-        Clock.schedule_interval(self.loop, 1/60)
     
     def loop(self, *args):
         self.x = self.parent.menu_button.x - self.width
@@ -147,11 +132,7 @@ class ScoreCase(Label):
         self.background_r.pos = (self.pos[0], self.pos[1]+self.size[1]*0.2)
     
 
-class MenuButton(Button):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        Clock.schedule_interval(self.loop, 1/60)
-    
+class MenuButton(Button, Loop):
     def loop(self, *args):
         self.x = Window.width - self.width*0.9
         self.y = Window.height - self.height*0.9
@@ -163,7 +144,7 @@ class MenuButton(Button):
         return super().on_press()
 
 
-class CurrentPiece(RelativeLayout):
+class CurrentPiece(RelativeLayout, Loop):
     grid = ListProperty(None)
     
     def __init__(self, **kwargs):
@@ -174,8 +155,6 @@ class CurrentPiece(RelativeLayout):
         self.loop(self, None)
         self.delta_pos = (self.width/2, self.height/2)
         self.pos = (Window.mouse_pos[0] - self.delta_pos[0], Window.mouse_pos[1] - self.delta_pos[1])
-        Clock.schedule_interval(self.loop, 1/60)
-        Window.bind(on_resize=self.on_window_resize)
     
     def loop(self, *args):
         try:
@@ -184,6 +163,7 @@ class CurrentPiece(RelativeLayout):
             self.size_line = dp(50)
         self.width = self.nb_c*self.size_line
         self.height = self.nb_l*self.size_line
+        self.pos = (Window.width/2-self.width/2, Window.height/2-self.width/2)
         dispaly_grid(self, relative=True)
     
     def on_touch_down(self, touch):
@@ -199,9 +179,6 @@ class CurrentPiece(RelativeLayout):
             return
         if self.delta_pos != None:
             self.pos = (touch.pos[0] - self.delta_pos[0], touch.pos[1] - self.delta_pos[1])
-    
-    def on_window_resize(self, *args):
-        self.pos = (Window.width/2-self.width/2, Window.height/2-self.width/2)
     
     def right(self):
         self.new_grid = []
@@ -230,7 +207,7 @@ class CurrentPiece(RelativeLayout):
         self.nb_c = len(self.grid[0])
 
 
-class PieceButton(Button):
+class PieceButton(Button, Loop):
     grid = ListProperty(None)
     
     def __init__(self,**kwargs):
@@ -238,7 +215,6 @@ class PieceButton(Button):
         self.nb_l = len(self.grid)
         self.nb_c = len(self.grid[0])
         self.size_hint_y = None
-        Clock.schedule_interval(self.loop, 1/60)
     
     def on_press(self):
         if self.parent.parent.parent.parent.message != None:
@@ -307,33 +283,31 @@ class GridPiece(GridLayout):
                 new_grid[-(x+1)][y] = grid[y][x]
         return new_grid
 
-class MyScrollView(ScrollView):
+class MyScrollView(ScrollView, Loop):
     id_level = NumericProperty(0)
     
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.grid_piece = GridPiece(id_level=self.id_level)
         self.add_widget(self.grid_piece)
-        Clock.schedule_interval(self.loop, 1/60)
     
     def loop(self, *args):
         self.disabled = self.parent.parent.message != None
 
 
-class ZonePieces(BoxLayout):
+class ZonePieces(BoxLayout, Loop):
     id_level = NumericProperty(0)
     
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.my_scroll_view = MyScrollView(id_level=self.id_level)
         self.add_widget(self.my_scroll_view)
-        Clock.schedule_interval(self.resize, 1/60)
     
-    def resize(self, *args):
+    def loop(self, *args):
         self.height = self.parent.height - self.parent.grid_image.height - 0.15*self.parent.height
 
 
-class Grid(RelativeLayout):
+class Grid(RelativeLayout, Loop):
     id_level = NumericProperty(None)
     victoire = BooleanProperty(False)
     
@@ -347,7 +321,6 @@ class Grid(RelativeLayout):
         self.nb_l = len(self.grid)
         self.nb_c = len(self.grid[0])
         self.size_hint = (None, None)
-        Clock.schedule_interval(self.loop, 1/60)
     
     def loop(self, *args):
         # Change la pos et la size du RelativeLayout
@@ -366,12 +339,8 @@ class Grid(RelativeLayout):
             self.parent.add_widget(self.parent.message)
 
 
-class Arrow(Button):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        Clock.schedule_interval(self.resize, 1/60)
-    
-    def resize(self, *args):
+class Arrow(Button, Loop):
+    def loop(self, *args):
         self.width = self.height
         self.y = self.parent.grid_image.y - self.height/1.2
 
@@ -392,7 +361,7 @@ class LeftArrow(Arrow):
         return super().on_press()
 
 
-class Page(FloatLayout):
+class Page(FloatLayout, Loop):
     score = NumericProperty(0)
     id_level = NumericProperty(None)
     mode = ListProperty(None)
@@ -426,7 +395,7 @@ class Page(FloatLayout):
         self.add_widget(self.zone_piece)
         self.add_widget(self.undo_button)
         self.add_widget(self.menu_button)
-        if SETTINGS.get("Best_score")[0] == 0:
+        if SETTINGS.get("Best_score")[0] == 0 and self.id_level == 0:
             self.message = InfoMessage(message=("Bienvenue dans le\n mode infini de Cubis !", "Dans ce mode,\nle but est de remplir le\nplus possible de grilles.", "Vous aurez à chaque fois\n6 pièces pour la remplir.","A chaque pièce posé,\nvous en regagnerez une autre.", "Le but est donc de faire\nle meilleur score possible.", "Vous avez le droit de tourner\nles pièces autant de fois\nque vous le souhaitez.", "Mais un seul retour\nen arrière possible !", "Bonne chance !"))
             self.add_widget(self.message)
         if self.id_level == SETTINGS.get("Current_level"):
@@ -437,7 +406,6 @@ class Page(FloatLayout):
             except:
                 # Il n'y a pas de messages
                 pass
-        Clock.schedule_interval(self.loop, 1/60)
     
     def loop(self, *args):
         if self.id_level == 0:
