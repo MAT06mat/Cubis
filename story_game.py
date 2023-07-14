@@ -250,13 +250,14 @@ class Page(FloatLayout):
 
 
 class StoryGame(Screen):
-    id_level = NumericProperty(None)
+    id_level = NumericProperty(1)
     
     def __init__(self, **kw):
         super().__init__(**kw)
         self.restart(self.id_level)
     
     def restart(self, id_level):
+        self.clear_widgets()
         self.id_level = id_level
         self.level_name = "Niveau " + str(self.id_level)
         for area in AREAS.get("all"):

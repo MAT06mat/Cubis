@@ -18,8 +18,8 @@ class TransitionScreen(Screen):
 class NavigationScreenManager(ScreenManager):
     screen_stack = ListProperty([])
     transition = ObjectProperty(FadeTransition(duration=0.2))
-    infinite_game = ObjectProperty(InfiniteGame(name="Infinite Game", id_level=0))
-    story_game = ObjectProperty(StoryGame(name="Story Game", id_level=1))
+    infinite_game = ObjectProperty(InfiniteGame(name="Infinite Game"))
+    story_game = ObjectProperty(StoryGame(name="Story Game"))
     
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
