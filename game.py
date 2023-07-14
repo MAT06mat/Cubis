@@ -10,18 +10,18 @@ from kivy.uix.label import Label
 from kivy.uix.image import Image
 from kivy.core.window import Window
 from kivy.clock import Clock
-from kivy.properties import ListProperty, NumericProperty
+from kivy.properties import ListProperty, NumericProperty, BooleanProperty, DictProperty
 from kivy.graphics.vertex_instructions import Line, Rectangle
 from kivy.graphics import Color
 from kivy.metrics import dp
 
-from message import MenuMessage, InfoMessage
-from data import SETTINGS, PIECES
+from message import MenuMessage, InfoMessage, VictoireMessage
+from data import SETTINGS, PIECES, AREAS, LEVELS
 
 import copy
 import random
 
-Builder.load_file("infinite_game.kv")
+Builder.load_file("game.kv")
 
 COLOR = ((0.65, 0.65, 0.65), (1, 0, 0), (0, 0, 1), (0, 1, 0), (1, 1, 0), (1, 0, 1), (0, 1, 1))
 
@@ -256,14 +256,23 @@ class GridPiece(GridLayout):
     piece_button = ListProperty([])
     tiers = NumericProperty(3)
     piece_generated = NumericProperty(70)
+    id_level = NumericProperty(0)
     
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        for i in range(6):
-            grid = self.generation()
-            button = PieceButton(grid=grid)
-            self.piece_button.append(button)
-            self.add_widget(button)
+        if self.id_level == 0:
+            for i in range(6):
+                grid = self.generation()
+                button = PieceButton(grid=grid)
+                self.piece_button.append(button)
+                self.add_widget(button)
+        else:
+            self.level = LEVELS.get(self.id_level)
+            self.piece_button = []
+            for piece in self.level["Pieces"]:
+                button = PieceButton(grid=piece["Grid"])
+                self.piece_button.append(button)
+                self.add_widget(button)
     
     def generation(self):
         color = random.randint(1, 6)
@@ -299,9 +308,11 @@ class GridPiece(GridLayout):
         return new_grid
 
 class MyScrollView(ScrollView):
+    id_level = NumericProperty(0)
+    
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.grid_piece = GridPiece()
+        self.grid_piece = GridPiece(id_level=self.id_level)
         self.add_widget(self.grid_piece)
         Clock.schedule_interval(self.loop, 1/60)
     
@@ -310,9 +321,11 @@ class MyScrollView(ScrollView):
 
 
 class ZonePieces(BoxLayout):
+    id_level = NumericProperty(0)
+    
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.my_scroll_view = MyScrollView()
+        self.my_scroll_view = MyScrollView(id_level=self.id_level)
         self.add_widget(self.my_scroll_view)
         Clock.schedule_interval(self.resize, 1/60)
     
@@ -320,10 +333,17 @@ class ZonePieces(BoxLayout):
         self.height = self.parent.height - self.parent.grid_image.height - 0.15*self.parent.height
 
 
-class InfiniteGrid(RelativeLayout):
+class Grid(RelativeLayout):
+    id_level = NumericProperty(None)
+    victoire = BooleanProperty(False)
+    
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.grid = generate_grid(4)
+        if self.id_level == 0:
+            self.grid = generate_grid(4)
+        else:
+            self.level = LEVELS.get(self.id_level)
+            self.grid = self.level["Grid"]
         self.nb_l = len(self.grid)
         self.nb_c = len(self.grid[0])
         self.size_hint = (None, None)
@@ -335,9 +355,15 @@ class InfiniteGrid(RelativeLayout):
         self.height = self.width
         self.center_x = self.parent.grid_image.center_x
         self.center_y = self.parent.grid_image.center_y
-        self.nb_l = len(self.grid)
-        self.nb_c = len(self.grid[0])
         dispaly_grid(self=self, background=True, border=True, relative=True)
+        if self.id_level != 0 and not self.victoire:
+            for y in self.grid:
+                for x in y:
+                    if type(x) != int:
+                        return
+            self.victoire = True
+            self.parent.message = VictoireMessage(id_level=self.id_level)
+            self.parent.add_widget(self.parent.message)
 
 
 class Arrow(Button):
@@ -366,54 +392,77 @@ class LeftArrow(Arrow):
         return super().on_press()
 
 
-class InfinitePage(FloatLayout):
+class Page(FloatLayout):
     score = NumericProperty(0)
+    id_level = NumericProperty(None)
+    mode = ListProperty(None)
+    arrows = BooleanProperty(True)
     undo_consecutif = NumericProperty(0)
     saves = ListProperty([])
+    undo_saves = ListProperty([])
     
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.message = None
         self.current_piece = None
-        self.grid = InfiniteGrid()
-        self.zone_piece = ZonePieces()
-        self.undo_button = UndoButton()
         self.grid_image = GridImage()
-        self.score_label = ScoreCase(text=str(self.score))
+        self.grid = Grid(id_level=self.id_level)
+        self.zone_piece = ZonePieces(id_level=self.id_level)
+        self.undo_button = UndoButton()
         self.menu_button = MenuButton()
+        if self.arrows or self.id_level == 0:
+            self.add_widget(RightArrow())
+            self.add_widget(LeftArrow())
+        self.redo_button = None
+        self.score_label = None
+        if self.id_level != 0:
+            self.redo_button = RedoButton()
+            self.add_widget(self.redo_button)
+        else:
+            self.score_label = ScoreCase(text=str(self.score))
+            self.add_widget(self.score_label)
         self.add_widget(self.grid_image)
         self.add_widget(self.grid)
         self.add_widget(self.zone_piece)
         self.add_widget(self.undo_button)
-        self.add_widget(RightArrow())
-        self.add_widget(LeftArrow())
-        self.add_widget(self.score_label)
         self.add_widget(self.menu_button)
         if SETTINGS.get("Best_score")[0] == 0:
             self.message = InfoMessage(message=("Bienvenue dans le\n mode infini de Cubis !", "Dans ce mode,\nle but est de remplir le\nplus possible de grilles.", "Vous aurez à chaque fois\n6 pièces pour la remplir.","A chaque pièce posé,\nvous en regagnerez une autre.", "Le but est donc de faire\nle meilleur score possible.", "Vous avez le droit de tourner\nles pièces autant de fois\nque vous le souhaitez.", "Mais un seul retour\nen arrière possible !", "Bonne chance !"))
             self.add_widget(self.message)
+        if self.id_level == SETTINGS.get("Current_level"):
+            try:
+                message = self.level["Message"]
+                self.message = InfoMessage(message=message)
+                self.add_widget(self.message)
+            except:
+                # Il n'y a pas de messages
+                pass
         Clock.schedule_interval(self.loop, 1/60)
     
     def loop(self, *args):
-        self.undo_button.disabled = (not (len(self.saves) >= 1 or self.current_piece != None)) or (self.undo_consecutif == 1)
-        # Verifie si la grille est remplit
-        for y in self.grid.grid:
-            for x in y:
-                if type(x) != int:
-                    return
-        # Si oui, on regenère la grille suivant les tiers
-        tiers = self.zone_piece.my_scroll_view.grid_piece.tiers
-        if tiers <= 5:
-            self.grid.grid = generate_grid(4)
-        elif tiers <= 7:
-            self.grid.grid = generate_grid(5)
-        elif tiers <= 9:
-            self.grid.grid = generate_grid(6)
-        elif tiers <= 11:
-            self.grid.grid = generate_grid(7)
+        if self.id_level == 0:
+            self.undo_button.disabled = (not (len(self.saves) >= 1 or self.current_piece != None)) or (self.undo_consecutif == 1)
+            # Verifie si la grille est remplit
+            for y in self.grid.grid:
+                for x in y:
+                    if type(x) != int:
+                        return
+            # Si oui, on regenère la grille suivant les tiers
+            tiers = self.zone_piece.my_scroll_view.grid_piece.tiers
+            if tiers <= 5:
+                self.grid.grid = generate_grid(4)
+            elif tiers <= 7:
+                self.grid.grid = generate_grid(5)
+            elif tiers <= 9:
+                self.grid.grid = generate_grid(6)
+            elif tiers <= 11:
+                self.grid.grid = generate_grid(7)
+            else:
+                self.grid.grid = generate_grid(8)
+            self.saves = []
         else:
-            self.grid.grid = generate_grid(8)
-        self.saves = []
+            self.redo_button.disabled = len(self.undo_saves) < 1
+            self.undo_button.disabled = not (len(self.saves) >= 1 or self.current_piece != None)
     
     def on_touch_up(self, touch):
         if self.message:
@@ -436,13 +485,14 @@ class InfinitePage(FloatLayout):
                                 if abs(x_piece - x_grid) < self.marg and abs(y_piece - y_grid) < self.marg and (self.grid.grid[y_g][x_g] == None or (self.grid.grid[y_g][x_g] == str(self.current_piece.grid[y_p][x_p]) and type(self.grid.grid[y_g][x_g]) == str)):
                                     self.grid.grid[y_g][x_g] = self.current_piece.grid[y_p][x_p]
             self.remove_widget(self.current_piece)
-            score = 0
-            for y in self.current_piece.grid:
-                for x in y:
-                    if x != None:
-                        score += 1
-            self.score += score * score
-            self.score_label.text = str(self.score)
+            if self.id_level == 0:
+                score = 0
+                for y in self.current_piece.grid:
+                    for x in y:
+                        if x != None:
+                            score += 1
+                self.score += score * score
+                self.score_label.text = str(self.score)
             piece_find = False
             while not piece_find:
                 for piece in self.zone_piece.my_scroll_view.grid_piece.piece_button:
@@ -452,40 +502,87 @@ class InfinitePage(FloatLayout):
                         self.zone_piece.my_scroll_view.grid_piece.remove_widget(piece)
                 self.left()
             self.current_piece = None
-            grid = self.zone_piece.my_scroll_view.grid_piece.generation()
-            button = PieceButton(grid=grid)
-            self.zone_piece.my_scroll_view.grid_piece.piece_button.append(button)
-            self.zone_piece.my_scroll_view.grid_piece.add_widget(button)
+            if self.id_level ==0:
+                grid = self.zone_piece.my_scroll_view.grid_piece.generation()
+                button = PieceButton(grid=grid)
+                self.zone_piece.my_scroll_view.grid_piece.piece_button.append(button)
+                self.zone_piece.my_scroll_view.grid_piece.add_widget(button)
     
-    def save(self):
+    def save(self, redo=False):
+        if self.id_level == 0:
+            grid = copy.deepcopy(self.grid.grid)
+            score = copy.deepcopy(self.score)
+            pieces = []
+            for piece in self.zone_piece.my_scroll_view.grid_piece.piece_button:
+                pieces.append(piece.grid)
+            if self.undo_consecutif == 1:
+                self.undo_consecutif = 0
+            else:
+                self.saves.append((grid, pieces, score))
+            if len(self.saves) > 1:
+                self.saves.pop(0)
+        else:
+            if not redo:
+                self.undo_saves = []
+            grid = copy.deepcopy(self.grid.grid)
+            pieces = []
+            for piece in self.zone_piece.my_scroll_view.grid_piece.piece_button:
+                pieces.append(piece.grid)
+            self.saves.append((grid, pieces))
+    
+    def undo_save(self):
         grid = copy.deepcopy(self.grid.grid)
-        score = copy.deepcopy(self.score)
         pieces = []
         for piece in self.zone_piece.my_scroll_view.grid_piece.piece_button:
             pieces.append(piece.grid)
-        if self.undo_consecutif == 1:
-            self.undo_consecutif = 0
-        else:
-            self.saves.append((grid, pieces, score))
-        if len(self.saves) > 1:
-            self.saves.pop(0)
+        self.undo_saves.append((grid, pieces))
     
     def undo(self):
-        if self.current_piece:
+        if self.id_level == 0:
+            if self.current_piece:
+                self.remove_widget(self.current_piece)
+                self.current_piece = None
+                return
+            self.undo_consecutif = 1
+            self.grid.grid = self.saves[-1][0]
+            self.zone_piece.my_scroll_view.grid_piece.piece_button = []
+            self.zone_piece.my_scroll_view.grid_piece.clear_widgets()
+            for piece in self.saves[-1][1]:
+                button = PieceButton(grid=piece)
+                self.zone_piece.my_scroll_view.grid_piece.piece_button.append(button)
+                self.zone_piece.my_scroll_view.grid_piece.add_widget(button)
+            self.score = self.saves[-1][2]
+            self.score_label.text = str(self.score)
+            self.saves.pop(-1)
+        else:
+            if self.current_piece:
+                self.remove_widget(self.current_piece)
+                self.current_piece = None
+                return
+            self.undo_save()
+            self.grid.grid = self.saves[-1][0]
+            self.zone_piece.my_scroll_view.grid_piece.piece_button = []
+            self.zone_piece.my_scroll_view.grid_piece.clear_widgets()
+            for grid in self.saves[-1][1]:
+                button = PieceButton(grid=grid)
+                self.zone_piece.my_scroll_view.grid_piece.piece_button.append(button)
+                self.zone_piece.my_scroll_view.grid_piece.add_widget(button)
+            self.saves.pop(-1)
+    
+    def redo(self):
+        if self.current_piece != None:
             self.remove_widget(self.current_piece)
             self.current_piece = None
             return
-        self.undo_consecutif = 1
-        self.grid.grid = self.saves[-1][0]
+        self.save(redo=True)
+        self.grid.grid = copy.deepcopy(self.undo_saves[-1][0])
         self.zone_piece.my_scroll_view.grid_piece.piece_button = []
         self.zone_piece.my_scroll_view.grid_piece.clear_widgets()
-        for piece in self.saves[-1][1]:
-            button = PieceButton(grid=piece)
+        for grid in self.undo_saves[-1][1]:
+            button = PieceButton(grid=grid)
             self.zone_piece.my_scroll_view.grid_piece.piece_button.append(button)
             self.zone_piece.my_scroll_view.grid_piece.add_widget(button)
-        self.score = self.saves[-1][2]
-        self.score_label.text = str(self.score)
-        self.saves.pop(-1)
+        self.undo_saves.pop(-1)
     
     def change_current_piece(self, grid):
         if self.current_piece != None:
@@ -495,7 +592,7 @@ class InfinitePage(FloatLayout):
 
     def message_push(self):
         if not self.message:
-            self.message = MenuMessage(score=self.score)
+            self.message = MenuMessage(score=self.score, id_level=self.id_level)
             self.add_widget(self.message)
         
     def message_pop(self):
@@ -535,17 +632,23 @@ class InfinitePage(FloatLayout):
 
 
 class InfiniteGame(Screen):
-    id_level = NumericProperty(0)
-    
-    def __init__(self, **kw):
-        super().__init__(**kw)
-        self.restart(self.id_level)
+    id_level = NumericProperty(None)
     
     def restart(self, id_level):
         self.clear_widgets()
         self.id_level = id_level
         self.my_float = FloatLayout()
-        self.page = InfinitePage()
-        self.my_float.add_widget(Image(source="images/backgrounds/space.jpg", fit_mode="cover"))
+        if id_level == 0:
+            self.page = Page(id_level=self.id_level)
+            self.background = "images/backgrounds/space.jpg"
+        else:
+            for area in AREAS.get("all"):
+                for level in area["Levels"]:
+                    if level["Id"] == self.id_level:
+                        self.mode = level["Mode"]
+                        self.background = area["Background"]
+            self.arrows = "Rotation" in self.mode
+            self.page = Page(arrows=self.arrows, id_level=self.id_level, mode=self.mode)
+        self.my_float.add_widget(Image(source=self.background, fit_mode="cover"))
         self.my_float.add_widget(self.page)
         self.add_widget(self.my_float)
