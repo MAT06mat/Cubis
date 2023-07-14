@@ -8,6 +8,7 @@ from kivy.metrics import dp
 from random import randint
 
 from data import SETTINGS
+from src.base import Loop
 
 
 class MusicSlider(Slider):
@@ -28,11 +29,7 @@ class EffectSlider(Slider):
         SETTINGS.modify("Effect", int(self.value))
 
 
-class SettingImage(Image):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        Clock.schedule_interval(self.loop, 1/60)
-        
+class SettingImage(Image, Loop):
     def loop(self, *args):
         if self.parent.width < self.parent.height:
             self.width = self.parent.width
@@ -41,26 +38,16 @@ class SettingImage(Image):
         self.height = self.width
 
 
-class Logo(Image):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.on_window_resize()
-        Window.bind(on_resize=self.on_window_resize)
-        
-    def on_window_resize(self, *args):
+class Logo(Image, Loop):   
+    def loop(self, *args):
         self.width = Window.width - dp(30)
         self.height = self.width / 1160 * 343
         while self.height > 0.3 * Window.height:
             self.height -= 1
 
 
-class MenuBoxLayout(BoxLayout):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.on_window_resize()
-        Window.bind(on_resize=self.on_window_resize)
-    
-    def on_window_resize(self, *args):
+class MenuBoxLayout(BoxLayout, Loop):
+    def loop(self, *args):
         self.width = Window.width - dp(50)
         self.height = self.width / 1289 * 958
         while self.height > 0.6 * Window.height:
@@ -69,15 +56,13 @@ class MenuBoxLayout(BoxLayout):
             self.width -= 1
 
 
-class CenterBoxLayout(BoxLayout):
+class CenterBoxLayout(BoxLayout, Loop):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.size_hint = (None, None)
         self.orientation = "vertical"
-        self.on_window_resize()
-        Window.bind(on_resize=self.on_window_resize)
     
-    def on_window_resize(self, *args):
+    def loop(self, *args):
         try:
             width = self.children[0].width
             self.width = width
@@ -86,9 +71,6 @@ class CenterBoxLayout(BoxLayout):
         except:
             pass
         self.spacing = (Window.height - self.height) / 5
-    
-    def on_kv_post(self, base_widget):
-        self.on_window_resize()
 
 
 class CreditLabel(Label):

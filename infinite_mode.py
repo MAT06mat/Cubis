@@ -12,7 +12,7 @@ from src.base import Loop
 Builder.load_file("infinite_mode.kv")
 
 
-class ScoreLabel(Label, Loop):
+class ScoreListLabel(Label, Loop):
     def loop(self, *args):
         # add 0 before the score to have a 4-digit number
         self.best_score = SETTINGS.get("Best_score")
@@ -29,7 +29,7 @@ class ScoreLabel(Label, Loop):
         return text
 
 
-class Score(RelativeLayout, Loop):
+class ScoreLayout(RelativeLayout, Loop):
     def loop(self, *args):
         self.width = Window.width - dp(30)
         self.height = self.width / 1894 * 1400
@@ -39,7 +39,7 @@ class Score(RelativeLayout, Loop):
             self.width -= 1
 
 
-class PlayButton(Button, Loop):
+class PlayInfiniteModeButton(Button, Loop):
     def loop(self, *args):
         self.width = Window.width - dp(30)
         self.height = self.width / 1192 * 501
