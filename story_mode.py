@@ -6,12 +6,17 @@ from kivy.uix.scrollview import ScrollView
 from kivy.uix.tabbedpanel import TabbedPanel, TabbedPanelItem
 from kivy.properties import NumericProperty, ListProperty, StringProperty, ObjectProperty, DictProperty
 from kivy.uix.floatlayout import FloatLayout
-from kivy.clock import Clock
 
+from src.base import Loop, MyBackgroundImage
 from message import PlayMessage, InfoMessage
 from data import SETTINGS, AREAS
 
 Builder.load_file("story_mode.kv")
+
+
+global tuto
+tuto = True
+BACKGROUND_IMAGE = MyBackgroundImage()
 
 
 class Level(Button):
@@ -71,9 +76,9 @@ class MyScrollView(ScrollView):
     
     def update_from_scroll(self, *largs):
         if tuto:
-            background_image.children[0].pos_hint = {"x": 0}
+            BACKGROUND_IMAGE.children[0].pos_hint = {"x": 0}
         else:
-            background_image.children[0].pos_hint = {"x": -self.scroll_x/100*self.nb_levels-0.25}
+            BACKGROUND_IMAGE.children[0].pos_hint = {"x": -self.scroll_x/100*self.nb_levels-0.25}
         return super().update_from_scroll(*largs)
 
 
@@ -88,19 +93,19 @@ class TabItem(TabbedPanelItem):
         self.add_widget(self.scroll_view)
     
     def on_press(self):
-        background_image.clear_widgets()
-        background_image.add_widget(Image(source=self.image, fit_mode="cover", mipmap=True))
+        BACKGROUND_IMAGE.clear_widgets()
+        BACKGROUND_IMAGE.add_widget(Image(source=self.image, fit_mode="cover", mipmap=True))
         global tuto
         if self.text == "Tutoriel":
             tuto = True
-            background_image.size_hint = (1, 1)
+            BACKGROUND_IMAGE.size_hint = (1, 1)
         else:
             tuto = False
-            background_image.size_hint = (4, 1)
+            BACKGROUND_IMAGE.size_hint = (4, 1)
         return super().on_press()
-    
 
-class StoryMode(TabbedPanel):
+
+class StoryMode(TabbedPanel, Loop):
     level = NumericProperty(0)
     tabs = ListProperty([])
     
@@ -114,10 +119,9 @@ class StoryMode(TabbedPanel):
                 self.add_widget(new_TabbedPanelItem)
             self.level += len(area["Levels"])
         # Wait the loop in top is end
-        Clock.schedule_once(self.change_tab, 0.1)
-        Clock.schedule_interval(self.loop, 1/60)
+        self.change_tab()
     
-    def change_tab(self, dt):
+    def change_tab(self):
         for area in AREAS.get("all"):
             for level in area["Levels"]:
                 for tab in self.tabs:
@@ -131,20 +135,13 @@ class StoryMode(TabbedPanel):
         self.current_tab.color = "#F3E2DB"
 
 
-class MyBackgroundImage(FloatLayout):
-    pass
-
-
 class StoryModeFloat(FloatLayout):
     message = None
     story_mode = ObjectProperty(StoryMode())
     
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        global background_image, tuto
-        tuto = True
-        background_image = MyBackgroundImage()
-        self.add_widget(background_image)
+        self.add_widget(BACKGROUND_IMAGE)
         self.add_widget(self.story_mode)
     
     def reset(self):

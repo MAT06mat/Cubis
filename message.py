@@ -8,7 +8,7 @@ from kivy.properties import NumericProperty, ListProperty, StringProperty
 from kivy.clock import Clock
 from kivy.metrics import dp
 
-from infinite_mode import Cadre
+from src.base import Cadre
 from data import AREAS, SETTINGS
 
 Builder.load_file("message.kv")

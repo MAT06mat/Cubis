@@ -2,7 +2,6 @@ from kivy.lang import Builder
 from kivy.core.window import Window
 from kivy.uix.label import Label
 from kivy.uix.button import Button
-from kivy.uix.image import Image
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.relativelayout import RelativeLayout
 from kivy.metrics import dp
@@ -11,10 +10,6 @@ from data import SETTINGS
 from src.base import Loop
 
 Builder.load_file("infinite_mode.kv")
-
-
-class Cadre(Image):
-    pass
 
 
 class ScoreLabel(Label, Loop):
@@ -32,8 +27,8 @@ class ScoreLabel(Label, Loop):
         while len(text) < 4:
             text = "0" + text
         return text
-        
-        
+
+
 class Score(RelativeLayout, Loop):
     def loop(self, *args):
         self.width = Window.width - dp(30)
@@ -42,7 +37,7 @@ class Score(RelativeLayout, Loop):
             self.height -= 1
         while self.width / 1894 * 1400 > self.height:
             self.width -= 1
-    
+
 
 class PlayButton(Button, Loop):
     def loop(self, *args):
@@ -52,7 +47,6 @@ class PlayButton(Button, Loop):
             self.height -= 1
         while self.width / 1192 * 501 > self.height:
             self.width -= 1
-            
 
 
 class InfiniteMode(FloatLayout):
