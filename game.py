@@ -400,7 +400,7 @@ class Page(FloatLayout, Loop):
             self.add_widget(self.message)
         if self.id_level == SETTINGS.get("Current_level"):
             try:
-                message = self.level["Message"]
+                message = LEVELS.get(self.id_level)["Message"]
                 self.message = InfoMessage(message=message)
                 self.add_widget(self.message)
             except:
