@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: "Felten"
+    given-names: "Matthieu"
+    orcid: "https://orcid.org/0009-0000-4148-0387"
+title: "Cubis"
+version: 1.0
+date-released: 2023
+url: "https://github.com/MAT06mat/Cubis"
