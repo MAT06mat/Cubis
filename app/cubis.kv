@@ -8,6 +8,9 @@
 
 <MyScreenManager>:
     Screen:
+        name: "StartPage"
+        StartPage:
+    Screen:
         name: "MainMenu"
         MainMenu:
     Screen:
@@ -30,6 +33,23 @@
     TransitionScreen:
         name: "TransitionScreen"
 
+
+<StartPage@FloatLayout>:
+    Image:
+        source: "images/backgrounds/start.jpg"
+        fit_mode: "cover"
+    StartLabel:
+        color: (1, 1, 1, 0)
+        font_name: "fonts/Coda-Regular.ttf"
+        text: "Cliquer pour jouer"
+        pos_hint: {"center_x": 0.5, "center_y": 0.5}
+        size_hint: (None, None)
+    Button:
+        size_hint: (1, 1)
+        background_normal: ""
+        background_down: ""
+        background_color: (0, 0, 0, 0)
+        on_press: app.manager.push("MainMenu")
 
 <MainMenu@FloatLayout>:
     Image:
@@ -57,11 +77,11 @@
                 Button:
                     background_normal: "images/buttons/story_mode.png"
                     background_down: "images/buttons/story_mode.png"
-                    on_press: app.manager.push("StoryMode")
+                    on_press: app.manager.push("StoryMode", transition_screen=False)
                 Button:
                     background_normal: "images/buttons/infinite_mode.png"
                     background_down: "images/buttons/infinite_mode.png"
-                    on_press: app.manager.push("InfiniteMode")
+                    on_press: app.manager.push("InfiniteMode", transition_screen=False)
 
 
 <Setting@FloatLayout>:
@@ -138,8 +158,6 @@
         background_normal: "images/buttons/left2.png"
         background_down: "images/buttons/left2.png"
         on_press: app.manager.pop(transition_screen=False)
-
-
 
 <Credits@FloatLayout>:
     Button:

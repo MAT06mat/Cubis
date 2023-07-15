@@ -56,6 +56,31 @@ class MenuBoxLayout(BoxLayout, Loop):
             self.width -= 1
 
 
+class StartLabel(Label, Loop):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.o = 0
+        self.timer = 0
+    
+    def loop(self, *args):
+        self.timer += 1
+        if self.timer > 120:
+            if self.o == -30:
+                self.o = 30
+            if self.o == 100:
+                self.o = -100
+                self.timer = 0
+            self.o += 1
+            self.color = (1, 1, 1, abs(self.o)/100)
+        self.font_size = Window.width / 10
+        self.width = Window.width - dp(20)
+        self.height = self.width / 1289 * 554
+        while self.height > 0.6 * Window.height:
+            self.height -= 1
+        while self.width / 1289 * 554 > self.height:
+            self.width -= 1
+
+
 class CenterBoxLayout(BoxLayout, Loop):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
