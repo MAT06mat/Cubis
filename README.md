@@ -1,6 +1,15 @@
-# Cubis
-- Ce que le projet fait
-- Pourquoi le projet est utile
-- Prise en main du projet par les utilisateurs
-- Où les utilisateurs peuvent obtenir de l’aide sur votre projet
-- Qui maintient et contribue au projet
+# Cubis 🎮
+
+## Overview
+Cubis is a mobile application that falls under the category of "Puzzle Games". It challenges players with various intriguing puzzles that require careful thinking and strategy.
+
+## Getting Started
+To try out the latest version of this game, you can install it from the "/bin" directory.
+
+## Support and Feedback
+For any questions or assistance with the game, feel free to reach out to me at mat06mat22@gmail.com. I'll be more than happy to help!
+
+## Project Maintainer and Contributors
+I am the sole contributor to this project (MAT06mat). Your feedback and contributions are always welcome! 🤝
+
+Please note that emojis have been used subtly to enhance readability without overwhelming the content. If you have any suggestions or ideas to improve the game, don't hesitate to share them! 😊
