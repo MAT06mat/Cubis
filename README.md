@@ -11,5 +11,3 @@ For any questions or assistance with the game, feel free to reach out to me at m
 
 ## Project Maintainer and Contributors
 I am the sole contributor to this project (MAT06mat). Your feedback and contributions are always welcome! 🤝
-
-Please note that emojis have been used subtly to enhance readability without overwhelming the content. If you have any suggestions or ideas to improve the game, don't hesitate to share them! 😊
