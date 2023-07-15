@@ -6,10 +6,14 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.relativelayout import RelativeLayout
 from kivy.metrics import dp
 
-from data import SETTINGS
-from src.base import Loop
+from models.data import SETTINGS
+from models.loop import Loop
 
-Builder.load_file("infinite_mode.kv")
+import os
+
+current_directory = os.path.dirname(os.path.realpath(__file__))
+kv_file_path = os.path.join(current_directory, "../views/infinite_mode.kv")
+Builder.load_file(kv_file_path)
 
 
 class ScoreListLabel(Label, Loop):

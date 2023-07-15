@@ -2,8 +2,7 @@ from kivy.app import App
 from kivy.properties import ObjectProperty
 from kivy.core.window import Window
 
-from navigation_sreen_manager import NavigationScreenManager
-
+from controllers.navigation_sreen_manager import NavigationScreenManager
 
 class MyScreenManager(NavigationScreenManager):
     pass

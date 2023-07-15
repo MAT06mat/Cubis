@@ -14,14 +14,17 @@ from kivy.graphics.vertex_instructions import Line, Rectangle
 from kivy.graphics import Color
 from kivy.metrics import dp
 
-from src.base import Loop
-from message import MenuMessage, InfoMessage, VictoireMessage
-from data import SETTINGS, PIECES, AREAS, LEVELS
+from models.loop import Loop
+from controllers.message import MenuMessage, InfoMessage, VictoireMessage
+from models.data import SETTINGS, PIECES, AREAS, LEVELS
 
+import os
 import copy
 import random
 
-Builder.load_file("game.kv")
+current_directory = os.path.dirname(os.path.realpath(__file__))
+kv_file_path = os.path.join(current_directory, "../views/game.kv")
+Builder.load_file(kv_file_path)
 
 COLOR = ((0.65, 0.65, 0.65), (1, 0, 0), (0, 0, 1), (0, 1, 0), (1, 1, 0), (1, 0, 1), (0, 1, 1))
 
@@ -155,6 +158,7 @@ class CurrentPiece(RelativeLayout, Loop):
         self.loop(self, None)
         self.delta_pos = (self.width/2, self.height/2)
         self.pos = (Window.mouse_pos[0] - self.delta_pos[0], Window.mouse_pos[1] - self.delta_pos[1])
+        Window.bind(on_resize=self.on_window_resize)
     
     def loop(self, *args):
         try:
@@ -163,8 +167,10 @@ class CurrentPiece(RelativeLayout, Loop):
             self.size_line = dp(50)
         self.width = self.nb_c*self.size_line
         self.height = self.nb_l*self.size_line
-        self.pos = (Window.width/2-self.width/2, Window.height/2-self.width/2)
         dispaly_grid(self, relative=True)
+    
+    def on_window_resize(self, *args):
+        self.pos = (Window.width/2-self.width/2, Window.height/2-self.width/2)
     
     def on_touch_down(self, touch):
         if self.parent.message != None:
@@ -599,7 +605,7 @@ class Page(FloatLayout, Loop):
             self.current_piece.left()
 
 
-class InfiniteGame(Screen):
+class Game(Screen):
     id_level = NumericProperty(None)
     
     def restart(self, id_level):

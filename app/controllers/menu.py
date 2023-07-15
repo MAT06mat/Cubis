@@ -7,8 +7,8 @@ from kivy.clock import Clock
 from kivy.metrics import dp
 from random import randint
 
-from data import SETTINGS
-from src.base import Loop
+from models.data import SETTINGS
+from models.loop import Loop
 
 
 class MusicSlider(Slider):

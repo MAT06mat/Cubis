@@ -7,11 +7,16 @@ from kivy.uix.tabbedpanel import TabbedPanel, TabbedPanelItem
 from kivy.properties import NumericProperty, ListProperty, StringProperty, ObjectProperty, DictProperty
 from kivy.uix.floatlayout import FloatLayout
 
-from src.base import Loop, MyBackgroundImage
-from message import PlayMessage, InfoMessage
-from data import SETTINGS, AREAS
+from models.loop import Loop
+from models.background_image import MyBackgroundImage
+from models.data import SETTINGS, AREAS
+from controllers.message import PlayMessage, InfoMessage
 
-Builder.load_file("story_mode.kv")
+import os
+
+current_directory = os.path.dirname(os.path.realpath(__file__))
+kv_file_path = os.path.join(current_directory, "../views/story_mode.kv")
+Builder.load_file(kv_file_path)
 
 
 global tuto

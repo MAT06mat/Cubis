@@ -2,7 +2,7 @@ import json
 
 
 class Data:
-    path = "datas/"
+    path = "data/"
     path_rel = None
     
     def get(self, key: str):

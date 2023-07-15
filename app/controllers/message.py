@@ -8,10 +8,14 @@ from kivy.properties import NumericProperty, ListProperty, StringProperty
 from kivy.clock import Clock
 from kivy.metrics import dp
 
-from src.base import Cadre
-from data import AREAS, SETTINGS
+from models.cadre import Cadre
+from models.data import AREAS, SETTINGS
 
-Builder.load_file("message.kv")
+import os
+
+current_directory = os.path.dirname(os.path.realpath(__file__))
+kv_file_path = os.path.join(current_directory, "../views/message.kv")
+Builder.load_file(kv_file_path)
 
 
 class PlayButtonStory(Button):
