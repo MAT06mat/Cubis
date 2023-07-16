@@ -8,8 +8,8 @@ from kivy.properties import NumericProperty, ListProperty, StringProperty
 from kivy.clock import Clock
 from kivy.metrics import dp
 
-from models.cadre import Cadre
-from models.data import AREAS, SETTINGS
+from app.models.cadre import Cadre
+from app.models.data import AREAS, SETTINGS
 
 import os
 

@@ -7,10 +7,10 @@ from kivy.uix.tabbedpanel import TabbedPanel, TabbedPanelItem
 from kivy.properties import NumericProperty, ListProperty, StringProperty, ObjectProperty, DictProperty
 from kivy.uix.floatlayout import FloatLayout
 
-from models.loop import Loop
-from models.background_image import MyBackgroundImage
-from models.data import SETTINGS, AREAS
-from controllers.message import PlayMessage, InfoMessage
+from app.models.loop import Loop
+from app.models.background_image import MyBackgroundImage
+from app.models.data import SETTINGS, AREAS
+from app.controllers.message import PlayMessage, InfoMessage
 
 import os
 

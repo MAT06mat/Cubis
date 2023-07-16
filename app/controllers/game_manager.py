@@ -14,9 +14,9 @@ from kivy.graphics.vertex_instructions import Line, Rectangle
 from kivy.graphics import Color
 from kivy.metrics import dp
 
-from models.loop import Loop
-from controllers.message import MenuMessage, InfoMessage, VictoireMessage
-from models.data import SETTINGS, PIECES, AREAS, LEVELS
+from app.models.loop import Loop
+from app.controllers.message import MenuMessage, InfoMessage, VictoireMessage
+from app.models.data import SETTINGS, PIECES, AREAS, LEVELS
 
 import os
 import copy
