@@ -69,9 +69,9 @@ def dispaly_grid(self, background=False, border=False, relative=False):
                     else:
                         Color(*COLOR[int(self.grid[y][x])])
                     if not relative:
-                        Rectangle(pos=(self.x+get_min_x(self)+x*self.size_line,self.y+get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), source="images/elements/bloc.png")
+                        Rectangle(pos=(self.x+get_min_x(self)+x*self.size_line,self.y+get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), source="../images/elements/bloc.png")
                     else:
-                        Rectangle(pos=(get_min_x(self)+x*self.size_line,get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), source="images/elements/bloc.png")
+                        Rectangle(pos=(get_min_x(self)+x*self.size_line,get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), source="../images/elements/bloc.png")
         if background and not relative:
             self.background_debug.size = (self.width, self.height)
             self.background_debug.pos = self.pos
@@ -614,7 +614,7 @@ class Game(Screen):
         self.my_float = FloatLayout()
         if id_level == 0:
             self.page = Page(id_level=self.id_level)
-            self.background = "images/backgrounds/space.jpg"
+            self.background = "../images/backgrounds/space.jpg"
         else:
             for area in AREAS.get("all"):
                 for level in area["Levels"]:

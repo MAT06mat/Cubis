@@ -42,13 +42,13 @@ class Level(Button):
         # if id%5 : change style of button on square
         if self.disabled:
             if self.id % 5 == 0:
-                self.background_disabled_normal = "images/buttons/special_level_disabled.png"
+                self.background_disabled_normal = "../images/buttons/special_level_disabled.png"
             else:
-                self.background_disabled_normal = "images/buttons/level_disabled.png"
+                self.background_disabled_normal = "../images/buttons/level_disabled.png"
             self.color = (1, 1, 1, 0)
         if self.id % 5 == 0:
-            self.background_normal = "images/buttons/special_level.png"
-            self.background_down = "images/buttons/special_level.png"
+            self.background_normal = "../images/buttons/special_level.png"
+            self.background_down = "../images/buttons/special_level.png"
         
         # put 1/2 on top and 1/2 on bottom
         global level_height
