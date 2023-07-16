@@ -10,7 +10,7 @@ class MyScreenManager(NavigationScreenManager):
 
 class CubisApp(App):
     manager = ObjectProperty(None)
-    icon = "../images/app/logo.png"
+    icon = "images/app/logo.png"
     
     def build(self):
         Window.clearcolor = (1, 1, 1, 1)
