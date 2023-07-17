@@ -2,24 +2,24 @@
     size_hint: (0.75, None)
     height: self.width/1192*501
     pos_hint: {"center_x": 0.5, "center_y": 0.3}
-    background_normal: "../images/buttons/play.png"
-    background_down: "../images/buttons/play.png"
+    background_normal: "images/buttons/play.png"
+    background_down: "images/buttons/play.png"
     on_press: app.manager.start_level(self.id_level)
 
 <Back>:
-    background_normal: "../images/buttons/croix.png"
-    background_down: "../images/buttons/croix.png"
+    background_normal: "images/buttons/croix.png"
+    background_down: "images/buttons/croix.png"
     size_hint: (None, None)
     pos_hint: {"right": 0.94, "top": 0.92}
 
 <Title>:
     color: "#59173D"
     pos_hint: {"center_x": 0.5, "center_y": 0.8}
-    font_name: "../fonts/Forum-Regular.otf"
+    font_name: "fonts/Forum-Regular.otf"
 
 <Texte>:
     color: "#59173D"
-    font_name: "../fonts/Forum-Regular.otf"
+    font_name: "fonts/Forum-Regular.otf"
 
 <PlayMessage>:
     pos_hint: {"center_x": 0.5, "center_y": 0.5}
@@ -36,8 +36,8 @@
 <SettingButton>:
     size_hint: (None, None)
     pos_hint: {"center_x": 0.5}
-    background_normal: "../images/buttons/setting.png"
-    background_down: "../images/buttons/setting.png"
+    background_normal: "images/buttons/setting.png"
+    background_down: "images/buttons/setting.png"
     on_press: app.manager.push("Setting", transition_screen=False)
 
 <QuitButton>:
@@ -46,8 +46,8 @@
 
 <ResetButton>:
     size_hint: (None, None)
-    background_normal: "../images/buttons/reset.png"
-    background_down: "../images/buttons/reset.png"
+    background_normal: "images/buttons/reset.png"
+    background_down: "images/buttons/reset.png"
     on_press: app.manager.start_level(self.id_level, transition_screen=False)
 
 <InfoMessage>:
@@ -64,7 +64,7 @@
         text: "Suivant"
         font_size: self.width/10
         color: "#A04623"
-        font_name: "../fonts/Coda-Regular.ttf"
-        background_normal: "../images/buttons/2.png"
-        background_down: "../images/buttons/2.png"
+        font_name: "fonts/Coda-Regular.ttf"
+        background_normal: "images/buttons/2.png"
+        background_down: "images/buttons/2.png"
         on_press: root.next()
