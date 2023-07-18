@@ -95,7 +95,7 @@ class NavigationScreenManager(ScreenManager):
                     SETTINGS.modify("Current_level", current_level+1)
                 for screen in self.screens:
                     if screen.name == "StoryMode":
-                        screen.children[0].children[0].reset()
+                        screen.children[0].children[0].reset(current_level=self.game.id_level)
             self.pop(transition_screen=transition_screen)
             self.level = False
             
