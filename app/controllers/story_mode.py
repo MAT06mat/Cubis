@@ -145,8 +145,8 @@ class StoryModeFloat(FloatLayout):
         self.add_widget(BACKGROUND_IMAGE)
         self.add_widget(self.story_mode)
     
-    def reset(self, current_level):
-        if SETTINGS.get("Current_level") == current_level:
+    def reset(self, level):
+        if SETTINGS.get("Current_level") == level:
             self.clear_widgets()
             self.add_widget(BACKGROUND_IMAGE)
             self.story_mode = StoryMode()
