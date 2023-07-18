@@ -20,13 +20,13 @@
       { "Id": 9, "Mode": ["Blocks dur"] },
       { "Id": 10, "Mode": ["Rotation", "Motifs"] },
       { "Id": 11, "Mode": ["Rotation"] },
-      { "Id": 12, "Mode": ["Classique"] },
+      { "Id": 12, "Mode": ["Rotation"] },
       { "Id": 13, "Mode": ["Rotation", "Blocks dur"] },
       { "Id": 14, "Mode": ["Rotation"] },
       { "Id": 15, "Mode": ["Blocks dur"] },
       { "Id": 16, "Mode": ["Rotation", "Blocks dur"] },
       { "Id": 17, "Mode": ["Classique"] },
-      { "Id": 18, "Mode": ["Rotation"] },
+      { "Id": 18, "Mode": ["Classique"] },
       { "Id": 19, "Mode": ["Blocks dur"] },
       { "Id": 20, "Mode": ["Motifs"] }
     ]
