@@ -131,8 +131,8 @@ class ScoreCase(Label, Loop):
     def loop(self, *args):
         self.x = self.parent.menu_button.x - self.width
         self.y = Window.height - self.height*0.9
-        self.background_r.size = (self.size[0], self.size[1]*0.6)
-        self.background_r.pos = (self.pos[0], self.pos[1]+self.size[1]*0.2)
+        self.background_r.size = (self.size[0], self.size[1]*0.5)
+        self.background_r.pos = (self.center_x-self.background_r.size[0]/2, self.center_y-self.background_r.size[1]/2)
     
 
 class MenuButton(Button, Loop):
