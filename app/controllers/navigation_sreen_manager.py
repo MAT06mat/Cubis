@@ -3,15 +3,34 @@ from kivy.uix.screenmanager import ScreenManager, FadeTransition
 from kivy.uix.screenmanager import Screen
 from kivy.properties import ListProperty, ObjectProperty
 
+from app.models.loop import Loop
 from app.controllers.game_manager import Game
 from app.models.data import SETTINGS
 
 
-class TransitionScreen(Screen):
+class TransitionScreen(Screen, Loop):
+    delay = None
+    timer = 0
+    
     def on_enter(self, *args):
         app = App.get_running_app()
-        app.manager.suivant()
+        if app.manager.delay == 0:
+            app.manager.suivant()
+        else:
+            self.delay = app.manager.delay
         return super().on_enter(*args)
+
+    def loop(self, *args):
+        if self.delay:
+            self.timer += 1
+            if self.timer > self.delay:
+                app = App.get_running_app()
+                app.manager.suivant()
+                self.delay = None
+        else:
+            self.timer = 0
+            
+        
 
 
 class NavigationScreenManager(ScreenManager):
@@ -32,27 +51,31 @@ class NavigationScreenManager(ScreenManager):
             self.transition = FadeTransition(duration=0)
             self.current = screen_name
     
-    def push(self, screen_name, transition_screen=True):
+    def push(self, screen_name, transition_screen=True, delay=0):
+        self.delay = delay
         if screen_name not in self.screen_stack:
             self.screen_stack.append(self.current)
             self.change_transition(transition_screen, screen_name)
             self.next_current = screen_name
 
-    def pop(self, transition_screen=True):
+    def pop(self, transition_screen=True, delay=0):
+        self.delay = delay
         if len(self.screen_stack) > 0:
             screen_name = self.screen_stack[-1]
             del self.screen_stack[-1]
             self.change_transition(transition_screen, screen_name)
             self.next_current = screen_name
     
-    def start_level(self, id_level=0, transition_screen=True):
+    def start_level(self, id_level=0, transition_screen=True, delay=0):
+        self.delay = delay
         if self.level:
             self.pop(transition_screen=transition_screen)
         self.level = True
         self.push(self.game.name, transition_screen=transition_screen)
         self.game.restart(id_level)
 
-    def quit_level(self, transition_screen=True):
+    def quit_level(self, transition_screen=True, delay=0):
+        self.delay = delay
         if len(self.screen_stack) > 0:
             if self.game.id_level == 0:
                 SETTINGS.modify("Last_score", self.game.page.score)

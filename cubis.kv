@@ -32,6 +32,7 @@
         Credits:
     TransitionScreen:
         name: "TransitionScreen"
+        BlackScreen:
 
 
 <StartPage@FloatLayout>:
@@ -50,7 +51,7 @@
         background_normal: ""
         background_down: ""
         background_color: (0, 0, 0, 0)
-        on_press: app.manager.push("MainMenu")
+        on_press: app.manager.push("MainMenu", transition_screen=True, delay=50)
     Presplash:
         source: "images/app/presplash.png"
 
@@ -175,3 +176,11 @@
         font_size: self.parent.width/20
         pos_hint: {"center_x": 0.5, "center_y": 0.5}
         text: "Game created by MAT06mat \n\nLogo design by Livou_BAB"
+
+<BlackScreen@BoxLayout>:
+    canvas.before:
+        Color:
+            rgba: (0, 0, 0, 1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
