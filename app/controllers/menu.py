@@ -75,6 +75,7 @@ class StartButton(Button, Loop):
         super().__init__(**kwargs)
         self.timer = 200
         self.o = 100
+        self.wait = 220
         with self.canvas:
             Color(1, 1, 1, self.o/100)
             Rectangle(pos=self.pos, size=self.size)
@@ -82,38 +83,36 @@ class StartButton(Button, Loop):
     def loop(self, *args):
         self.timer -= 1
         self.o = self.timer
-        if self.timer >= 100:
+        if self.o >= 100:
             self.o = 100
         self.canvas.clear()
         with self.canvas:
             Color(1, 1, 1, self.o/100)
             Rectangle(pos=self.pos, size=self.size)
-        if self.timer < 0:
+        self.wait -= 1
+        if self.wait < 0:
             self.timer = 0
+            self.wait = 0
             self.disabled = False
     
 
 class StartLabel(Label, Loop):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.o = 0
-        self.timer = 0
-        self.wait = 100
+        self.timer = 100
+        self.wait = 230
     
     def loop(self, *args):
-        # wait is the first delay
+        # wait a the first delay
         self.wait -= 1
         if self.wait < 0:
             self.wait = 0
-            self.timer += 1
-            if self.timer > 120:
-                if self.o == -30:
-                    self.o = 30
-                if self.o == 100:
-                    self.o = -100
-                    self.timer = 0
-                self.o += 1
-                self.color = (1, 1, 1, abs(self.o)/100)
+            self.timer += 0.5
+            if self.timer == 70:
+                self.timer = 130
+            if self.timer == 200:
+                self.timer = 0
+            self.color = (1, 1, 1, abs(self.timer-100)/100)
             self.font_size = Window.width / 10
             self.width = Window.width - dp(20)
             self.height = self.width / 1289 * 554
