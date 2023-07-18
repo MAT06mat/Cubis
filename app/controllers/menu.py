@@ -58,13 +58,25 @@ class MenuBoxLayout(BoxLayout, Loop):
             self.width -= 1
 
 
+class Presplash(Image, Loop):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.timer = 102
+    
+    def loop(self, *args):
+        self.timer -= 3
+        if self.timer < 0:
+            self.timer = 0
+        self.color = (1, 1, 1, self.timer/100)
+
+
 class StartButton(Button, Loop):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.timer = 120
+        self.timer = 200
         self.o = 100
         with self.canvas:
-            Color(0, 0, 0, self.o/100)
+            Color(1, 1, 1, self.o/100)
             Rectangle(pos=self.pos, size=self.size)
     
     def loop(self, *args):
@@ -74,7 +86,7 @@ class StartButton(Button, Loop):
             self.o = 100
         self.canvas.clear()
         with self.canvas:
-            Color(0, 0, 0, self.o/100)
+            Color(1, 1, 1, self.o/100)
             Rectangle(pos=self.pos, size=self.size)
         if self.timer < 0:
             self.timer = 0
@@ -86,20 +98,25 @@ class StartLabel(Label, Loop):
         super().__init__(**kwargs)
         self.o = 0
         self.timer = 0
+        self.wait = 100
     
     def loop(self, *args):
-        self.timer += 1
-        if self.timer > 120:
-            if self.o == -30:
-                self.o = 30
-            if self.o == 100:
-                self.o = -100
-                self.timer = 0
-            self.o += 1
-            self.color = (1, 1, 1, abs(self.o)/100)
-        self.font_size = Window.width / 10
-        self.width = Window.width - dp(20)
-        self.height = self.width / 1289 * 554
+        # wait is the first delay
+        self.wait -= 1
+        if self.wait < 0:
+            self.wait = 0
+            self.timer += 1
+            if self.timer > 120:
+                if self.o == -30:
+                    self.o = 30
+                if self.o == 100:
+                    self.o = -100
+                    self.timer = 0
+                self.o += 1
+                self.color = (1, 1, 1, abs(self.o)/100)
+            self.font_size = Window.width / 10
+            self.width = Window.width - dp(20)
+            self.height = self.width / 1289 * 554
         while self.height > 0.6 * Window.height:
             self.height -= 1
         while self.width / 1289 * 554 > self.height:
