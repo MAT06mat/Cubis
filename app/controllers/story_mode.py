@@ -6,6 +6,7 @@ from kivy.uix.scrollview import ScrollView
 from kivy.uix.tabbedpanel import TabbedPanel, TabbedPanelItem
 from kivy.properties import NumericProperty, ListProperty, StringProperty, ObjectProperty, DictProperty
 from kivy.uix.floatlayout import FloatLayout
+from kivy.clock import Clock
 
 from app.models.loop import Loop
 from app.models.background_image import MyBackgroundImage
@@ -112,30 +113,25 @@ class TabItem(TabbedPanelItem):
 
 class StoryMode(TabbedPanel, Loop):
     level = NumericProperty(0)
-    tabs = ListProperty([])
     
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         # create tab item
         for area in AREAS.get("all"):
             new_TabbedPanelItem = TabItem(text=area["Name"], levels=area["Levels"], image=area["Background"])
-            self.tabs.append(new_TabbedPanelItem)
             if self.level < SETTINGS.get("Current_level"):
                 self.add_widget(new_TabbedPanelItem)
             self.level += len(area["Levels"])
         # Wait the loop in top is end
-        self.change_tab()
-    
-    def change_tab(self):
-        for area in AREAS.get("all"):
-            for level in area["Levels"]:
-                for tab in self.tabs:
-                    if SETTINGS.get("Current_level") == level["Id"] and area["Name"] == tab.text:
-                        self.switch_to(tab)
-                        tab.on_press()
+        Clock.schedule_once(self.select_first_tab, 0)
+        
+    def select_first_tab(self, dt):
+        if self.tab_list:
+            self.switch_to(self.tab_list[0])
+            self.tab_list[0].on_press()
     
     def loop(self, *args):
-        for tab in self.tabs:
+        for tab in self.tab_list:
             tab.color = "#FFFFFF"
         self.current_tab.color = "#F3E2DB"
 
@@ -150,7 +146,9 @@ class StoryModeFloat(FloatLayout):
         self.add_widget(self.story_mode)
     
     def reset(self):
-        self.remove_widget(self.story_mode)
+        print("Reset")
+        self.clear_widgets()
+        self.add_widget(BACKGROUND_IMAGE)
         self.story_mode = StoryMode()
         self.add_widget(self.story_mode)
         message = False

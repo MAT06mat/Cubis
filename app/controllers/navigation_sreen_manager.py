@@ -66,6 +66,13 @@ class NavigationScreenManager(ScreenManager):
                     sorted_list = list(sorted(best_score, reverse=True))
                     sorted_list.pop(-1)
                     SETTINGS.modify("Best_score", sorted_list)
+            elif self.game.id_level != 0:
+                current_level = SETTINGS.get("Current_level")
+                if self.game.id_level == current_level:
+                    SETTINGS.modify("Current_level", current_level+1)
+                for screen in self.screens:
+                    if screen.name == "StoryMode":
+                        screen.children[0].children[0].reset()
             self.pop(transition_screen=transition_screen)
             self.level = False
             

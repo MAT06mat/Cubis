@@ -148,17 +148,6 @@ class QuitButton(Button):
             self.width = self.height/823*1886
         self.y = self.parent.height/6
         self.x = Window.width/2 - self.width/2 + self.width*self.coeff_x
-    
-    def on_press(self):
-        if self.id_level != 0:
-            current_level = SETTINGS.get("Current_level")
-            if self.id_level == current_level:
-                SETTINGS.modify("Current_level", current_level+1)
-            app = App.get_running_app()
-            for screen in app.manager.screens:
-                if screen.name == "StoryMode":
-                    screen.children[0].children[0].reset()
-        return super().on_press()
 
 
 class MenuMessage(RelativeLayout):
