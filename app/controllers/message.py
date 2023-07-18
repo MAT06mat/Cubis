@@ -160,7 +160,7 @@ class MenuMessage(RelativeLayout):
         super().__init__(**kw)
         self.back = Back()
         self.cadre = Cadre()
-        if self.mode:
+        if self.id_level != 0:
             self.level_name = Title(text="Niveau "+str(self.id_level))
             self.mode_label = Texte(mode=self.mode)
         else:

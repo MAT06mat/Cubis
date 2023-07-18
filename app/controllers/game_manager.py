@@ -571,7 +571,7 @@ class Page(FloatLayout, Loop):
 
     def message_push(self):
         if not self.message:
-            self.message = MenuMessage(score=self.score, id_level=self.id_level)
+            self.message = MenuMessage(score=self.score, id_level=self.id_level, mode=self.mode)
             self.add_widget(self.message)
         
     def message_pop(self):
@@ -610,7 +610,8 @@ class Game(Screen):
         self.id_level = id_level
         self.my_float = FloatLayout()
         if id_level == 0:
-            self.page = Page(id_level=self.id_level)
+            self.mode = []
+            self.arrows = True
             self.background = "images/backgrounds/space.jpg"
         else:
             for area in AREAS.get("all"):
@@ -619,7 +620,7 @@ class Game(Screen):
                         self.mode = level["Mode"]
                         self.background = area["Background"]
             self.arrows = "Rotation" in self.mode
-            self.page = Page(arrows=self.arrows, id_level=self.id_level, mode=self.mode)
+        self.page = Page(arrows=self.arrows, id_level=self.id_level, mode=self.mode)
         self.my_float.add_widget(Image(source=self.background, fit_mode="cover"))
         self.my_float.add_widget(self.page)
         self.add_widget(self.my_float)
