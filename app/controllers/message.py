@@ -4,7 +4,7 @@ from kivy.core.window import Window
 from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.relativelayout import RelativeLayout
-from kivy.properties import NumericProperty, ListProperty, StringProperty
+from kivy.properties import NumericProperty, ListProperty, StringProperty, BooleanProperty
 from kivy.clock import Clock
 from kivy.metrics import dp
 
@@ -124,6 +124,7 @@ class ResetButton(Button):
 
 class QuitButton(Button):
     id_level = NumericProperty(0)
+    victoire = BooleanProperty(False)
     
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -194,7 +195,7 @@ class VictoireMessage(RelativeLayout):
     def __init__(self,**kw):
         super().__init__(**kw)
         if self.id_level == SETTINGS.get("Current_level"):
-            self.quit_button = QuitButton(id_level=self.id_level)
+            self.quit_button = QuitButton(id_level=self.id_level, victoire=True)
             self.coeff_x = -0.9
             self.setting = False
         else:

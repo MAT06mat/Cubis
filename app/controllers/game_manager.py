@@ -187,30 +187,32 @@ class CurrentPiece(RelativeLayout, Loop):
             self.pos = (touch.pos[0] - self.delta_pos[0], touch.pos[1] - self.delta_pos[1])
     
     def right(self):
-        self.new_grid = []
-        for y in range(self.nb_c):
-            self.new_grid.append([])
-            for x in range(self.nb_l):
-                self.new_grid[y].append(None)
-        for y in range(len(self.grid)):
-            for x in range(len(self.grid[y])):
-                self.new_grid[x][-(y+1)] = self.grid[y][x]
-        self.grid = self.new_grid
-        self.nb_l = len(self.grid)
-        self.nb_c = len(self.grid[0])
+        if self.delta_pos == None:
+            self.new_grid = []
+            for y in range(self.nb_c):
+                self.new_grid.append([])
+                for x in range(self.nb_l):
+                    self.new_grid[y].append(None)
+            for y in range(len(self.grid)):
+                for x in range(len(self.grid[y])):
+                    self.new_grid[x][-(y+1)] = self.grid[y][x]
+            self.grid = self.new_grid
+            self.nb_l = len(self.grid)
+            self.nb_c = len(self.grid[0])
     
-    def left(self):
-        self.new_grid = []
-        for y in range(self.nb_c):
-            self.new_grid.append([])
-            for x in range(self.nb_l):
-                self.new_grid[y].append(None)
-        for y in range(len(self.grid)):
-            for x in range(len(self.grid[y])):
-                self.new_grid[-(x+1)][y] = self.grid[y][x]
-        self.grid = self.new_grid
-        self.nb_l = len(self.grid)
-        self.nb_c = len(self.grid[0])
+    def left(self, force=False):
+        if self.delta_pos == None or force:
+            self.new_grid = []
+            for y in range(self.nb_c):
+                self.new_grid.append([])
+                for x in range(self.nb_l):
+                    self.new_grid[y].append(None)
+            for y in range(len(self.grid)):
+                for x in range(len(self.grid[y])):
+                    self.new_grid[-(x+1)][y] = self.grid[y][x]
+            self.grid = self.new_grid
+            self.nb_l = len(self.grid)
+            self.nb_c = len(self.grid[0])
 
 
 class PieceButton(Button, Loop):
@@ -355,7 +357,8 @@ class RightArrow(Arrow):
     def on_press(self):
         if self.parent.message != None:
             return super().on_press()
-        self.parent.right()
+        if self.parent.current_piece != None:
+            self.parent.current_piece.right()
         return super().on_press()
 
 
@@ -363,7 +366,8 @@ class LeftArrow(Arrow):
     def on_press(self):
         if self.parent.message != None:
             return super().on_press()
-        self.parent.left()
+        if self.parent.current_piece != None:
+            self.parent.current_piece.left()
         return super().on_press()
 
 
@@ -474,7 +478,8 @@ class Page(FloatLayout, Loop):
                         piece_find = True
                         self.zone_piece.my_scroll_view.grid_piece.piece_button.remove(piece)
                         self.zone_piece.my_scroll_view.grid_piece.remove_widget(piece)
-                self.left()
+                        continue
+                self.current_piece.left(force=True)
             self.current_piece = None
             if self.id_level ==0:
                 grid = self.zone_piece.my_scroll_view.grid_piece.generation()
@@ -595,14 +600,6 @@ class Page(FloatLayout, Loop):
                 return all(check)
         except:
             return False
-
-    def right(self):
-        if self.current_piece != None:
-            self.current_piece.right()
-
-    def left(self):
-        if self.current_piece != None:
-            self.current_piece.left()
 
 
 class Game(Screen):
