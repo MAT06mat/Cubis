@@ -145,22 +145,21 @@ class StoryModeFloat(FloatLayout):
         self.add_widget(BACKGROUND_IMAGE)
         self.add_widget(self.story_mode)
     
-    def reset(self, level):
-        if SETTINGS.get("Current_level") == level:
-            self.clear_widgets()
-            self.add_widget(BACKGROUND_IMAGE)
-            self.story_mode = StoryMode()
-            self.add_widget(self.story_mode)
-            message = False
-            for area in AREAS.get("all"):
-                if SETTINGS.get("Current_level") == area["Levels"][0]["Id"]:
-                    self.message_pop()
-                    self.message = InfoMessage(message=("Nouvelle zone débloqué !"," Nouvelle zone : "+area["Name"]), title="Information")
-                    self.add_widget(self.message)
-                    message = True
-            if not message:
+    def reset(self):
+        self.clear_widgets()
+        self.add_widget(BACKGROUND_IMAGE)
+        self.story_mode = StoryMode()
+        self.add_widget(self.story_mode)
+        message = False
+        for area in AREAS.get("all"):
+            if SETTINGS.get("Current_level") == area["Levels"][0]["Id"]:
                 self.message_pop()
-                self.message_push(SETTINGS.get("Current_level"))
+                self.message = InfoMessage(message=("Nouvelle zone débloqué !"," Nouvelle zone : "+area["Name"]), title="Information")
+                self.add_widget(self.message)
+                message = True
+        if not message:
+            self.message_pop()
+            self.message_push(SETTINGS.get("Current_level"))
         
     def message_push(self, id_level):
         if not self.message:
