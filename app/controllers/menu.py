@@ -2,8 +2,10 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.uix.image import Image
 from kivy.uix.slider import Slider
+from kivy.uix.button import Button
 from kivy.core.window import Window
 from kivy.clock import Clock
+from kivy.graphics import Color, Rectangle
 from kivy.metrics import dp
 from random import randint
 
@@ -55,6 +57,29 @@ class MenuBoxLayout(BoxLayout, Loop):
         while self.width / 1289 * 958 > self.height:
             self.width -= 1
 
+
+class StartButton(Button, Loop):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.timer = 120
+        self.o = 100
+        with self.canvas:
+            Color(0, 0, 0, self.o/100)
+            Rectangle(pos=self.pos, size=self.size)
+    
+    def loop(self, *args):
+        self.timer -= 1
+        self.o = self.timer
+        if self.timer >= 100:
+            self.o = 100
+        self.canvas.clear()
+        with self.canvas:
+            Color(0, 0, 0, self.o/100)
+            Rectangle(pos=self.pos, size=self.size)
+        if self.timer < 0:
+            self.timer = 0
+            self.disabled = False
+    
 
 class StartLabel(Label, Loop):
     def __init__(self, **kwargs):
