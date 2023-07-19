@@ -1,3 +1,5 @@
+from kivy.utils import platform
+
 import json
 import os
 
@@ -43,6 +45,27 @@ class Data:
 
 class SettingsData(Data):
     path_rel = "settings.json"
+
+    def __init__(self):
+        if platform == 'android':
+            app_private_dir = os.environ['APP_PRIVATE_DIR']
+        else:
+            app_private_dir = os.path.join(os.path.expanduser('~'), '.cubis')
+        data_folder_name = 'data_folder'
+        self.path = os.path.join(app_private_dir, data_folder_name)
+        
+        # Si le dossier n'exite pas, on le créé
+        if not os.path.exists(self.path):
+            os.makedirs(self.path)
+        # Si le fichier n'exite pas, on le créé et on copy les data de base
+        if not os.path.exists(self.get_path()):
+            data = json.loads('{"Best_score": [0, 0, 0, 0, 0], "Last_score": 0, "Current_level": 1, "Music": 50, "Effect": 50}')
+            with open(self.get_path(), 'w') as file:
+                json.dump(data, file)
+    
+    def get_path(self):
+        path = os.path.join(self.path, self.path_rel)
+        return path
 
 
 class AreasData(Data):
