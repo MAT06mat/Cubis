@@ -46,7 +46,7 @@ requirements = python3==3.7.5,hostpython3==3.7.5,kivy
 #garden_requirements =
 
 # (str) Presplash of the application
-presplash.filename = %(source.dir)s/asssets/images/app/presplash.png
+presplash.filename = %(source.dir)s/assets/images/app/presplash.png
 
 # (str) Icon of the application
 icon.filename = %(source.dir)s/assets/images/app/logo.png
