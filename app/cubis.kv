@@ -1,9 +1,9 @@
-#:import app.models.boxlayout_with_action_bar app.models.boxlayout_with_action_bar
-#:import app.controllers.story_mode app.controllers.story_mode
-#:import app.controllers.infinite_mode app.controllers.infinite_mode
-#:import app.controllers.message app.controllers.message
-#:import app.controllers.menu app.controllers.menu
-#:import app.controllers.game_manager app.controllers.game_manager
+#:import models.boxlayout_with_action_bar models.boxlayout_with_action_bar
+#:import controllers.story_mode controllers.story_mode
+#:import controllers.infinite_mode controllers.infinite_mode
+#:import controllers.message controllers.message
+#:import controllers.menu controllers.menu
+#:import controllers.game_manager controllers.game_manager
 
 
 <MyScreenManager>:
@@ -37,11 +37,11 @@
 
 <StartPage@FloatLayout>:
     Image:
-        source: "images/backgrounds/start.jpg"
+        source: "assets/images/backgrounds/start.jpg"
         fit_mode: "cover"
     StartLabel:
         color: (1, 1, 1, 0)
-        font_name: "fonts/Coda-Regular.ttf"
+        font_name: "assets/fonts/Coda-Regular.ttf"
         text: "Cliquer pour jouer"
         pos_hint: {"center_x": 0.5, "center_y": 0.5}
         size_hint: (None, None)
@@ -53,26 +53,26 @@
         background_color: (0, 0, 0, 0)
         on_press: app.manager.push("MainMenu", transition_screen=True, delay=50)
     Presplash:
-        source: "images/app/presplash.png"
+        source: "assets/images/app/presplash.png"
         fit_mode: "contain"
 
 <MainMenu@FloatLayout>:
     Image:
-        source: "images/backgrounds/menu.jpg"
+        source: "assets/images/backgrounds/menu.jpg"
         fit_mode: "cover"
     Button:
         size_hint: (None, None)
         size: ("75dp", "75dp")
         pos: (0, 0)
-        background_normal: "images/buttons/setting.png"
-        background_down: "images/buttons/setting.png"
+        background_normal: "assets/images/buttons/setting.png"
+        background_down: "assets/images/buttons/setting.png"
         on_press: app.manager.push("Setting", transition_screen=False)
     AnchorLayout:
         anchor_x: "center"
         anchor_y: "center"
         CenterBoxLayout:
             Logo:
-                source: "images/elements/logo.png"
+                source: "assets/images/elements/logo.png"
                 pos_hint: {"center_x": 0.5}
                 size_hint: (None, None)
             MenuBoxLayout:
@@ -80,23 +80,23 @@
                 size_hint: (None, None)
                 orientation: "vertical"
                 Button:
-                    background_normal: "images/buttons/story_mode.png"
-                    background_down: "images/buttons/story_mode.png"
+                    background_normal: "assets/images/buttons/story_mode.png"
+                    background_down: "assets/images/buttons/story_mode.png"
                     on_press: app.manager.push("StoryMode", transition_screen=False)
                 Button:
-                    background_normal: "images/buttons/infinite_mode.png"
-                    background_down: "images/buttons/infinite_mode.png"
+                    background_normal: "assets/images/buttons/infinite_mode.png"
+                    background_down: "assets/images/buttons/infinite_mode.png"
                     on_press: app.manager.push("InfiniteMode", transition_screen=False)
 
 
 <Setting@FloatLayout>:
     Image:
-        source: "images/backgrounds/menu.jpg"
+        source: "assets/images/backgrounds/menu.jpg"
         fit_mode: "cover"
     SettingImage:
         id: setting_image
         size_hint: (None, None)
-        source: "images/elements/setting.png"
+        source: "assets/images/elements/setting.png"
         fit_mode: "cover"
         pos_hint: {"center_x": 0.5, "center_y": 0.5}
     MusicSlider:
@@ -116,7 +116,7 @@
         text: "Musiques"
         font_size: self.width/10
         color: "#A04623"
-        font_name: "fonts/Coda-Regular.ttf"
+        font_name: "assets/fonts/Coda-Regular.ttf"
     EffectSlider:
         id: effect_slider
         size_hint: (None, None)
@@ -134,7 +134,7 @@
         text: "Effets sonores"
         font_size: self.width/10
         color: "#A04623"
-        font_name: "fonts/Coda-Regular.ttf"
+        font_name: "assets/fonts/Coda-Regular.ttf"
     Button:
         size_hint: (None, None)
         width: effect_slider.width
@@ -144,7 +144,7 @@
         text: "Crédits"
         font_size: self.width/10
         color: "#A04623"
-        font_name: "fonts/Coda-Regular.ttf"
+        font_name: "assets/fonts/Coda-Regular.ttf"
         background_normal: ""
         background_down: ""
         background_color: (0, 0, 0, 0)
@@ -160,8 +160,8 @@
         pos: (0, self.parent.height-self.height)
         size_hint: (None, None)
         size: ("50dp", "50dp")
-        background_normal: "images/buttons/left2.png"
-        background_down: "images/buttons/left2.png"
+        background_normal: "assets/images/buttons/left2.png"
+        background_down: "assets/images/buttons/left2.png"
         on_press: app.manager.pop(transition_screen=False)
 
 <Credits@FloatLayout>:

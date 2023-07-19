@@ -3,9 +3,9 @@ from kivy.uix.screenmanager import ScreenManager, FadeTransition
 from kivy.uix.screenmanager import Screen
 from kivy.properties import ListProperty, ObjectProperty
 
-from app.models.loop import Loop
-from app.controllers.game_manager import Game
-from app.models.data import SETTINGS
+from models.loop import Loop
+from controllers.game_manager import Game
+from models.data import SETTINGS
 
 
 class TransitionScreen(Screen, Loop):

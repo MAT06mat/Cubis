@@ -1,7 +1,7 @@
 [
   {
     "Name": "Tutoriel",
-    "Background": "images/backgrounds/tutoriel.jpg",
+    "Background": "assets/images/backgrounds/tutoriel.jpg",
     "Levels": [
       { "Id": 1, "Mode": ["Classique"] },
       { "Id": 2, "Mode": ["Classique"] },
@@ -12,7 +12,7 @@
   },
   {
     "Name": "Plaines",
-    "Background": "images/backgrounds/plaine.jpg",
+    "Background": "assets/images/backgrounds/plaine.jpg",
     "Levels": [
       { "Id": 6, "Mode": ["Classique"] },
       { "Id": 7, "Mode": ["Blocks dur"] },
@@ -33,7 +33,7 @@
   },
   {
     "Name": "Jungle",
-    "Background": "images/backgrounds/jungle.jpg",
+    "Background": "assets/images/backgrounds/jungle.jpg",
     "Levels": [
       { "Id": 21, "Mode": ["Blocks dur"] },
       { "Id": 22, "Mode": ["Rotation"] },
@@ -59,7 +59,7 @@
   },
   {
     "Name": "Lune",
-    "Background": "images/backgrounds/lune.jpg",
+    "Background": "assets/images/backgrounds/lune.jpg",
     "Levels": [
       { "Id": 41, "Mode": ["Classique"] },
       { "Id": 42, "Mode": ["Rotation"] },
@@ -90,7 +90,7 @@
   },
   {
     "Name": "Enfer",
-    "Background": "images/backgrounds/enfer.jpg",
+    "Background": "assets/images/backgrounds/enfer.jpg",
     "Levels": [
       { "Id": 66, "Mode": ["Rotation"] },
       { "Id": 67, "Mode": ["Rotation"] },

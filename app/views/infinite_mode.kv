@@ -2,7 +2,7 @@
     pos: 0, 0
     size_hint: (1, 1)
     Image:
-        source: "images/backgrounds/infinite_mode.jpg"
+        source: "assets/images/backgrounds/infinite_mode.jpg"
         fit_mode: "cover"
     CenterBoxLayout:
         pos_hint: {"center_x": 0.5, "center_y": 0.5}
@@ -12,11 +12,11 @@
             Cadre:
             ScoreListLabel:
                 color: "#4B1A36"
-                font_name: "fonts/Forum-Regular.otf"
+                font_name: "assets/fonts/Forum-Regular.otf"
                 font_size: self.parent.width / 15
         PlayInfiniteModeButton:
             size_hint: (None, None)
             pos_hint: {"center_x": 0.5}
-            background_normal: "images/buttons/play.png"
-            background_down: "images/buttons/play.png"
+            background_normal: "assets/images/buttons/play.png"
+            background_down: "assets/images/buttons/play.png"
             on_press: app.manager.start_level(0)

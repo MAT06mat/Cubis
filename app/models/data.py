@@ -3,7 +3,7 @@ import os
 
 
 class Data:
-    path = "data"
+    path = os.path.join("assets", "data")
     path_rel = None
     
     def get(self, key: str):
@@ -37,9 +37,7 @@ class Data:
         models_dir = os.path.dirname(os.path.abspath(__file__))
         # Obtenez le chemin absolu du répertoire "app"
         app_dir = os.path.dirname(models_dir)
-        # Obtenez le chemin absolu du répertoire parent de "app" qui est le répertoire principal du projet
-        main_dir = os.path.dirname(app_dir)
-        path = os.path.join(main_dir, self.path, self.path_rel)
+        path = os.path.join(app_dir, self.path, self.path_rel)
         return path
 
 

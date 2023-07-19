@@ -9,8 +9,8 @@ from kivy.graphics import Color, Rectangle
 from kivy.metrics import dp
 from random import randint
 
-from app.models.data import SETTINGS
-from app.models.loop import Loop
+from models.data import SETTINGS
+from models.loop import Loop
 
 
 class MusicSlider(Slider):

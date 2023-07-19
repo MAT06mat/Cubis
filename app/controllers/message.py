@@ -8,8 +8,8 @@ from kivy.properties import NumericProperty, ListProperty, StringProperty, Boole
 from kivy.clock import Clock
 from kivy.metrics import dp
 
-from app.models.cadre import Cadre
-from app.models.data import AREAS, SETTINGS
+from models.cadre import Cadre
+from models.data import AREAS, SETTINGS
 
 import os
 
@@ -131,13 +131,13 @@ class QuitButton(Button):
         if self.id_level != 0:
             self.coeff_x = 0.2
             self.coeff_h = 0.95
-            self.background_normal = "images/buttons/next.png"
-            self.background_down = "images/buttons/next.png"
+            self.background_normal = "assets/images/buttons/next.png"
+            self.background_down = "assets/images/buttons/next.png"
         else:
             self.coeff_x = 0.7
             self.coeff_h = 1
-            self.background_normal = "images/buttons/quit.png"
-            self.background_down = "images/buttons/quit.png"
+            self.background_normal = "assets/images/buttons/quit.png"
+            self.background_down = "assets/images/buttons/quit.png"
         Clock.schedule_interval(self.loop, 1/60)
     
     def loop(self, *args):

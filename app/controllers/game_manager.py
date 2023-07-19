@@ -14,9 +14,9 @@ from kivy.graphics.vertex_instructions import Line, Rectangle
 from kivy.graphics import Color
 from kivy.metrics import dp
 
-from app.models.loop import Loop
-from app.controllers.message import MenuMessage, InfoMessage, VictoireMessage
-from app.models.data import SETTINGS, PIECES, AREAS, LEVELS
+from models.loop import Loop
+from models.data import SETTINGS, PIECES, AREAS, LEVELS
+from controllers.message import MenuMessage, InfoMessage, VictoireMessage
 
 import os
 import copy
@@ -69,9 +69,9 @@ def dispaly_grid(self, background=False, border=False, relative=False):
                     else:
                         Color(*COLOR[int(self.grid[y][x])])
                     if not relative:
-                        Rectangle(pos=(self.x+get_min_x(self)+x*self.size_line,self.y+get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), source="images/elements/bloc.png")
+                        Rectangle(pos=(self.x+get_min_x(self)+x*self.size_line,self.y+get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), source="assets/images/elements/bloc.png")
                     else:
-                        Rectangle(pos=(get_min_x(self)+x*self.size_line,get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), source="images/elements/bloc.png")
+                        Rectangle(pos=(get_min_x(self)+x*self.size_line,get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), source="assets/images/elements/bloc.png")
         if background and not relative:
             self.background_debug.size = (self.width, self.height)
             self.background_debug.pos = self.pos
@@ -126,7 +126,7 @@ class ScoreCase(Label, Loop):
         self.size_hint = (None, 0.1)
         self.width = self.height
         with self.canvas.before:
-            self.background_r = Rectangle(source='images/elements/score.png')
+            self.background_r = Rectangle(source='assets/images/elements/score.png')
     
     def loop(self, *args):
         self.x = self.parent.menu_button.x - self.width
@@ -612,7 +612,7 @@ class Game(Screen):
         if id_level == 0:
             self.mode = []
             self.arrows = True
-            self.background = "images/backgrounds/space.jpg"
+            self.background = "assets/images/backgrounds/space.jpg"
         else:
             for area in AREAS.get("all"):
                 for level in area["Levels"]:
