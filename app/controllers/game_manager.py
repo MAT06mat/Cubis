@@ -78,7 +78,8 @@ def dispaly_grid(self, background=False, border=False, relative=False):
         elif background and relative:
             self.background_debug.size = (self.width, self.height)
 
-def generate_grid(size):
+def generate_grid(self, size):
+    self.nb_l, self.nb_c = size, size
     grid = []
     for y in range(size):
         grid.append([])
@@ -322,7 +323,7 @@ class Grid(RelativeLayout, Loop):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         if self.id_level == 0:
-            self.grid = generate_grid(4)
+            self.grid = generate_grid(self, 4)
         else:
             self.level = LEVELS.get(self.id_level)
             self.grid = self.level["Grid"]
@@ -345,6 +346,25 @@ class Grid(RelativeLayout, Loop):
             self.victoire = True
             self.parent.message = VictoireMessage(id_level=self.id_level)
             self.parent.add_widget(self.parent.message)
+        elif self.id_level == 0:
+            # Verifie si la grille est remplit
+            for y in self.grid:
+                for x in y:
+                    if type(x) != int:
+                        return
+            # Si oui, on regenère la grille suivant les tiers
+            tiers = self.parent.zone_piece.my_scroll_view.grid_piece.tiers
+            if 0 < tiers <= 5:
+                self.grid = generate_grid(self, 4)
+            elif 5 < tiers <= 7:
+                self.grid = generate_grid(self, 5)
+            elif 7 < tiers <= 9:
+                self.grid = generate_grid(self, 6)
+            elif 9 < tiers <= 11:
+                self.grid = generate_grid(self, 7)
+            else:
+                self.grid = generate_grid(self, 8)
+            self.parent.saves = []
 
 
 class Arrow(Button, Loop):
@@ -420,24 +440,6 @@ class Page(FloatLayout, Loop):
     def loop(self, *args):
         if self.id_level == 0:
             self.undo_button.disabled = (not (len(self.saves) >= 1 or self.current_piece != None)) or (self.undo_consecutif == 1)
-            # Verifie si la grille est remplit
-            for y in self.grid.grid:
-                for x in y:
-                    if type(x) != int:
-                        return
-            # Si oui, on regenère la grille suivant les tiers
-            tiers = self.zone_piece.my_scroll_view.grid_piece.tiers
-            if tiers <= 5:
-                self.grid.grid = generate_grid(4)
-            elif tiers <= 7:
-                self.grid.grid = generate_grid(5)
-            elif tiers <= 9:
-                self.grid.grid = generate_grid(6)
-            elif tiers <= 11:
-                self.grid.grid = generate_grid(7)
-            else:
-                self.grid.grid = generate_grid(8)
-            self.saves = []
         else:
             self.redo_button.disabled = len(self.undo_saves) < 1
             self.undo_button.disabled = not (len(self.saves) >= 1 or self.current_piece != None)
