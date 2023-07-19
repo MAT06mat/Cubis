@@ -28,7 +28,7 @@ source.include_exts = py,png,jpg,kv,atlas,json,ttf,otf,gif
 #source.exclude_patterns = license,images/*/*.jpg
 
 # (str) Application versioning (method 1)
-version = 0.10
+version = 0.11
 
 # (str) Application versioning (method 2)
 # version.regex = __version__ = ['"](.*)['"]
@@ -46,10 +46,10 @@ requirements = python3==3.7.5,hostpython3==3.7.5,kivy
 #garden_requirements =
 
 # (str) Presplash of the application
-presplash.filename = %(source.dir)s/images/app/presplash.png
+presplash.filename = %(source.dir)s/asssets/images/app/presplash.png
 
 # (str) Icon of the application
-icon.filename = %(source.dir)s/images/app/logo.png
+icon.filename = %(source.dir)s/assets/images/app/logo.png
 
 # (str) Supported orientation (one of landscape, sensorLandscape, portrait or all)
 orientation = portrait
