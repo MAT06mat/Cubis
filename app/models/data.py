@@ -1,4 +1,3 @@
-from kivy import platform
 from kivy.app import App
 
 import json
@@ -48,7 +47,7 @@ class SettingsData(Data):
     path_rel = "settings.json"
 
     def __init__(self):
-        if platform == 'android':
+        if 'ANDROID_ARGUMENT' in os.environ:
             app = App.get_running_app()
             app_private_dir = app.user_data_dir
         else:
