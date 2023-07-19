@@ -1,4 +1,5 @@
-from kivy.utils import platform
+from kivy import platform
+from kivy.app import App
 
 import json
 import os
@@ -48,7 +49,8 @@ class SettingsData(Data):
 
     def __init__(self):
         if platform == 'android':
-            app_private_dir = os.environ['APP_PRIVATE_DIR']
+            app = App.get_running_app()
+            app_private_dir = app.user_data_dir
         else:
             app_private_dir = os.path.join(os.path.expanduser('~'), '.cubis')
         data_folder_name = 'data_folder'
