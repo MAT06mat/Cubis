@@ -16,19 +16,25 @@ from models.loop import Loop
 class MusicSlider(Slider):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.value = SETTINGS.get("Music")
+        SETTINGS.bind(is_init=self.init)
+    
+    def init(self, *args):
+        self.value = SETTINGS.get()["Music"]
     
     def on_value(self, *args):
-        SETTINGS.modify("Music", int(self.value))
+        SETTINGS.modify(element=int(self.value), key="Music")
 
 
 class EffectSlider(Slider):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.value = SETTINGS.get("Effect")
+        SETTINGS.bind(is_init=self.init)
+    
+    def init(self, *args):
+        self.value = SETTINGS.get()["Effect"]
     
     def on_value(self, *args):
-        SETTINGS.modify("Effect", int(self.value))
+        SETTINGS.modify(element=int(self.value), key="Effect")
 
 
 class SettingImage(Image, Loop):

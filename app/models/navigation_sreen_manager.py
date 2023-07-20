@@ -78,21 +78,21 @@ class NavigationScreenManager(ScreenManager):
         self.delay = delay
         if len(self.screen_stack) > 0:
             if self.game.id_level == 0:
-                SETTINGS.modify("Last_score", self.game.page.score)
+                SETTINGS.modify(element=self.game.page.score, key="Last_score")
                 b = False
-                for s in SETTINGS.get("Best_score"):
+                for s in SETTINGS.get()["Best_score"]:
                     if self.game.page.score > s:
                         b = True
                 if b:
-                    best_score = list(SETTINGS.get("Best_score"))
+                    best_score = list(SETTINGS.get()["Best_score"])
                     best_score.append(self.game.page.score)
                     sorted_list = list(sorted(best_score, reverse=True))
                     sorted_list.pop(-1)
-                    SETTINGS.modify("Best_score", sorted_list)
+                    SETTINGS.modify(element=sorted_list, key="Best_score")
             elif self.game.id_level != 0:
-                current_level = SETTINGS.get("Current_level")
+                current_level = SETTINGS.get()["Current_level"]
                 if self.game.id_level == current_level and victoire:
-                    SETTINGS.modify("Current_level", current_level+1)
+                    SETTINGS.modify(element=current_level+1, key="Current_level")
                     for screen in self.screens:
                         if screen.name == "StoryMode":
                             screen.children[0].children[0].reset()

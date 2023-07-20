@@ -33,7 +33,7 @@ class Level(Button):
         self.id = self.level["Id"]
         self.mode = self.level["Mode"]
         self.text = str(self.id)
-        if self.id > SETTINGS.get("Current_level"):
+        if self.id > SETTINGS.get()["Current_level"]:
             self.disabled = True
         # Mettre 0 devant les chiffres pour en faire des nombre à deux chiffres
         self.lines = []
@@ -117,9 +117,9 @@ class StoryMode(TabbedPanel, Loop):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         # create tab item
-        for area in AREAS.get("all"):
+        for area in AREAS.get():
             new_TabbedPanelItem = TabItem(text=area["Name"], levels=area["Levels"], image=area["Background"])
-            if self.level < SETTINGS.get("Current_level"):
+            if self.level < SETTINGS.get()["Current_level"]:
                 self.add_widget(new_TabbedPanelItem)
             self.level += len(area["Levels"])
         # Wait the loop in top is end
@@ -138,11 +138,15 @@ class StoryMode(TabbedPanel, Loop):
 
 class StoryModeFloat(FloatLayout):
     message = None
-    story_mode = ObjectProperty(StoryMode())
+    story_mode = ObjectProperty(None)
     
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        SETTINGS.bind(is_init=self.init)
+    
+    def init(self, *args):
         self.add_widget(BACKGROUND_IMAGE)
+        self.story_mode = StoryMode()
         self.add_widget(self.story_mode)
     
     def reset(self):
@@ -151,15 +155,15 @@ class StoryModeFloat(FloatLayout):
         self.story_mode = StoryMode()
         self.add_widget(self.story_mode)
         message = False
-        for area in AREAS.get("all"):
-            if SETTINGS.get("Current_level") == area["Levels"][0]["Id"]:
+        for area in AREAS.get():
+            if SETTINGS.get()["Current_level"] == area["Levels"][0]["Id"]:
                 self.message_pop()
                 self.message = InfoMessage(message=("Nouvelle zone débloqué !"," Nouvelle zone : "+area["Name"]), title="Information")
                 self.add_widget(self.message)
                 message = True
         if not message:
             self.message_pop()
-            self.message_push(SETTINGS.get("Current_level"))
+            self.message_push(SETTINGS.get()["Current_level"])
         
     def message_push(self, id_level):
         if not self.message:

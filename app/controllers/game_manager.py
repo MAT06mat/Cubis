@@ -252,7 +252,7 @@ class GridPiece(GridLayout):
                 self.piece_button.append(button)
                 self.add_widget(button)
         else:
-            self.level = LEVELS.get(self.id_level)
+            self.level = LEVELS.get()[str(self.id_level)]
             self.piece_button = []
             for piece in self.level["Pieces"]:
                 button = PieceButton(grid=piece["Grid"])
@@ -262,7 +262,7 @@ class GridPiece(GridLayout):
     def generation(self):
         color = random.randint(1, 6)
         tier = random.randint(1, self.tiers)
-        pieces = PIECES.get(tier)
+        pieces = PIECES.get()[str(tier)]
         piece = pieces[random.randint(0, len(pieces)-1)]
         grid = []
         for y in range(len(piece)):
@@ -325,7 +325,7 @@ class Grid(RelativeLayout, Loop):
         if self.id_level == 0:
             self.grid = generate_grid(self, 4)
         else:
-            self.level = LEVELS.get(self.id_level)
+            self.level = LEVELS.get()[str(self.id_level)]
             self.grid = self.level["Grid"]
         self.nb_l = len(self.grid)
         self.nb_c = len(self.grid[0])
@@ -425,12 +425,12 @@ class Page(FloatLayout, Loop):
         self.add_widget(self.zone_piece)
         self.add_widget(self.undo_button)
         self.add_widget(self.menu_button)
-        if SETTINGS.get("Best_score")[0] == 0 and self.id_level == 0:
+        if SETTINGS.get()["Best_score"][0] == 0 and self.id_level == 0:
             self.message = InfoMessage(message=("Bienvenue dans le\n mode infini de Cubis !", "Dans ce mode,\nle but est de remplir le\nplus possible de grilles.", "Vous aurez à chaque fois\n6 pièces pour la remplir.","A chaque pièce posé,\nvous en regagnerez une autre.", "Le but est donc de faire\nle meilleur score possible.", "Vous avez le droit de tourner\nles pièces autant de fois\nque vous le souhaitez.", "Mais un seul retour\nen arrière possible !", "Bonne chance !"))
             self.add_widget(self.message)
-        if self.id_level == SETTINGS.get("Current_level"):
+        if self.id_level == SETTINGS.get()["Current_level"]:
             try:
-                message = LEVELS.get(self.id_level)["Message"]
+                message = LEVELS.get()[self.id_level]["Message"]
                 self.message = InfoMessage(message=message)
                 self.add_widget(self.message)
             except:
@@ -616,7 +616,7 @@ class Game(Screen):
             self.arrows = True
             self.background = "assets/images/backgrounds/space.jpg"
         else:
-            for area in AREAS.get("all"):
+            for area in AREAS.get():
                 for level in area["Levels"]:
                     if level["Id"] == self.id_level:
                         self.mode = level["Mode"]

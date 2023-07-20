@@ -72,7 +72,7 @@ class PlayMessage(RelativeLayout):
     
     def __init__(self, **kw):
         super().__init__(**kw)
-        for area in AREAS.get("all"):
+        for area in AREAS.get():
             for level in area["Levels"]:
                 if level["Id"] == self.id_level:
                     mode = level["Mode"]
@@ -194,7 +194,7 @@ class VictoireMessage(RelativeLayout):
     
     def __init__(self,**kw):
         super().__init__(**kw)
-        if self.id_level == SETTINGS.get("Current_level"):
+        if self.id_level == SETTINGS.get()["Current_level"]:
             self.quit_button = QuitButton(id_level=self.id_level, victoire=True)
             self.coeff_x = -0.9
             self.setting = False
