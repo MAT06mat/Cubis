@@ -28,7 +28,7 @@ source.include_exts = py,png,jpg,kv,atlas,json,ttf,otf,gif
 #source.exclude_patterns = license,images/*/*.jpg
 
 # (str) Application versioning (method 1)
-version = 0.12
+version = 0.13
 
 # (str) Application versioning (method 2)
 # version.regex = __version__ = ['"](.*)['"]
@@ -85,7 +85,7 @@ fullscreen = 1
 android.presplash_color = #FFFFFF
 
 # (list) Permissions
-android.permissions = READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE
+# android.permissions = READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE
 
 # (int) Target Android API, should be as high as possible.
 android.api = 30
