@@ -5,9 +5,9 @@
       [null, null]
     ],
     "Message": [
-      "Bienvenue dans le\nmode histoire de Cubis !",
+      "Bienvenue dans le\nmode histoire de Cubis!",
       "Ici le but est de remplir\nune grille avec des blocs.",
-      "Astuce : Pour utiliser un block\ncliquez dessus et deplacer-le\navec votre doigt.",
+      "Astuce : Pour utiliser un bloc,\ncliquez dessus et déplacez-le\navec votre doigt.",
       "Objectif : Remplir la grille."
     ],
     "Pieces": [{ "Grid": [[2, 2]] }, { "Grid": [[1]] }, { "Grid": [[4]] }]
@@ -19,8 +19,8 @@
       [null, null, null]
     ],
     "Message": [
-      "Comme vous pouvez le voir,\nla taille de la grille change.",
-      "Astuce : Vous pouvez revenir\nsur vos pas avec les fleches\nen haut sur la gauche.",
+      "Comme vous pouvez le voir,\nla taille de la grille peut changer.",
+      "Astuce : Vous pouvez revenir\nen arrière avec les flèches\nen haut sur la gauche.",
       "Objectif : Remplir la grille."
     ],
     "Pieces": [
@@ -46,8 +46,8 @@
       [0, 0, null]
     ],
     "Message": [
-      "Dans les niveaux 'Blocs durs'\ndes blocs sont sur la grille\n au lancement du niveau.",
-      "Evitez ces blocs et\nremplissez le reste de la grille.",
+      "Dans les niveaux 'Blocs durs',\ndes blocs sont sur la grille\nau lancement du niveau.",
+      "Évitez ces blocs et\nremplissez le reste de la grille.",
       "Objectif : Remplir\nle reste de la grille."
     ],
     "Pieces": [
@@ -68,8 +68,8 @@
       [null, null, null, null]
     ],
     "Message": [
-      "Dans beaucoup de niveaux\nvous pourrez tourner les blocs\navec des fleches.",
-      "Objectif : Remplir la grille\n en tournant les blocs."
+      "Dans beaucoup de niveaux,\nvous pourrez tourner les blocs\navec des flèches.",
+      "Objectif : Remplir la grille\nen tournant les blocs."
     ],
     "Pieces": [
       {
@@ -99,9 +99,9 @@
       ["2", "2", "2", "2"]
     ],
     "Message": [
-      "Certain niveau\nauront des motifs.",
-      "Vous ne pourrez poser des\nblocs que si leur couleur\nest la meme que celle\ndu motif.",
-      "Objectif : Remplir la grille\n avec les bons blocs."
+      "Certains niveaux auront des motifs.",
+      "Vous ne pourrez poser des\nblocs que si leur couleur\nest la même que celle\ndu motif.",
+      "Objectif : Remplir la grille\navec les bons blocs."
     ],
     "Pieces": [
       { "Grid": [[3, 3, 3, 3]] },
@@ -732,11 +732,11 @@
   },
   "20": {
     "Message": [
-      "Bien joue !\n Tu a reussi a arriver\n jusqu'a ce niveau !",
-      "Malheureusement,\nce niveau est le dernier.\n Pour le moment :)",
-      "Tu as donc fini\n la version beta de ce jeu.",
-      "Je t'invite donc a\n m'envoyer ton avis sur\n le jeu, les fonctionalitees\n a ameliorer, et tes impressions.",
-      "Tu peux me contacter a\nmat06mat22@gmail.com.",
+      "Bien joué !\nTu as réussi à arriver\njusqu'à ce niveau !",
+      "Malheureusement,\nce niveau est le dernier.\nPour le moment :)",
+      "Tu as donc fini\nla version bêta de ce jeu.",
+      "Je t'invite donc à\nm'envoyer ton avis sur\nle jeu, les fonctionnalités\nà améliorer, et tes impressions.",
+      "Tu peux me contacter à\nmat06mat22@gmail.com.",
       "Bonne continuation !"
     ],
     "Grid": [

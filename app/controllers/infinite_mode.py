@@ -21,7 +21,7 @@ class ScoreListLabel(Label, Loop):
         # add 0 before the score to have a 4-digit number
         self.best_score = SETTINGS.get()["Best_score"]
         self.last_score = SETTINGS.get()["Last_score"]
-        text = "Votre dérnier score : " + self.format_score(self.last_score) + "\nVos meilleurs scores : "
+        text = "Votre dernier score : " + self.format_score(self.last_score) + "\nVos meilleurs scores : "
         for score in self.best_score:
             text = text + "\n - " + self.format_score(score)
         self.text = text
