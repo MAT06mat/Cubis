@@ -23,13 +23,13 @@ class Data(EventDispatcher):
             os.makedirs(path)
         # Si le fichier n'exite pas, on le créé et on copy les data de base
         if not os.path.exists(os.path.join(path, self.file)):
-            with open(os.path.join(path, self.file), 'w') as file:
+            with open(os.path.join(path, self.file), 'w', encoding="UTF-8") as file:
                 file.write('{"Best_score": [0, 0, 0, 0, 0], "Last_score": 0, "Current_level": 1, "Music": 50, "Effect": 50}')
         self.path = path
         self.is_init = True
     
     def get(self):
-        with open(self.get_path()) as file:
+        with open(self.get_path(), encoding="UTF-8") as file:
             data = json.load(file)
         return data
 
@@ -38,13 +38,13 @@ class Data(EventDispatcher):
         if key == 'all':
             data = element
         else:
-            with open(self.get_path()) as file:
+            with open(self.get_path(), encoding="UTF-8") as file:
                 data = json.load(file)
             if key in data:
                 data[key] = element
             else:
                 return KeyError
-        with open(self.get_path(), "w") as file:
+        with open(self.get_path(), "w", encoding="UTF-8") as file:
             file.write(json.dumps(data))
     
     def get_path(self):
