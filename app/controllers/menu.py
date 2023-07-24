@@ -17,8 +17,8 @@ from models.loop import Loop
 class LButton(Button):
     def on_release(self):
         self.parent.parent.select(self.text)
-        SETTINGS.modify(element=self.text, key="lang")
-        TEXTS.change_lang(self.text)
+        SETTINGS.modify(element=TEXTS.uncomplete_lang(self.text), key="lang")
+        TEXTS.change_lang(TEXTS.uncomplete_lang(self.text))
         return super().on_release()
 
 
@@ -26,7 +26,7 @@ class LangButton(DropDown):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         for lang in TEXTS.langs():
-            b = LButton(text=lang, size_hint_y=None, height=44)
+            b = LButton(text=TEXTS.complete_lang(lang), size_hint_y=None, height=44)
             self.add_widget(b)
         self.select(SETTINGS.get()['lang'])
 
@@ -42,7 +42,7 @@ class Setting(FloatLayout):
     
     def init(self, *args):
         Clock.schedule_interval(self.loop, 1/60)
-        self.mainbutton = DropButton(text=TEXTS.current_lang, size_hint=(None, None), pos_hint={"center_x": 0.70})
+        self.mainbutton = DropButton(text=TEXTS.complete_lang(TEXTS.current_lang), size_hint=(None, None), pos_hint={"center_x": 0.70})
         self.dropdown = LangButton()
         self.mainbutton.bind(on_release=self.dropdown.open)
         self.dropdown.bind(on_select=lambda instance, x: setattr(self.mainbutton, 'text', x))

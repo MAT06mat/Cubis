@@ -67,6 +67,7 @@ class Texts(Data):
     def __init__(self, file):
         super().__init__(file)
         SETTINGS.bind(is_init=self.setting_change)
+        self.lang_dict = {"en": "English", "fr": "Français"}
     
     def setting_change(self, *args):
         if 'lang' in SETTINGS.get():
@@ -103,6 +104,18 @@ class Texts(Data):
             return ValueError
         path = f'{path[0]}-{self.current_lang}.{path[1]}'
         return path
+    
+    def complete_lang(self, lang):
+        if lang in self.lang_dict:
+            return self.lang_dict[lang]
+        else:
+            return KeyError
+    
+    def uncomplete_lang(self, lang):
+        for key in self.lang_dict.keys():
+            if key == lang.lower()[:2]:
+                return key
+        return KeyError
 
 
 TEXTS = Texts(file="texts.json")
