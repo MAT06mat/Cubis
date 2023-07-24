@@ -1,7 +1,7 @@
 import json
 import os
 
-from kivy.properties import BooleanProperty
+from kivy.properties import BooleanProperty, StringProperty
 from kivy.event import EventDispatcher
 
 class Data(EventDispatcher):
@@ -62,10 +62,10 @@ PIECES = Data(file='pieces.json')
 LEVELS = Data(file='levels.json')
 
 class Texts(Data):
+    current_lang = StringProperty("en")
     def __init__(self, file):
         super().__init__(file)
         SETTINGS.bind(is_init=self.setting_change)
-        self.current_lang = "en"
     
     def setting_change(self, *args):
         if 'lang' in SETTINGS.get():

@@ -53,7 +53,9 @@
   "24": "Classique",
   "25": "Blocs dur",
   "26": "Rotation",
-  "27": "Motifs"
+  "27": "Motifs",
+  "28": "Musiques",
+  "29": "Effets sonores"
 }, {
   "lang": "en",
   "0": [
@@ -109,5 +111,7 @@
   "24": "Classic",
   "25": "Hard Blocks",
   "26": "Rotation",
-  "27": "Patterns"
+  "27": "Patterns",
+  "28": "Musics",
+  "29": "Sounds effects"
 }]

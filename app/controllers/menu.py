@@ -80,6 +80,26 @@ class EffectSlider(Slider):
         SETTINGS.modify(element=int(self.value), key="Effect")
 
 
+class EffectsLabel(Label):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.text = TEXTS.key(29)
+        TEXTS.bind(current_lang=self.change)
+    
+    def change(self, *args):
+        self.text = TEXTS.key(29)
+    
+    
+class MusicsLabel(Label):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.text = TEXTS.key(28)
+        TEXTS.bind(current_lang=self.change)
+    
+    def change(self, *args):
+        self.text = TEXTS.key(28)
+
+
 class SettingImage(Image, Loop):
     def loop(self, *args):
         if self.parent.width < self.parent.height:
