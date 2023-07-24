@@ -83,7 +83,7 @@ class EffectSlider(Slider):
 class EffectsLabel(Label):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.text = TEXTS.key(29)
+        self.lang_change()
         TEXTS.bind(current_lang=self.lang_change)
     
     def lang_change(self, *args):
@@ -93,7 +93,7 @@ class EffectsLabel(Label):
 class MusicsLabel(Label):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.text = TEXTS.key(28)
+        self.lang_change()
         TEXTS.bind(current_lang=self.lang_change)
     
     def lang_change(self, *args):
@@ -170,7 +170,7 @@ class StartLabel(Label, Loop):
         super().__init__(**kwargs)
         self.timer = 100
         self.wait = 230
-        self.text = TEXTS.key(16)
+        self.lang_change()
         TEXTS.bind(current_lang=self.lang_change)
     
     def lang_change(self, *args):

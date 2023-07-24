@@ -98,6 +98,7 @@ class TabItem(TabbedPanelItem):
         self.scroll_view = MyScrollView(nb_levels=len(self.levels))
         self.scroll_view.add_widget(Area(levels=self.levels))
         self.add_widget(self.scroll_view)
+        self.lang_change()
         TEXTS.bind(current_lang=self.lang_change)
     
     def lang_change(self, *args):
