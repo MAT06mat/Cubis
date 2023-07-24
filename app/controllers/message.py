@@ -20,6 +20,15 @@ Builder.load_file(kv_file_path)
 
 class PlayButtonStory(Button):
     id_level = NumericProperty(None)
+    
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.lang_change()
+        TEXTS.bind(current_lang=self.lang_change)
+    
+    def lang_change(self, *args):
+        self.background_normal = TEXTS.image_path("assets/images/buttons/play.png")
+        self.background_down = TEXTS.image_path("assets/images/buttons/play.png")
 
 
 class Texte(Label, Loop):

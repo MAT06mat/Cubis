@@ -44,6 +44,15 @@ class ScoreLayout(RelativeLayout, Loop):
 
 
 class PlayInfiniteModeButton(Button, Loop):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.lang_change
+        TEXTS.bind(current_lang=self.lang_change)
+    
+    def lang_change(self, *args):
+        self.background_normal = TEXTS.image_path("assets/images/buttons/play.png")
+        self.background_down = TEXTS.image_path("assets/images/buttons/play.png")
+    
     def loop(self, *args):
         self.width = Window.width - dp(30)
         self.height = self.width / 1192 * 501
