@@ -65,7 +65,7 @@ class Texte(Label, Loop):
 
 
 class Title(Label, Loop):
-    def __init__(self, text_key, id_level=None, **kwargs):
+    def __init__(self, text_key=None, id_level=None, **kwargs):
         super().__init__(**kwargs)
         self.text_key = text_key
         self.id_level = id_level
@@ -73,10 +73,11 @@ class Title(Label, Loop):
         TEXTS.bind(current_lang=self.lang_change)
     
     def lang_change(self, *args):
-        if self.id_level:
-            self.text = TEXTS.key(self.text_key) + str(self.id_level)
-        else:
-            self.text = TEXTS.key(self.text_key)
+        if self.text_key:
+            if self.id_level:
+                self.text = TEXTS.key(self.text_key) + str(self.id_level)
+            else:
+                self.text = TEXTS.key(self.text_key)
         
     def loop(self, *args):
         self.font_size = self.parent.width / 8
@@ -235,8 +236,8 @@ class VictoireMessage(RelativeLayout):
             self.setting = True
         self.reset_button = ResetButton(id_level=self.id_level, coeff_x=self.coeff_x)
         self.add_widget(Cadre())
-        self.add_widget(Title(text=14))
-        self.add_widget(Texte(text=11, score=self.id_level))
+        self.add_widget(Title(text_key=14))
+        self.add_widget(Texte(text_key=11, score=self.id_level))
         self.add_widget(self.quit_button)
         self.add_widget(self.reset_button)
         if self.setting:

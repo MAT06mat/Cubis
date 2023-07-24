@@ -23,7 +23,7 @@
     "Dans beaucoup de niveaux,\nvous pourrez tourner les blocs\navec des flèches."
   ],
   "5": [
-    "Certains niveaux auront des motifs.",
+    "Certains niveaux\nauront des motifs.",
     "Vous ne pourrez poser des\nblocs que si leur couleur\nest la même que celle\ndu motif."
   ],
   "6": [
@@ -38,12 +38,12 @@
   "14": "Victoire !",
   "15": "Tutoriel",
   "16": "Cliquer pour jouer",
-  "17": "Nouvelle zone débloquée : ",
+  "17": "Nouvelle zone débloquée :\n",
   "18": "Information",
   "19": "Plaines",
   "20": [
-    "Bien joué !\nTu as réussi fini\nla version bêta de ce jeu.",
-    "Je t'invite donc à\nm'envoyer ton avis sur\nle jeu, les fonctionnalités\nà améliorer, et tes impressions.",
+    "Bien joué !\nTu as réussi à finir la première\nversion de ce jeu.",
+    "Je t'invite donc à m'envoyer\nton avis sur le jeu,\nles fonctionnalités à améliorer,\ntes impressions, etc.",
     "Tu peux me contacter à\nmat06mat22@gmail.com.",
     "Bonne journée !"
   ],

@@ -164,7 +164,7 @@ class StoryModeFloat(FloatLayout):
         for area in AREAS.get():
             if SETTINGS.get()["Current_level"] == area["Levels"][0]["Id"]:
                 self.message_pop()
-                self.message = InfoMessage(message=(TEXTS.key(17)+TEXTS.key(area["Name"])), title=TEXTS.key(18))
+                self.message = InfoMessage(message=[TEXTS.key(17)+TEXTS.key(area["Name"])], title=TEXTS.key(18))
                 self.add_widget(self.message)
                 message = True
         if not message:
