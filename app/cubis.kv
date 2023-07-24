@@ -78,13 +78,9 @@
                 pos_hint: {"center_x": 0.5}
                 size_hint: (None, None)
                 orientation: "vertical"
-                Button:
-                    background_normal: "assets/images/buttons/story_mode.png"
-                    background_down: "assets/images/buttons/story_mode.png"
+                SMButton:
                     on_press: app.manager.push("StoryMode", transition_screen=False)
-                Button:
-                    background_normal: "assets/images/buttons/infinite_mode.png"
-                    background_down: "assets/images/buttons/infinite_mode.png"
+                IMButton:
                     on_press: app.manager.push("InfiniteMode", transition_screen=False)
 
 
@@ -95,7 +91,6 @@
     SettingImage:
         id: setting_image
         size_hint: (None, None)
-        source: "assets/images/elements/setting.png"
         fit_mode: "cover"
         pos_hint: {"center_x": 0.5, "center_y": 0.5}
     MusicSlider:
@@ -132,14 +127,13 @@
         font_size: self.width/10
         color: "#A04623"
         font_name: "assets/fonts/Coda-Regular.ttf"
-    Button:
+    CreditButton:
         id: credit_button
         size_hint: (None, None)
         width: effect_slider.width
         height: self.width/1222*561
         pos_hint: {"center_x": 0.30}
         y: setting_image.y+setting_image.width*0.2
-        text: "Crédits"
         font_size: self.width/10
         color: "#A04623"
         font_name: "assets/fonts/Coda-Regular.ttf"
@@ -160,7 +154,7 @@
         size: ("50dp", "50dp")
         background_normal: "assets/images/buttons/left2.png"
         background_down: "assets/images/buttons/left2.png"
-        on_press: app.manager.pop(transition_screen=False)    
+        on_press: app.manager.pop(transition_screen=False)
 
 <DropButton>:
     font_size: self.width/10
@@ -210,7 +204,6 @@
         valign: 'middle'
         font_size: self.parent.width/20
         pos_hint: {"center_x": 0.5, "center_y": 0.5}
-        text: "Game created by MAT06mat \n\nLogo design by Livou_BAB"
 
 <BlackScreen@BoxLayout>:
     canvas.before:

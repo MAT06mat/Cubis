@@ -141,7 +141,7 @@ class ResetButton(Button):
         self.x = Window.width/2 - self.width/2 + self.width*self.coeff_x
 
 
-class QuitButton(Button):
+class QuitButton(Button, Loop):
     id_level = NumericProperty(0)
     victoire = BooleanProperty(False)
     
@@ -150,14 +150,17 @@ class QuitButton(Button):
         if self.id_level != 0:
             self.coeff_x = 0.2
             self.coeff_h = 0.95
-            self.background_normal = "assets/images/buttons/next.png"
-            self.background_down = "assets/images/buttons/next.png"
+            self.lang_change()
+            TEXTS.bind(current_lang=self.lang_change)
         else:
             self.coeff_x = 0.7
             self.coeff_h = 1
             self.background_normal = "assets/images/buttons/quit.png"
             self.background_down = "assets/images/buttons/quit.png"
-        Clock.schedule_interval(self.loop, 1/60)
+
+    def lang_change(self, *args):
+        self.background_normal = TEXTS.image_path("assets/images/buttons/next.png")
+        self.background_down = TEXTS.image_path("assets/images/buttons/next.png")
     
     def loop(self, *args):
         if self.id_level == 0:

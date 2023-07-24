@@ -63,6 +63,7 @@ LEVELS = Data(file='levels.json')
 
 class Texts(Data):
     current_lang = StringProperty("en")
+    
     def __init__(self, file):
         super().__init__(file)
         SETTINGS.bind(is_init=self.setting_change)
@@ -95,5 +96,13 @@ class Texts(Data):
         for langs in self.get():
             my_langs.append(langs["lang"])
         return my_langs
+
+    def image_path(self, path: str):
+        path = path.split(".")
+        if len(path) != 2:
+            return ValueError
+        path = f'{path[0]}-{self.current_lang}.{path[1]}'
+        return path
+
 
 TEXTS = Texts(file="texts.json")

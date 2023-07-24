@@ -56,6 +56,16 @@ class Setting(FloatLayout):
         self.mainbutton.y = credit_button.y
 
 
+class CreditButton(Button):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.lang_change()
+        TEXTS.bind(current_lang=self.lang_change)
+    
+    def lang_change(self, *args):
+        self.text = TEXTS.key(30)
+
+
 class MusicSlider(Slider):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -101,6 +111,14 @@ class MusicsLabel(Label):
 
 
 class SettingImage(Image, Loop):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.lang_change()
+        TEXTS.bind(current_lang=self.lang_change)
+
+    def lang_change(self, *args):
+        self.source = TEXTS.image_path("assets/images/elements/setting.png")
+        
     def loop(self, *args):
         if self.parent.width < self.parent.height:
             self.width = self.parent.width
@@ -218,10 +236,15 @@ class CreditLabel(Label):
         super().__init__(**kwargs)
         self.time = 0
         Clock.schedule_interval(self.loop, 1/5)
+        self.lang_change()
+        TEXTS.bind(current_lang=self.lang_change)
     
     def time_reset(self):
         self.time = 0
         self.color = (1, 1, 1)
+    
+    def lang_change(self, *args):
+        self.text = TEXTS.key(31)
     
     def loop(self, *args):
         self.time += 1
@@ -229,3 +252,24 @@ class CreditLabel(Label):
             self.color = (randint(0, 100)/100, randint(0, 100)/100, randint(0, 100)/100)
         elif self.time >= 56:
             self.time = 49
+
+class SMButton(Button):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.lang_change()
+        TEXTS.bind(current_lang=self.lang_change)
+
+    def lang_change(self, *args):
+        self.background_normal = TEXTS.image_path("assets/images/buttons/story_mode.png")
+        self.background_down = TEXTS.image_path("assets/images/buttons/story_mode.png")
+
+
+class IMButton(Button):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.lang_change()
+        TEXTS.bind(current_lang=self.lang_change)
+
+    def lang_change(self, *args):
+        self.background_normal = TEXTS.image_path("assets/images/buttons/infinite_mode.png")
+        self.background_down = TEXTS.image_path("assets/images/buttons/infinite_mode.png")

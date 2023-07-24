@@ -55,7 +55,9 @@
   "26": "Rotation",
   "27": "Motifs",
   "28": "Musiques",
-  "29": "Effets sonores"
+  "29": "Effets sonores",
+  "30": "Crédits",
+  "31": "Jeu créé par MAT06mat \n\nDesign du logo par Livou_BAB"
 }, {
   "lang": "en",
   "0": [
@@ -113,5 +115,7 @@
   "26": "Rotation",
   "27": "Patterns",
   "28": "Musics",
-  "29": "Sounds effects"
+  "29": "Sounds effects",
+  "30": "Credits",
+  "31": "Game created by MAT06mat \n\nLogo design by Livou_BAB"
 }]
