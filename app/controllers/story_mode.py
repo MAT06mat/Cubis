@@ -88,7 +88,7 @@ class MyScrollView(ScrollView):
         return super().update_from_scroll(*largs)
 
 
-class TabItem(TabbedPanelItem, Loop):
+class TabItem(TabbedPanelItem):
     levels = ListProperty(None)
     image = StringProperty(None)
     
@@ -98,8 +98,9 @@ class TabItem(TabbedPanelItem, Loop):
         self.scroll_view = MyScrollView(nb_levels=len(self.levels))
         self.scroll_view.add_widget(Area(levels=self.levels))
         self.add_widget(self.scroll_view)
+        TEXTS.bind(current_lang=self.lang_change)
     
-    def loop(self, *args):
+    def lang_change(self, *args):
         self.text = TEXTS.key(self.text_key)
     
     def on_press(self):

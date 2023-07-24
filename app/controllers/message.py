@@ -1,4 +1,3 @@
-from kivy.app import App
 from kivy.lang import Builder
 from kivy.core.window import Window
 from kivy.uix.button import Button
@@ -33,22 +32,26 @@ class Texte(Label, Loop):
         super().__init__(**kwargs)
         self.text_key = text_key
         self.score = score
+        self.lang_change()
+        TEXTS.bind(current_lang=self.lang_change)
+    
+    def lang_change(self, *args):
         if self.mode:
             self.text = TEXTS.key(10)
             for m in self.mode:
                 if self.mode.index(m) > 0:
                     self.text += ", "
                 self.text += TEXTS.key(m)
+        if self.text_key:
+            self.text = TEXTS.key(self.text_key)
+            if self.score:
+                self.text += str(self.score)
         
     def loop(self, *args):
         try:
             self.font_size = self.parent.width/15
         except:
             pass
-        if self.text_key:
-            self.text = TEXTS.key(self.text_key)
-            if self.score:
-                self.text += str(self.score)
                 
 
 
@@ -57,12 +60,16 @@ class Title(Label, Loop):
         super().__init__(**kwargs)
         self.text_key = text_key
         self.id_level = id_level
-        
-    def loop(self, *args):
+        self.lang_change()
+        TEXTS.bind(current_lang=self.lang_change)
+    
+    def lang_change(self, *args):
         if self.id_level:
             self.text = TEXTS.key(self.text_key) + str(self.id_level)
         else:
             self.text = TEXTS.key(self.text_key)
+        
+    def loop(self, *args):
         self.font_size = self.parent.width / 8
 
 

@@ -84,9 +84,9 @@ class EffectsLabel(Label):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.text = TEXTS.key(29)
-        TEXTS.bind(current_lang=self.change)
+        TEXTS.bind(current_lang=self.lang_change)
     
-    def change(self, *args):
+    def lang_change(self, *args):
         self.text = TEXTS.key(29)
     
     
@@ -94,9 +94,9 @@ class MusicsLabel(Label):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.text = TEXTS.key(28)
-        TEXTS.bind(current_lang=self.change)
+        TEXTS.bind(current_lang=self.lang_change)
     
-    def change(self, *args):
+    def lang_change(self, *args):
         self.text = TEXTS.key(28)
 
 
@@ -170,10 +170,14 @@ class StartLabel(Label, Loop):
         super().__init__(**kwargs)
         self.timer = 100
         self.wait = 230
+        self.text = TEXTS.key(16)
+        TEXTS.bind(current_lang=self.lang_change)
+    
+    def lang_change(self, *args):
+        self.text = TEXTS.key(16)
     
     def loop(self, *args):
         # wait a the first delay
-        self.text = TEXTS.key(16)
         self.wait -= 1
         if self.wait < 0:
             self.wait = 0
