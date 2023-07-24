@@ -15,7 +15,7 @@ from kivy.graphics import Color
 from kivy.metrics import dp
 
 from models.loop import Loop
-from models.data import SETTINGS, PIECES, AREAS, LEVELS
+from models.data import SETTINGS, PIECES, AREAS, LEVELS, TEXTS
 from controllers.message import MenuMessage, InfoMessage, VictoireMessage
 
 import os
@@ -426,10 +426,11 @@ class Page(FloatLayout, Loop):
         self.add_widget(self.undo_button)
         self.add_widget(self.menu_button)
         if SETTINGS.get()["Best_score"][0] == 0 and self.id_level == 0:
-            self.message = InfoMessage(message=("Bienvenue dans le\nmode infini de Cubis! ", "Dans ce mode,\nle but est de remplir\nle plus possible de grilles.", "Vous aurez à chaque fois 6\npièces pour la remplir.","À chaque pièce posée,\nvous en regagnerez une autre.", "Le but est donc de faire\nle meilleur score possible.", "Vous avez le droit de tourner\nles pièces autant de fois\nque vous le souhaitez.", "Mais un seul retour\nen arrière est possible !", "Bonne chance !"))
+            self.message = InfoMessage(message=TEXTS.key(0))
             self.add_widget(self.message)
         elif self.id_level == SETTINGS.get()["Current_level"] and "Message" in LEVELS.get()[str(self.id_level)]:
-            message = LEVELS.get()[str(self.id_level)]["Message"]
+            message_key = LEVELS.get()[str(self.id_level)]["Message"]
+            message = TEXTS.key(message_key)
             self.message = InfoMessage(message=message)
             self.add_widget(self.message)
     
@@ -617,7 +618,7 @@ class Game(Screen):
                     if level["Id"] == self.id_level:
                         self.mode = level["Mode"]
                         self.background = area["Background"]
-            self.arrows = "Rotation" in self.mode
+            self.arrows = 26 in self.mode
         self.page = Page(arrows=self.arrows, id_level=self.id_level, mode=self.mode)
         self.my_float.add_widget(Image(source=self.background, fit_mode="cover"))
         self.my_float.add_widget(self.page)

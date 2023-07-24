@@ -24,7 +24,7 @@ class Data(EventDispatcher):
         # Si le fichier n'exite pas, on le créé et on copy les data de base
         if not os.path.exists(os.path.join(path, self.file)):
             with open(os.path.join(path, self.file), 'w', encoding="UTF-8") as file:
-                file.write('{"Best_score": [0, 0, 0, 0, 0], "Last_score": 0, "Current_level": 1, "Music": 50, "Effect": 50}')
+                file.write('{"Best_score": [0, 0, 0, 0, 0], "Last_score": 0, "Current_level": 1, "Music": 50, "Effect": 50, "lang": "en"}')
         self.path = path
         self.is_init = True
     
@@ -40,10 +40,7 @@ class Data(EventDispatcher):
         else:
             with open(self.get_path(), encoding="UTF-8") as file:
                 data = json.load(file)
-            if key in data:
-                data[key] = element
-            else:
-                return KeyError
+            data[key] = element
         with open(self.get_path(), "w", encoding="UTF-8") as file:
             file.write(json.dumps(data))
     
@@ -63,3 +60,40 @@ SETTINGS = Data(file='settings.json')
 AREAS = Data(file='areas.json')
 PIECES = Data(file='pieces.json')
 LEVELS = Data(file='levels.json')
+
+class Texts(Data):
+    def __init__(self, file):
+        super().__init__(file)
+        SETTINGS.bind(is_init=self.setting_change)
+        self.current_lang = "en"
+    
+    def setting_change(self, *args):
+        if 'lang' in SETTINGS.get():
+            self.current_lang = SETTINGS.get()['lang']
+        else:
+            SETTINGS.modify(element='en', key='lang')
+            self.current_lang = "en"
+        
+    def key(self, key):
+        key = str(key)
+        for texts in self.get():
+            if texts["lang"] == self.current_lang:
+                if key in texts:
+                    text = texts[key]
+                    return text
+                else:
+                    return KeyError
+    
+    def change_lang(self, new_lang):
+        if new_lang in self.langs():
+            self.current_lang = new_lang
+        else:
+            return KeyError
+    
+    def langs(self):
+        my_langs = list()
+        for langs in self.get():
+            my_langs.append(langs["lang"])
+        return my_langs
+
+TEXTS = Texts(file="texts.json")

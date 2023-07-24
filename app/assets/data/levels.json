@@ -4,12 +4,7 @@
       [null, null],
       [null, null]
     ],
-    "Message": [
-      "Bienvenue dans le\nmode histoire de Cubis!",
-      "Ici le but est de remplir\nune grille avec des blocs.",
-      "Astuce : Pour utiliser un bloc,\ncliquez dessus et déplacez-le\navec votre doigt.",
-      "Objectif : Remplir la grille."
-    ],
+    "Message": 1,
     "Pieces": [{ "Grid": [[2, 2]] }, { "Grid": [[1]] }, { "Grid": [[4]] }]
   },
   "2": {
@@ -18,11 +13,7 @@
       [null, null, null],
       [null, null, null]
     ],
-    "Message": [
-      "Comme vous pouvez le voir,\nla taille de la grille peut changer.",
-      "Astuce : Vous pouvez revenir\nen arrière avec les flèches\nen haut sur la gauche.",
-      "Objectif : Remplir la grille."
-    ],
+    "Message": 2,
     "Pieces": [
       {
         "Grid": [
@@ -45,11 +36,7 @@
       [0, null, null],
       [0, 0, null]
     ],
-    "Message": [
-      "Dans les niveaux 'Blocs durs',\ndes blocs sont sur la grille\nau lancement du niveau.",
-      "Évitez ces blocs et\nremplissez le reste de la grille.",
-      "Objectif : Remplir\nle reste de la grille."
-    ],
+    "Message": 3,
     "Pieces": [
       {
         "Grid": [
@@ -67,10 +54,7 @@
       [null, null, null, null],
       [null, null, null, null]
     ],
-    "Message": [
-      "Dans beaucoup de niveaux,\nvous pourrez tourner les blocs\navec des flèches.",
-      "Objectif : Remplir la grille\nen tournant les blocs."
-    ],
+    "Message": 4,
     "Pieces": [
       {
         "Grid": [
@@ -98,11 +82,7 @@
       ["2", "2", "2", "3"],
       ["2", "2", "2", "2"]
     ],
-    "Message": [
-      "Certains niveaux auront des motifs.",
-      "Vous ne pourrez poser des\nblocs que si leur couleur\nest la même que celle\ndu motif.",
-      "Objectif : Remplir la grille\navec les bons blocs."
-    ],
+    "Message": 5,
     "Pieces": [
       { "Grid": [[3, 3, 3, 3]] },
       {
@@ -133,10 +113,7 @@
       [null, null, null, null],
       [null, null, null, null]
     ],
-    "Message": [
-      "C'est la fin du tutoriel.\nBonne chance !",
-      "Objectif : Finir le jeu."
-    ],
+    "Message": 6,
     "Pieces": [
       { "Grid": [[2, 2, 2, 2]] },
       {
@@ -731,14 +708,7 @@
     ]
   },
   "20": {
-    "Message": [
-      "Bien joué !\nTu as réussi à arriver\njusqu'à ce niveau !",
-      "Malheureusement,\nce niveau est le dernier.\nPour le moment :)",
-      "Tu as donc fini\nla version bêta de ce jeu.",
-      "Je t'invite donc à\nm'envoyer ton avis sur\nle jeu, les fonctionnalités\nà améliorer, et tes impressions.",
-      "Tu peux me contacter à\nmat06mat22@gmail.com.",
-      "Bonne continuation !"
-    ],
+    "Message": 20,
     "Grid": [
       [
         null,

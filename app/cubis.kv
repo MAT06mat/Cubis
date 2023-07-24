@@ -42,7 +42,6 @@
     StartLabel:
         color: (1, 1, 1, 0)
         font_name: "assets/fonts/Coda-Regular.ttf"
-        text: "Cliquer pour jouer"
         pos_hint: {"center_x": 0.5, "center_y": 0.5}
         size_hint: (None, None)
     StartButton:
@@ -89,7 +88,7 @@
                     on_press: app.manager.push("InfiniteMode", transition_screen=False)
 
 
-<Setting@FloatLayout>:
+<Setting>:
     Image:
         source: "assets/images/backgrounds/menu.jpg"
         fit_mode: "cover"
@@ -136,10 +135,11 @@
         color: "#A04623"
         font_name: "assets/fonts/Coda-Regular.ttf"
     Button:
+        id: credit_button
         size_hint: (None, None)
         width: effect_slider.width
         height: self.width/1222*561
-        pos_hint: {"center_x": 0.5}
+        pos_hint: {"center_x": 0.30}
         y: setting_image.y+setting_image.width*0.2
         text: "Crédits"
         font_size: self.width/10
@@ -162,7 +162,43 @@
         size: ("50dp", "50dp")
         background_normal: "assets/images/buttons/left2.png"
         background_down: "assets/images/buttons/left2.png"
-        on_press: app.manager.pop(transition_screen=False)
+        on_press: app.manager.pop(transition_screen=False)    
+
+<DropButton>:
+    font_size: self.width/10
+    color: "#A04623"
+    font_name: "assets/fonts/Coda-Regular.ttf"
+    background_normal: ""
+    background_down: ""
+    background_color: (0, 0, 0, 0)
+    canvas.before:
+        Color:
+            rgba: (0.82, 0.44, 0.15, 1)
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [10,]
+
+<LButton>:
+    font_size: self.width/10
+    color: "#A04623"
+    font_name: "assets/fonts/Coda-Regular.ttf"
+    background_normal: ""
+    background_down: ""
+    background_color: (0, 0, 0, 0)
+    canvas.before:
+        Color:
+            rgba: (0.72, 0.34, 0.05, 1)
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [10,]
+        Color:
+            rgba: (0.82, 0.44, 0.15, 1)
+        RoundedRectangle:
+            pos: self.x + 2, self.y + 2
+            size: self.width - 4, self.height - 4
+            radius: [10,]
 
 <Credits@FloatLayout>:
     Button:

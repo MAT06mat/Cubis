@@ -10,7 +10,7 @@ from kivy.clock import Clock
 
 from models.loop import Loop
 from models.background_image import MyBackgroundImage
-from models.data import SETTINGS, AREAS
+from models.data import SETTINGS, AREAS, TEXTS
 from controllers.message import PlayMessage, InfoMessage
 
 import os
@@ -88,15 +88,19 @@ class MyScrollView(ScrollView):
         return super().update_from_scroll(*largs)
 
 
-class TabItem(TabbedPanelItem):
+class TabItem(TabbedPanelItem, Loop):
     levels = ListProperty(None)
     image = StringProperty(None)
     
-    def __init__(self, **kwargs):
+    def __init__(self, text_key, **kwargs):
         super().__init__(**kwargs)
+        self.text_key = text_key
         self.scroll_view = MyScrollView(nb_levels=len(self.levels))
         self.scroll_view.add_widget(Area(levels=self.levels))
         self.add_widget(self.scroll_view)
+    
+    def loop(self, *args):
+        self.text = TEXTS.key(self.text_key)
     
     def on_press(self):
         BACKGROUND_IMAGE.clear_widgets()
@@ -118,7 +122,7 @@ class StoryMode(TabbedPanel, Loop):
         super().__init__(**kwargs)
         # create tab item
         for area in AREAS.get():
-            new_TabbedPanelItem = TabItem(text=area["Name"], levels=area["Levels"], image=area["Background"])
+            new_TabbedPanelItem = TabItem(text_key=area["Name"], levels=area["Levels"], image=area["Background"])
             if self.level < SETTINGS.get()["Current_level"]:
                 self.add_widget(new_TabbedPanelItem)
             self.level += len(area["Levels"])
@@ -158,7 +162,7 @@ class StoryModeFloat(FloatLayout):
         for area in AREAS.get():
             if SETTINGS.get()["Current_level"] == area["Levels"][0]["Id"]:
                 self.message_pop()
-                self.message = InfoMessage(message=("Nouvelle zone débloquée !"," Nouvelle zone : "+area["Name"]), title="Information")
+                self.message = InfoMessage(message=(TEXTS.key(17)+TEXTS.key(area["Name"])), title=TEXTS.key(18))
                 self.add_widget(self.message)
                 message = True
         if not message:

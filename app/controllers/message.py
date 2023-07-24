@@ -9,7 +9,8 @@ from kivy.clock import Clock
 from kivy.metrics import dp
 
 from models.cadre import Cadre
-from models.data import AREAS, SETTINGS
+from models.data import AREAS, SETTINGS, TEXTS
+from models.loop import Loop
 
 import os
 
@@ -22,35 +23,46 @@ class PlayButtonStory(Button):
     id_level = NumericProperty(None)
 
 
-class Texte(Label):
+class Texte(Label, Loop):
     halign = "center"
     valign = "middle"
     pos_hint = {"center_x": 0.5, "center_y": 0.6}
     mode = ListProperty(None)
     
-    def __init__(self, **kwargs):
+    def __init__(self, text_key=None, score=None, **kwargs):
         super().__init__(**kwargs)
+        self.text_key = text_key
+        self.score = score
         if self.mode:
-            self.text = "Mode : "
+            self.text = TEXTS.key(10)
             for m in self.mode:
                 if self.mode.index(m) > 0:
                     self.text += ", "
-                self.text += m
-        Clock.schedule_interval(self.loop, 1/60)
+                self.text += TEXTS.key(m)
         
     def loop(self, *args):
         try:
             self.font_size = self.parent.width/15
         except:
             pass
+        if self.text_key:
+            self.text = TEXTS.key(self.text_key)
+            if self.score:
+                self.text += str(self.score)
+                
 
 
-class Title(Label):
-    def __init__(self, **kwargs):
+class Title(Label, Loop):
+    def __init__(self, text_key, id_level=None, **kwargs):
         super().__init__(**kwargs)
-        Clock.schedule_interval(self.loop, 1/60)
+        self.text_key = text_key
+        self.id_level = id_level
         
     def loop(self, *args):
+        if self.id_level:
+            self.text = TEXTS.key(self.text_key) + str(self.id_level)
+        else:
+            self.text = TEXTS.key(self.text_key)
         self.font_size = self.parent.width / 8
 
 
@@ -78,7 +90,7 @@ class PlayMessage(RelativeLayout):
                     mode = level["Mode"]
         self.add_widget(Cadre())
         self.add_widget(Back())
-        self.add_widget(Title(text="Niveau "+str(self.id_level)))
+        self.add_widget(Title(text_key=11, id_level=self.id_level))
         self.add_widget(Texte(mode=mode))
         self.add_widget(PlayButtonStory(id_level=self.id_level))
         self.on_window_resize()
@@ -161,11 +173,11 @@ class MenuMessage(RelativeLayout):
         self.back = Back()
         self.cadre = Cadre()
         if self.id_level != 0:
-            self.level_name = Title(text="Niveau "+str(self.id_level))
+            self.level_name = Title(text_key=11, id_level=self.id_level)
             self.mode_label = Texte(mode=self.mode)
         else:
-            self.level_name = Title(text="Mode Infini")
-            self.mode_label = Texte(text="Votre score : "+str(self.score))
+            self.level_name = Title(text_key=12)
+            self.mode_label = Texte(text_key=13, score=self.score)
         self.quit_button = QuitButton()
         self.setting_button = SettingButton()
         self.reset_button = ResetButton(id_level=self.id_level)
@@ -204,8 +216,8 @@ class VictoireMessage(RelativeLayout):
             self.setting = True
         self.reset_button = ResetButton(id_level=self.id_level, coeff_x=self.coeff_x)
         self.add_widget(Cadre())
-        self.add_widget(Title(text="Victoire !"))
-        self.add_widget(Texte(text="Niveau " + str(self.id_level)))
+        self.add_widget(Title(text=14))
+        self.add_widget(Texte(text=11, score=self.id_level))
         self.add_widget(self.quit_button)
         self.add_widget(self.reset_button)
         if self.setting:
@@ -227,7 +239,7 @@ class VictoireMessage(RelativeLayout):
 
 class InfoMessage(RelativeLayout):
     message = ListProperty(None)
-    title = StringProperty("Tutoriel")
+    title = StringProperty(TEXTS.key(15))
     
     def __init__(self,**kw):
         super().__init__(**kw)
