@@ -138,8 +138,8 @@ class StoryMode(TabbedPanel, Loop):
     
     def loop(self, *args):
         for tab in self.tab_list:
-            tab.color = "#FFFFFF"
-        self.current_tab.color = "#F3E2DB"
+            tab.color = "#F3E2DB"
+        self.current_tab.color = "#FFFFFF"
 
 
 class StoryModeFloat(FloatLayout):
