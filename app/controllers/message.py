@@ -53,7 +53,7 @@ class Texte(Label, Loop):
                 self.text += TEXTS.key(m)
         if self.text_key:
             self.text = TEXTS.key(self.text_key)
-            if self.score:
+            if self.score != None:
                 self.text += str(self.score)
         
     def loop(self, *args):
