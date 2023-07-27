@@ -1,121 +1,118 @@
-[{
-  "lang": "fr",
-  "0": [
-    "Bienvenue dans le\nmode infini de Cubis! ",
-    "Dans ce mode,\nle but est de remplir\nle plus possible de grilles.",
-    "Un seul retour\nen arrière est possible.",
-    "Bonne chance !"
-  ],
-  "1": [
-    "Bienvenue dans le\nmode histoire de Cubis!",
-    "Ici le but est de remplir\nune grille avec des blocs.",
-    "Astuce : Pour utiliser un bloc,\ncliquez dessus et déplacez-le\navec votre doigt."
-  ],
-  "2": [
-    "Comme vous pouvez le voir,\nla taille de la grille peut changer.",
-    "Astuce : Vous pouvez revenir\nen arrière avec les flèches\nen haut sur la gauche."
-  ],
-  "3": [
-    "Dans les niveaux 'Blocs durs',\ndes blocs sont sur la grille\nau lancement du niveau.",
-    "Évitez ces blocs et\nremplissez le reste de la grille."
-  ],
-  "4": [
-    "Dans beaucoup de niveaux,\nvous pourrez tourner les blocs\navec des flèches."
-  ],
-  "5": [
-    "Certains niveaux\nauront des motifs.",
-    "Vous ne pourrez poser des\nblocs que si leur couleur\nest la même que celle\ndu motif."
-  ],
-  "6": [
-    "C'est la fin du tutoriel.\nBonne chance !"
-  ],
-  "8": "Votre dernier score : ",
-  "9": "\nVos meilleurs scores : ",
-  "10": "Mode : ",
-  "11": "Niveau ",
-  "12": "Mode Infini",
-  "13": "Votre score : ",
-  "14": "Victoire !",
-  "15": "Tutoriel",
-  "16": "Cliquer pour jouer",
-  "17": "Nouvelle zone débloquée :\n",
-  "18": "Information",
-  "19": "Plaines",
-  "20": [
-    "Bien joué !\nTu as réussi à finir la première\nversion de ce jeu.",
-    "Je t'invite donc à m'envoyer\nton avis sur le jeu,\nles fonctionnalités à améliorer,\ntes impressions, etc.",
-    "Tu peux me contacter à\nmat06mat22@gmail.com.",
-    "Bonne journée !"
-  ],
-  "21": "Jungle",
-  "22": "Lune",
-  "23": "Enfer",
-  "24": "Classique",
-  "25": "Blocs dur",
-  "26": "Rotation",
-  "27": "Motifs",
-  "28": "Musiques",
-  "29": "Effets sonores",
-  "30": "Crédits",
-  "31": "Jeu créé par MAT06mat \n\nDesign du logo par Livou_BAB"
-}, {
-  "lang": "en",
-  "0": [
-    "Welcome to the\ninfinite mode of Cubis!",
-    "In this mode,\nthe goal is to fill\nas many grids as possible.",
-    "Only one step back\nis allowed.",
-    "Good luck!"
-  ],
-  "1": [
-    "Welcome to the\nstory mode of Cubis!",
-    "Here, the goal is to fill\na grid with blocks.",
-    "Tip: To use a block,\nclick on it and move it\nwith your finger."
-  ],
-  "2": [
-    "As you can see,\nthe size of the grid can change.",
-    "Tip: You can go back\nwith the arrows\nat the top left."
-  ],
-  "3": [
-    "In 'Hard Blocks' levels,\nblocks are already on the grid\nwhen the level starts.",
-    "Avoid these blocks and\nfill the rest of the grid."
-  ],
-  "4": [
-    "In many levels,\nyou'll be able to rotate the blocks\nwith arrows."
-  ],
-  "5": [
-    "Some levels will have patterns.",
-    "You can only place blocks\nif their color matches\nthe pattern's color."
-  ],
-  "6": [
-    "This is the end\n of the tutorial.\nGood luck!"
-  ],
-  "8": "Your last score: ",
-  "9": "\nYour best scores: ",
-  "10": "Mode: ",
-  "11": "Level ",
-  "12": "Infinite",
-  "13": "Your score: ",
-  "14": "Victory!",
-  "15": "Tutorial",
-  "16": "Click to play",
-  "17": "New zone unlocked: ",
-  "18": "Information",
-  "19": "Plains",
-  "20": [
-    "Well done!\nYou have successfully\ncompleted the first\nversion of this game.",
-    "I invite you to send\nme your feedback on the game,\nthe features to improve,\nand your impressions.",
-    "You can contact me at\nmat06mat22@gmail.com.",
-    "Have a great day!"
-  ],
-  "21": "Jungle",
-  "22": "Moon",
-  "23": "Hell",
-  "24": "Classic",
-  "25": "Hard Blocks",
-  "26": "Rotation",
-  "27": "Patterns",
-  "28": "Musics",
-  "29": "Sounds effects",
-  "30": "Credits",
-  "31": "Game created by MAT06mat \n\nLogo design by Livou_BAB"
-}]
+[
+  {
+    "lang": "fr",
+    "0": [
+      "Bienvenue dans le\nmode infini de Cubis! ",
+      "Dans ce mode,\nle but est de remplir\nle plus possible de grilles.",
+      "Un seul retour\nen arrière est possible.",
+      "Bonne chance !"
+    ],
+    "1": [
+      "Bienvenue dans le\nmode histoire de Cubis!",
+      "Ici le but est de remplir\nune grille avec des blocs.",
+      "Astuce : Pour utiliser un bloc,\ncliquez dessus et déplacez-le\navec votre doigt."
+    ],
+    "2": [
+      "Comme vous pouvez le voir,\nla taille de la grille peut changer.",
+      "Astuce : Vous pouvez revenir\nen arrière avec les flèches\nen haut sur la gauche."
+    ],
+    "3": [
+      "Dans les niveaux 'Blocs durs',\ndes blocs sont sur la grille\nau lancement du niveau.",
+      "Évitez ces blocs et\nremplissez le reste de la grille."
+    ],
+    "4": [
+      "Dans beaucoup de niveaux,\nvous pourrez tourner les blocs\navec des flèches."
+    ],
+    "5": [
+      "Certains niveaux\nauront des motifs.",
+      "Vous ne pourrez poser des\nblocs que si leur couleur\nest la même que celle\ndu motif."
+    ],
+    "6": ["C'est la fin du tutoriel.\nBonne chance !"],
+    "8": "Votre dernier score : ",
+    "9": "\nVos meilleurs scores : ",
+    "10": "Mode : ",
+    "11": "Niveau ",
+    "12": "Mode Infini",
+    "13": "Votre score : ",
+    "14": "Victoire !",
+    "15": "Tutoriel",
+    "16": "Cliquer pour jouer",
+    "17": "Nouvelle zone débloquée :\n",
+    "18": "Information",
+    "19": "Plaines",
+    "20": [
+      "Bien joué !\nTu as réussi à finir la première\nversion de ce jeu.",
+      "Je t'invite donc à m'envoyer\nton avis sur le jeu,\nles fonctionnalités à améliorer,\ntes impressions, etc.",
+      "Tu peux me contacter à\nmat06mat22@gmail.com.",
+      "Bonne journée !"
+    ],
+    "21": "Jungle",
+    "22": "Lune",
+    "23": "Enfer",
+    "24": "Classique",
+    "25": "Blocs dur",
+    "26": "Rotation",
+    "27": "Motifs",
+    "28": "Musiques",
+    "29": "Effets sonores",
+    "30": "Crédits",
+    "31": "Jeu créé par MAT06mat \n\nDesign du logo par Livou_BAB"
+  },
+  {
+    "lang": "en",
+    "0": [
+      "Welcome to the\ninfinite mode of Cubis!",
+      "In this mode,\nthe goal is to fill\nas many grids as possible.",
+      "Only one step back\nis allowed.",
+      "Good luck!"
+    ],
+    "1": [
+      "Welcome to the\nstory mode of Cubis!",
+      "Here, the goal is to fill\na grid with blocks.",
+      "Tip: To use a block,\nclick on it and move it\nwith your finger."
+    ],
+    "2": [
+      "As you can see,\nthe size of the grid can change.",
+      "Tip: You can go back\nwith the arrows\nat the top left."
+    ],
+    "3": [
+      "In 'Hard Blocks' levels,\nblocks are already on the grid\nwhen the level starts.",
+      "Avoid these blocks and\nfill the rest of the grid."
+    ],
+    "4": ["In many levels,\nyou'll be able to rotate the blocks\nwith arrows."],
+    "5": [
+      "Some levels will have patterns.",
+      "You can only place blocks\nif their color matches\nthe pattern's color."
+    ],
+    "6": ["This is the end\n of the tutorial.\nGood luck!"],
+    "8": "Your last score: ",
+    "9": "\nYour best scores: ",
+    "10": "Mode: ",
+    "11": "Level ",
+    "12": "Infinite",
+    "13": "Your score: ",
+    "14": "Victory!",
+    "15": "Tutorial",
+    "16": "Click to play",
+    "17": "New zone unlocked: ",
+    "18": "Information",
+    "19": "Plains",
+    "20": [
+      "Well done!\nYou managed to finish the first\nversion of this game.",
+      "I invite you to send me\nyour feedback on the game,\nfeatures to improve,\nyour impressions, etc.",
+      "You can contact me at\nmat06mat22@gmail.com.",
+      "Have a great day!"
+    ],
+    "21": "Jungle",
+    "22": "Moon",
+    "23": "Hell",
+    "24": "Classic",
+    "25": "Hard Blocks",
+    "26": "Rotation",
+    "27": "Patterns",
+    "28": "Musics",
+    "29": "Sounds effects",
+    "30": "Credits",
+    "31": "Game created by MAT06mat \n\nLogo design by Livou_BAB"
+  }
+]
