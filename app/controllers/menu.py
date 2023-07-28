@@ -25,9 +25,11 @@ class LButton(Button):
 class LangButton(DropDown):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.bnt_list = []
         for lang in TEXTS.langs():
-            b = LButton(text=TEXTS.complete_lang(lang), size_hint_y=None, height=44)
+            b = LButton(text=TEXTS.complete_lang(lang), size_hint_y=None)
             self.add_widget(b)
+            self.bnt_list.append(b)
         self.select(SETTINGS.get()['lang'])
 
 
@@ -54,6 +56,8 @@ class Setting(FloatLayout):
         self.mainbutton.width = credit_button.width
         self.mainbutton.height = credit_button.height
         self.mainbutton.y = credit_button.y
+        for bnt in self.dropdown.bnt_list:
+            bnt.height = credit_button.height /2
 
 
 class CreditButton(Button):
