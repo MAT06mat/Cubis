@@ -149,40 +149,27 @@ class MenuBoxLayout(BoxLayout, Loop):
             self.width -= 1
 
 
-class Presplash(Image, Loop):
+class StartImage(Image, Loop):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.timer = 102
+        self.timer = 0
+        self.color = (1, 1, 1, 0)
     
     def loop(self, *args):
-        self.timer -= 3
-        if self.timer < 0:
-            self.timer = 0
+        self.timer += 1
+        if self.timer > 100:
+            self.timer = 100
         self.color = (1, 1, 1, self.timer/100)
 
 
 class StartButton(Button, Loop):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.timer = 200
-        self.o = 100
-        self.wait = 220
-        with self.canvas:
-            Color(1, 1, 1, self.o/100)
-            Rectangle(pos=self.pos, size=self.size)
+        self.wait = 180
     
     def loop(self, *args):
-        self.timer -= 1
-        self.o = self.timer
-        if self.o >= 100:
-            self.o = 100
-        self.canvas.clear()
-        with self.canvas:
-            Color(1, 1, 1, self.o/100)
-            Rectangle(pos=self.pos, size=self.size)
         self.wait -= 1
         if self.wait < 0:
-            self.timer = 0
             self.wait = 0
             self.disabled = False
     
@@ -191,7 +178,7 @@ class StartLabel(Label, Loop):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.timer = 100
-        self.wait = 230
+        self.wait = 150
         self.lang_change()
         TEXTS.bind(current_lang=self.lang_change)
     
