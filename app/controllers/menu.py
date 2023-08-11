@@ -156,7 +156,7 @@ class StartImage(Image, Loop):
         self.color = (1, 1, 1, 0)
     
     def loop(self, *args):
-        self.timer += 1
+        self.timer += 1.5
         if self.timer > 100:
             self.timer = 100
         self.color = (1, 1, 1, self.timer/100)
@@ -165,7 +165,7 @@ class StartImage(Image, Loop):
 class StartButton(Button, Loop):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.wait = 180
+        self.wait = 120
     
     def loop(self, *args):
         self.wait -= 1
@@ -178,7 +178,7 @@ class StartLabel(Label, Loop):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.timer = 100
-        self.wait = 150
+        self.wait = 120
         self.lang_change()
         TEXTS.bind(current_lang=self.lang_change)
     
