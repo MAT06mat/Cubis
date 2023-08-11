@@ -84,7 +84,7 @@ class MyScrollView(ScrollView):
         if tuto:
             BACKGROUND_IMAGE.children[0].pos_hint = {"x": 0}
         else:
-            BACKGROUND_IMAGE.children[0].pos_hint = {"x": -self.scroll_x/100*self.nb_levels-0.25}
+            BACKGROUND_IMAGE.children[0].pos_hint = {"x": -self.scroll_x/50*self.nb_levels-0.25} # Modified /50   |   /100 Default
         return super().update_from_scroll(*largs)
 
 
@@ -130,6 +130,7 @@ class StoryMode(TabbedPanel, Loop):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         # create tab item
+        self.bar_width = 0
         for area in AREAS.get():
             new_TabbedPanelItem = TabItem(text_key=area["Name"], levels=area["Levels"], image=area["Background"], disabled=True)
             self.add_widget(new_TabbedPanelItem)
