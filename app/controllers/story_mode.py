@@ -100,9 +100,16 @@ class TabItem(TabbedPanelItem):
         self.add_widget(self.scroll_view)
         self.lang_change()
         TEXTS.bind(current_lang=self.lang_change)
+        self.bind(disabled=self.text_change)
     
     def lang_change(self, *args):
-        self.text = TEXTS.key(self.text_key)
+        self.text_change()
+        
+    def text_change(self, *args):
+        if self.disabled:
+            self.text = "???"
+        else:
+            self.text = TEXTS.key(self.text_key)
     
     def on_press(self):
         BACKGROUND_IMAGE.clear_widgets()
@@ -124,17 +131,21 @@ class StoryMode(TabbedPanel, Loop):
         super().__init__(**kwargs)
         # create tab item
         for area in AREAS.get():
-            new_TabbedPanelItem = TabItem(text_key=area["Name"], levels=area["Levels"], image=area["Background"])
+            new_TabbedPanelItem = TabItem(text_key=area["Name"], levels=area["Levels"], image=area["Background"], disabled=True)
+            self.add_widget(new_TabbedPanelItem)
             if self.level < SETTINGS.get()["Current_level"]:
-                self.add_widget(new_TabbedPanelItem)
+                new_TabbedPanelItem.disabled = False
             self.level += len(area["Levels"])
         # Wait the loop in top is end
         Clock.schedule_once(self.select_first_tab, 0)
         
     def select_first_tab(self, dt):
         if self.tab_list:
-            self.switch_to(self.tab_list[0])
-            self.tab_list[0].on_press()
+            for tab in self.tab_list[:-1]:
+                if tab.disabled == False:
+                    self.switch_to(tab)
+                    tab.on_press()
+                    return
     
     def loop(self, *args):
         for tab in self.tab_list:
