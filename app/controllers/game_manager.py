@@ -96,7 +96,11 @@ class RedoButton(Button, Loop):
     def on_press(self):
         if self.parent.message != None:
             return super().on_press()
-        self.parent.redo()
+        if self.parent.current_piece != None:
+            if self.parent.current_piece.delta_pos == None:
+                self.parent.redo()
+        else:
+            self.parent.redo()
         return super().on_press()
 
 
@@ -107,7 +111,11 @@ class UndoButton(Button, Loop):
     def on_press(self):
         if self.parent.message != None:
             return super().on_press()
-        self.parent.undo()
+        if self.parent.current_piece != None:
+            if self.parent.current_piece.delta_pos == None:
+                self.parent.undo()
+        else:
+            self.parent.undo()
         return super().on_press()
 
 
@@ -144,7 +152,11 @@ class MenuButton(Button, Loop):
     def on_press(self):
         if self.parent.message != None:
             return super().on_press()
-        self.parent.message_push()
+        if self.parent.current_piece != None:
+            if self.parent.current_piece.delta_pos == None:
+                self.parent.message_push()
+        else:
+            self.parent.message_push()
         return super().on_press()
 
 
