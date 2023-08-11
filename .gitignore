@@ -9,6 +9,7 @@ app/models/__pycache__/cadre.cpython-310.pyc
 app/models/__pycache__/data.cpython-310.pyc
 app/models/__pycache__/loop.cpython-310.pyc
 app/models/__pycache__/navigation_sreen_manager.cpython-310.pyc
+app/models/__pycache__/decorators.cpython-310.pyc
 venv/pyvenv.cfg
 venv/Lib/site-packages/distutils-precedence.pth
 venv/Lib/site-packages/pythoncom.py

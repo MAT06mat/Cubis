@@ -16,6 +16,7 @@ from kivy.metrics import dp
 
 from models.loop import Loop
 from models.data import SETTINGS, PIECES, AREAS, LEVELS, TEXTS
+from models.decorators import if_no_message, if_no_piece
 from controllers.message import MenuMessage, InfoMessage, VictoireMessage
 
 import os
@@ -93,14 +94,10 @@ class RedoButton(Button, Loop):
         self.x = self.width*0.8
         self.y = Window.height - self.height*0.9
 
+    @if_no_message
+    @if_no_piece
     def on_press(self):
-        if self.parent.message != None:
-            return super().on_press()
-        if self.parent.current_piece != None:
-            if self.parent.current_piece.delta_pos == None:
-                self.parent.redo()
-        else:
-            self.parent.redo()
+        self.parent.redo()
         return super().on_press()
 
 
@@ -108,14 +105,10 @@ class UndoButton(Button, Loop):
     def loop(self, *args):
         self.y = Window.height - self.height*0.9
 
+    @if_no_message
+    @if_no_piece
     def on_press(self):
-        if self.parent.message != None:
-            return super().on_press()
-        if self.parent.current_piece != None:
-            if self.parent.current_piece.delta_pos == None:
-                self.parent.undo()
-        else:
-            self.parent.undo()
+        self.parent.undo()
         return super().on_press()
 
 
@@ -149,14 +142,10 @@ class MenuButton(Button, Loop):
         self.x = Window.width - self.width*0.9
         self.y = Window.height - self.height*0.9
     
+    @if_no_message
+    @if_no_piece
     def on_press(self):
-        if self.parent.message != None:
-            return super().on_press()
-        if self.parent.current_piece != None:
-            if self.parent.current_piece.delta_pos == None:
-                self.parent.message_push()
-        else:
-            self.parent.message_push()
+        self.parent.message_push()
         return super().on_press()
 
 
@@ -200,32 +189,30 @@ class CurrentPiece(RelativeLayout, Loop):
             self.pos = (touch.pos[0] - self.delta_pos[0], touch.pos[1] - self.delta_pos[1])
     
     def right(self):
-        if self.delta_pos == None:
-            self.new_grid = []
-            for y in range(self.nb_c):
-                self.new_grid.append([])
-                for x in range(self.nb_l):
-                    self.new_grid[y].append(None)
-            for y in range(len(self.grid)):
-                for x in range(len(self.grid[y])):
-                    self.new_grid[x][-(y+1)] = self.grid[y][x]
-            self.grid = self.new_grid
-            self.nb_l = len(self.grid)
-            self.nb_c = len(self.grid[0])
+        self.new_grid = []
+        for y in range(self.nb_c):
+            self.new_grid.append([])
+            for x in range(self.nb_l):
+                self.new_grid[y].append(None)
+        for y in range(len(self.grid)):
+            for x in range(len(self.grid[y])):
+                self.new_grid[x][-(y+1)] = self.grid[y][x]
+        self.grid = self.new_grid
+        self.nb_l = len(self.grid)
+        self.nb_c = len(self.grid[0])
     
-    def left(self, force=False):
-        if self.delta_pos == None or force:
-            self.new_grid = []
-            for y in range(self.nb_c):
-                self.new_grid.append([])
-                for x in range(self.nb_l):
-                    self.new_grid[y].append(None)
-            for y in range(len(self.grid)):
-                for x in range(len(self.grid[y])):
-                    self.new_grid[-(x+1)][y] = self.grid[y][x]
-            self.grid = self.new_grid
-            self.nb_l = len(self.grid)
-            self.nb_c = len(self.grid[0])
+    def left(self):
+        self.new_grid = []
+        for y in range(self.nb_c):
+            self.new_grid.append([])
+            for x in range(self.nb_l):
+                self.new_grid[y].append(None)
+        for y in range(len(self.grid)):
+            for x in range(len(self.grid[y])):
+                self.new_grid[-(x+1)][y] = self.grid[y][x]
+        self.grid = self.new_grid
+        self.nb_l = len(self.grid)
+        self.nb_c = len(self.grid[0])
 
 
 class PieceButton(Button, Loop):
@@ -386,20 +373,18 @@ class Arrow(Button, Loop):
 
 
 class RightArrow(Arrow):
+    @if_no_message
+    @if_no_piece
     def on_press(self):
-        if self.parent.message != None:
-            return super().on_press()
-        if self.parent.current_piece != None:
-            self.parent.current_piece.right()
+        self.parent.current_piece.right()
         return super().on_press()
 
 
 class LeftArrow(Arrow):
+    @if_no_message
+    @if_no_piece
     def on_press(self):
-        if self.parent.message != None:
-            return super().on_press()
-        if self.parent.current_piece != None:
-            self.parent.current_piece.left()
+        self.parent.current_piece.left()
         return super().on_press()
 
 
@@ -490,7 +475,7 @@ class Page(FloatLayout, Loop):
                         self.zone_piece.my_scroll_view.grid_piece.piece_button.remove(piece)
                         self.zone_piece.my_scroll_view.grid_piece.remove_widget(piece)
                         continue
-                self.current_piece.left(force=True)
+                self.current_piece.left()
             self.current_piece = None
             if self.id_level ==0:
                 grid = self.zone_piece.my_scroll_view.grid_piece.generation()
