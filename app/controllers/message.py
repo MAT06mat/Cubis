@@ -50,6 +50,8 @@ class Texte(Label, Loop):
             for m in self.mode:
                 if self.mode.index(m) > 0:
                     self.text += ", "
+                if len(self.mode) > 2 and self.mode.index(m) == 1:
+                    self.text += "\n"
                 self.text += TEXTS.key(m)
         if self.text_key:
             self.text = TEXTS.key(self.text_key)
