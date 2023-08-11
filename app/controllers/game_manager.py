@@ -70,9 +70,15 @@ def dispaly_grid(self, background=False, border=False, relative=False):
                     else:
                         Color(*COLOR[int(self.grid[y][x])])
                     if not relative:
-                        Rectangle(pos=(self.x+get_min_x(self)+x*self.size_line,self.y+get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), source="assets/images/elements/bloc.png")
+                        if int(self.grid[y][x]) == 0:
+                            Rectangle(pos=(self.x+get_min_x(self)+x*self.size_line,self.y+get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), source="assets/images/elements/block2.png")
+                        else:
+                            Rectangle(pos=(self.x+get_min_x(self)+x*self.size_line,self.y+get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), source="assets/images/elements/block.png")
                     else:
-                        Rectangle(pos=(get_min_x(self)+x*self.size_line,get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), source="assets/images/elements/bloc.png")
+                        if int(self.grid[y][x]) == 0:
+                            Rectangle(pos=(get_min_x(self)+x*self.size_line,get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), source="assets/images/elements/block2.png")
+                        else:
+                            Rectangle(pos=(get_min_x(self)+x*self.size_line,get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), source="assets/images/elements/block.png")
         if background and not relative:
             self.background_debug.size = (self.width, self.height)
             self.background_debug.pos = self.pos
