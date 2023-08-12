@@ -1,1147 +1,1147 @@
 {
   "1": {
     "Grid": [
-      [null, null],
-      [null, null]
+      ["NV", "NV"],
+      ["NV", "NV"]
     ],
     "Message": 1,
-    "Pieces": [{ "Grid": [[2, 2]] }, { "Grid": [[1]] }, { "Grid": [[4]] }]
+    "Pieces": [{ "Grid": [["N2", "N2"]] }, { "Grid": [["N1"]] }, { "Grid": [["N4"]] }]
   },
   "2": {
     "Grid": [
-      [null, null, null],
-      [null, null, null],
-      [null, null, null]
+      ["NV", "NV", "NV"],
+      ["NV", "NV", "NV"],
+      ["NV", "NV", "NV"]
     ],
     "Message": 2,
     "Pieces": [
       {
         "Grid": [
-          [4, 4, 4],
-          [4, null, null]
+          ["N4", "N4", "N4"],
+          ["N4", "NV", "NV"]
         ]
       },
       {
         "Grid": [
-          [3, 3],
-          [3, 3]
+          ["N3", "N3"],
+          ["N3", "N3"]
         ]
       },
-      { "Grid": [[2]] }
+      { "Grid": [["N2"]] }
     ]
   },
   "3": {
     "Grid": [
-      [0, null, null],
-      [0, null, null],
-      [0, 0, null]
+      ["NH", "NV", "NV"],
+      ["NH", "NV", "NV"],
+      ["NH", "NH", "NV"]
     ],
     "Message": 3,
     "Pieces": [
       {
         "Grid": [
-          [1, 1],
-          [1, null]
+          ["N1", "N1"],
+          ["N1", "NV"]
         ]
       },
-      { "Grid": [[3], [3]] }
+      { "Grid": [["N3"], ["N3"]] }
     ]
   },
   "4": {
     "Grid": [
-      [0, null, null, null],
-      [null, null, null, null],
-      [null, null, null, null],
-      [null, null, null, null]
+      ["NH", "NV", "NV", "NV"],
+      ["NV", "NV", "NV", "NV"],
+      ["NV", "NV", "NV", "NV"],
+      ["NV", "NV", "NV", "NV"]
     ],
     "Message": 4,
     "Pieces": [
       {
         "Grid": [
-          [1, 1],
-          [1, null],
-          [1, null],
-          [1, null]
+          ["N1", "N1"],
+          ["N1", "NV"],
+          ["N1", "NV"],
+          ["N1", "NV"]
         ]
       },
-      { "Grid": [[2, 2]] },
+      { "Grid": [["N2", "N2"]] },
       {
         "Grid": [
-          [3, 3],
-          [3, 3],
-          [3, 3],
-          [3, 3]
+          ["N3", "N3"],
+          ["N3", "N3"],
+          ["N3", "N3"],
+          ["N3", "N3"]
         ]
       }
     ]
   },
   "5": {
     "Grid": [
-      ["3", "3", "3", "3"],
-      ["2", "2", "3", "3"],
-      ["2", "2", "2", "3"],
-      ["2", "2", "2", "2"]
+      ["M3", "M3", "M3", "M3"],
+      ["M2", "M2", "M3", "M3"],
+      ["M2", "M2", "M2", "M3"],
+      ["M2", "M2", "M2", "M2"]
     ],
     "Message": 5,
     "Pieces": [
-      { "Grid": [[3, 3, 3, 3]] },
+      { "Grid": [["N3", "N3", "N3", "N3"]] },
       {
         "Grid": [
-          [3, 3],
-          [null, 3]
+          ["N3", "N3"],
+          ["NV", "N3"]
         ]
       },
       {
         "Grid": [
-          [2, 2],
-          [2, null],
-          [2, null]
+          ["N2", "N2"],
+          ["N2", "NV"],
+          ["N2", "NV"]
         ]
       },
       {
         "Grid": [
-          [2, 2, null],
-          [2, 2, 2]
+          ["N2", "N2", "NV"],
+          ["N2", "N2", "N2"]
         ]
       }
     ]
   },
   "6": {
     "Grid": [
-      [null, null, null, null],
-      [null, null, null, null],
-      [null, null, null, null],
-      [null, null, null, null]
+      ["NV", "NV", "NV", "NV"],
+      ["NV", "NV", "NV", "NV"],
+      ["NV", "NV", "NV", "NV"],
+      ["NV", "NV", "NV", "NV"]
     ],
     "Message": 6,
     "Pieces": [
-      { "Grid": [[2, 2, 2, 2]] },
+      { "Grid": [["N2", "N2", "N2", "N2"]] },
       {
-        "Grid": [[4], [4], [4]]
+        "Grid": [["N4"], ["N4"], ["N4"]]
       },
       {
         "Grid": [
-          [null, null, 5],
-          [5, 5, 5]
+          ["NV", "NV", "N5"],
+          ["N5", "N5", "N5"]
         ]
       },
       {
         "Grid": [
-          [1, 1, 1],
-          [1, 1, null]
+          ["N1", "N1", "N1"],
+          ["N1", "N1", "NV"]
         ]
       }
     ]
   },
   "7": {
     "Grid": [
-      [0, null, null, null],
-      [null, 0, null, null],
-      [null, null, 0, null],
-      [null, null, null, null]
+      ["NH", "NV", "NV", "NV"],
+      ["NV", "NH", "NV", "NV"],
+      ["NV", "NV", "NH", "NV"],
+      ["NV", "NV", "NV", "NV"]
     ],
     "Pieces": [
       {
-        "Grid": [[2]]
+        "Grid": [["N2"]]
       },
       {
-        "Grid": [[6], [6], [6]]
+        "Grid": [["N6"], ["N6"], ["N6"]]
       },
       {
         "Grid": [
-          [1, 1],
-          [1, null]
+          ["N1", "N1"],
+          ["N1", "NV"]
         ]
       },
       {
-        "Grid": [[2]]
+        "Grid": [["N2"]]
       },
-      { "Grid": [[5, 5, 5]] },
+      { "Grid": [["N5", "N5", "N5"]] },
       {
-        "Grid": [[3], [3]]
+        "Grid": [["N3"], ["N3"]]
       }
     ]
   },
   "8": {
     "Grid": [
-      [null, null, null, null],
-      [null, null, null, null],
-      [null, null, null, null],
-      [null, null, null, null]
+      ["NV", "NV", "NV", "NV"],
+      ["NV", "NV", "NV", "NV"],
+      ["NV", "NV", "NV", "NV"],
+      ["NV", "NV", "NV", "NV"]
     ],
     "Pieces": [
       {
         "Grid": [
-          [2, null],
-          [2, null],
-          [1, 1]
+          ["N2", "NV"],
+          ["N2", "NV"],
+          ["N1", "N1"]
         ]
       },
       {
         "Grid": [
-          [6, 6],
-          [5, null],
-          [5, null]
+          ["N6", "N6"],
+          ["N5", "NV"],
+          ["N5", "NV"]
         ]
       },
       {
-        "Grid": [[1], [2], [5], [3]]
+        "Grid": [["N1"], ["N2"], ["N5"], ["N3"]]
       },
       {
         "Grid": [
-          [null, 6],
-          [3, 3],
-          [5, null]
+          ["NV", "N6"],
+          ["N3", "N3"],
+          ["N5", "NV"]
         ]
       }
     ]
   },
   "9": {
     "Grid": [
-      [null, null, null, null],
-      [null, null, 0, null],
-      [null, 0, null, null],
-      [null, null, null, 0]
+      ["NV", "NV", "NV", "NV"],
+      ["NV", "NV", "NH", "NV"],
+      ["NV", "NH", "NV", "NV"],
+      ["NV", "NV", "NV", "NH"]
     ],
     "Pieces": [
       {
-        "Grid": [[3], [3]]
+        "Grid": [["N3"], ["N3"]]
       },
       {
-        "Grid": [[4], [4], [4]]
+        "Grid": [["N4"], ["N4"], ["N4"]]
       },
       {
         "Grid": [
-          [null, 2, 2],
-          [2, 2, null]
+          ["NV", "N2", "N2"],
+          ["N2", "N2", "NV"]
         ]
       },
       {
-        "Grid": [[2]]
+        "Grid": [["N2"]]
       },
-      { "Grid": [[1, 1, 1]] }
+      { "Grid": [["N1", "N1", "N1"]] }
     ]
   },
   "10": {
     "Grid": [
-      ["5", "5", "5", "5", "5"],
-      ["4", "4", "5", "5", "5"],
-      ["4", "4", "4", "4", "5"],
-      ["4", "4", "4", "4", "5"],
-      ["4", "4", "4", "4", "4"]
+      ["M5", "M5", "M5", "M5", "M5"],
+      ["M4", "M4", "M5", "M5", "M5"],
+      ["M4", "M4", "M4", "M4", "M5"],
+      ["M4", "M4", "M4", "M4", "M5"],
+      ["M4", "M4", "M4", "M4", "M4"]
     ],
     "Pieces": [
       {
-        "Grid": [[5]]
+        "Grid": [["N5"]]
       },
       {
-        "Grid": [[5], [5], [4]]
-      },
-      {
-        "Grid": [
-          [null, 4, 4],
-          [5, 5, null]
-        ]
-      },
-      {
-        "Grid": [[5], [5], [5], [5], [5]]
+        "Grid": [["N5"], ["N5"], ["N4"]]
       },
       {
         "Grid": [
-          [4, null],
-          [4, 4],
-          [4, 4]
+          ["NV", "N4", "N4"],
+          ["N5", "N5", "NV"]
         ]
       },
       {
-        "Grid": [[4, 4, 4]]
+        "Grid": [["N5"], ["N5"], ["N5"], ["N5"], ["N5"]]
       },
       {
-        "Grid": [[4, 4, 4, 4]]
+        "Grid": [
+          ["N4", "NV"],
+          ["N4", "N4"],
+          ["N4", "N4"]
+        ]
+      },
+      {
+        "Grid": [["N4", "N4", "N4"]]
+      },
+      {
+        "Grid": [["N4", "N4", "N4", "N4"]]
       }
     ]
   },
   "11": {
     "Grid": [
-      [null, null, null, null, null],
-      [null, null, null, null, null],
-      [null, null, null, null, null],
-      [null, null, null, null, null]
+      ["NV", "NV", "NV", "NV", "NV"],
+      ["NV", "NV", "NV", "NV", "NV"],
+      ["NV", "NV", "NV", "NV", "NV"],
+      ["NV", "NV", "NV", "NV", "NV"]
     ],
     "Pieces": [
       {
-        "Grid": [[4], [4], [4]]
+        "Grid": [["N4"], ["N4"], ["N4"]]
       },
       {
         "Grid": [
-          [2, 2, 2],
-          [2, 2, 2]
+          ["N2", "N2", "N2"],
+          ["N2", "N2", "N2"]
         ]
       },
       {
         "Grid": [
-          [5, 5],
-          [5, 5],
-          [5, 5]
+          ["N5", "N5"],
+          ["N5", "N5"],
+          ["N5", "N5"]
         ]
       },
       {
         "Grid": [
-          [null, null, null, 1],
-          [1, 1, 1, 1]
+          ["NV", "NV", "NV", "N1"],
+          ["N1", "N1", "N1", "N1"]
         ]
       }
     ]
   },
   "12": {
     "Grid": [
-      [null, null, null, null, null],
-      [null, null, null, null, null],
-      [null, null, null, null, null],
-      [null, null, null, null, null],
-      [null, null, null, null, null]
+      ["NV", "NV", "NV", "NV", "NV"],
+      ["NV", "NV", "NV", "NV", "NV"],
+      ["NV", "NV", "NV", "NV", "NV"],
+      ["NV", "NV", "NV", "NV", "NV"],
+      ["NV", "NV", "NV", "NV", "NV"]
     ],
     "Pieces": [
       {
         "Grid": [
-          [1, 1],
-          [1, null],
-          [1, null],
-          [1, null]
+          ["N1", "N1"],
+          ["N1", "NV"],
+          ["N1", "NV"],
+          ["N1", "NV"]
         ]
       },
       {
         "Grid": [
-          [2, 2],
-          [2, null],
-          [2, null],
-          [2, null]
+          ["N2", "N2"],
+          ["N2", "NV"],
+          ["N2", "NV"],
+          ["N2", "NV"]
         ]
       },
       {
         "Grid": [
-          [5, 5, null],
-          [5, 5, 5]
+          ["N5", "N5", "NV"],
+          ["N5", "N5", "N5"]
         ]
       },
       {
         "Grid": [
-          [3, null],
-          [3, 3]
+          ["N3", "NV"],
+          ["N3", "N3"]
         ]
       },
       {
         "Grid": [
-          [3, 3],
-          [3, null]
+          ["N3", "N3"],
+          ["N3", "NV"]
         ]
       },
       {
         "Grid": [
-          [6, 6],
-          [6, null],
-          [6, null]
+          ["N6", "N6"],
+          ["N6", "NV"],
+          ["N6", "NV"]
         ]
       }
     ]
   },
   "13": {
     "Grid": [
-      [0, null, null, null, null],
-      [0, null, null, 0, 0],
-      [null, 0, 0, null, null],
-      [null, null, 0, null, null],
-      [null, null, null, null, 0]
+      ["NH", "NV", "NV", "NV", "NV"],
+      ["NH", "NV", "NV", "NH", "NH"],
+      ["NV", "NH", "NH", "NV", "NV"],
+      ["NV", "NV", "NH", "NV", "NV"],
+      ["NV", "NV", "NV", "NV", "NH"]
     ],
     "Pieces": [
-      { "Grid": [[2, 2]] },
+      { "Grid": [["N2", "N2"]] },
       {
         "Grid": [
-          [2, null],
-          [2, null],
-          [null, 2]
+          ["N2", "NV"],
+          ["N2", "NV"],
+          ["NV", "N2"]
         ]
       },
-      { "Grid": [[1]] },
+      { "Grid": [["N1"]] },
       {
-        "Grid": [[4], [4], [4]]
+        "Grid": [["N4"], ["N4"], ["N4"]]
       },
       {
         "Grid": [
-          [3, null],
-          [3, null],
-          [null, null],
-          [null, 3],
-          [null, 3]
+          ["N3", "NV"],
+          ["N3", "NV"],
+          ["NV", "NV"],
+          ["NV", "N3"],
+          ["NV", "N3"]
         ]
       },
       {
         "Grid": [
-          [null, 5, 5],
-          [5, 5, null]
+          ["NV", "N5", "N5"],
+          ["N5", "N5", "NV"]
         ]
       }
     ]
   },
   "14": {
     "Grid": [
-      [null, null, null, null],
-      [null, null, null, null],
-      [null, null, null, null],
-      [null, null, null, null],
-      [null, null, null, null]
+      ["NV", "NV", "NV", "NV"],
+      ["NV", "NV", "NV", "NV"],
+      ["NV", "NV", "NV", "NV"],
+      ["NV", "NV", "NV", "NV"],
+      ["NV", "NV", "NV", "NV"]
     ],
     "Pieces": [
       {
         "Grid": [
-          [5, 5],
-          [5, null],
-          [5, null],
-          [5, null]
+          ["N5", "N5"],
+          ["N5", "NV"],
+          ["N5", "NV"],
+          ["N5", "NV"]
         ]
       },
       {
         "Grid": [
-          [6, 6],
-          [6, 6],
-          [6, 6]
+          ["N6", "N6"],
+          ["N6", "N6"],
+          ["N6", "N6"]
         ]
       },
       {
         "Grid": [
-          [2, 2],
-          [2, null]
+          ["N2", "N2"],
+          ["N2", "NV"]
         ]
       },
-      { "Grid": [[6, 6, 6]] },
+      { "Grid": [["N6", "N6", "N6"]] },
       {
         "Grid": [
-          [1, 1],
-          [1, null]
+          ["N1", "N1"],
+          ["N1", "NV"]
         ]
       }
     ]
   },
   "15": {
     "Grid": [
-      [null, null, null, null, null],
-      [null, null, 0, null, null],
-      [null, 0, 0, 0, null],
-      [null, null, 0, null, null],
-      [null, null, null, null, null]
+      ["NV", "NV", "NV", "NV", "NV"],
+      ["NV", "NV", "NH", "NV", "NV"],
+      ["NV", "NH", "NH", "NH", "NV"],
+      ["NV", "NV", "NH", "NV", "NV"],
+      ["NV", "NV", "NV", "NV", "NV"]
     ],
     "Pieces": [
       {
         "Grid": [
-          [null, 3],
-          [3, 3]
+          ["NV", "N3"],
+          ["N3", "N3"]
         ]
       },
-      { "Grid": [[6]] },
-      { "Grid": [[2, 2, 2]] },
+      { "Grid": [["N6"]] },
+      { "Grid": [["N2", "N2", "N2"]] },
       {
         "Grid": [
-          [4, null],
-          [4, 4],
-          [4, null]
-        ]
-      },
-      {
-        "Grid": [
-          [null, 2],
-          [2, 2]
+          ["N4", "NV"],
+          ["N4", "N4"],
+          ["N4", "NV"]
         ]
       },
       {
         "Grid": [
-          [1, null],
-          [1, 1]
+          ["NV", "N2"],
+          ["N2", "N2"]
         ]
       },
       {
         "Grid": [
-          [null, null, 2],
-          [null, 2, null],
-          [2, null, null]
+          ["N1", "NV"],
+          ["N1", "N1"]
+        ]
+      },
+      {
+        "Grid": [
+          ["NV", "NV", "N2"],
+          ["NV", "N2", "NV"],
+          ["N2", "NV", "NV"]
         ]
       }
     ]
   },
   "16": {
     "Grid": [
-      [null, null, null, null, 0],
-      [null, null, null, null, null],
-      [null, null, null, null, null],
-      [null, null, null, null, null],
-      [0, null, null, null, 0]
+      ["NV", "NV", "NV", "NV", "NH"],
+      ["NV", "NV", "NV", "NV", "NV"],
+      ["NV", "NV", "NV", "NV", "NV"],
+      ["NV", "NV", "NV", "NV", "NV"],
+      ["NH", "NV", "NV", "NV", "NH"]
     ],
     "Pieces": [
       {
         "Grid": [
-          [5, null],
-          [5, 5]
+          ["N5", "NV"],
+          ["N5", "N5"]
         ]
       },
       {
         "Grid": [
-          [null, null, 3],
-          [null, 3, 3],
-          [3, 3, null]
+          ["NV", "NV", "N3"],
+          ["NV", "N3", "N3"],
+          ["N3", "N3", "NV"]
         ]
       },
-      { "Grid": [[3]] },
+      { "Grid": [["N3"]] },
       {
         "Grid": [
-          [null, 6],
-          [6, 6]
-        ]
-      },
-      {
-        "Grid": [
-          [2, null, null],
-          [null, 2, null],
-          [2, null, 2]
+          ["NV", "N6"],
+          ["N6", "N6"]
         ]
       },
       {
         "Grid": [
-          [null, 1],
-          [1, null]
+          ["N2", "NV", "NV"],
+          ["NV", "N2", "NV"],
+          ["N2", "NV", "N2"]
         ]
       },
       {
         "Grid": [
-          [2, null, null, null],
-          [null, 2, null, null],
-          [null, null, 2, null],
-          [null, null, null, 2]
+          ["NV", "N1"],
+          ["N1", "NV"]
+        ]
+      },
+      {
+        "Grid": [
+          ["N2", "NV", "NV", "NV"],
+          ["NV", "N2", "NV", "NV"],
+          ["NV", "NV", "N2", "NV"],
+          ["NV", "NV", "NV", "N2"]
         ]
       }
     ]
   },
   "17": {
     "Grid": [
-      [null, null, null, null, null],
-      [null, null, null, null, null],
-      [null, null, null, null, null],
-      [null, null, null, null, null],
-      [null, null, null, null, null]
+      ["NV", "NV", "NV", "NV", "NV"],
+      ["NV", "NV", "NV", "NV", "NV"],
+      ["NV", "NV", "NV", "NV", "NV"],
+      ["NV", "NV", "NV", "NV", "NV"],
+      ["NV", "NV", "NV", "NV", "NV"]
     ],
     "Pieces": [
       {
         "Grid": [
-          [4, 4, 4],
-          [4, null, null]
+          ["N4", "N4", "N4"],
+          ["N4", "NV", "NV"]
         ]
       },
       {
         "Grid": [
-          [5, 5, 5],
-          [5, null, null]
+          ["N5", "N5", "N5"],
+          ["N5", "NV", "NV"]
         ]
       },
       {
         "Grid": [
-          [3, 3, 3],
-          [3, null, null]
+          ["N3", "N3", "N3"],
+          ["N3", "NV", "NV"]
         ]
       },
       {
         "Grid": [
-          [null, 2],
-          [null, 2],
-          [2, 2]
+          ["NV", "N2"],
+          ["NV", "N2"],
+          ["N2", "N2"]
         ]
       },
       {
         "Grid": [
-          [null, null, 2],
-          [2, 2, 2]
+          ["NV", "NV", "N2"],
+          ["N2", "N2", "N2"]
         ]
       },
       {
         "Grid": [
-          [null, null, 3],
-          [3, 3, 3]
+          ["NV", "NV", "N3"],
+          ["N3", "N3", "N3"]
         ]
       },
-      { "Grid": [[1]] }
+      { "Grid": [["N1"]] }
     ]
   },
   "18": {
     "Grid": [
-      [null, null, null, null, null],
-      [null, null, null, null, null],
-      [null, null, null, null, null],
-      [null, null, null, null, null],
-      [null, null, null, null, null]
+      ["NV", "NV", "NV", "NV", "NV"],
+      ["NV", "NV", "NV", "NV", "NV"],
+      ["NV", "NV", "NV", "NV", "NV"],
+      ["NV", "NV", "NV", "NV", "NV"],
+      ["NV", "NV", "NV", "NV", "NV"]
     ],
     "Pieces": [
       {
         "Grid": [
-          [null, 6, 6],
-          [6, 6, null]
+          ["NV", "N6", "N6"],
+          ["N6", "N6", "NV"]
         ]
       },
       {
         "Grid": [
-          [3, 3],
-          [3, 3]
+          ["N3", "N3"],
+          ["N3", "N3"]
         ]
       },
       {
         "Grid": [
-          [4, 4],
-          [4, 4],
-          [4, null]
+          ["N4", "N4"],
+          ["N4", "N4"],
+          ["N4", "NV"]
         ]
       },
       {
-        "Grid": [[2, 2, 2]]
+        "Grid": [["N2", "N2", "N2"]]
       },
       {
-        "Grid": [[4]]
+        "Grid": [["N4"]]
       },
       {
         "Grid": [
-          [5, 5, 5],
-          [null, null, 5]
+          ["N5", "N5", "N5"],
+          ["NV", "NV", "N5"]
         ]
       },
       {
         "Grid": [
-          [null, null, 1],
-          [1, 1, 1]
+          ["NV", "NV", "N1"],
+          ["N1", "N1", "N1"]
         ]
       }
     ]
   },
   "19": {
     "Grid": [
-      [null, null, null, null, null],
-      [null, null, 0, null, null],
-      [null, null, 0, null, null],
-      [null, null, 0, null, null],
-      [null, null, null, null, null]
+      ["NV", "NV", "NV", "NV", "NV"],
+      ["NV", "NV", "NH", "NV", "NV"],
+      ["NV", "NV", "NH", "NV", "NV"],
+      ["NV", "NV", "NH", "NV", "NV"],
+      ["NV", "NV", "NV", "NV", "NV"]
     ],
     "Pieces": [
       {
         "Grid": [
-          [null, 1],
-          [null, 1],
-          [1, 1]
+          ["NV", "N1"],
+          ["NV", "N1"],
+          ["N1", "N1"]
         ]
       },
-      { "Grid": [[6]] },
+      { "Grid": [["N6"]] },
       {
         "Grid": [
-          [3, null],
-          [3, 3]
+          ["N3", "NV"],
+          ["N3", "N3"]
         ]
       },
-      { "Grid": [[2], [2]] },
+      { "Grid": [["N2"], ["N2"]] },
       {
         "Grid": [
-          [4, 4],
-          [null, 4]
+          ["N4", "N4"],
+          ["NV", "N4"]
         ]
       },
       {
         "Grid": [
-          [5, 5],
-          [null, 5],
-          [5, 5]
+          ["N5", "N5"],
+          ["NV", "N5"],
+          ["N5", "N5"]
         ]
       },
-      { "Grid": [[2, 2, 2, 2]] }
+      { "Grid": [["N2", "N2", "N2", "N2"]] }
     ]
   },
   "20": {
     "Grid": [
-      ["6", "1", "1", "1", "6"],
-      ["6", "3", "1", "3", "6"],
-      ["6", "3", "6", "3", "3"],
-      ["3", "1", "3", "1", "3"],
-      ["1", "3", "6", "6", "3"]
+      ["M6", "M1", "M1", "M1", "M6"],
+      ["M6", "M3", "M1", "M3", "M6"],
+      ["M6", "M3", "M6", "M3", "M3"],
+      ["M3", "M1", "M3", "M1", "M3"],
+      ["M1", "M3", "M6", "M6", "M3"]
     ],
     "Pieces": [
-      { "Grid": [[6, 1]] },
+      { "Grid": [["N6", "N1"]] },
       {
         "Grid": [
-          [null, 6],
-          [3, null]
+          ["NV", "N6"],
+          ["N3", "NV"]
         ]
       },
-      { "Grid": [[6, 3]] },
+      { "Grid": [["N6", "N3"]] },
       {
         "Grid": [
-          [null, 1],
-          [1, 3]
-        ]
-      },
-      {
-        "Grid": [
-          [6, 3],
-          [6, 3]
+          ["NV", "N1"],
+          ["N1", "N3"]
         ]
       },
       {
         "Grid": [
-          [1, 1],
-          [1, null]
+          ["N6", "N3"],
+          ["N6", "N3"]
         ]
       },
       {
         "Grid": [
-          [3, null, null],
-          [6, 6, 3]
+          ["N1", "N1"],
+          ["N1", "NV"]
         ]
       },
       {
         "Grid": [
-          [null, 6],
-          [null, 3],
-          [1, 3]
+          ["N3", "NV", "NV"],
+          ["N6", "N6", "N3"]
         ]
       },
-      { "Grid": [[3]] }
+      {
+        "Grid": [
+          ["NV", "N6"],
+          ["NV", "N3"],
+          ["N1", "N3"]
+        ]
+      },
+      { "Grid": [["N3"]] }
     ]
   },
   "35": {
     "Message": 20,
     "Grid": [
       [
-        null,
-        0,
-        0,
-        0,
-        null,
-        null,
-        null,
-        0,
-        0,
-        0,
-        null,
-        null,
-        null,
-        0,
-        0,
-        0,
-        null,
-        null,
-        0,
-        null,
-        null,
-        null,
-        null,
-        null,
-        0
+        "NV",
+        "NH",
+        "NH",
+        "NH",
+        "NV",
+        "NV",
+        "NV",
+        "NH",
+        "NH",
+        "NH",
+        "NV",
+        "NV",
+        "NV",
+        "NH",
+        "NH",
+        "NH",
+        "NV",
+        "NV",
+        "NH",
+        "NV",
+        "NV",
+        "NV",
+        "NV",
+        "NV",
+        "NH"
       ],
       [
-        0,
-        null,
-        null,
-        null,
-        null,
-        null,
-        0,
-        null,
-        null,
-        null,
-        0,
-        null,
-        0,
-        null,
-        null,
-        null,
-        0,
-        null,
-        0,
-        0,
-        null,
-        null,
-        null,
-        null,
-        0
+        "NH",
+        "NV",
+        "NV",
+        "NV",
+        "NV",
+        "NV",
+        "NH",
+        "NV",
+        "NV",
+        "NV",
+        "NH",
+        "NV",
+        "NH",
+        "NV",
+        "NV",
+        "NV",
+        "NH",
+        "NV",
+        "NH",
+        "NH",
+        "NV",
+        "NV",
+        "NV",
+        "NV",
+        "NH"
       ],
       [
-        0,
-        null,
-        null,
-        null,
-        null,
-        null,
-        0,
-        null,
-        null,
-        null,
-        0,
-        null,
-        0,
-        null,
-        null,
-        null,
-        0,
-        null,
-        0,
-        0,
-        null,
-        null,
-        null,
-        null,
-        0
+        "NH",
+        "NV",
+        "NV",
+        "NV",
+        "NV",
+        "NV",
+        "NH",
+        "NV",
+        "NV",
+        "NV",
+        "NH",
+        "NV",
+        "NH",
+        "NV",
+        "NV",
+        "NV",
+        "NH",
+        "NV",
+        "NH",
+        "NH",
+        "NV",
+        "NV",
+        "NV",
+        "NV",
+        "NH"
       ],
       [
-        0,
-        null,
-        null,
-        null,
-        null,
-        null,
-        0,
-        null,
-        null,
-        null,
-        0,
-        null,
-        0,
-        null,
-        null,
-        null,
-        0,
-        null,
-        0,
-        null,
-        0,
-        null,
-        null,
-        null,
-        0
+        "NH",
+        "NV",
+        "NV",
+        "NV",
+        "NV",
+        "NV",
+        "NH",
+        "NV",
+        "NV",
+        "NV",
+        "NH",
+        "NV",
+        "NH",
+        "NV",
+        "NV",
+        "NV",
+        "NH",
+        "NV",
+        "NH",
+        "NV",
+        "NH",
+        "NV",
+        "NV",
+        "NV",
+        "NH"
       ],
       [
-        0,
-        null,
-        null,
-        null,
-        null,
-        null,
-        0,
-        null,
-        null,
-        null,
-        0,
-        null,
-        0,
-        null,
-        null,
-        null,
-        0,
-        null,
-        0,
-        null,
-        0,
-        null,
-        null,
-        null,
-        0
+        "NH",
+        "NV",
+        "NV",
+        "NV",
+        "NV",
+        "NV",
+        "NH",
+        "NV",
+        "NV",
+        "NV",
+        "NH",
+        "NV",
+        "NH",
+        "NV",
+        "NV",
+        "NV",
+        "NH",
+        "NV",
+        "NH",
+        "NV",
+        "NH",
+        "NV",
+        "NV",
+        "NV",
+        "NH"
       ],
       [
-        null,
-        0,
-        0,
-        0,
-        null,
-        null,
-        0,
-        null,
-        null,
-        null,
-        0,
-        null,
-        0,
-        null,
-        null,
-        null,
-        0,
-        null,
-        0,
-        null,
-        null,
-        0,
-        null,
-        null,
-        0
+        "NV",
+        "NH",
+        "NH",
+        "NH",
+        "NV",
+        "NV",
+        "NH",
+        "NV",
+        "NV",
+        "NV",
+        "NH",
+        "NV",
+        "NH",
+        "NV",
+        "NV",
+        "NV",
+        "NH",
+        "NV",
+        "NH",
+        "NV",
+        "NV",
+        "NH",
+        "NV",
+        "NV",
+        "NH"
       ],
       [
-        null,
-        null,
-        null,
-        null,
-        0,
-        null,
-        0,
-        null,
-        null,
-        null,
-        0,
-        null,
-        0,
-        null,
-        null,
-        null,
-        0,
-        null,
-        0,
-        null,
-        null,
-        0,
-        null,
-        null,
-        0
+        "NV",
+        "NV",
+        "NV",
+        "NV",
+        "NH",
+        "NV",
+        "NH",
+        "NV",
+        "NV",
+        "NV",
+        "NH",
+        "NV",
+        "NH",
+        "NV",
+        "NV",
+        "NV",
+        "NH",
+        "NV",
+        "NH",
+        "NV",
+        "NV",
+        "NH",
+        "NV",
+        "NV",
+        "NH"
       ],
       [
-        null,
-        null,
-        null,
-        null,
-        0,
-        null,
-        0,
-        null,
-        null,
-        null,
-        0,
-        null,
-        0,
-        null,
-        null,
-        null,
-        0,
-        null,
-        0,
-        null,
-        null,
-        null,
-        0,
-        null,
-        0
+        "NV",
+        "NV",
+        "NV",
+        "NV",
+        "NH",
+        "NV",
+        "NH",
+        "NV",
+        "NV",
+        "NV",
+        "NH",
+        "NV",
+        "NH",
+        "NV",
+        "NV",
+        "NV",
+        "NH",
+        "NV",
+        "NH",
+        "NV",
+        "NV",
+        "NV",
+        "NH",
+        "NV",
+        "NH"
       ],
       [
-        null,
-        null,
-        null,
-        null,
-        0,
-        null,
-        0,
-        null,
-        null,
-        null,
-        0,
-        null,
-        0,
-        null,
-        null,
-        null,
-        0,
-        null,
-        0,
-        null,
-        null,
-        null,
-        0,
-        null,
-        0
+        "NV",
+        "NV",
+        "NV",
+        "NV",
+        "NH",
+        "NV",
+        "NH",
+        "NV",
+        "NV",
+        "NV",
+        "NH",
+        "NV",
+        "NH",
+        "NV",
+        "NV",
+        "NV",
+        "NH",
+        "NV",
+        "NH",
+        "NV",
+        "NV",
+        "NV",
+        "NH",
+        "NV",
+        "NH"
       ],
       [
-        null,
-        null,
-        null,
-        null,
-        0,
-        null,
-        0,
-        null,
-        null,
-        null,
-        0,
-        null,
-        0,
-        null,
-        null,
-        null,
-        0,
-        null,
-        0,
-        null,
-        null,
-        null,
-        null,
-        0,
-        0
+        "NV",
+        "NV",
+        "NV",
+        "NV",
+        "NH",
+        "NV",
+        "NH",
+        "NV",
+        "NV",
+        "NV",
+        "NH",
+        "NV",
+        "NH",
+        "NV",
+        "NV",
+        "NV",
+        "NH",
+        "NV",
+        "NH",
+        "NV",
+        "NV",
+        "NV",
+        "NV",
+        "NH",
+        "NH"
       ],
       [
-        null,
-        0,
-        0,
-        0,
-        null,
-        null,
-        null,
-        0,
-        0,
-        0,
-        null,
-        null,
-        null,
-        0,
-        0,
-        0,
-        null,
-        null,
-        0,
-        null,
-        null,
-        null,
-        null,
-        0,
-        0
+        "NV",
+        "NH",
+        "NH",
+        "NH",
+        "NV",
+        "NV",
+        "NV",
+        "NH",
+        "NH",
+        "NH",
+        "NV",
+        "NV",
+        "NV",
+        "NH",
+        "NH",
+        "NH",
+        "NV",
+        "NV",
+        "NH",
+        "NV",
+        "NV",
+        "NV",
+        "NV",
+        "NH",
+        "NH"
       ]
     ],
     "Pieces": []
   },
   "33": {
     "Grid": [
-      [null, null, null, null, null],
-      [null, null, null, null, null],
-      [null, null, null, null, null],
-      [null, null, null, null, null],
-      [null, null, null, null, null]
+      ["NV", "NV", "NV", "NV", "NV"],
+      ["NV", "NV", "NV", "NV", "NV"],
+      ["NV", "NV", "NV", "NV", "NV"],
+      ["NV", "NV", "NV", "NV", "NV"],
+      ["NV", "NV", "NV", "NV", "NV"]
     ],
     "Pieces": [
       {
         "Grid": [
-          [1, 1],
-          [1, null],
-          [1, null],
-          [1, null]
+          ["N1", "N1"],
+          ["N1", "NV"],
+          ["N1", "NV"],
+          ["N1", "NV"]
         ]
       },
       {
         "Grid": [
-          [2, 2],
-          [2, null],
-          [2, null],
-          [2, null]
+          ["N2", "N2"],
+          ["N2", "NV"],
+          ["N2", "NV"],
+          ["N2", "NV"]
         ]
       },
       {
         "Grid": [
-          [5, 5, null],
-          [5, 5, 5]
+          ["N5", "N5", "NV"],
+          ["N5", "N5", "N5"]
         ]
       },
       {
         "Grid": [
-          [3, null],
-          [3, 3],
-          [3, 3],
-          [3, null]
+          ["N3", "NV"],
+          ["N3", "N3"],
+          ["N3", "N3"],
+          ["N3", "NV"]
         ]
       },
       {
         "Grid": [
-          [6, 6],
-          [6, null],
-          [6, null]
+          ["N6", "N6"],
+          ["N6", "NV"],
+          ["N6", "NV"]
         ]
       }
     ]
   },
   "41": {
     "Grid": [
-      [null, null, null, null, null],
-      [null, null, 0, null, null],
-      [null, null, 0, null, null],
-      [null, null, 0, null, null],
-      [null, null, null, null, null]
+      ["NV", "NV", "NV", "NV", "NV"],
+      ["NV", "NV", "NH", "NV", "NV"],
+      ["NV", "NV", "NH", "NV", "NV"],
+      ["NV", "NV", "NH", "NV", "NV"],
+      ["NV", "NV", "NV", "NV", "NV"]
     ],
     "Pieces": [
       {
         "Grid": [
-          [null, 1],
-          [null, 1],
-          [1, 1]
+          ["NV", "N1"],
+          ["NV", "N1"],
+          ["N1", "N1"]
         ]
       },
-      { "Grid": [[6]] },
+      { "Grid": [["N6"]] },
       {
         "Grid": [
-          [3, null],
-          [3, 3]
+          ["N3", "NV"],
+          ["N3", "N3"]
         ]
       },
-      { "Grid": [[2], [2]] },
+      { "Grid": [["N2"], ["N2"]] },
       {
         "Grid": [
-          [4, 4],
-          [null, 4]
+          ["N4", "N4"],
+          ["NV", "N4"]
         ]
       },
       {
         "Grid": [
-          [5, 5],
-          [null, 5],
-          [5, 5]
+          ["N5", "N5"],
+          ["NV", "N5"],
+          ["N5", "N5"]
         ]
       },
-      { "Grid": [[2, 2, 2, 2]] }
+      { "Grid": [["N2", "N2", "N2", "N2"]] }
     ]
   },
   "48": {
     "Grid": [
-      [null, null, null, null, null],
-      [null, null, null, null, null],
-      [null, null, null, null, null],
-      [null, null, null, null, null],
-      [null, null, null, null, null]
+      ["NV", "NV", "NV", "NV", "NV"],
+      ["NV", "NV", "NV", "NV", "NV"],
+      ["NV", "NV", "NV", "NV", "NV"],
+      ["NV", "NV", "NV", "NV", "NV"],
+      ["NV", "NV", "NV", "NV", "NV"]
     ],
     "Pieces": [
       {
         "Grid": [
-          [null, 4, 4],
-          [4, 4, null]
+          ["NV", "N4", "N4"],
+          ["N4", "N4", "NV"]
         ]
       },
       {
         "Grid": [
-          [2, 2],
-          [2, 2]
+          ["N2", "N2"],
+          ["N2", "N2"]
         ]
       },
       {
         "Grid": [
-          [1, 1],
-          [1, 1],
-          [1, null]
+          ["N1", "N1"],
+          ["N1", "N1"],
+          ["N1", "NV"]
         ]
       },
       {
-        "Grid": [[3], [3], [3]]
+        "Grid": [["N3"], ["N3"], ["N3"]]
       },
       {
-        "Grid": [[5]]
+        "Grid": [["N5"]]
       },
       {
         "Grid": [
-          [5, 5, 5],
-          [null, null, 5]
+          ["N5", "N5", "N5"],
+          ["NV", "NV", "N5"]
         ]
       },
       {
         "Grid": [
-          [null, null, 1],
-          [1, 1, 1]
+          ["NV", "NV", "N1"],
+          ["N1", "N1", "N1"]
         ]
       }
     ]

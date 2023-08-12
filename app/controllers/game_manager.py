@@ -64,21 +64,46 @@ def dispaly_grid(self, background=False, border=False, relative=False):
         # Create block in the grid
         for y in range(len(self.grid)):
             for x in range(len(self.grid[y])):
-                if self.grid[y][x] != None:
-                    if type(self.grid[y][x]) == str:
-                        Color(*COLOR[int(self.grid[y][x])], 0.5)
-                    else:
-                        Color(*COLOR[int(self.grid[y][x])])
-                    if not relative:
-                        if int(self.grid[y][x]) == 0:
-                            Rectangle(pos=(self.x+get_min_x(self)+x*self.size_line,self.y+get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), source="assets/images/elements/block2.png")
-                        else:
-                            Rectangle(pos=(self.x+get_min_x(self)+x*self.size_line,self.y+get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), source="assets/images/elements/block.png")
-                    else:
-                        if int(self.grid[y][x]) == 0:
-                            Rectangle(pos=(get_min_x(self)+x*self.size_line,get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), source="assets/images/elements/block2.png")
-                        else:
-                            Rectangle(pos=(get_min_x(self)+x*self.size_line,get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), source="assets/images/elements/block.png")
+                rel_x = self.x
+                rel_y = self.y
+                block = ""
+                color = (1, 1, 1)
+                opacity = 1
+                if relative:
+                    rel_x, rel_y = 0, 0
+                match self.grid[y][x][1]:
+                    case "H":
+                        block = "2"
+                        color = COLOR[0]
+                    case "1" | "2" | "3" | "4" | "5" | "6" :
+                        color = COLOR[int(self.grid[y][x][1])]
+                    case "V":
+                        opacity = 0
+                if self.grid[y][x][0] == "M":
+                    opacity = 0.5
+                Color(*color, opacity)
+                Rectangle(pos=(rel_x+get_min_x(self)+x*self.size_line,rel_y+get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), source=f"assets/images/elements/block{block}.png")
+        """
+        N_ : "Normal"
+        M_ : "Motif"
+        B_ : "Barricade"
+        _V : "Void"
+        _H : "Hard block"
+        _1 : "Color 1"
+        _2 : "Color 2"
+        _3 : "Color 3"
+        _4 : "Color 4"
+        _5 : "Color 5"
+        _6 : "Color 6"
+        Possibilities :
+        - NV
+        - NH
+        - N5
+        - M5
+        - BV
+        - BH
+        - B5
+        """
         if background and not relative:
             self.background_debug.size = (self.width, self.height)
             self.background_debug.pos = self.pos
@@ -336,6 +361,13 @@ class Grid(RelativeLayout, Loop):
         self.nb_c = len(self.grid[0])
         self.size_hint = (None, None)
     
+    def test_grid(self):
+        for y in self.grid:
+            for x in y:
+                if x[0] != "N" or x == "NV":
+                    return True
+        return False
+    
     def loop(self, *args):
         # Change la pos et la size du RelativeLayout
         self.width = self.parent.grid_image.width * 0.75
@@ -344,19 +376,16 @@ class Grid(RelativeLayout, Loop):
         self.center_y = self.parent.grid_image.center_y
         dispaly_grid(self=self, background=True, border=True, relative=True)
         if self.id_level != 0 and not self.victoire:
-            for y in self.grid:
-                for x in y:
-                    if type(x) != int:
-                        return
+            # Verifie si la grille est remplit
+            if self.test_grid():
+                return
             self.victoire = True
             self.parent.message = VictoireMessage(id_level=self.id_level)
             self.parent.add_widget(self.parent.message)
         elif self.id_level == 0:
             # Verifie si la grille est remplit
-            for y in self.grid:
-                for x in y:
-                    if type(x) != int:
-                        return
+            if self.test_grid():
+                return
             # Si oui, on regenère la grille suivant les tiers
             tiers = self.parent.zone_piece.my_scroll_view.grid_piece.tiers
             if 0 < tiers <= 5:
@@ -453,7 +482,7 @@ class Page(FloatLayout, Loop):
             # Modifie la grille pour ajouter la pièce
             for y_p in range(len(self.current_piece.grid)):
                 for x_p in range(len(self.current_piece.grid[y_p])):
-                    if self.current_piece.grid[y_p][x_p] != None:
+                    if self.current_piece.grid[y_p][x_p] != "NV":
                         for y_g in range(len(self.grid.grid)):
                             for x_g in range(len(self.grid.grid[y_g])):
                                 # Calculation Global of x and y for piece and grid
@@ -462,7 +491,7 @@ class Page(FloatLayout, Loop):
                                 x_grid = get_min_x(self.grid)+self.grid.x+x_g*self.grid.size_line
                                 y_grid = get_max_y(self.grid)+self.grid.y-(y_g+1)*self.grid.size_line
                                 # if grid block match with piece block and if is void or if is a motifs
-                                if abs(x_piece - x_grid) < self.marg and abs(y_piece - y_grid) < self.marg and (self.grid.grid[y_g][x_g] == None or (self.grid.grid[y_g][x_g] == str(self.current_piece.grid[y_p][x_p]) and type(self.grid.grid[y_g][x_g]) == str)):
+                                if abs(x_piece - x_grid) < self.marg and abs(y_piece - y_grid) < self.marg and (self.grid.grid[y_g][x_g] == "NV" or (self.grid.grid[y_g][x_g][0] == "M" and self.current_piece.grid[y_p][x_p][1] == self.grid.grid[y_g][x_g][1])):
                                     self.grid.grid[y_g][x_g] = self.current_piece.grid[y_p][x_p]
             self.remove_widget(self.current_piece)
             if self.id_level == 0:
@@ -597,7 +626,7 @@ class Page(FloatLayout, Loop):
                                 x_grid = get_min_x(self.grid)+self.grid.x+x_g*self.grid.size_line
                                 y_grid = get_max_y(self.grid)+self.grid.y-(y_g+1)*self.grid.size_line
                                 # if grid block match with piece block and if is void or if is a motis
-                                one.append(abs(x_piece - x_grid) < self.marg and abs(y_piece - y_grid) < self.marg and (self.grid.grid[y_g][x_g] == None or (self.grid.grid[y_g][x_g] == str(self.current_piece.grid[y_p][x_p]) and type(self.grid.grid[y_g][x_g]) == str) or self.current_piece.grid[y_p][x_p] == None))
+                                one.append(abs(x_piece - x_grid) < self.marg and abs(y_piece - y_grid) < self.marg and (self.grid.grid[y_g][x_g] == "NV" or (self.grid.grid[y_g][x_g][0] == "M" and self.current_piece.grid[y_p][x_p][1] == self.grid.grid[y_g][x_g][1]) or self.current_piece.grid[y_p][x_p] == "NV"))
                         check.append(any(one))
                 return all(check)
         except:
@@ -621,7 +650,7 @@ class Game(Screen):
                     if level["Id"] == self.id_level:
                         self.mode = level["Mode"]
                         self.background = area["Background"]
-            self.arrows = 26 in self.mode
+            self.arrows = 25 in self.mode
         self.page = Page(arrows=self.arrows, id_level=self.id_level, mode=self.mode)
         self.my_float.add_widget(Image(source=self.background, fit_mode="cover"))
         self.my_float.add_widget(self.page)
