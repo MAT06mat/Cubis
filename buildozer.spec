@@ -13,7 +13,7 @@ package.domain = com.matthieufelten
 source.dir = app
 
 # (list) Source files to include (let empty to include all the files)
-source.include_exts = py,png,jpg,kv,atlas,json,ttf,otf,gif
+source.include_exts = py,png,jpg,kv,atlas,json,ttf,otf,gif,wav
 
 # (list) List of inclusions using pattern matching
 #source.include_patterns = app/*/*.py
@@ -28,15 +28,15 @@ source.include_exts = py,png,jpg,kv,atlas,json,ttf,otf,gif
 #source.exclude_patterns = license,images/*/*.jpg
 
 # (str) Application versioning (method 1)
-version = 0.13
+version = 1.3
 
 # (str) Application versioning (method 2)
 # version.regex = __version__ = ['"](.*)['"]
 # version.filename = %(source.dir)s/main.py
 
 # (list) Application requirements
-# comma separated e.g. requirements = sqlite3,kivy
-requirements = python3==3.7.5,hostpython3==3.7.5,kivy
+# comma separated e.g. requirements = sqlite3,kivy       [avant]   =>   requirements = python3==3.7.5,hostpython3==3.7.5,kivy
+requirements = python3==3.10,hostpython3==3.10,kivy
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
