@@ -11,9 +11,7 @@ from kivy.uix.image import Image
 from kivy.core.window import Window
 from kivy.properties import ListProperty, NumericProperty, BooleanProperty
 from kivy.graphics.vertex_instructions import Line, Rectangle
-from kivy.graphics.instructions import CanvasBase
 from kivy.graphics import Color
-from kivy.event import EventDispatcher
 from kivy.metrics import dp
 
 from models.loop import Loop
@@ -423,7 +421,7 @@ class Grid(RelativeLayout, Loop):
         for y in range(len(self.grid)):
             for x in range(len(self.grid[y])):
                 if self.grid[y][x][0] == "B":
-                    self.grid[y][x] = "N" + self.grid[y][x][1]
+                    self.grid[y][x] = self.grid[y][x][1] + self.grid[y][x][2]
                     line_size_calculation(self)
                     pos=(get_min_x(self)+x*self.size_line,get_max_y(self)-(y+1)*self.size_line)
                     size=(self.size_line, self.size_line)
