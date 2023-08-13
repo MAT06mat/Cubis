@@ -130,7 +130,7 @@ def generate_grid(self, size):
     for y in range(size):
         grid.append([])
         for x  in range(size):
-            grid[y].append(None)
+            grid[y].append("NV")
     return grid
 
 
