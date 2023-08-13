@@ -77,16 +77,16 @@ def dispaly_grid(self, background=False, border=False, relative=False, animation
                 block = ""
                 color = (1, 1, 1)
                 opacity = 1
-                match self.grid[y][x][1]:
+                match self.grid[y][x][0]:
+                    case "M":
+                        opacity = 0.5
                     case "H":
                         block = "2"
-                        color = COLOR[0]
-                    case "1" | "2" | "3" | "4" | "5" | "6" :
+                match self.grid[y][x][1]:
+                    case "0" | "1" | "2" | "3" | "4" | "5" | "6" :
                         color = COLOR[int(self.grid[y][x][1])]
                     case "V":
                         opacity = 0
-                if self.grid[y][x][0] == "M":
-                    opacity = 0.5
                 Color(*color, opacity)
                 Rectangle(pos=(rel_x+get_min_x(self)+x*self.size_line,rel_y+get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), source=f"assets/images/elements/block{block}.png")
                 if self.grid[y][x][0] == "B":
@@ -101,9 +101,10 @@ def dispaly_grid(self, background=False, border=False, relative=False, animation
         """
         N_ : "Normal"
         M_ : "Motif"
+        H_ : "Hard Block"
         B_ : "Box"
         _V : "Void"
-        _H : "Hard block"
+        _0 : "Color 0"
         _1 : "Color 1"
         _2 : "Color 2"
         _3 : "Color 3"
@@ -410,7 +411,7 @@ class Grid(RelativeLayout, Loop):
     def test_grid(self):
         for y in self.grid:
             for x in y:
-                if x[0] != "N" or x == "NV":
+                if (x[0] != "N" and x[0] != "H") or x == "NV":
                     return True
         return False
     
