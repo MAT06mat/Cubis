@@ -171,7 +171,6 @@ class RedoButton(Button, Loop):
         self.y = Window.height - self.height*0.9
 
     @if_no_message
-    @if_no_piece
     def on_press(self):
         self.parent.redo()
         return super().on_press()
@@ -182,7 +181,6 @@ class UndoButton(Button, Loop):
         self.y = Window.height - self.height*0.9
 
     @if_no_message
-    @if_no_piece
     def on_press(self):
         self.parent.undo()
         return super().on_press()
@@ -219,7 +217,6 @@ class MenuButton(Button, Loop):
         self.y = Window.height - self.height*0.9
     
     @if_no_message
-    @if_no_piece
     def on_press(self):
         self.parent.message_push()
         return super().on_press()
