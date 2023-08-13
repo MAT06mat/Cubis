@@ -54,9 +54,9 @@ class Level(Button):
         # put 1/2 on top and 1/2 on bottom
         global level_height
         if level_height % 2 == 0:
-            self.pos_hint = {"center_y": 0.70}
+            self.pos_hint = {"center_y": 0.65}
         else:
-            self.pos_hint = {"center_y": 0.30}
+            self.pos_hint = {"center_y": 0.35}
         level_height += 1
         
     def on_press(self):
