@@ -36,9 +36,9 @@
     "Background": "assets/images/backgrounds/jungle.jpg",
     "Levels": [
       { "Id": 21, "Mode": [26] },
-      { "Id": 22, "Mode": [25] },
-      { "Id": 23, "Mode": [25] },
-      { "Id": 24, "Mode": [25, 26] },
+      { "Id": 22, "Mode": [25, 26] },
+      { "Id": 23, "Mode": [26] },
+      { "Id": 24, "Mode": [25] },
       { "Id": 26, "Mode": [25, 27] },
       { "Id": 26, "Mode": [25] },
       { "Id": 27, "Mode": [24] },
