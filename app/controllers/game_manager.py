@@ -11,7 +11,9 @@ from kivy.uix.image import Image
 from kivy.core.window import Window
 from kivy.properties import ListProperty, NumericProperty, BooleanProperty
 from kivy.graphics.vertex_instructions import Line, Rectangle
+from kivy.graphics.instructions import CanvasBase
 from kivy.graphics import Color
+from kivy.event import EventDispatcher
 from kivy.metrics import dp
 
 from models.loop import Loop
@@ -28,6 +30,7 @@ kv_file_path = os.path.join(current_directory, "../views/game.kv")
 Builder.load_file(kv_file_path)
 
 COLOR = ((0.65, 0.65, 0.65), (1, 0, 0), (0, 0, 1), (0, 1, 0), (1, 1, 0), (1, 0, 1), (0, 1, 1))
+ANIMATION_LIST = []
 
 def get_min_x(self):
     return self.width/2-self.size_line_h/2
@@ -38,7 +41,17 @@ def get_min_y(self):
 def get_max_y(self):
     return self.height/2+self.size_line_v/2
 
-def dispaly_grid(self, background=False, border=False, relative=False):
+def line_size_calculation(self):
+    if self.nb_l >= self.nb_c:
+        self.size_line = self.height/self.nb_l
+        self.size_line_v = self.height
+        self.size_line_h = self.size_line*self.nb_c
+    else:
+        self.size_line = self.width/self.nb_c
+        self.size_line_v = self.size_line*self.nb_l
+        self.size_line_h = self.width
+
+def dispaly_grid(self, background=False, border=False, relative=False, animation=False):
     self.canvas.clear()
     with self.canvas:
         if background:
@@ -46,14 +59,7 @@ def dispaly_grid(self, background=False, border=False, relative=False):
             self.background_debug = Rectangle(pos=(0, 0), size=(self.width, self.height)) 
         Color(0.91, 0.72, 0.27)
         # Line Size Calculation
-        if self.nb_l >= self.nb_c:
-            self.size_line = self.height/self.nb_l
-            self.size_line_v = self.height
-            self.size_line_h = self.size_line*self.nb_c
-        else:
-            self.size_line = self.width/self.nb_c
-            self.size_line_v = self.size_line*self.nb_l
-            self.size_line_h = self.width
+        line_size_calculation(self)
         if border:
             # Create cols
             for i in range(self.nb_c + 1):
@@ -62,15 +68,15 @@ def dispaly_grid(self, background=False, border=False, relative=False):
             for i in range(self.nb_l + 1):
                 Line(points=(get_min_x(self), get_min_y(self)+i*self.size_line, get_max_x(self), get_min_y(self)+i*self.size_line), width=2)
         # Create block in the grid
+        rel_x = self.x
+        rel_y = self.y
+        if relative:
+            rel_x, rel_y = 0, 0
         for y in range(len(self.grid)):
             for x in range(len(self.grid[y])):
-                rel_x = self.x
-                rel_y = self.y
                 block = ""
                 color = (1, 1, 1)
                 opacity = 1
-                if relative:
-                    rel_x, rel_y = 0, 0
                 match self.grid[y][x][1]:
                     case "H":
                         block = "2"
@@ -86,6 +92,12 @@ def dispaly_grid(self, background=False, border=False, relative=False):
                 if self.grid[y][x][0] == "B":
                     Color(1, 1, 1, 1)
                     Rectangle(pos=(rel_x+get_min_x(self)+x*self.size_line,rel_y+get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), source=f"assets/images/elements/box.png")
+        if animation:
+            for animation in ANIMATION_LIST:
+                Color(1, 1, 1, animation.object_opacity)
+                Rectangle(pos=animation.animation_pos, size=animation.animation_size, source=animation.object)
+                Color(1, 1, 1, 1)
+                Rectangle(pos=animation.animation_pos, size=animation.animation_size, source=animation.current_frame)
         """
         N_ : "Normal"
         M_ : "Motif"
@@ -107,11 +119,11 @@ def dispaly_grid(self, background=False, border=False, relative=False):
         - BH
         - B5
         """
-        if background and not relative:
-            self.background_debug.size = (self.width, self.height)
-            self.background_debug.pos = self.pos
-        elif background and relative:
-            self.background_debug.size = (self.width, self.height)
+    if background and not relative:
+        self.background_debug.size = (self.width, self.height)
+        self.background_debug.pos = self.pos
+    elif background and relative:
+        self.background_debug.size = (self.width, self.height)
 
 def generate_grid(self, size):
     self.nb_l, self.nb_c = size, size
@@ -122,6 +134,37 @@ def generate_grid(self, size):
             grid[y].append(None)
     return grid
 
+
+class BlockAnimation(Loop):
+    def __init__(self, time: float, type: str, animation_pos: tuple, animation_size: tuple) -> None:
+        super().__init__()
+        self.timer = -1
+        self.asset_directory = os.path.join(current_directory, "../assets/images/elements/")
+        self.frames = os.listdir(self.asset_directory+type+"/")
+        self.frames.sort()
+        self.time = time
+        self.time_per_frames = time//len(self.frames)
+        self.type = type
+        self.object = self.asset_directory+type.lower()+".png"
+        self.animation_pos = animation_pos
+        self.animation_size = animation_size
+        self.current_frame = self.asset_directory+self.type+"/"+self.frames[0]
+        self.object_opacity = 1
+    
+    def loop(self, *args):
+        self.timer += 1
+        self.object_opacity = 1-self.timer*3/self.time
+        if not 0 <= self.object_opacity <= 1:
+            self.object_opacity = 0
+        for frame_index in range(len(self.frames)):
+            if frame_index * self.time_per_frames == self.timer:
+                self.current_frame = self.asset_directory+self.type+"/"+self.frames[frame_index]
+        if (len(self.frames) + 1) * self.time_per_frames == self.timer:
+            ANIMATION_LIST.remove(self)
+            self.timer = 999999
+        if self.timer > 999999:
+            self.timer = 999999
+    
 
 class RedoButton(Button, Loop):
     def loop(self, *args):
@@ -380,6 +423,11 @@ class Grid(RelativeLayout, Loop):
             for x in range(len(self.grid[y])):
                 if self.grid[y][x][0] == "B":
                     self.grid[y][x] = "N" + self.grid[y][x][1]
+                    line_size_calculation(self)
+                    pos=(get_min_x(self)+x*self.size_line,get_max_y(self)-(y+1)*self.size_line)
+                    size=(self.size_line, self.size_line)
+                    animation = BlockAnimation(time=18, type="Box", animation_pos=pos, animation_size=size)
+                    ANIMATION_LIST.append(animation)
     
     def loop(self, *args):
         # Change la pos et la size du RelativeLayout
@@ -387,7 +435,7 @@ class Grid(RelativeLayout, Loop):
         self.height = self.width
         self.center_x = self.parent.grid_image.center_x
         self.center_y = self.parent.grid_image.center_y
-        dispaly_grid(self=self, background=True, border=True, relative=True)
+        dispaly_grid(self=self, background=True, border=True, relative=True, animation=True)
         self.replace_box()
         # Verifie si la grille est remplit
         if self.test_grid():
