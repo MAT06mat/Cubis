@@ -83,10 +83,13 @@ def dispaly_grid(self, background=False, border=False, relative=False):
                     opacity = 0.5
                 Color(*color, opacity)
                 Rectangle(pos=(rel_x+get_min_x(self)+x*self.size_line,rel_y+get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), source=f"assets/images/elements/block{block}.png")
+                if self.grid[y][x][0] == "B":
+                    Color(1, 1, 1, 1)
+                    Rectangle(pos=(rel_x+get_min_x(self)+x*self.size_line,rel_y+get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), source=f"assets/images/elements/box.png")
         """
         N_ : "Normal"
         M_ : "Motif"
-        B_ : "Barricade"
+        B_ : "Box"
         _V : "Void"
         _H : "Hard block"
         _1 : "Color 1"
@@ -368,6 +371,16 @@ class Grid(RelativeLayout, Loop):
                     return True
         return False
     
+    def replace_box(self):
+        for y in self.grid:
+            for x in y:
+                if x[0] == "M" or x == "NV":
+                    return
+        for y in range(len(self.grid)):
+            for x in range(len(self.grid[y])):
+                if self.grid[y][x][0] == "B":
+                    self.grid[y][x] = "N" + self.grid[y][x][1]
+    
     def loop(self, *args):
         # Change la pos et la size du RelativeLayout
         self.width = self.parent.grid_image.width * 0.75
@@ -375,17 +388,15 @@ class Grid(RelativeLayout, Loop):
         self.center_x = self.parent.grid_image.center_x
         self.center_y = self.parent.grid_image.center_y
         dispaly_grid(self=self, background=True, border=True, relative=True)
+        self.replace_box()
+        # Verifie si la grille est remplit
+        if self.test_grid():
+            return
         if self.id_level != 0 and not self.victoire:
-            # Verifie si la grille est remplit
-            if self.test_grid():
-                return
             self.victoire = True
             self.parent.message = VictoireMessage(id_level=self.id_level)
             self.parent.add_widget(self.parent.message)
         elif self.id_level == 0:
-            # Verifie si la grille est remplit
-            if self.test_grid():
-                return
             # Si oui, on regenère la grille suivant les tiers
             tiers = self.parent.zone_piece.my_scroll_view.grid_piece.tiers
             if 0 < tiers <= 5:
