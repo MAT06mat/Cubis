@@ -72,28 +72,30 @@ def dispaly_grid(self, background=False, border=False, relative=False, animation
             rel_x, rel_y = 0, 0
         for y in range(len(self.grid)):
             for x in range(len(self.grid[y])):
-                block = ""
+                block = "block"
                 color = (1, 1, 1)
                 opacity = 1
-                match self.grid[y][x][0]:
-                    case "M":
-                        opacity = 0.5
-                    case "H":
-                        block = "2"
                 match self.grid[y][x][1]:
                     case "0" | "1" | "2" | "3" | "4" | "5" | "6" :
                         color = COLOR[int(self.grid[y][x][1])]
                     case "V":
                         opacity = 0
+                match self.grid[y][x][0]:
+                    case "M":
+                        opacity = 0.5
+                    case "H":
+                        block = "hard_block"
+                    case "B":
+                        color = (1, 1, 1)
+                        block = "box"
                 Color(*color, opacity)
-                Rectangle(pos=(rel_x+get_min_x(self)+x*self.size_line,rel_y+get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), source=f"assets/images/elements/block{block}.png")
-                if self.grid[y][x][0] == "B":
-                    Color(1, 1, 1, 1)
-                    Rectangle(pos=(rel_x+get_min_x(self)+x*self.size_line,rel_y+get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), source=f"assets/images/elements/box.png")
+                Rectangle(pos=(rel_x+get_min_x(self)+x*self.size_line,rel_y+get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), source=f"assets/images/elements/{block}.png")
         if animation:
             for animation in ANIMATION_LIST:
+                # Add object
                 Color(1, 1, 1, animation.object_opacity)
                 Rectangle(pos=animation.animation_pos, size=animation.animation_size, source=animation.object)
+                # Add animation
                 Color(1, 1, 1, 1)
                 Rectangle(pos=animation.animation_pos, size=animation.animation_size, source=animation.current_frame)
         """
