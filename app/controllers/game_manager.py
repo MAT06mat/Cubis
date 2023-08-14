@@ -99,10 +99,10 @@ def dispaly_grid(self, background=False, border=False, relative=False, animation
                 Color(1, 1, 1, 1)
                 Rectangle(pos=animation.animation_pos, size=animation.animation_size, source=animation.current_frame)
         """
+        B__ : "Box"
         N_ : "Normal"
         M_ : "Motif"
         H_ : "Hard Block"
-        B_ : "Box"
         _V : "Void"
         _0 : "Color 0"
         _1 : "Color 1"
@@ -113,12 +113,12 @@ def dispaly_grid(self, background=False, border=False, relative=False, animation
         _6 : "Color 6"
         Possibilities :
         - NV
-        - NH
         - N5
         - M5
-        - BV
-        - BH
-        - B5
+        - H0
+        - BNV
+        - BH0
+        - BM5
         """
     if background and not relative:
         self.background_debug.size = (self.width, self.height)
@@ -173,6 +173,7 @@ class RedoButton(Button, Loop):
         self.y = Window.height - self.height*0.9
 
     @if_no_message
+    @if_no_piece
     def on_press(self):
         self.parent.redo()
         return super().on_press()
@@ -183,6 +184,7 @@ class UndoButton(Button, Loop):
         self.y = Window.height - self.height*0.9
 
     @if_no_message
+    @if_no_piece
     def on_press(self):
         self.parent.undo()
         return super().on_press()
@@ -219,6 +221,7 @@ class MenuButton(Button, Loop):
         self.y = Window.height - self.height*0.9
     
     @if_no_message
+    @if_no_piece
     def on_press(self):
         self.parent.message_push()
         return super().on_press()
@@ -252,7 +255,14 @@ class CurrentPiece(RelativeLayout, Loop):
     def on_touch_down(self, touch):
         if self.parent.message != None:
             return
-        if self.pos[0] < touch.pos[0] < (self.pos[0] + self.width) and self.pos[1] < touch.pos[1] < (self.pos[1] + self.height):
+        touch_piece = []
+        for y in range(len(self.grid)):
+            for x in range(len(self.grid[y])):
+                if (self.pos[0]+self.size_line*x) < touch.pos[0] < (self.pos[0]+self.size_line*(x+1)) and (self.pos[1]+self.height-self.size_line*(y+1)) < touch.pos[1] < (self.pos[1]+self.height-self.size_line*y) and self.grid[y][x] != "NV":
+                    touch_piece.append(True)
+                else:
+                    touch_piece.append(False)
+        if any(touch_piece):
             self.delta_pos = (touch.pos[0] - self.pos[0], touch.pos[1] - self.pos[1])
         else:
             self.delta_pos = None

@@ -16,5 +16,6 @@ def if_no_piece(func):
         if args[0].parent.current_piece != None:
             if args[0].parent.current_piece.delta_pos == None:
                 return func(*args, **kwargs)
-        return super(args[0].__class__ ,args[0]).on_press()
+            return super(args[0].__class__ ,args[0]).on_press()
+        return func(*args, **kwargs)
     return wrapper
