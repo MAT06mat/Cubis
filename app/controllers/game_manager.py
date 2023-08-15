@@ -310,6 +310,11 @@ class PieceButton(Button, Loop):
         self.size_hint_y = None
     
     def on_press(self):
+        if self.parent.parent.parent.parent.current_piece != None:
+            if self.parent.parent.parent.parent.current_piece.delta_pos == None:
+                pass
+            else:
+                return super().on_press()
         if self.parent.parent.parent.parent.message != None:
             return super().on_press()
         self.parent.parent.parent.parent.change_current_piece(grid=self.grid)
