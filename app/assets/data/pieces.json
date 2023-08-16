@@ -1,302 +1,302 @@
 {
-  "1": [[[0]]],
-  "2": [[[0], [0]]],
+  "1": [[["GC"]]],
+  "2": [[["GC"], ["GC"]]],
   "3": [
     [
-      [null, 0],
-      [0, 0]
+      ["NV", "GC"],
+      ["GC", "GC"]
     ]
   ],
   "4": [
     [
-      [0, 0],
-      [0, 0]
+      ["GC", "GC"],
+      ["GC", "GC"]
     ],
-    [[0, 0, 0]]
+    [["GC", "GC", "GC"]]
   ],
   "5": [
     [
-      [0, null, null],
-      [0, 0, 0]
+      ["GC", "NV", "NV"],
+      ["GC", "GC", "GC"]
     ],
     [
-      [null, null, 0],
-      [0, 0, 0]
+      ["NV", "NV", "GC"],
+      ["GC", "GC", "GC"]
     ],
     [
-      [null, 0, null],
-      [0, 0, 0]
+      ["NV", "GC", "NV"],
+      ["GC", "GC", "GC"]
     ],
     [
-      [0, 0, null],
-      [null, 0, 0]
+      ["GC", "GC", "NV"],
+      ["NV", "GC", "GC"]
     ],
     [
-      [null, 0, 0],
-      [0, 0, null]
+      ["NV", "GC", "GC"],
+      ["GC", "GC", "NV"]
     ],
-    [[0]]
+    [["GC"]]
   ],
   "6": [
-    [[0, 0, 0, 0]],
+    [["GC", "GC", "GC", "GC"]],
     [
-      [0, 0, 0],
-      [0, 0, 0]
+      ["GC", "GC", "GC"],
+      ["GC", "GC", "GC"]
     ],
-    [[0]]
+    [["GC"]]
   ],
   "7": [
     [
-      [null, null, null, 0],
-      [0, 0, 0, 0]
+      ["NV", "NV", "NV", "GC"],
+      ["GC", "GC", "GC", "GC"]
     ],
     [
-      [0, null, null, null],
-      [0, 0, 0, 0]
+      ["GC", "NV", "NV", "NV"],
+      ["GC", "GC", "GC", "GC"]
     ],
     [
-      [null, null, 0, null],
-      [0, 0, 0, 0]
+      ["NV", "NV", "GC", "NV"],
+      ["GC", "GC", "GC", "GC"]
     ],
     [
-      [null, 0, null, null],
-      [0, 0, 0, 0]
+      ["NV", "GC", "NV", "NV"],
+      ["GC", "GC", "GC", "GC"]
     ],
     [
-      [null, 0, 0, null],
-      [0, 0, 0, 0]
+      ["NV", "GC", "GC", "NV"],
+      ["GC", "GC", "GC", "GC"]
     ],
     [
-      [0, null, null, 0],
-      [0, 0, 0, 0]
+      ["GC", "NV", "NV", "GC"],
+      ["GC", "GC", "GC", "GC"]
     ],
     [
-      [0, 0, 0, null],
-      [null, 0, 0, 0]
+      ["GC", "GC", "GC", "NV"],
+      ["NV", "GC", "GC", "GC"]
     ],
     [
-      [null, 0, 0, 0],
-      [0, 0, 0, null]
+      ["NV", "GC", "GC", "GC"],
+      ["GC", "GC", "GC", "NV"]
     ],
-    [[0], [0]],
-    [[0], [0]],
-    [[0]],
-    [[0]]
+    [["GC"], ["GC"]],
+    [["GC"], ["GC"]],
+    [["GC"]],
+    [["GC"]]
   ],
   "8": [
     [
-      [0, 0, 0, 0],
-      [0, 0, 0, 0]
+      ["GC", "GC", "GC", "GC"],
+      ["GC", "GC", "GC", "GC"]
     ],
-    [[0, 0, 0, 0, 0]],
-    [[0]]
+    [["GC", "GC", "GC", "GC", "GC"]],
+    [["GC"]]
   ],
   "9": [
     [
-      [null, null, null, null, 0],
-      [0, 0, 0, 0, 0]
+      ["NV", "NV", "NV", "NV", "GC"],
+      ["GC", "GC", "GC", "GC", "GC"]
     ],
     [
-      [0, null, null, null, null],
-      [0, 0, 0, 0, 0]
+      ["GC", "NV", "NV", "NV", "NV"],
+      ["GC", "GC", "GC", "GC", "GC"]
     ],
     [
-      [null, 0, null, 0, null],
-      [0, 0, 0, 0, 0]
+      ["NV", "GC", "NV", "GC", "NV"],
+      ["GC", "GC", "GC", "GC", "GC"]
     ],
     [
-      [0, null, 0, null, 0],
-      [0, 0, 0, 0, 0]
+      ["GC", "NV", "GC", "NV", "GC"],
+      ["GC", "GC", "GC", "GC", "GC"]
     ],
     [
-      [null, null, 0, 0, 0],
-      [0, 0, 0, null, null]
+      ["NV", "NV", "GC", "GC", "GC"],
+      ["GC", "GC", "GC", "NV", "NV"]
     ],
     [
-      [0, null, null, null, 0],
-      [0, 0, 0, 0, 0]
+      ["GC", "NV", "NV", "NV", "GC"],
+      ["GC", "GC", "GC", "GC", "GC"]
     ],
     [
-      [null, 0, 0, 0, null],
-      [0, 0, null, 0, 0]
+      ["NV", "GC", "GC", "GC", "NV"],
+      ["GC", "GC", "NV", "GC", "GC"]
     ],
     [
-      [0, null, null],
-      [0, 0, 0]
+      ["GC", "NV", "NV"],
+      ["GC", "GC", "GC"]
     ],
     [
-      [null, null, 0],
-      [0, 0, 0]
+      ["NV", "NV", "GC"],
+      ["GC", "GC", "GC"]
     ],
     [
-      [null, 0, null],
-      [0, 0, 0]
+      ["NV", "GC", "NV"],
+      ["GC", "GC", "GC"]
     ],
     [
-      [0, 0, null],
-      [null, 0, 0]
+      ["GC", "GC", "NV"],
+      ["NV", "GC", "GC"]
     ],
     [
-      [null, 0, 0],
-      [0, 0, null]
+      ["NV", "GC", "GC"],
+      ["GC", "GC", "NV"]
     ]
   ],
   "10": [
     [
-      [null, 0, null],
-      [0, 0, 0],
-      [null, 0, null]
+      ["NV", "GC", "NV"],
+      ["GC", "GC", "GC"],
+      ["NV", "GC", "NV"]
     ],
     [
-      [0, 0, null],
-      [null, 0, 0],
-      [0, 0, null]
+      ["GC", "GC", "NV"],
+      ["NV", "GC", "GC"],
+      ["GC", "GC", "NV"]
     ],
     [
-      [null, 0, null],
-      [null, 0, null],
-      [0, 0, 0]
+      ["NV", "GC", "NV"],
+      ["NV", "GC", "NV"],
+      ["GC", "GC", "GC"]
     ],
     [
-      [0, 0, 0],
-      [null, 0, null],
-      [0, 0, 0]
+      ["GC", "GC", "GC"],
+      ["NV", "GC", "NV"],
+      ["GC", "GC", "GC"]
     ],
     [
-      [0, 0],
-      [0, 0]
+      ["GC", "GC"],
+      ["GC", "GC"]
     ],
-    [[0, 0, 0]],
-    [[0]]
+    [["GC", "GC", "GC"]],
+    [["GC"]]
   ],
   "11": [
     [
-      [0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0]
+      ["GC", "GC", "GC", "GC", "GC"],
+      ["GC", "GC", "GC", "GC", "GC"]
     ],
     [
-      [0, null, 0, 0],
-      [0, null, null, 0],
-      [0, 0, 0, 0]
+      ["GC", "NV", "GC", "GC"],
+      ["GC", "NV", "NV", "GC"],
+      ["GC", "GC", "GC", "GC"]
     ],
     [
-      [null, 0, 0, null],
-      [0, 0, 0, 0],
-      [null, 0, 0, null]
+      ["NV", "GC", "GC", "NV"],
+      ["GC", "GC", "GC", "GC"],
+      ["NV", "GC", "GC", "NV"]
     ],
     [
-      [0, null, null, 0],
-      [0, 0, 0, 0],
-      [0, null, null, 0]
+      ["GC", "NV", "NV", "GC"],
+      ["GC", "GC", "GC", "GC"],
+      ["GC", "NV", "NV", "GC"]
     ],
     [
-      [0, null, null, null],
-      [0, null, null, null],
-      [0, 0, 0, 0]
+      ["GC", "NV", "NV", "NV"],
+      ["GC", "NV", "NV", "NV"],
+      ["GC", "GC", "GC", "GC"]
     ],
     [
-      [0, null, null],
-      [0, 0, 0]
+      ["GC", "NV", "NV"],
+      ["GC", "GC", "GC"]
     ],
     [
-      [null, null, 0],
-      [0, 0, 0]
+      ["NV", "NV", "GC"],
+      ["GC", "GC", "GC"]
     ],
     [
-      [null, 0, null],
-      [0, 0, 0]
+      ["NV", "GC", "NV"],
+      ["GC", "GC", "GC"]
     ],
     [
-      [0, 0, null],
-      [null, 0, 0]
+      ["GC", "GC", "NV"],
+      ["NV", "GC", "GC"]
     ],
     [
-      [null, 0, 0],
-      [0, 0, null]
+      ["NV", "GC", "GC"],
+      ["GC", "GC", "NV"]
     ],
     [
-      [0, 0],
-      [0, 0]
+      ["GC", "GC"],
+      ["GC", "GC"]
     ],
-    [[0, 0, 0]],
+    [["GC", "GC", "GC"]],
     [
-      [0, 0],
-      [0, 0]
+      ["GC", "GC"],
+      ["GC", "GC"]
     ],
-    [[0, 0, 0]]
+    [["GC", "GC", "GC"]]
   ],
   "12": [
     [
-      [null, 0, 0, 0, null],
-      [0, 0, 0, 0, 0],
-      [null, 0, 0, 0, null]
+      ["NV", "GC", "GC", "GC", "NV"],
+      ["GC", "GC", "GC", "GC", "GC"],
+      ["NV", "GC", "GC", "GC", "NV"]
     ],
     [
-      [0, 0, null, null, null],
-      [null, 0, 0, 0, null],
-      [null, 0, 0, 0, 0]
+      ["GC", "GC", "NV", "NV", "NV"],
+      ["NV", "GC", "GC", "GC", "NV"],
+      ["NV", "GC", "GC", "GC", "GC"]
     ],
     [
-      [0, null, null, null, 0],
-      [0, 0, 0, 0, 0],
-      [0, null, null, null, 0]
+      ["GC", "NV", "NV", "NV", "GC"],
+      ["GC", "GC", "GC", "GC", "GC"],
+      ["GC", "NV", "NV", "NV", "GC"]
     ],
     [
-      [0, 0],
-      [0, 0]
+      ["GC", "GC"],
+      ["GC", "GC"]
     ],
-    [[0, 0, 0]],
-    [[0], [0]]
+    [["GC", "GC", "GC"]],
+    [["GC"], ["GC"]]
   ],
   "13": [
     [
-      [null, 0, 0, null],
-      [0, 0, 0, 0],
-      [0, 0, 0, 0],
-      [null, 0, 0, null]
+      ["NV", "GC", "GC", "NV"],
+      ["GC", "GC", "GC", "GC"],
+      ["GC", "GC", "GC", "GC"],
+      ["NV", "GC", "GC", "NV"]
     ],
     [
-      [0, null, null, 0],
-      [0, 0, 0, 0],
-      [0, 0, 0, 0],
-      [0, null, null, 0]
+      ["GC", "NV", "NV", "GC"],
+      ["GC", "GC", "GC", "GC"],
+      ["GC", "GC", "GC", "GC"],
+      ["GC", "NV", "NV", "GC"]
     ],
     [
-      [0, null, null, null],
-      [0, null, null, null],
-      [0, null, null, null],
-      [0, 0, 0, 0]
+      ["GC", "NV", "NV", "NV"],
+      ["GC", "NV", "NV", "NV"],
+      ["GC", "NV", "NV", "NV"],
+      ["GC", "GC", "GC", "GC"]
     ],
     [
-      [0, 0, 0, 0],
-      [0, null, null, 0],
-      [0, null, null, 0],
-      [0, 0, 0, 0]
+      ["GC", "GC", "GC", "GC"],
+      ["GC", "NV", "NV", "GC"],
+      ["GC", "NV", "NV", "GC"],
+      ["GC", "GC", "GC", "GC"]
     ],
     [
-      [0, null, null],
-      [0, 0, 0]
+      ["GC", "NV", "NV"],
+      ["GC", "GC", "GC"]
     ],
     [
-      [null, null, 0],
-      [0, 0, 0]
+      ["NV", "NV", "GC"],
+      ["GC", "GC", "GC"]
     ],
     [
-      [null, 0, null],
-      [0, 0, 0]
+      ["NV", "GC", "NV"],
+      ["GC", "GC", "GC"]
     ],
     [
-      [0, 0, null],
-      [null, 0, 0]
+      ["GC", "GC", "NV"],
+      ["NV", "GC", "GC"]
     ],
     [
-      [null, 0, 0],
-      [0, 0, null]
+      ["NV", "GC", "GC"],
+      ["GC", "GC", "NV"]
     ],
     [
-      [0, 0],
-      [0, 0]
+      ["GC", "GC"],
+      ["GC", "GC"]
     ],
-    [[0, 0, 0]]
+    [["GC", "GC", "GC"]]
   ]
 }

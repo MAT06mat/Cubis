@@ -352,15 +352,11 @@ class GridPiece(GridLayout):
         color = random.randint(1, 6)
         tier = random.randint(1, self.tiers)
         pieces = PIECES.get()[str(tier)]
-        piece = pieces[random.randint(0, len(pieces)-1)]
-        grid = []
-        for y in range(len(piece)):
-            grid.append([])
-            for x  in range(len(piece[y])):
-                if piece[y][x] == 0:
-                    grid[y].append(color)
-                else:
-                    grid[y].append(None)
+        grid = pieces[random.randint(0, len(pieces)-1)]
+        for y in range(len(grid)):
+            for x  in range(len(grid[y])):
+                if grid[y][x] == "GC":
+                    grid[y][x] = "N" + str(color)
         for i in range(random.randint(0, 3)):
             grid = self.turn(grid)
         self.piece_generated += 1
@@ -513,7 +509,7 @@ class Page(FloatLayout, Loop):
         self.zone_piece = ZonePieces(id_level=self.id_level)
         self.undo_button = UndoButton()
         self.menu_button = MenuButton()
-        if self.arrows or self.id_level == 0:
+        if self.arrows:
             self.add_widget(RightArrow())
             self.add_widget(LeftArrow())
         self.redo_button = None
@@ -570,7 +566,7 @@ class Page(FloatLayout, Loop):
                 score = 0
                 for y in self.current_piece.grid:
                     for x in y:
-                        if x != None:
+                        if x != "NV":
                             score += 1
                 self.score += score * score
                 self.score_label.text = str(self.score)
