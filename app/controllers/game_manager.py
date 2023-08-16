@@ -75,19 +75,19 @@ def dispaly_grid(self, background=False, border=False, relative=False, animation
                 block = "block"
                 color = (1, 1, 1)
                 opacity = 1
-                match self.grid[y][x][1]:
-                    case "0" | "1" | "2" | "3" | "4" | "5" | "6" :
-                        color = COLOR[int(self.grid[y][x][1])]
-                    case "V":
-                        opacity = 0
-                match self.grid[y][x][0]:
-                    case "M":
-                        opacity = 0.5
-                    case "H":
-                        block = "hard_block"
-                    case "B":
-                        color = (1, 1, 1)
-                        block = "box"
+                c_1 = self.grid[y][x][1]
+                if c_1 == "0" or c_1 == "1" or c_1 == "2" or c_1 == "3" or c_1 == "4" or c_1 == "5" or c_1 == "6":
+                    color = COLOR[int(self.grid[y][x][1])]
+                elif c_1 == "V":
+                    opacity = 0
+                c_0 = self.grid[y][x][0]
+                if c_0 ==  "M":
+                    opacity = 0.5
+                elif c_0 == "H":
+                    block = "hard_block"
+                elif c_0 == "B":
+                    color = (1, 1, 1)
+                    block = "box"
                 Color(*color, opacity)
                 Rectangle(pos=(rel_x+get_min_x(self)+x*self.size_line,rel_y+get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), source=f"assets/images/elements/{block}.png")
         if animation:
