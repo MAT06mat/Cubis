@@ -80,6 +80,10 @@ class Area(BoxLayout):
 class MyScrollView(ScrollView):
     nb_levels = NumericProperty(None)
     
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.bar_width = 0
+    
     def update_from_scroll(self, *largs):
         if tuto:
             BACKGROUND_IMAGE.children[0].pos_hint = {"x": 0}
