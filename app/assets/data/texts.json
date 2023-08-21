@@ -41,8 +41,9 @@
     "18": "Information",
     "19": "Plaines",
     "20": [
-      "Bien joué !\nTu as réussi à finir la première\nversion de ce jeu.",
-      "Je t'invite donc à m'envoyer\nton avis sur le jeu,\nles fonctionnalités à améliorer,\ntes impressions, etc.",
+      "Bien joué !\nTu as réussi à terminer ce jeu.",
+      "Bien qu'il ne soit pas terminé,\nceci est donc le dernier niveau.\n Pour le moment :)",
+      "Je t'invite à m'envoyer\nton avis sur le jeu,\nles fonctionnalités à améliorer,\ntes impressions, etc.",
       "Tu peux me contacter à\nmat06mat22@gmail.com.",
       "Bonne journée !"
     ],
@@ -100,10 +101,11 @@
     "18": "Information",
     "19": "Plains",
     "20": [
-      "Well done!\nYou managed to finish the first\nversion of this game.",
-      "I invite you to send me\nyour feedback on the game,\nfeatures to improve,\nyour impressions, etc.",
-      "You can contact me at\nmat06mat22@gmail.com.",
-      "Have a great day!"
+    "Well done!\nYou managed to finish this game.",
+    "Although it's not finished yet,\nthis is therefore the last level.\n For now :)",
+    "I invite you to send me\nyour feedback about the game,\nfeatures to improve,\nyour impressions, etc.",
+    "You can reach me at\nmat06mat22@gmail.com.",
+    "Have a great day!"
     ],
     "21": "Jungle",
     "22": "Moon",
