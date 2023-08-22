@@ -3,6 +3,7 @@ from kivy.uix.screenmanager import Screen
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
+from kivy.uix.stacklayout import StackLayout
 from kivy.uix.relativelayout import RelativeLayout
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.button import Button
@@ -307,7 +308,7 @@ class PieceButton(Button, Loop):
         super().__init__(**kwargs)
         self.nb_l = len(self.grid)
         self.nb_c = len(self.grid[0])
-        self.size_hint_y = None
+        self.size_hint = (None, None)
     
     def on_press(self):
         if self.parent.parent.parent.parent.current_piece != None:
@@ -321,12 +322,14 @@ class PieceButton(Button, Loop):
         return super().on_press()
     
     def loop(self, *args):
-        self.width = (Window.width-dp(40))/3
-        self.height = self.width
+        if self.parent != None:
+            self.size_line = self.parent.parent.parent.parent.grid.size_line
+            self.width = self.size_line * self.nb_c
+            self.height = self.size_line * self.nb_l
         dispaly_grid(self)
 
 
-class GridPiece(GridLayout):
+class GridPiece(StackLayout):
     piece_button = ListProperty([])
     tiers = NumericProperty(3)
     piece_generated = NumericProperty(70)
