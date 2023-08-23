@@ -303,6 +303,14 @@ class CurrentPiece(RelativeLayout, Loop):
         if self.delta_pos != None:
             self.pos = (touch.pos[0] - self.delta_pos[0], touch.pos[1] - self.delta_pos[1])
     
+    def on_touch_up(self, touch):
+        if self.parent.zone_piece.x+self.parent.zone_piece.width > self.x+self.width/2 > self.parent.zone_piece.x and self.parent.zone_piece.y+self.parent.zone_piece.height > self.y+self.height/2 > self.parent.zone_piece.y:
+            button = PieceButton(grid=self.grid)
+            self.parent.zone_piece.my_scroll_view.grid_piece.piece_button.append(button)
+            self.parent.zone_piece.my_scroll_view.grid_piece.add_widget(button)
+            self.parent.current_piece = None
+            self.parent.remove_widget(self)
+    
     def right(self):
         self.new_grid = []
         for y in range(self.nb_c):
@@ -348,6 +356,8 @@ class PieceButton(Button, Loop):
         if self.parent.parent.parent.parent.message != None:
             return super().on_press()
         self.parent.parent.parent.parent.change_current_piece(grid=self.grid)
+        self.parent.piece_button.remove(self)
+        self.parent.remove_widget(self)
         return super().on_press()
     
     def loop(self, *args):
@@ -610,15 +620,6 @@ class Page(FloatLayout, Loop):
                             score += 1
                 self.score += score * score
                 self.score_label.text = str(self.score)
-            piece_find = False
-            while not piece_find:
-                for piece in self.zone_piece.my_scroll_view.grid_piece.piece_button:
-                    if piece.grid == self.current_piece.grid and not piece_find:
-                        piece_find = True
-                        self.zone_piece.my_scroll_view.grid_piece.piece_button.remove(piece)
-                        self.zone_piece.my_scroll_view.grid_piece.remove_widget(piece)
-                        continue
-                self.current_piece.left()
             self.current_piece = None
             if self.id_level ==0:
                 grid = self.zone_piece.my_scroll_view.grid_piece.generation()
@@ -661,8 +662,7 @@ class Page(FloatLayout, Loop):
     def undo(self):
         if self.id_level == 0:
             if self.current_piece:
-                self.remove_widget(self.current_piece)
-                self.current_piece = None
+                self.remove_current_piece()
                 return
             self.undo_consecutif = 1
             self.grid.grid = self.saves[-1]["grid"]
@@ -677,9 +677,8 @@ class Page(FloatLayout, Loop):
             self.score_label.text = str(self.score)
             self.saves.pop(-1)
         else:
-            if self.current_piece:
-                self.remove_widget(self.current_piece)
-                self.current_piece = None
+            if self.current_piece != None:
+                self.remove_current_piece()
                 return
             self.undo_save()
             self.grid.grid = self.saves[-1]["grid"]
@@ -694,8 +693,7 @@ class Page(FloatLayout, Loop):
     
     def redo(self):
         if self.current_piece != None:
-            self.remove_widget(self.current_piece)
-            self.current_piece = None
+            self.remove_current_piece()
             return
         self.save(redo=True)
         self.grid.grid = copy.deepcopy(self.undo_saves[-1]["grid"])
@@ -709,11 +707,18 @@ class Page(FloatLayout, Loop):
         self.undo_saves.pop(-1)
     
     def change_current_piece(self, grid):
-        if self.current_piece != None:
-            self.remove_widget(self.current_piece)
+        self.remove_current_piece()
         self.current_piece = CurrentPiece(grid=grid)
         self.add_widget(self.current_piece)
 
+    def remove_current_piece(self):
+        if self.current_piece != None:
+            self.remove_widget(self.current_piece)
+            button = PieceButton(grid=self.current_piece.grid)
+            self.zone_piece.my_scroll_view.grid_piece.piece_button.append(button)
+            self.zone_piece.my_scroll_view.grid_piece.add_widget(button)
+            self.current_piece = None
+    
     def message_push(self):
         if not self.message:
             self.message = MenuMessage(score=self.score, id_level=self.id_level, mode=self.mode)
