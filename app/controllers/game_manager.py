@@ -635,6 +635,8 @@ class Page(FloatLayout, Loop):
             pieces = []
             for piece in self.zone_piece.my_scroll_view.grid_piece.piece_button:
                 pieces.append(piece.grid)
+            if self.current_piece != None:
+                pieces.append(self.current_piece.grid)
             if self.undo_consecutif == 1:
                 self.undo_consecutif = 0
             else:
@@ -649,6 +651,8 @@ class Page(FloatLayout, Loop):
             pieces = []
             for piece in self.zone_piece.my_scroll_view.grid_piece.piece_button:
                 pieces.append(piece.grid)
+            if self.current_piece != None:
+                pieces.append(self.current_piece.grid)
             self.saves.append({"grid":grid, "pieces":pieces, "grid_id":grid_id})
     
     def undo_save(self):
@@ -657,6 +661,8 @@ class Page(FloatLayout, Loop):
         pieces = []
         for piece in self.zone_piece.my_scroll_view.grid_piece.piece_button:
             pieces.append(piece.grid)
+        if self.current_piece != None:
+            pieces.append(self.current_piece.grid)
         self.undo_saves.append({"grid":grid, "pieces":pieces, "grid_id":grid_id})
     
     def undo(self):
