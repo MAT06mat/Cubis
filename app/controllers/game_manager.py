@@ -2,7 +2,6 @@ from kivy.lang import Builder
 from kivy.uix.screenmanager import Screen
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.gridlayout import GridLayout
 from kivy.uix.stacklayout import StackLayout
 from kivy.uix.relativelayout import RelativeLayout
 from kivy.uix.scrollview import ScrollView
@@ -50,7 +49,7 @@ def line_size_calculation(self):
         self.size_line_v = self.size_line*self.nb_l
         self.size_line_h = self.width
 
-def dispaly_grid(self, background=False, border=False, relative=False, animation=False):
+def dispaly_grid(self, background=False, border=False, relative=False, animation=False, border_block=False):
     self.canvas.clear()
     with self.canvas:
         if background:
@@ -91,6 +90,36 @@ def dispaly_grid(self, background=False, border=False, relative=False, animation
                     block = "box"
                 Color(*color, opacity)
                 Rectangle(pos=(rel_x+get_min_x(self)+x*self.size_line,rel_y+get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), source=f"assets/images/elements/{block}.png")
+        if border_block:
+            Color(0.91, 0.72, 0.27, 1)
+            for y in range(len(self.grid)):
+                for x in range(len(self.grid[y])):
+                    if self.grid_id[y][x] == None:
+                        continue
+                    # Side left
+                    if x == 0:
+                        Line(points=(get_min_x(self)+x*self.size_line+1, get_max_y(self)-y*self.size_line, get_min_x(self)+x*self.size_line+1, get_max_y(self)-(y+1)*self.size_line), width=1.5)
+                    else: 
+                        if self.grid_id[y][x] != self.grid_id[y][x-1]:
+                            Line(points=(get_min_x(self)+x*self.size_line+1, get_max_y(self)-y*self.size_line, get_min_x(self)+x*self.size_line+1, get_max_y(self)-(y+1)*self.size_line), width=1.5)
+                    # Side top
+                    if y == 0:
+                        Line(points=(get_min_x(self)+x*self.size_line, get_max_y(self)-y*self.size_line-1, get_min_x(self)+(x+1)*self.size_line, get_max_y(self)-y*self.size_line-1), width=1.5)
+                    else: 
+                        if self.grid_id[y][x] != self.grid_id[y-1][x]:
+                            Line(points=(get_min_x(self)+x*self.size_line, get_max_y(self)-y*self.size_line-1, get_min_x(self)+(x+1)*self.size_line, get_max_y(self)-y*self.size_line-1), width=1.5)
+                    # Side right
+                    if x+1 == len(self.grid[y]):
+                        Line(points=(get_min_x(self)+(x+1)*self.size_line-1, get_max_y(self)-y*self.size_line, get_min_x(self)+(x+1)*self.size_line-1, get_max_y(self)-(y+1)*self.size_line), width=1.5)
+                    else: 
+                        if self.grid_id[y][x] != self.grid_id[y][x+1]:
+                            Line(points=(get_min_x(self)+(x+1)*self.size_line-1, get_max_y(self)-y*self.size_line, get_min_x(self)+(x+1)*self.size_line-1, get_max_y(self)-(y+1)*self.size_line), width=1.5)
+                    # Side bottom
+                    if y+1 == len(self.grid):
+                        Line(points=(get_min_x(self)+x*self.size_line, get_max_y(self)-(y+1)*self.size_line+1, get_min_x(self)+(x+1)*self.size_line, get_max_y(self)-(y+1)*self.size_line+1), width=1.5)
+                    else: 
+                        if self.grid_id[y][x] != self.grid_id[y+1][x]:
+                            Line(points=(get_min_x(self)+x*self.size_line, get_max_y(self)-(y+1)*self.size_line+1, get_min_x(self)+(x+1)*self.size_line, get_max_y(self)-(y+1)*self.size_line+1), width=1.5)
         if animation:
             for animation in ANIMATION_LIST:
                 # Add object
@@ -421,6 +450,7 @@ class Grid(RelativeLayout, Loop):
             self.grid = self.level["Grid"]
         self.nb_l = len(self.grid)
         self.nb_c = len(self.grid[0])
+        self.grid_id = [[None for x in self.grid[0]] for y in self.grid]
         self.size_hint = (None, None)
     
     def test_grid(self):
@@ -451,7 +481,7 @@ class Grid(RelativeLayout, Loop):
         self.height = self.width
         self.center_x = self.parent.grid_image.center_x
         self.center_y = self.parent.grid_image.center_y
-        dispaly_grid(self=self, background=True, border=True, relative=True, animation=True)
+        dispaly_grid(self=self, background=True, border=True, relative=True, animation=True, border_block=True)
         self.replace_box()
         # Verifie si la grille est remplit
         if self.test_grid():
@@ -511,6 +541,7 @@ class Page(FloatLayout, Loop):
         super().__init__(**kwargs)
         self.message = None
         self.current_piece = None
+        self.new_id = 0
         self.grid_image = GridImage()
         self.grid = Grid(id_level=self.id_level)
         self.zone_piece = ZonePieces(id_level=self.id_level)
@@ -554,6 +585,7 @@ class Page(FloatLayout, Loop):
         if self.verify():
             self.save()
             self.marg = int(self.grid.size_line/2)
+            self.new_id += 1
             # Modifie la grille pour ajouter la pièce
             for y_p in range(len(self.current_piece.grid)):
                 for x_p in range(len(self.current_piece.grid[y_p])):
@@ -568,6 +600,7 @@ class Page(FloatLayout, Loop):
                                 # if grid block match with piece block and if is void or if is a motifs
                                 if abs(x_piece - x_grid) < self.marg and abs(y_piece - y_grid) < self.marg and (self.grid.grid[y_g][x_g] == "NV" or (self.grid.grid[y_g][x_g][0] == "M" and self.current_piece.grid[y_p][x_p][1] == self.grid.grid[y_g][x_g][1])):
                                     self.grid.grid[y_g][x_g] = self.current_piece.grid[y_p][x_p]
+                                    self.grid.grid_id[y_g][x_g] = self.new_id
             self.remove_widget(self.current_piece)
             if self.id_level == 0:
                 score = 0
@@ -597,30 +630,33 @@ class Page(FloatLayout, Loop):
         if self.id_level == 0:
             grid = copy.deepcopy(self.grid.grid)
             score = copy.deepcopy(self.score)
+            grid_id = copy.deepcopy(self.grid.grid_id)
             pieces = []
             for piece in self.zone_piece.my_scroll_view.grid_piece.piece_button:
                 pieces.append(piece.grid)
             if self.undo_consecutif == 1:
                 self.undo_consecutif = 0
             else:
-                self.saves.append((grid, pieces, score))
+                self.saves.append({"grid":grid, "pieces":pieces, "score":score, "grid_id":grid_id})
             if len(self.saves) > 1:
                 self.saves.pop(0)
         else:
             if not redo:
                 self.undo_saves = []
             grid = copy.deepcopy(self.grid.grid)
+            grid_id = copy.deepcopy(self.grid.grid_id)
             pieces = []
             for piece in self.zone_piece.my_scroll_view.grid_piece.piece_button:
                 pieces.append(piece.grid)
-            self.saves.append((grid, pieces))
+            self.saves.append({"grid":grid, "pieces":pieces, "grid_id":grid_id})
     
     def undo_save(self):
         grid = copy.deepcopy(self.grid.grid)
+        grid_id = copy.deepcopy(self.grid.grid_id)
         pieces = []
         for piece in self.zone_piece.my_scroll_view.grid_piece.piece_button:
             pieces.append(piece.grid)
-        self.undo_saves.append((grid, pieces))
+        self.undo_saves.append({"grid":grid, "pieces":pieces, "grid_id":grid_id})
     
     def undo(self):
         if self.id_level == 0:
@@ -629,14 +665,15 @@ class Page(FloatLayout, Loop):
                 self.current_piece = None
                 return
             self.undo_consecutif = 1
-            self.grid.grid = self.saves[-1][0]
+            self.grid.grid = self.saves[-1]["grid"]
+            self.grid.grid_id = self.saves[-1]["grid_id"]
             self.zone_piece.my_scroll_view.grid_piece.piece_button = []
             self.zone_piece.my_scroll_view.grid_piece.clear_widgets()
-            for piece in self.saves[-1][1]:
+            for piece in self.saves[-1]["pieces"]:
                 button = PieceButton(grid=piece)
                 self.zone_piece.my_scroll_view.grid_piece.piece_button.append(button)
                 self.zone_piece.my_scroll_view.grid_piece.add_widget(button)
-            self.score = self.saves[-1][2]
+            self.score = self.saves[-1]["score"]
             self.score_label.text = str(self.score)
             self.saves.pop(-1)
         else:
@@ -645,10 +682,11 @@ class Page(FloatLayout, Loop):
                 self.current_piece = None
                 return
             self.undo_save()
-            self.grid.grid = self.saves[-1][0]
+            self.grid.grid = self.saves[-1]["grid"]
+            self.grid.grid_id = self.saves[-1]["grid_id"]
             self.zone_piece.my_scroll_view.grid_piece.piece_button = []
             self.zone_piece.my_scroll_view.grid_piece.clear_widgets()
-            for grid in self.saves[-1][1]:
+            for grid in self.saves[-1]["pieces"]:
                 button = PieceButton(grid=grid)
                 self.zone_piece.my_scroll_view.grid_piece.piece_button.append(button)
                 self.zone_piece.my_scroll_view.grid_piece.add_widget(button)
@@ -660,10 +698,11 @@ class Page(FloatLayout, Loop):
             self.current_piece = None
             return
         self.save(redo=True)
-        self.grid.grid = copy.deepcopy(self.undo_saves[-1][0])
+        self.grid.grid = copy.deepcopy(self.undo_saves[-1]["grid"])
+        self.grid.grid_id = copy.deepcopy(self.undo_saves[-1]["grid_id"])
         self.zone_piece.my_scroll_view.grid_piece.piece_button = []
         self.zone_piece.my_scroll_view.grid_piece.clear_widgets()
-        for grid in self.undo_saves[-1][1]:
+        for grid in self.undo_saves[-1]["pieces"]:
             button = PieceButton(grid=grid)
             self.zone_piece.my_scroll_view.grid_piece.piece_button.append(button)
             self.zone_piece.my_scroll_view.grid_piece.add_widget(button)
