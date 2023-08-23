@@ -167,7 +167,7 @@ def generate_grid(self, size):
 
 
 class BlockAnimation(Loop):
-    def __init__(self, time: float, type: str, animation_pos: tuple, animation_size: tuple) -> None:
+    def __init__(self, time: float, type: str, animation_pos: tuple, animation_size: tuple):
         super().__init__()
         self.timer = -1
         self.asset_directory = os.path.join(current_directory, "../assets/images/elements/")
@@ -308,7 +308,7 @@ class CurrentPiece(RelativeLayout, Loop):
         for y in range(self.nb_c):
             self.new_grid.append([])
             for x in range(self.nb_l):
-                self.new_grid[y].append(None)
+                self.new_grid[y].append("NV")
         for y in range(len(self.grid)):
             for x in range(len(self.grid[y])):
                 self.new_grid[x][-(y+1)] = self.grid[y][x]
@@ -321,7 +321,7 @@ class CurrentPiece(RelativeLayout, Loop):
         for y in range(self.nb_c):
             self.new_grid.append([])
             for x in range(self.nb_l):
-                self.new_grid[y].append(None)
+                self.new_grid[y].append("NV")
         for y in range(len(self.grid)):
             for x in range(len(self.grid[y])):
                 self.new_grid[-(x+1)][y] = self.grid[y][x]
@@ -403,7 +403,7 @@ class GridPiece(StackLayout):
         for y in range(len(grid[0])):
             new_grid.append([])
             for x in range(len(grid)):
-                new_grid[y].append(None)
+                new_grid[y].append("NV")
         for y in range(len(grid)):
             for x in range(len(grid[y])):
                 new_grid[-(x+1)][y] = grid[y][x]
