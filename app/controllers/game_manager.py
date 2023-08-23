@@ -515,6 +515,7 @@ class Grid(RelativeLayout, Loop):
             else:
                 self.grid = generate_grid(self, 8)
             self.parent.saves = []
+        self.grid_id = [[None for x in self.grid[0]] for y in self.grid]
 
 
 class Arrow(Button, Loop):
