@@ -65,6 +65,9 @@ class NavigationScreenManager(ScreenManager):
             del self.screen_stack[-1]
             self.change_transition(transition_screen, screen_name)
             self.next_current = screen_name
+            for screen in self.screens:
+                if screen.name == "StoryMode":
+                    screen.children[0].children[0].message_pop()
     
     def start_level(self, id_level=0, transition_screen=True, delay=0):
         self.delay = delay

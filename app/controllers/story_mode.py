@@ -116,6 +116,8 @@ class TabItem(TabbedPanelItem):
             self.text = TEXTS.key(self.text_key)
     
     def on_press(self):
+        if self.parent.parent:
+            self.parent.parent.parent.parent.parent.message_pop()
         BACKGROUND_IMAGE.clear_widgets()
         BACKGROUND_IMAGE.add_widget(Image(source=self.image, fit_mode="cover", mipmap=True))
         global tuto
