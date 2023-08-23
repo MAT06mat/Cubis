@@ -310,6 +310,7 @@ class CurrentPiece(RelativeLayout, Loop):
             self.parent.zone_piece.my_scroll_view.grid_piece.add_widget(button)
             self.parent.current_piece = None
             self.parent.remove_widget(self)
+        return super().on_touch_up(touch)
     
     def right(self):
         self.new_grid = []
@@ -591,7 +592,7 @@ class Page(FloatLayout, Loop):
     
     def on_touch_up(self, touch):
         if self.message:
-            return
+            return super().on_touch_up(touch)
         if self.verify():
             self.save()
             self.marg = int(self.grid.size_line/2)
@@ -626,6 +627,7 @@ class Page(FloatLayout, Loop):
                 button = PieceButton(grid=grid)
                 self.zone_piece.my_scroll_view.grid_piece.piece_button.append(button)
                 self.zone_piece.my_scroll_view.grid_piece.add_widget(button)
+        return super().on_touch_up(touch)
     
     def save(self, redo=False):
         if self.id_level == 0:
