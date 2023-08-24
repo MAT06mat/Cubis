@@ -260,11 +260,12 @@ class MenuButton(Button, Loop):
 class CurrentPiece(RelativeLayout, Loop):
     grid = ListProperty(None)
     
-    def __init__(self, **kwargs):
+    def __init__(self, size_line, **kwargs):
         super().__init__(**kwargs)
         self.nb_l = len(self.grid)
         self.nb_c = len(self.grid[0])
         self.size_hint = (None, None)
+        self.size_line = size_line
         self.loop(self, None)
         self.delta_pos = (self.width/2, self.height/2)
         self.pos = (Window.mouse_pos[0] - self.delta_pos[0], Window.mouse_pos[1] - self.delta_pos[1])
@@ -274,7 +275,7 @@ class CurrentPiece(RelativeLayout, Loop):
         try:
             self.size_line = self.parent.grid.size_line
         except:
-            self.size_line = dp(50)
+            pass
         self.width = self.nb_c*self.size_line
         self.height = self.nb_l*self.size_line
         dispaly_grid(self, relative=True)
@@ -705,7 +706,7 @@ class Page(FloatLayout, Loop):
     
     def change_current_piece(self, grid):
         self.remove_current_piece()
-        self.current_piece = CurrentPiece(grid=grid)
+        self.current_piece = CurrentPiece(grid=grid, size_line=self.grid.size_line)
         self.add_widget(self.current_piece)
 
     def remove_current_piece(self):
