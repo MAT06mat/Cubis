@@ -118,4 +118,4 @@ class Texts(Data):
         return KeyError
 
 
-TEXTS = Texts(file="texts.json")
+TEXTS = Texts(file="traductions.json")
