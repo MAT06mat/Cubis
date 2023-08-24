@@ -313,28 +313,20 @@ class CurrentPiece(RelativeLayout, Loop):
         return super().on_touch_up(touch)
     
     def right(self):
-        self.new_grid = []
-        for y in range(self.nb_c):
-            self.new_grid.append([])
-            for x in range(self.nb_l):
-                self.new_grid[y].append("NV")
+        new_grid = [["NV" for x in self.nb_l] for y in self.nb_c]
         for y in range(len(self.grid)):
             for x in range(len(self.grid[y])):
-                self.new_grid[x][-(y+1)] = self.grid[y][x]
-        self.grid = self.new_grid
+                new_grid[x][-(y+1)] = self.grid[y][x]
+        self.grid = new_grid
         self.nb_l = len(self.grid)
         self.nb_c = len(self.grid[0])
     
     def left(self):
-        self.new_grid = []
-        for y in range(self.nb_c):
-            self.new_grid.append([])
-            for x in range(self.nb_l):
-                self.new_grid[y].append("NV")
+        new_grid = [["NV" for x in self.nb_l] for y in self.nb_c]
         for y in range(len(self.grid)):
             for x in range(len(self.grid[y])):
-                self.new_grid[-(x+1)][y] = self.grid[y][x]
-        self.grid = self.new_grid
+                new_grid[-(x+1)][y] = self.grid[y][x]
+        self.grid = new_grid
         self.nb_l = len(self.grid)
         self.nb_c = len(self.grid[0])
 
@@ -410,11 +402,7 @@ class GridPiece(StackLayout):
         return grid
 
     def turn(self, grid):
-        new_grid = []
-        for y in range(len(grid[0])):
-            new_grid.append([])
-            for x in range(len(grid)):
-                new_grid[y].append("NV")
+        new_grid = [["NV" for x in grid] for y in grid[0]]
         for y in range(len(grid)):
             for x in range(len(grid[y])):
                 new_grid[-(x+1)][y] = grid[y][x]
