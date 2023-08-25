@@ -12,6 +12,7 @@ from kivy.core.window import Window
 from kivy.properties import ListProperty, NumericProperty, BooleanProperty
 from kivy.graphics.vertex_instructions import Line, Rectangle
 from kivy.graphics import Color
+from kivy.graphics import BoxShadow
 from kivy.metrics import dp
 
 from models.loop import Loop
@@ -49,7 +50,7 @@ def line_size_calculation(self):
         self.size_line_v = self.size_line*self.nb_l
         self.size_line_h = self.width
 
-def dispaly_grid(self, background=False, border=False, relative=False, animation=False, border_block=False):
+def dispaly_grid(self, background=False, border=False, relative=False, animation=False, border_block=False, shadow=False):
     self.canvas.clear()
     with self.canvas:
         if background:
@@ -70,6 +71,13 @@ def dispaly_grid(self, background=False, border=False, relative=False, animation
         rel_y = self.y
         if relative:
             rel_x, rel_y = 0, 0
+        if shadow:
+            for y in range(len(self.grid)):
+                for x in range(len(self.grid[y])):
+                    if self.grid[y][x][1] == "V":
+                        continue
+                    Color(0, 0, 0, 0.85)
+                    BoxShadow(pos=(rel_x+get_min_x(self)+x*self.size_line,rel_y+get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), offset=(5, -5), spread_radius=(-10, -10), blur_radius=self.size_line/shadow)
         for y in range(len(self.grid)):
             for x in range(len(self.grid[y])):
                 block = "block"
@@ -290,7 +298,7 @@ class CurrentPiece(RelativeLayout, Loop):
             pass
         self.width = self.nb_c*self.size_line
         self.height = self.nb_l*self.size_line
-        dispaly_grid(self, relative=True)
+        dispaly_grid(self, relative=True, shadow=2)
     
     def on_window_resize(self, *args):
         self.pos = (Window.width/2-self.width/2, Window.height/2-self.width/2)
@@ -359,6 +367,7 @@ class PieceButton(Button, Loop):
         self.nb_l = len(self.grid)
         self.nb_c = len(self.grid[0])
         self.size_hint = (None, None)
+        self.background_color = (0, 0, 0, 0)
     
     def on_press(self):
         if self.parent.parent.parent.parent.current_piece != None:
@@ -378,7 +387,7 @@ class PieceButton(Button, Loop):
             self.size_line = self.parent.parent.parent.parent.grid.size_line
             self.width = self.size_line * self.nb_c
             self.height = self.size_line * self.nb_l
-        dispaly_grid(self)
+        dispaly_grid(self, shadow=3)
 
 
 class GridPiece(StackLayout):
