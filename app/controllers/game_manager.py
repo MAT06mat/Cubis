@@ -156,14 +156,15 @@ def dispaly_grid(self, background=False, border=False, relative=False, animation
     elif background and relative:
         self.background_debug.size = (self.width, self.height)
 
-def generate_grid(self, size):
-    self.nb_l, self.nb_c = size, size
-    grid = []
-    for y in range(size):
-        grid.append([])
-        for x  in range(size):
-            grid[y].append("NV")
-    return grid
+def generate_grid(self, size=None, width=None, height=None):
+    if size:
+        self.nb_c, self.nb_l = size, size
+    elif width and height:
+        self.nb_c, self.nb_l = width, height
+    else:
+        return ValueError
+    return [["NV" for x in range(self.nb_c)] for y in range(self.nb_l)]
+    
 
 def turn(grid):
     new_grid = [["NV" for x in grid] for y in grid[0]]
@@ -332,7 +333,7 @@ class CurrentPiece(RelativeLayout, Loop):
         return super().on_touch_up(touch)
     
     def right(self):
-        new_grid = [["NV" for x in self.nb_l] for y in self.nb_c]
+        new_grid = generate_grid(self, width=self.nb_l, height=self.nb_c)
         for y in range(len(self.grid)):
             for x in range(len(self.grid[y])):
                 new_grid[x][-(y+1)] = self.grid[y][x]
@@ -341,7 +342,7 @@ class CurrentPiece(RelativeLayout, Loop):
         self.nb_c = len(self.grid[0])
     
     def left(self):
-        new_grid = [["NV" for x in self.nb_l] for y in self.nb_c]
+        new_grid = generate_grid(self, width=self.nb_l, height=self.nb_c)
         for y in range(len(self.grid)):
             for x in range(len(self.grid[y])):
                 new_grid[-(x+1)][y] = self.grid[y][x]
@@ -455,7 +456,7 @@ class Grid(RelativeLayout, Loop):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         if self.id_level == 0:
-            self.grid = generate_grid(self, 4)
+            self.grid = generate_grid(self, size=4)
         else:
             self.level = LEVELS.get()[str(self.id_level)]
             self.grid = self.level["Grid"]
@@ -505,15 +506,15 @@ class Grid(RelativeLayout, Loop):
             # Si oui, on regenère la grille suivant les tiers
             tiers = self.parent.zone_piece.my_scroll_view.grid_piece.tiers
             if 0 < tiers <= 5:
-                self.grid = generate_grid(self, 4)
+                self.grid = generate_grid(self, size=4)
             elif 5 < tiers <= 7:
-                self.grid = generate_grid(self, 5)
+                self.grid = generate_grid(self, size=5)
             elif 7 < tiers <= 9:
-                self.grid = generate_grid(self, 6)
+                self.grid = generate_grid(self, size=6)
             elif 9 < tiers <= 11:
-                self.grid = generate_grid(self, 7)
+                self.grid = generate_grid(self, size=7)
             else:
-                self.grid = generate_grid(self, 8)
+                self.grid = generate_grid(self, size=8)
             self.parent.saves = []
         self.grid_id = [[None for x in self.grid[0]] for y in self.grid]
 
@@ -597,7 +598,7 @@ class Page(FloatLayout, Loop):
         if self.grid.x+self.grid.width > touch.pos[0] > self.grid.x and self.grid.y+self.grid.height > touch.pos[1] > self.grid.y:
             size_line = self.grid.size_line
             piece_id = None
-            piece_grid = [["NV" for x in self.grid.grid[0]] for y in self.grid.grid]
+            piece_grid = generate_grid(self, width=len(self.grid.grid[0]), height=len(self.grid.grid))
             for y_g in range(len(self.grid.grid)):
                 for x_g in range(len(self.grid.grid[y_g])):
                     # Calculation Global of x and y for the grid
