@@ -4837,3 +4837,17 @@ app/models/__pycache__/decorators.cpython-310.pyc
 app/models/__pycache__/loop.cpython-310.pyc
 app/models/__pycache__/navigation_sreen_manager.cpython-310.pyc
 .gitignore
+venv/Lib/site-packages/pip/_internal/operations/install/legacy.py
+venv/Lib/site-packages/pip/_internal/operations/install/__pycache__/legacy.cpython-310.pyc
+venv/Lib/site-packages/pip/_internal/utils/distutils_args.py
+venv/Lib/site-packages/pip/_internal/utils/__pycache__/distutils_args.cpython-310.pyc
+venv/Lib/site-packages/pip/_vendor/pkg_resources/py31compat.py
+venv/Lib/site-packages/pip/_vendor/pkg_resources/__pycache__/py31compat.cpython-310.pyc
+venv/Lib/site-packages/pip-23.0.1.dist-info/entry_points.txt
+venv/Lib/site-packages/pip-23.0.1.dist-info/INSTALLER
+venv/Lib/site-packages/pip-23.0.1.dist-info/LICENSE.txt
+venv/Lib/site-packages/pip-23.0.1.dist-info/METADATA
+venv/Lib/site-packages/pip-23.0.1.dist-info/RECORD
+venv/Lib/site-packages/pip-23.0.1.dist-info/REQUESTED
+venv/Lib/site-packages/pip-23.0.1.dist-info/top_level.txt
+venv/Lib/site-packages/pip-23.0.1.dist-info/WHEEL
