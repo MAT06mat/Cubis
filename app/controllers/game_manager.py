@@ -165,6 +165,13 @@ def generate_grid(self, size):
             grid[y].append("NV")
     return grid
 
+def turn(grid):
+    new_grid = [["NV" for x in grid] for y in grid[0]]
+    for y in range(len(grid)):
+        for x in range(len(grid[y])):
+            new_grid[-(x+1)][y] = grid[y][x]
+    return new_grid
+
 
 class BlockAnimation(Loop):
     def __init__(self, time: float, type: str, animation_pos: tuple, animation_size: tuple):
@@ -260,15 +267,19 @@ class MenuButton(Button, Loop):
 class CurrentPiece(RelativeLayout, Loop):
     grid = ListProperty(None)
     
-    def __init__(self, size_line, **kwargs):
+    def __init__(self, size_line, new_pos=None, **kwargs):
         super().__init__(**kwargs)
         self.nb_l = len(self.grid)
         self.nb_c = len(self.grid[0])
         self.size_hint = (None, None)
         self.size_line = size_line
+        self.forced = True
         self.loop(self, None)
-        self.delta_pos = (self.width/2, self.height/2)
-        self.pos = (Window.mouse_pos[0] - self.delta_pos[0], Window.mouse_pos[1] - self.delta_pos[1])
+        if new_pos != None:
+            self.pos = new_pos
+        else:
+            self.delta_pos = (self.width/2, self.height/2)
+            self.pos = (Window.mouse_pos[0] - self.delta_pos[0], Window.mouse_pos[1] - self.delta_pos[1])
         Window.bind(on_resize=self.on_window_resize)
     
     def loop(self, *args):
@@ -283,9 +294,12 @@ class CurrentPiece(RelativeLayout, Loop):
     def on_window_resize(self, *args):
         self.pos = (Window.width/2-self.width/2, Window.height/2-self.width/2)
     
+    @if_no_message
     def on_touch_down(self, touch):
-        if self.parent.message != None:
-            return
+        if self.forced:
+            self.delta_pos = (touch.pos[0] - self.pos[0], touch.pos[1] - self.pos[1])
+            self.forced = False
+            return super().on_touch_down(touch)
         touch_piece = []
         for y in range(len(self.grid)):
             for x in range(len(self.grid[y])):
@@ -297,12 +311,16 @@ class CurrentPiece(RelativeLayout, Loop):
             self.delta_pos = (touch.pos[0] - self.pos[0], touch.pos[1] - self.pos[1])
         else:
             self.delta_pos = None
+        return super().on_touch_down(touch)
     
+    @if_no_message
     def on_touch_move(self, touch):
-        if self.parent.message != None:
-            return
+        if self.forced:
+            self.delta_pos = (touch.pos[0] - self.pos[0], touch.pos[1] - self.pos[1])
+            self.forced = False
         if self.delta_pos != None:
             self.pos = (touch.pos[0] - self.delta_pos[0], touch.pos[1] - self.delta_pos[1])
+        return super().on_touch_move(touch)
     
     def on_touch_up(self, touch):
         if self.parent.zone_piece.x+self.parent.zone_piece.width > self.x+self.width/2 > self.parent.zone_piece.x and self.parent.zone_piece.y+self.parent.zone_piece.height > self.y+self.height/2 > self.parent.zone_piece.y:
@@ -394,20 +412,13 @@ class GridPiece(StackLayout):
                 if grid[y][x] == "GC":
                     grid[y][x] = "N" + str(color)
         for i in range(random.randint(0, 3)):
-            grid = self.turn(grid)
+            grid = turn(grid)
         self.piece_generated += 1
         if self.piece_generated > 90:
             self.tiers = int(self.piece_generated//30)
         if self.tiers > 13:
             self.tiers = 13
         return grid
-
-    def turn(self, grid):
-        new_grid = [["NV" for x in grid] for y in grid[0]]
-        for y in range(len(grid)):
-            for x in range(len(grid[y])):
-                new_grid[-(x+1)][y] = grid[y][x]
-        return new_grid
 
 class MyScrollView(ScrollView, Loop):
     id_level = NumericProperty(0)
@@ -580,14 +591,49 @@ class Page(FloatLayout, Loop):
             self.redo_button.disabled = len(self.undo_saves) < 1
             self.undo_button.disabled = not (len(self.saves) >= 1 or self.current_piece != None)
     
+    def on_touch_down(self, touch):
+        if self.message != None:
+            return super().on_touch_down(touch)
+        if self.grid.x+self.grid.width > touch.pos[0] > self.grid.x and self.grid.y+self.grid.height > touch.pos[1] > self.grid.y:
+            size_line = self.grid.size_line
+            piece_id = None
+            piece_grid = [["NV" for x in self.grid.grid[0]] for y in self.grid.grid]
+            for y_g in range(len(self.grid.grid)):
+                for x_g in range(len(self.grid.grid[y_g])):
+                    # Calculation Global of x and y for the grid
+                    x_grid = get_min_x(self.grid)+self.grid.x+x_g*self.grid.size_line
+                    y_grid = get_max_y(self.grid)+self.grid.y-(y_g+1)*self.grid.size_line
+                    if x_grid+size_line > touch.pos[0] > x_grid and y_grid+size_line > touch.pos[1] > y_grid:
+                        piece_id = self.grid.grid_id[y_g][x_g]
+            if piece_id == None:
+                return super().on_touch_down(touch)
+            self.save()
+            for y_g in range(len(self.grid.grid)):
+                for x_g in range(len(self.grid.grid[y_g])):
+                    if self.grid.grid_id[y_g][x_g] == piece_id:
+                        piece_grid[y_g][x_g] = self.grid.grid[y_g][x_g]
+                        self.grid.grid_id[y_g][x_g] = None
+                        self.grid.grid[y_g][x_g] = "NV"
+            for i in range(4):
+                operation = True
+                while operation:
+                    operation = False
+                    void = [x == "NV" for x in piece_grid[0]]
+                    if all(void):
+                        piece_grid.pop(0)
+                        operation = True
+                piece_grid = turn(piece_grid)
+            self.change_current_piece(piece_grid)
+        return super().on_touch_down(touch)
+    
     def on_touch_up(self, touch):
-        if self.message:
+        if self.message != None:
             return super().on_touch_up(touch)
+        # Add current piece to grid
         if self.verify():
             self.save()
-            self.marg = int(self.grid.size_line/2)
+            marg = int(self.grid.size_line/2)
             self.new_id += 1
-            # Modifie la grille pour ajouter la pièce
             for y_p in range(len(self.current_piece.grid)):
                 for x_p in range(len(self.current_piece.grid[y_p])):
                     if self.current_piece.grid[y_p][x_p] != "NV":
@@ -599,10 +645,11 @@ class Page(FloatLayout, Loop):
                                 x_grid = get_min_x(self.grid)+self.grid.x+x_g*self.grid.size_line
                                 y_grid = get_max_y(self.grid)+self.grid.y-(y_g+1)*self.grid.size_line
                                 # if grid block match with piece block and if is void or if is a motifs
-                                if abs(x_piece - x_grid) < self.marg and abs(y_piece - y_grid) < self.marg and (self.grid.grid[y_g][x_g] == "NV" or (self.grid.grid[y_g][x_g][0] == "M" and self.current_piece.grid[y_p][x_p][1] == self.grid.grid[y_g][x_g][1])):
+                                if abs(x_piece - x_grid) < marg and abs(y_piece - y_grid) < marg and (self.grid.grid[y_g][x_g] == "NV" or (self.grid.grid[y_g][x_g][0] == "M" and self.current_piece.grid[y_p][x_p][1] == self.grid.grid[y_g][x_g][1])):
                                     self.grid.grid[y_g][x_g] = self.current_piece.grid[y_p][x_p]
                                     self.grid.grid_id[y_g][x_g] = self.new_id
             self.remove_widget(self.current_piece)
+            # Add score and generate new piece
             if self.id_level == 0:
                 score = 0
                 for y in self.current_piece.grid:
@@ -611,12 +658,11 @@ class Page(FloatLayout, Loop):
                             score += 1
                 self.score += score * score
                 self.score_label.text = str(self.score)
-            self.current_piece = None
-            if self.id_level ==0:
                 grid = self.zone_piece.my_scroll_view.grid_piece.generation()
                 button = PieceButton(grid=grid)
                 self.zone_piece.my_scroll_view.grid_piece.piece_button.append(button)
                 self.zone_piece.my_scroll_view.grid_piece.add_widget(button)
+            self.current_piece = None
         return super().on_touch_up(touch)
     
     def save(self, redo=False):
@@ -704,9 +750,9 @@ class Page(FloatLayout, Loop):
             self.zone_piece.my_scroll_view.grid_piece.add_widget(button)
         self.undo_saves.pop(-1)
     
-    def change_current_piece(self, grid):
+    def change_current_piece(self, grid, new_pos=None):
         self.remove_current_piece()
-        self.current_piece = CurrentPiece(grid=grid, size_line=self.grid.size_line)
+        self.current_piece = CurrentPiece(grid=grid, size_line=self.grid.size_line, new_pos=new_pos)
         self.add_widget(self.current_piece)
 
     def remove_current_piece(self):
@@ -730,7 +776,7 @@ class Page(FloatLayout, Loop):
     def verify(self):
         try:
             if self.current_piece:
-                self.marg = int(self.grid.size_line/2)
+                marg = int(self.grid.size_line/2)
                 check = []
                 for y_p in range(len(self.current_piece.grid)):
                     for x_p in range(len(self.current_piece.grid[y_p])):
@@ -743,7 +789,7 @@ class Page(FloatLayout, Loop):
                                 x_grid = get_min_x(self.grid)+self.grid.x+x_g*self.grid.size_line
                                 y_grid = get_max_y(self.grid)+self.grid.y-(y_g+1)*self.grid.size_line
                                 # if grid block match with piece block and if is void or if is a motis
-                                one.append(abs(x_piece - x_grid) < self.marg and abs(y_piece - y_grid) < self.marg and (self.grid.grid[y_g][x_g] == "NV" or (self.grid.grid[y_g][x_g][0] == "M" and self.current_piece.grid[y_p][x_p][1] == self.grid.grid[y_g][x_g][1]) or self.current_piece.grid[y_p][x_p] == "NV"))
+                                one.append(abs(x_piece - x_grid) < marg and abs(y_piece - y_grid) < marg and (self.grid.grid[y_g][x_g] == "NV" or (self.grid.grid[y_g][x_g][0] == "M" and self.current_piece.grid[y_p][x_p][1] == self.grid.grid[y_g][x_g][1]) or self.current_piece.grid[y_p][x_p] == "NV"))
                         check.append(any(one))
                 return all(check)
         except:
