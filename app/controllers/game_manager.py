@@ -596,7 +596,7 @@ class Page(FloatLayout, Loop):
             self.redo_button.disabled = len(self.undo_saves) < 1
             self.undo_button.disabled = not (len(self.saves) >= 1 or self.current_piece != None)
     
-    def on_touch_down(self, touch):
+    """def on_touch_down(self, touch):
         if self.current_piece != None:
             if self.current_piece.touch_piece(touch):
                 return super().on_touch_down(touch)
@@ -630,7 +630,7 @@ class Page(FloatLayout, Loop):
                         operation = True
                 piece_grid = turn(piece_grid)
             self.change_current_piece(piece_grid)
-        return super().on_touch_down(touch)
+        return super().on_touch_down(touch)"""
     
     def on_touch_up(self, touch):
         if self.message != None:
