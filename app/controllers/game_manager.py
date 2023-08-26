@@ -602,9 +602,7 @@ class Page(FloatLayout, Loop):
             self.undo_button.disabled = not (len(self.saves) >= 1 or self.current_piece != None)
     
     def on_touch_down(self, touch):
-        if self.message != None:
-            return super().on_touch_down(touch)
-        if self.grid.x+self.grid.width > touch.pos[0] > self.grid.x and self.grid.y+self.grid.height > touch.pos[1] > self.grid.y:
+        if self.grid.x+self.grid.width > touch.pos[0] > self.grid.x and self.grid.y+self.grid.height > touch.pos[1] > self.grid.y and self.id_level != 0 and self.message == None:
             size_line = self.grid.size_line
             piece_id = None
             piece_grid = generate_grid(self, width=len(self.grid.grid[0]), height=len(self.grid.grid))
