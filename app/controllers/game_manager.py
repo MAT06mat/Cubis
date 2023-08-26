@@ -41,13 +41,13 @@ def get_max_y(self):
     return self.height/2+self.size_line_v/2
 
 def line_size_calculation(self):
-    if self.nb_l >= self.nb_c:
-        self.size_line = self.height/self.nb_l
+    if len(self.grid) >= len(self.grid[0]):
+        self.size_line = self.height/len(self.grid)
         self.size_line_v = self.height
-        self.size_line_h = self.size_line*self.nb_c
+        self.size_line_h = self.size_line*len(self.grid[0])
     else:
-        self.size_line = self.width/self.nb_c
-        self.size_line_v = self.size_line*self.nb_l
+        self.size_line = self.width/len(self.grid[0])
+        self.size_line_v = self.size_line*len(self.grid)
         self.size_line_h = self.width
 
 def dispaly_grid(self, background=False, border=False, relative=False, animation=False, border_block=False, shadow=False):
@@ -61,10 +61,10 @@ def dispaly_grid(self, background=False, border=False, relative=False, animation
         line_size_calculation(self)
         if border:
             # Create cols
-            for i in range(self.nb_c + 1):
+            for i in range(len(self.grid[0]) + 1):
                 Line(points=(get_min_x(self)+i*self.size_line, get_min_y(self), get_min_x(self)+i*self.size_line, get_max_y(self)), width=2)
             # Create rows
-            for i in range(self.nb_l + 1):
+            for i in range(len(self.grid) + 1):
                 Line(points=(get_min_x(self), get_min_y(self)+i*self.size_line, get_max_x(self), get_min_y(self)+i*self.size_line), width=2)
         # Create block in the grid
         rel_x = self.x
@@ -164,14 +164,14 @@ def dispaly_grid(self, background=False, border=False, relative=False, animation
     elif background and relative:
         self.background_debug.size = (self.width, self.height)
 
-def generate_grid(self, size=None, width=None, height=None):
+def generate_grid(size=None, width=None, height=None):
     if size:
-        self.nb_c, self.nb_l = size, size
+        width, height = size, size
     elif width and height:
-        self.nb_c, self.nb_l = width, height
+        pass
     else:
         return ValueError
-    return [["NV" for x in range(self.nb_c)] for y in range(self.nb_l)]
+    return [["NV" for x in range(width)] for y in range(height)]
     
 
 def turn(grid):
@@ -278,8 +278,6 @@ class CurrentPiece(RelativeLayout, Loop):
     
     def __init__(self, size_line, new_pos=None, **kwargs):
         super().__init__(**kwargs)
-        self.nb_l = len(self.grid)
-        self.nb_c = len(self.grid[0])
         self.size_hint = (None, None)
         self.size_line = size_line
         self.forced = True
@@ -296,15 +294,16 @@ class CurrentPiece(RelativeLayout, Loop):
             self.size_line = self.parent.grid.size_line
         except:
             pass
-        self.width = self.nb_c*self.size_line
-        self.height = self.nb_l*self.size_line
+        self.width = len(self.grid[0])*self.size_line
+        self.height = len(self.grid)*self.size_line
         dispaly_grid(self, relative=True, shadow=2)
     
     def on_window_resize(self, *args):
         self.pos = (Window.width/2-self.width/2, Window.height/2-self.width/2)
     
-    @if_no_message
     def on_touch_down(self, touch):
+        if self.parent.message != None:
+            return super().on_touch_down(touch)
         if self.forced:
             self.delta_pos = (touch.pos[0] - self.pos[0], touch.pos[1] - self.pos[1])
             self.forced = False
@@ -322,8 +321,9 @@ class CurrentPiece(RelativeLayout, Loop):
             self.delta_pos = None
         return super().on_touch_down(touch)
     
-    @if_no_message
     def on_touch_move(self, touch):
+        if self.parent.message != None:
+            return super().on_touch_move(touch)
         if self.forced:
             self.delta_pos = (touch.pos[0] - self.pos[0], touch.pos[1] - self.pos[1])
             self.forced = False
@@ -341,22 +341,18 @@ class CurrentPiece(RelativeLayout, Loop):
         return super().on_touch_up(touch)
     
     def right(self):
-        new_grid = generate_grid(self, width=self.nb_l, height=self.nb_c)
+        new_grid = generate_grid(width=len(self.grid), height=len(self.grid[0]))
         for y in range(len(self.grid)):
             for x in range(len(self.grid[y])):
                 new_grid[x][-(y+1)] = self.grid[y][x]
         self.grid = new_grid
-        self.nb_l = len(self.grid)
-        self.nb_c = len(self.grid[0])
     
     def left(self):
-        new_grid = generate_grid(self, width=self.nb_l, height=self.nb_c)
+        new_grid = generate_grid(width=len(self.grid), height=len(self.grid[0]))
         for y in range(len(self.grid)):
             for x in range(len(self.grid[y])):
                 new_grid[-(x+1)][y] = self.grid[y][x]
         self.grid = new_grid
-        self.nb_l = len(self.grid)
-        self.nb_c = len(self.grid[0])
 
 
 class PieceButton(Button, Loop):
@@ -364,8 +360,6 @@ class PieceButton(Button, Loop):
     
     def __init__(self,**kwargs):
         super().__init__(**kwargs)
-        self.nb_l = len(self.grid)
-        self.nb_c = len(self.grid[0])
         self.size_hint = (None, None)
         self.background_color = (0, 0, 0, 0)
     
@@ -385,8 +379,8 @@ class PieceButton(Button, Loop):
     def loop(self, *args):
         if self.parent != None:
             self.size_line = self.parent.parent.parent.parent.grid.size_line
-            self.width = self.size_line * self.nb_c
-            self.height = self.size_line * self.nb_l
+            self.width = self.size_line * len(self.grid[0])
+            self.height = self.size_line * len(self.grid)
         dispaly_grid(self, shadow=3)
 
 
@@ -465,12 +459,10 @@ class Grid(RelativeLayout, Loop):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         if self.id_level == 0:
-            self.grid = generate_grid(self, size=4)
+            self.grid = generate_grid(size=4)
         else:
             self.level = LEVELS.get()[str(self.id_level)]
             self.grid = self.level["Grid"]
-        self.nb_l = len(self.grid)
-        self.nb_c = len(self.grid[0])
         self.grid_id = [[None for x in self.grid[0]] for y in self.grid]
         self.size_hint = (None, None)
     
@@ -515,15 +507,15 @@ class Grid(RelativeLayout, Loop):
             # Si oui, on regenère la grille suivant les tiers
             tiers = self.parent.zone_piece.my_scroll_view.grid_piece.tiers
             if 0 < tiers <= 5:
-                self.grid = generate_grid(self, size=4)
+                self.grid = generate_grid(size=4)
             elif 5 < tiers <= 7:
-                self.grid = generate_grid(self, size=5)
+                self.grid = generate_grid(size=5)
             elif 7 < tiers <= 9:
-                self.grid = generate_grid(self, size=6)
+                self.grid = generate_grid(size=6)
             elif 9 < tiers <= 11:
-                self.grid = generate_grid(self, size=7)
+                self.grid = generate_grid(size=7)
             else:
-                self.grid = generate_grid(self, size=8)
+                self.grid = generate_grid(size=8)
             self.parent.saves = []
         self.grid_id = [[None for x in self.grid[0]] for y in self.grid]
 
@@ -602,10 +594,13 @@ class Page(FloatLayout, Loop):
             self.undo_button.disabled = not (len(self.saves) >= 1 or self.current_piece != None)
     
     def on_touch_down(self, touch):
+        if self.current_piece != None:
+            if self.current_piece.delta_pos != None:
+                return super().on_touch_down(touch)
         if self.grid.x+self.grid.width > touch.pos[0] > self.grid.x and self.grid.y+self.grid.height > touch.pos[1] > self.grid.y and self.id_level != 0 and self.message == None:
             size_line = self.grid.size_line
             piece_id = None
-            piece_grid = generate_grid(self, width=len(self.grid.grid[0]), height=len(self.grid.grid))
+            piece_grid = generate_grid(width=len(self.grid.grid[0]), height=len(self.grid.grid))
             for y_g in range(len(self.grid.grid)):
                 for x_g in range(len(self.grid.grid[y_g])):
                     # Calculation Global of x and y for the grid
