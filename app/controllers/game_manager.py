@@ -308,6 +308,13 @@ class CurrentPiece(RelativeLayout, Loop):
             self.delta_pos = (touch.pos[0] - self.pos[0], touch.pos[1] - self.pos[1])
             self.forced = False
             return super().on_touch_down(touch)
+        if self.touch_piece(touch):
+            self.delta_pos = (touch.pos[0] - self.pos[0], touch.pos[1] - self.pos[1])
+        else:
+            self.delta_pos = None
+        return super().on_touch_down(touch)
+    
+    def touch_piece(self, touch):
         touch_piece = []
         for y in range(len(self.grid)):
             for x in range(len(self.grid[y])):
@@ -315,11 +322,7 @@ class CurrentPiece(RelativeLayout, Loop):
                     touch_piece.append(True)
                 else:
                     touch_piece.append(False)
-        if any(touch_piece):
-            self.delta_pos = (touch.pos[0] - self.pos[0], touch.pos[1] - self.pos[1])
-        else:
-            self.delta_pos = None
-        return super().on_touch_down(touch)
+        return any(touch_piece)
     
     def on_touch_move(self, touch):
         if self.parent.message != None:
@@ -595,7 +598,7 @@ class Page(FloatLayout, Loop):
     
     def on_touch_down(self, touch):
         if self.current_piece != None:
-            if self.current_piece.delta_pos != None:
+            if self.current_piece.touch_piece(touch):
                 return super().on_touch_down(touch)
         if self.grid.x+self.grid.width > touch.pos[0] > self.grid.x and self.grid.y+self.grid.height > touch.pos[1] > self.grid.y and self.id_level != 0 and self.message == None:
             size_line = self.grid.size_line
