@@ -533,7 +533,8 @@ class RightArrow(Arrow):
     @if_no_message
     @if_no_piece
     def on_press(self):
-        self.parent.current_piece.right()
+        if self.parent.current_piece != None:
+            self.parent.current_piece.right()
         return super().on_press()
 
 
@@ -541,7 +542,8 @@ class LeftArrow(Arrow):
     @if_no_message
     @if_no_piece
     def on_press(self):
-        self.parent.current_piece.left()
+        if self.parent.current_piece != None:
+            self.parent.current_piece.left()
         return super().on_press()
 
 
