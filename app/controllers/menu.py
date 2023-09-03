@@ -10,11 +10,18 @@ from kivy.clock import Clock
 from kivy.graphics import Color, Rectangle
 from kivy.metrics import dp
 from random import randint
+import webbrowser
 
 from models.data import SETTINGS, TEXTS
 from models.loop import Loop
 
-class LButton(Button):
+# ============ SETTINGS ============
+
+class CustomButton(Button):
+    pass
+
+
+class LButton(CustomButton):
     def on_release(self):
         self.parent.parent.select(self.text)
         SETTINGS.modify(element=TEXTS.uncomplete_lang(self.text), key="lang")
@@ -33,8 +40,18 @@ class LangButton(DropDown):
         self.select(SETTINGS.get()['lang'])
 
 
-class DropButton(Button):
-    pass
+class DropButton(CustomButton, Loop):
+    def loop(self, *args):
+        credit_button = self.parent.ids.credit_button
+        setting_image = self.parent.ids.setting_image
+        musique_slider = self.parent.ids.musique_slider
+        self.center_x = musique_slider.center_x
+        self.y = setting_image.y + setting_image.width * 0.35
+        self.width = credit_button.width * 3 / 2
+        self.height = credit_button.height * 3 / 2
+        for bnt in self.parent.dropdown.bnt_list:
+            bnt.height = self.height / 2
+            bnt.font_size = self.width / 10
 
 
 class Setting(FloatLayout):
@@ -43,24 +60,15 @@ class Setting(FloatLayout):
         Clock.schedule_once(self.init, 0.1)
     
     def init(self, *args):
-        Clock.schedule_interval(self.loop, 1/60)
-        self.mainbutton = DropButton(text=TEXTS.complete_lang(TEXTS.current_lang), size_hint=(None, None), pos_hint={"center_x": 0.70})
+        self.mainbutton = DropButton(text=TEXTS.complete_lang(TEXTS.current_lang), size_hint=(None, None))
         self.dropdown = LangButton()
         self.mainbutton.bind(on_release=self.dropdown.open)
         self.dropdown.bind(on_select=lambda instance, x: setattr(self.mainbutton, 'text', x))
         self.add_widget(self.mainbutton)
         self.add_widget(self.dropdown)
-    
-    def loop(self, *args):
-        credit_button = self.ids.credit_button
-        self.mainbutton.width = credit_button.width
-        self.mainbutton.height = credit_button.height
-        self.mainbutton.y = credit_button.y
-        for bnt in self.dropdown.bnt_list:
-            bnt.height = credit_button.height /2
 
 
-class CreditButton(Button):
+class CreditButton(CustomButton):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.lang_change()
@@ -68,6 +76,20 @@ class CreditButton(Button):
     
     def lang_change(self, *args):
         self.text = TEXTS.key(30)
+
+
+class PolicyButton(CustomButton):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.lang_change()
+        TEXTS.bind(current_lang=self.lang_change)
+    
+    def lang_change(self, *args):
+        self.text = TEXTS.key(36)
+    
+    def on_press(self):
+        webbrowser.open('https://mat06mat.github.io/matthieufelten/cubis-privacy-policy.html')
+        return super().on_press()
 
 
 class MusicSlider(Slider):
@@ -130,6 +152,7 @@ class SettingImage(Image, Loop):
             self.width = self.parent.height
         self.height = self.width
 
+# ============ MAIN MENU ============
 
 class Logo(Image, Loop):   
     def loop(self, *args):
@@ -148,6 +171,29 @@ class MenuBoxLayout(BoxLayout, Loop):
         while self.width / 1289 * 958 > self.height:
             self.width -= 1
 
+
+class SMButton(Button):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.lang_change()
+        TEXTS.bind(current_lang=self.lang_change)
+
+    def lang_change(self, *args):
+        self.background_normal = TEXTS.image_path("assets/images/buttons/story_mode.png")
+        self.background_down = TEXTS.image_path("assets/images/buttons/story_mode.png")
+
+
+class IMButton(Button):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.lang_change()
+        TEXTS.bind(current_lang=self.lang_change)
+
+    def lang_change(self, *args):
+        self.background_normal = TEXTS.image_path("assets/images/buttons/infinite_mode.png")
+        self.background_down = TEXTS.image_path("assets/images/buttons/infinite_mode.png")
+
+# ============ START ANIMATION ============
 
 class StartImage(Image, Loop):
     def __init__(self, **kwargs):
@@ -221,6 +267,7 @@ class CenterBoxLayout(BoxLayout, Loop):
             pass
         self.spacing = (Window.height - self.height) / 5
 
+# ============ CREDITS ============
 
 class CreditLabel(Label):
     def __init__(self, **kwargs):
@@ -243,24 +290,3 @@ class CreditLabel(Label):
             self.color = (randint(0, 100)/100, randint(0, 100)/100, randint(0, 100)/100)
         elif self.time >= 50:
             self.time = 49
-
-class SMButton(Button):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.lang_change()
-        TEXTS.bind(current_lang=self.lang_change)
-
-    def lang_change(self, *args):
-        self.background_normal = TEXTS.image_path("assets/images/buttons/story_mode.png")
-        self.background_down = TEXTS.image_path("assets/images/buttons/story_mode.png")
-
-
-class IMButton(Button):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.lang_change()
-        TEXTS.bind(current_lang=self.lang_change)
-
-    def lang_change(self, *args):
-        self.background_normal = TEXTS.image_path("assets/images/buttons/infinite_mode.png")
-        self.background_down = TEXTS.image_path("assets/images/buttons/infinite_mode.png")
