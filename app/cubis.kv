@@ -139,6 +139,7 @@
         id: policy_button
         size_hint: (None, None)
         size: credit_button.size
+        line_height: 0.8
         center_x: effect_slider.center_x
         y: credit_button.y
     Button:
@@ -167,15 +168,21 @@
             radius: [5,]
 
 <LButton>:
+    font_size: self.width/8
+    color: "#A04623"
+    font_name: "assets/fonts/Coda-Regular.ttf"
+    background_normal: ""
+    background_down: ""
+    background_color: (0, 0, 0, 0)
     canvas.before:
         Color:
-            rgba: (0.72, 0.34, 0.05, 1)
+            rgba: (0.72, 0.34, 0.05, 1) if self.current_lang else (0.82, 0.44, 0.15, 1)
         RoundedRectangle:
             pos: self.pos
             size: self.size
             radius: [5,]
         Color:
-            rgba: (0.82, 0.44, 0.15, 1)
+            rgba: (0.82, 0.44, 0.15, 1) if self.current_lang else (0, 0, 0, 0)
         RoundedRectangle:
             pos: self.x + 2, self.y + 2
             size: self.width - 4, self.height - 4

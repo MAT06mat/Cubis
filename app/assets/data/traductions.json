@@ -66,7 +66,8 @@
       "Le seul moyen de les\ndétruire est de remplir\nle reste de la grille."
     ],
     "35": "Suivant",
-    "36": "Politique de\nconfidentialité"
+    "36": "Politique de\nconfidentialité",
+    "37": "Langue"
   },
   {
     "lang": "en",
@@ -133,6 +134,7 @@
     "The only way to\ndestroy them is to fill\nthe rest of the grid."
     ],
     "35": "Next",
-    "36": "Privacy policy"
+    "36": "Privacy policy",
+    "37": "Language"
   }
 ]

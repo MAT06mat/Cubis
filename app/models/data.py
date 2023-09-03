@@ -70,11 +70,7 @@ class Texts(Data):
         self.lang_dict = {"en": "English", "fr": "Français"}
     
     def setting_change(self, *args):
-        if 'lang' in SETTINGS.get():
-            self.current_lang = SETTINGS.get()['lang']
-        else:
-            SETTINGS.modify(element='en', key='lang')
-            self.current_lang = "en"
+        self.current_lang = SETTINGS.get()['lang']
         
     def key(self, key):
         key = str(key)

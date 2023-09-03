@@ -7,8 +7,9 @@ from kivy.uix.button import Button
 from kivy.uix.dropdown import DropDown
 from kivy.core.window import Window
 from kivy.clock import Clock
-from kivy.graphics import Color, Rectangle
+from kivy.graphics import Color, Rectangle, RoundedRectangle, ContextInstruction
 from kivy.metrics import dp
+from kivy.properties import BooleanProperty
 from random import randint
 import webbrowser
 
@@ -20,8 +21,26 @@ from models.loop import Loop
 class CustomButton(Button):
     pass
 
-
-class LButton(CustomButton):
+class LButton(Button):
+    current_lang = BooleanProperty(False)
+    
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        TEXTS.bind(current_lang=self.lang_change)
+    
+    def lang_change(self, *args):
+        self.current_lang = TEXTS.uncomplete_lang(self.text) == TEXTS.current_lang
+        with self.canvas.before:
+            ContextInstruction()
+            if self.current_lang:
+                Color(0.72, 0.34, 0.05, 1)
+                RoundedRectangle(pos=self.pos, size=self.size, radius=[5,])
+                Color(0.82, 0.44, 0.15, 1)
+                RoundedRectangle(pos=(self.x+2, self.y+2), size=(self.width-4, self.height-4),radius=[5,])
+            else:
+                Color(0.82, 0.44, 0.15, 1)
+                RoundedRectangle(pos=self.pos, size=self.size, radius=[5,])
+    
     def on_release(self):
         self.parent.parent.select(self.text)
         SETTINGS.modify(element=TEXTS.uncomplete_lang(self.text), key="lang")
@@ -34,13 +53,22 @@ class LangButton(DropDown):
         super().__init__(**kwargs)
         self.bnt_list = []
         for lang in TEXTS.langs():
-            b = LButton(text=TEXTS.complete_lang(lang), size_hint_y=None)
+            current_lang = TEXTS.uncomplete_lang(lang) == TEXTS.current_lang
+            b = LButton(text=TEXTS.complete_lang(lang), size_hint_y=None, current_lang=current_lang)
             self.add_widget(b)
             self.bnt_list.append(b)
         self.select(SETTINGS.get()['lang'])
 
 
 class DropButton(CustomButton, Loop):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.lang_change()
+        TEXTS.bind(current_lang=self.lang_change)
+    
+    def lang_change(self, *args):
+        self.text = TEXTS.key(37)
+        
     def loop(self, *args):
         credit_button = self.parent.ids.credit_button
         setting_image = self.parent.ids.setting_image
@@ -60,10 +88,11 @@ class Setting(FloatLayout):
         Clock.schedule_once(self.init, 0.1)
     
     def init(self, *args):
-        self.mainbutton = DropButton(text=TEXTS.complete_lang(TEXTS.current_lang), size_hint=(None, None))
+        #TEXTS.complete_lang(TEXTS.current_lang)
+        self.mainbutton = DropButton(text=TEXTS.key(37), size_hint=(None, None))
         self.dropdown = LangButton()
         self.mainbutton.bind(on_release=self.dropdown.open)
-        self.dropdown.bind(on_select=lambda instance, x: setattr(self.mainbutton, 'text', x))
+        #self.dropdown.bind(on_select=lambda instance, x: setattr(self.mainbutton, 'text', x))
         self.add_widget(self.mainbutton)
         self.add_widget(self.dropdown)
 
