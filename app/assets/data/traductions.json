@@ -64,7 +64,8 @@
       "On dirait qu'il y a\nde nouveaux blocs\ndans cette zone.",
       "Ce sont des caisses.\nVous ne pourrez pas\npasser le niveau sans\nles avoir cassées.",
       "Le seul moyen de les\ndétruire est de remplir\nle reste de la grille."
-    ]
+    ],
+    "35": "Suivant"
   },
   {
     "lang": "en",
@@ -129,6 +130,7 @@
       "It looks like there\nare new boxes in\nthis area.",
     "These are boxes.\nYou won't be able to\ncomplete the level\nwithout breaking them.",
     "The only way to\ndestroy them is to fill\nthe rest of the grid."
-    ]
+    ],
+    "35": "Next"
   }
 ]

@@ -259,6 +259,12 @@ class VictoireMessage(RelativeLayout):
         self.parent.message_pop()
 
 
+class NextButton(Button):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.text = TEXTS.key(35)
+
+
 class InfoMessage(RelativeLayout):
     message = ListProperty(None)
     title = StringProperty(TEXTS.key(15))
