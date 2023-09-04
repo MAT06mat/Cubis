@@ -9,7 +9,7 @@ from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.image import Image
 from kivy.core.window import Window
-from kivy.properties import ListProperty, NumericProperty, BooleanProperty
+from kivy.properties import ListProperty, NumericProperty, BooleanProperty, ObjectProperty
 from kivy.graphics.vertex_instructions import Line, Rectangle
 from kivy.graphics import Color
 from kivy.graphics import BoxShadow
@@ -50,8 +50,10 @@ def line_size_calculation(self):
         self.size_line_v = self.size_line*len(self.grid)
         self.size_line_h = self.width
 
-def dispaly_grid(self, background=False, border=False, relative=False, animation=False, border_block=False, shadow=False):
+def dispaly_grid(self, background=False, border=False, relative=False, animation=False, border_block=False, not_reload=False):
     self.canvas.clear()
+    if not_reload:
+        return
     with self.canvas:
         if background:
             Color(1, 1, 1)
@@ -71,13 +73,6 @@ def dispaly_grid(self, background=False, border=False, relative=False, animation
         rel_y = self.y
         if relative:
             rel_x, rel_y = 0, 0
-        if shadow:
-            for y in range(len(self.grid)):
-                for x in range(len(self.grid[y])):
-                    if self.grid[y][x][1] == "V":
-                        continue
-                    Color(0, 0, 0, 0.85)
-                    BoxShadow(pos=(rel_x+get_min_x(self)+x*self.size_line,rel_y+get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), offset=(5, -5), spread_radius=(-10, -10), blur_radius=self.size_line/shadow)
         for y in range(len(self.grid)):
             for x in range(len(self.grid[y])):
                 block = "block"
@@ -275,6 +270,7 @@ class MenuButton(Button, Loop):
 
 class CurrentPiece(RelativeLayout, Loop):
     grid = ListProperty(None)
+    not_reload = BooleanProperty(False)
     
     def __init__(self, size_line, new_pos=None, **kwargs):
         super().__init__(**kwargs)
@@ -296,7 +292,7 @@ class CurrentPiece(RelativeLayout, Loop):
             pass
         self.width = len(self.grid[0])*self.size_line
         self.height = len(self.grid)*self.size_line
-        dispaly_grid(self, relative=True, shadow=2)
+        dispaly_grid(self, relative=True, not_reload=self.not_reload)
     
     def on_window_resize(self, *args):
         self.pos = (Window.width/2-self.width/2, Window.height/2-self.width/2)
@@ -360,6 +356,7 @@ class CurrentPiece(RelativeLayout, Loop):
 
 class PieceButton(Button, Loop):
     grid = ListProperty(None)
+    not_reload = BooleanProperty(False)
     
     def __init__(self,**kwargs):
         super().__init__(**kwargs)
@@ -384,7 +381,7 @@ class PieceButton(Button, Loop):
             self.size_line = self.parent.parent.parent.parent.grid.size_line
             self.width = self.size_line * len(self.grid[0])
             self.height = self.size_line * len(self.grid)
-        dispaly_grid(self, shadow=3)
+        dispaly_grid(self, not_reload=self.not_reload)
 
 
 class GridPiece(StackLayout):
@@ -458,6 +455,7 @@ class ZonePieces(BoxLayout, Loop):
 class Grid(RelativeLayout, Loop):
     id_level = NumericProperty(None)
     victoire = BooleanProperty(False)
+    not_reload = BooleanProperty(False)
     
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -497,7 +495,7 @@ class Grid(RelativeLayout, Loop):
         self.height = self.width
         self.center_x = self.parent.grid_image.center_x
         self.center_y = self.parent.grid_image.center_y
-        dispaly_grid(self=self, background=True, border=True, relative=True, animation=True, border_block=True)
+        dispaly_grid(self=self, background=True, border=True, relative=True, animation=True, border_block=True, not_reload=self.not_reload)
         self.replace_box()
         # Verifie si la grille est remplit
         if self.test_grid():
@@ -763,6 +761,14 @@ class Page(FloatLayout, Loop):
         self.current_piece = CurrentPiece(grid=grid, size_line=self.grid.size_line, new_pos=new_pos)
         self.add_widget(self.current_piece)
 
+    def not_reload(self):
+        if self.current_piece:
+            self.current_piece.not_reload = True
+        if self.grid:
+            self.grid.not_reload = True
+        for button in self.zone_piece.my_scroll_view.grid_piece.piece_button:
+            button.not_reload = True
+    
     def remove_current_piece(self):
         if self.current_piece != None:
             self.remove_widget(self.current_piece)
@@ -806,8 +812,12 @@ class Page(FloatLayout, Loop):
 
 class Game(Screen):
     id_level = NumericProperty(None)
+    my_float = ObjectProperty(None)
+    page = ObjectProperty(None)
     
     def restart(self, id_level):
+        if self.page:
+            self.page.not_reload()
         self.clear_widgets()
         self.id_level = id_level
         self.my_float = FloatLayout()
