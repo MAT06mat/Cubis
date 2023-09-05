@@ -115,8 +115,8 @@ class TabItem(TabbedPanelItem):
         else:
             self.text = TEXTS.key(self.text_key)
     
-    def on_press(self):
-        if self.parent.parent:
+    def on_press(self, pop=True):
+        if self.parent.parent and pop:
             self.parent.parent.parent.parent.parent.message_pop()
         BACKGROUND_IMAGE.clear_widgets()
         BACKGROUND_IMAGE.add_widget(Image(source=self.image, fit_mode="cover", mipmap=True))
@@ -132,6 +132,7 @@ class TabItem(TabbedPanelItem):
 
 class StoryMode(TabbedPanel, Loop):
     level = NumericProperty(0)
+    in_select_first_tab = False
     
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -151,7 +152,7 @@ class StoryMode(TabbedPanel, Loop):
             for tab in self.tab_list[:-1]:
                 if tab.disabled == False:
                     self.switch_to(tab)
-                    tab.on_press()
+                    tab.on_press(pop=False)
                     return
     
     def loop(self, *args):
@@ -190,9 +191,17 @@ class StoryModeFloat(FloatLayout):
             self.message_push(SETTINGS.get()["Current_level"])
         
     def message_push(self, id_level):
-        if not self.message:
-            self.message = PlayMessage(id_level=id_level)
-            self.add_widget(self.message)
+        if not self.message: 
+            level_exist = []
+            for area in AREAS.get():
+                for level in area["Levels"]:
+                    level_exist.append(level["Id"] == id_level)
+            if not any(level_exist):
+                self.message = InfoMessage(message=TEXTS.key(20))
+                self.add_widget(self.message)
+            else:
+                self.message = PlayMessage(id_level=id_level)
+                self.add_widget(self.message)
         
     def message_pop(self):
         if self.message:

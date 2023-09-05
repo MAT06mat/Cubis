@@ -58,16 +58,17 @@ class NavigationScreenManager(ScreenManager):
             self.change_transition(transition_screen, screen_name)
             self.next_current = screen_name
 
-    def pop(self, transition_screen=True, delay=0):
+    def pop(self, transition_screen=True, delay=0, quit_level=False):
         self.delay = delay
         if len(self.screen_stack) > 0:
             screen_name = self.screen_stack[-1]
             del self.screen_stack[-1]
             self.change_transition(transition_screen, screen_name)
             self.next_current = screen_name
-            for screen in self.screens:
-                if screen.name == "StoryMode":
-                    screen.children[0].children[0].message_pop()
+            if not quit_level:
+                for screen in self.screens:
+                    if screen.name == "StoryMode":
+                        screen.children[0].children[0].message_pop()
     
     def start_level(self, id_level=0, transition_screen=True, delay=0):
         self.delay = delay
@@ -99,7 +100,7 @@ class NavigationScreenManager(ScreenManager):
                     for screen in self.screens:
                         if screen.name == "StoryMode":
                             screen.children[0].children[0].reset()
-            self.pop(transition_screen=transition_screen)
+            self.pop(transition_screen=transition_screen, quit_level=True)
             self.level = False
             
     def suivant(self):
