@@ -319,3 +319,7 @@ class CreditLabel(Label):
             self.color = (randint(0, 100)/100, randint(0, 100)/100, randint(0, 100)/100)
         elif self.time >= 50:
             self.time = 49
+    
+    def on_ref_press(self, ref):
+        webbrowser.open('https://https://mat06mat.github.io/matthieufelten/')
+        return super().on_ref_press(ref)
