@@ -18,6 +18,9 @@ kv_file_path = os.path.join(current_directory, "../views/message.kv")
 Builder.load_file(kv_file_path)
 
 
+class Message(RelativeLayout):
+    pass
+
 class PlayButtonStory(Button):
     id_level = NumericProperty(None)
     
@@ -98,7 +101,7 @@ class Back(Button):
         self.parent.message_pop()
         return super().on_press()
 
-class PlayMessage(RelativeLayout):
+class PlayMessage(Message):
     id_level = NumericProperty(None)
     
     def __init__(self, **kw):
@@ -140,7 +143,6 @@ class SettingButton(Button):
 
 class ResetButton(Button):
     id_level = NumericProperty(None)
-    coeff_x = NumericProperty(-0.7)
     
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -150,7 +152,6 @@ class ResetButton(Button):
         self.width = self.parent.height/3
         self.height = self.width
         self.y = self.parent.height/6
-        self.x = Window.width/2 - self.width/2 + self.width*self.coeff_x
 
 
 class QuitButton(Button, Loop):
@@ -159,13 +160,12 @@ class QuitButton(Button, Loop):
     
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.pos_hint = {"center_x": 0.65}
         if self.id_level != 0:
-            self.coeff_x = 0.2
             self.coeff_h = 0.95
             self.lang_change()
             TEXTS.bind(current_lang=self.lang_change)
         else:
-            self.coeff_x = 0.7
             self.coeff_h = 1
             self.background_normal = "assets/images/buttons/quit.png"
             self.background_down = "assets/images/buttons/quit.png"
@@ -182,10 +182,9 @@ class QuitButton(Button, Loop):
             self.height = self.parent.height/3*self.coeff_h
             self.width = self.height/823*1886
         self.y = self.parent.height/6
-        self.x = Window.width/2 - self.width/2 + self.width*self.coeff_x
 
 
-class MenuMessage(RelativeLayout):
+class MenuMessage(Message):
     id_level = NumericProperty(0)
     score = NumericProperty(0)
     mode = ListProperty(None)
@@ -213,6 +212,7 @@ class MenuMessage(RelativeLayout):
         Clock.schedule_interval(self.loop, 1/60)
     
     def loop(self, *args):
+        self.width = Window.width - dp(30)
         self.height = self.width / 1894 * 1400
         while self.height > 0.5 * Window.height:
             self.height -= 1
@@ -223,20 +223,18 @@ class MenuMessage(RelativeLayout):
         self.parent.message_pop()
 
 
-class VictoireMessage(RelativeLayout):
+class VictoireMessage(Message):
     id_level = NumericProperty(None)
     
     def __init__(self,**kw):
         super().__init__(**kw)
         if self.id_level == SETTINGS.get()["Current_level"]:
             self.quit_button = QuitButton(id_level=self.id_level, victoire=True)
-            self.coeff_x = -0.9
             self.setting = False
         else:
-            self.coeff_x = -0.7
             self.quit_button = QuitButton()
             self.setting = True
-        self.reset_button = ResetButton(id_level=self.id_level, coeff_x=self.coeff_x)
+        self.reset_button = ResetButton(id_level=self.id_level)
         self.add_widget(Cadre())
         self.add_widget(Title(text_key=14))
         self.add_widget(Texte(text_key=11, score=self.id_level))
@@ -265,7 +263,7 @@ class NextButton(Button):
         self.text = TEXTS.key(35)
 
 
-class InfoMessage(RelativeLayout):
+class InfoMessage(Message):
     message = ListProperty(None)
     title = StringProperty(TEXTS.key(15))
     
@@ -286,7 +284,7 @@ class InfoMessage(RelativeLayout):
             self.parent.remove_widget(my)
     
     def on_window_resize(self, *args):
-        self.width = Window.width
+        self.width = Window.width - dp(30)
         self.height = self.width / 1894 * 1400
         while self.height > 0.5 * Window.height:
             self.height -= 1
