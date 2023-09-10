@@ -7,7 +7,7 @@ from kivy.uix.button import Button
 from kivy.uix.dropdown import DropDown
 from kivy.core.window import Window
 from kivy.clock import Clock
-from kivy.graphics import Color, Rectangle, RoundedRectangle, ContextInstruction
+from kivy.graphics import Color, RoundedRectangle, ContextInstruction
 from kivy.metrics import dp
 from kivy.properties import BooleanProperty
 from random import randint
@@ -321,5 +321,5 @@ class CreditLabel(Label):
             self.time = 49
     
     def on_ref_press(self, ref):
-        webbrowser.open('https://https://mat06mat.github.io/matthieufelten/')
+        webbrowser.open('https://mat06mat.github.io/matthieufelten/')
         return super().on_ref_press(ref)
