@@ -56,7 +56,7 @@
     "Name": 38,
     "Background": "assets/images/backgrounds/desert.jpg",
     "Levels": [
-      { "Id": 36, "Mode": [25, 26] },
+      { "Id": 36, "Mode": [24] },
       { "Id": 37, "Mode": [26] },
       { "Id": 38, "Mode": [26, 25] },
       { "Id": 39, "Mode": [26] },
