@@ -94,7 +94,7 @@ class Back(Button):
         Clock.schedule_interval(self.loop, 1/60)
         
     def loop(self, *args):
-        self.width = self.parent.width/6
+        self.width = self.parent.width/7
         self.height = self.width
     
     def on_press(self):
@@ -160,9 +160,10 @@ class QuitButton(Button, Loop):
     
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.pos_hint = {"center_x": 0.65}
+        self.pos_hint = {"center_x": 0.75}
         if self.id_level != 0:
             self.coeff_h = 0.95
+            self.pos_hint = {"center_x": 0.6}
             self.lang_change()
             TEXTS.bind(current_lang=self.lang_change)
         else:
