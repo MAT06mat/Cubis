@@ -584,7 +584,7 @@ class Page(FloatLayout, Loop):
         if SETTINGS.get()["Best_score"][0] == 0 and self.id_level == 0:
             self.message = InfoMessage(message=TEXTS.key(0))
             self.add_widget(self.message)
-        elif self.id_level == SETTINGS.get()["Current_level"] and "Message" in LEVELS.get()[str(self.id_level)]:
+        elif "Message" in LEVELS.get()[str(self.id_level)]:
             message_key = LEVELS.get()[str(self.id_level)]["Message"]
             message = TEXTS.key(message_key)
             self.message = InfoMessage(message=message)
