@@ -290,8 +290,13 @@ class CurrentPiece(RelativeLayout, Loop):
             self.size_line = self.parent.grid.size_line
         except:
             pass
-        self.width = len(self.grid[0])*self.size_line
-        self.height = len(self.grid)*self.size_line
+        if round(self.width, 2) != round(len(self.grid[0])*self.size_line, 2) or round(self.height, 2) != round(len(self.grid)*self.size_line, 2):
+            center_x = copy.deepcopy(self.center_x)
+            center_y = copy.deepcopy(self.center_y)
+            self.width = len(self.grid[0])*self.size_line
+            self.height = len(self.grid)*self.size_line
+            self.center_x = center_x
+            self.center_y = center_y
         dispaly_grid(self, relative=True, not_reload=self.not_reload)
     
     def on_window_resize(self, *args):
