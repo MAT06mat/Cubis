@@ -11,8 +11,9 @@ from kivy.uix.image import Image
 from kivy.core.window import Window
 from kivy.properties import ListProperty, NumericProperty, BooleanProperty, ObjectProperty
 from kivy.graphics.vertex_instructions import Line, Rectangle
+from kivy.graphics.context_instructions import PushMatrix, PopMatrix, Rotate
+from kivy.animation import Animation
 from kivy.graphics import Color
-from kivy.graphics import BoxShadow
 from kivy.metrics import dp
 
 from models.loop import Loop
@@ -50,7 +51,7 @@ def line_size_calculation(self):
         self.size_line_v = self.size_line*len(self.grid)
         self.size_line_h = self.width
 
-def dispaly_grid(self, background=False, border=False, relative=False, animation=False, border_block=False, not_reload=False):
+def dispaly_grid(self, background=False, border=False, relative=False, animation=False, border_block=False, not_reload=False, rotation=0):
     self.canvas.clear()
     if not_reload:
         return
@@ -92,7 +93,7 @@ def dispaly_grid(self, background=False, border=False, relative=False, animation
                     color = (1, 1, 1)
                     block = "box"
                 Color(*color, opacity)
-                Rectangle(pos=(rel_x+get_min_x(self)+x*self.size_line,rel_y+get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), source=f"assets/images/elements/{block}.png")
+                Rectangle(pos=(rel_x+get_min_x(self)+x*self.size_line,rel_y+get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), source=f"assets/images/elements/{block}/{rotation}.png")
         if border_block:
             Color(0.91, 0.72, 0.27, 1)
             for y in range(len(self.grid)):
@@ -271,9 +272,16 @@ class MenuButton(Button, Loop):
 class CurrentPiece(RelativeLayout, Loop):
     grid = ListProperty(None)
     not_reload = BooleanProperty(False)
+    rotation_blocks = 0
     
     def __init__(self, size_line, new_pos=None, **kwargs):
         super().__init__(**kwargs)
+        self.angle = 0
+        with self.canvas.before:
+            PushMatrix()
+            self.rotation = Rotate(angle=self.angle, origin=self.center, axis=(0, 0, 1))
+        with self.canvas.after:
+            PopMatrix()
         self.size_hint = (None, None)
         self.size_line = size_line
         self.forced = True
@@ -297,7 +305,11 @@ class CurrentPiece(RelativeLayout, Loop):
             self.height = len(self.grid)*self.size_line
             self.center_x = center_x
             self.center_y = center_y
-        dispaly_grid(self, relative=True, not_reload=self.not_reload)
+        self.rotation.origin = (self.width/2, self.height/2)
+        self.rotation.angle = self.angle
+        if self.rotation_blocks == 360 or self.rotation_blocks == -360:
+            self.rotation_blocks = 0
+        dispaly_grid(self, relative=True, not_reload=self.not_reload, rotation=self.rotation_blocks)
     
     def on_window_resize(self, *args):
         self.pos = (Window.width/2-self.width/2, Window.height/2-self.width/2)
@@ -346,6 +358,10 @@ class CurrentPiece(RelativeLayout, Loop):
         return super().on_touch_up(touch)
     
     def right(self):
+        self.angle = 90
+        self.rotation_blocks += 90
+        anim = Animation(angle=0, duration=0.2)
+        anim.start(self)
         new_grid = generate_grid(width=len(self.grid), height=len(self.grid[0]))
         for y in range(len(self.grid)):
             for x in range(len(self.grid[y])):
@@ -353,6 +369,10 @@ class CurrentPiece(RelativeLayout, Loop):
         self.grid = new_grid
     
     def left(self):
+        self.angle = -90
+        self.rotation_blocks -= 90
+        anim = Animation(angle=0, duration=0.2)
+        anim.start(self)
         new_grid = generate_grid(width=len(self.grid), height=len(self.grid[0]))
         for y in range(len(self.grid)):
             for x in range(len(self.grid[y])):
