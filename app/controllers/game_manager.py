@@ -470,9 +470,9 @@ class MyScrollView(ScrollView, Loop):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.scroll_type = ["bars"]
-        self.bar_width = dp(12) #A04623
-        self.bar_color = "#E28840"
-        self.bar_inactive_color = "#E28840"
+        self.bar_width = dp(15) #A04623 => "#E28840" => (0.89, 0.54, 0.25)
+        self.bar_color = (0.89, 0.54, 0.25, 1)
+        self.bar_inactive_color = (0.89, 0.54, 0.25, 0.5)
         self.grid_piece = GridPiece(id_level=self.id_level)
         self.add_widget(self.grid_piece)
     
