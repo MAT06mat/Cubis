@@ -51,7 +51,7 @@ def line_size_calculation(self):
         self.size_line_v = self.size_line*len(self.grid)
         self.size_line_h = self.width
 
-def dispaly_grid(self, background=False, border=False, relative=False, animation=False, border_block=False, not_reload=False, rotation=0):
+def dispaly_grid(self, background=False, border=False, relative=False, animation=False, border_block=False, not_reload=False, angle=0):
     self.canvas.clear()
     if not_reload:
         return
@@ -92,8 +92,29 @@ def dispaly_grid(self, background=False, border=False, relative=False, animation
                 elif c_0 == "B":
                     color = (1, 1, 1)
                     block = "box"
+                rotation = "0"
+                if angle != 0:
+                    if 91 > angle > 0:
+                        rotation = "90"
+                    elif 181 > angle > 90:
+                        rotation = "180"
+                    elif 271 > angle > 180:
+                        rotation = "270"
+                    elif 361 > angle > 270:
+                        rotation = "0"
+                    elif -91 > angle > 0:
+                        rotation = "-90"
+                    elif -181 > angle > -90:
+                        rotation = "-180"
+                    elif -271 > angle > -180:
+                        rotation = "-270"
+                    elif -361 > angle > -270:
+                        rotation = "0"
                 Color(*color, opacity)
-                Rectangle(pos=(rel_x+get_min_x(self)+x*self.size_line,rel_y+get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), source=f"assets/images/elements/{block}/{rotation}.png")
+                Rectangle(pos=(rel_x+get_min_x(self)+x*self.size_line,rel_y+get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), source=f"assets/images/elements/{block}/0.png")
+                if rotation != 0:
+                    Color(*color, opacity*angle/90)
+                    Rectangle(pos=(rel_x+get_min_x(self)+x*self.size_line,rel_y+get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), source=f"assets/images/elements/{block}/{rotation}.png")
         if border_block:
             Color(0.91, 0.72, 0.27, 1)
             for y in range(len(self.grid)):
@@ -277,6 +298,7 @@ class CurrentPiece(RelativeLayout, Loop):
     def __init__(self, size_line, new_pos=None, **kwargs):
         super().__init__(**kwargs)
         self.angle = 0
+        self.anim = Animation(angle=0, duration=0.2)
         with self.canvas.before:
             PushMatrix()
             self.rotation = Rotate(angle=self.angle, origin=self.center, axis=(0, 0, 1))
@@ -309,7 +331,7 @@ class CurrentPiece(RelativeLayout, Loop):
         self.rotation.angle = self.angle
         if self.rotation_blocks == 360 or self.rotation_blocks == -360:
             self.rotation_blocks = 0
-        dispaly_grid(self, relative=True, not_reload=self.not_reload, rotation=self.rotation_blocks)
+        dispaly_grid(self, relative=True, not_reload=self.not_reload, angle=self.angle)
     
     def on_window_resize(self, *args):
         self.pos = (Window.width/2-self.width/2, Window.height/2-self.width/2)
@@ -358,10 +380,10 @@ class CurrentPiece(RelativeLayout, Loop):
         return super().on_touch_up(touch)
     
     def right(self):
-        self.angle = 90
+        self.angle += 90
         self.rotation_blocks += 90
-        anim = Animation(angle=0, duration=0.2)
-        anim.start(self)
+        self.anim.cancel(self)
+        self.anim.start(self)
         new_grid = generate_grid(width=len(self.grid), height=len(self.grid[0]))
         for y in range(len(self.grid)):
             for x in range(len(self.grid[y])):
@@ -369,10 +391,10 @@ class CurrentPiece(RelativeLayout, Loop):
         self.grid = new_grid
     
     def left(self):
-        self.angle = -90
+        self.angle -= 90
         self.rotation_blocks -= 90
-        anim = Animation(angle=0, duration=0.2)
-        anim.start(self)
+        self.anim.cancel(self)
+        self.anim.start(self)
         new_grid = generate_grid(width=len(self.grid), height=len(self.grid[0]))
         for y in range(len(self.grid)):
             for x in range(len(self.grid[y])):
