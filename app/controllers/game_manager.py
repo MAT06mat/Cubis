@@ -15,6 +15,7 @@ from kivy.graphics.context_instructions import PushMatrix, PopMatrix, Rotate
 from kivy.animation import Animation
 from kivy.graphics import Color
 from kivy.metrics import dp
+from kivy.clock import Clock
 
 from models.loop import Loop
 from models.data import SETTINGS, PIECES, AREAS, LEVELS, TEXTS
@@ -92,28 +93,24 @@ def dispaly_grid(self, background=False, border=False, relative=False, animation
                 elif c_0 == "B":
                     color = (1, 1, 1)
                     block = "box"
-                rotation = "0"
+                rotation = 0
                 if angle != 0:
                     if 91 > angle > 0:
-                        rotation = "90"
+                        rotation = 90
                     elif 181 > angle > 90:
-                        rotation = "180"
+                        rotation = 180
                     elif 271 > angle > 180:
-                        rotation = "270"
-                    elif 361 > angle > 270:
-                        rotation = "0"
-                    elif -91 > angle > 0:
-                        rotation = "-90"
-                    elif -181 > angle > -90:
-                        rotation = "-180"
-                    elif -271 > angle > -180:
-                        rotation = "-270"
-                    elif -361 > angle > -270:
-                        rotation = "0"
+                        rotation = 270
+                    elif -91 < angle < 0:
+                        rotation = -90
+                    elif -181 < angle < -90:
+                        rotation = -180
+                    elif -271 < angle < -180:
+                        rotation = -270
                 Color(*color, opacity)
                 Rectangle(pos=(rel_x+get_min_x(self)+x*self.size_line,rel_y+get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), source=f"assets/images/elements/{block}/0.png")
-                if rotation != 0:
-                    Color(*color, opacity*angle/90)
+                if angle != 0:
+                    Color(*color, abs(opacity*angle/90))
                     Rectangle(pos=(rel_x+get_min_x(self)+x*self.size_line,rel_y+get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), source=f"assets/images/elements/{block}/{rotation}.png")
         if border_block:
             Color(0.91, 0.72, 0.27, 1)
@@ -293,7 +290,6 @@ class MenuButton(Button, Loop):
 class CurrentPiece(RelativeLayout, Loop):
     grid = ListProperty(None)
     not_reload = BooleanProperty(False)
-    rotation_blocks = 0
     
     def __init__(self, size_line, new_pos=None, **kwargs):
         super().__init__(**kwargs)
@@ -329,8 +325,6 @@ class CurrentPiece(RelativeLayout, Loop):
             self.center_y = center_y
         self.rotation.origin = (self.width/2, self.height/2)
         self.rotation.angle = self.angle
-        if self.rotation_blocks == 360 or self.rotation_blocks == -360:
-            self.rotation_blocks = 0
         dispaly_grid(self, relative=True, not_reload=self.not_reload, angle=self.angle)
     
     def on_window_resize(self, *args):
@@ -381,7 +375,6 @@ class CurrentPiece(RelativeLayout, Loop):
     
     def right(self):
         self.angle += 90
-        self.rotation_blocks += 90
         self.anim.cancel(self)
         self.anim.start(self)
         new_grid = generate_grid(width=len(self.grid), height=len(self.grid[0]))
@@ -392,7 +385,6 @@ class CurrentPiece(RelativeLayout, Loop):
     
     def left(self):
         self.angle -= 90
-        self.rotation_blocks -= 90
         self.anim.cancel(self)
         self.anim.start(self)
         new_grid = generate_grid(width=len(self.grid), height=len(self.grid[0]))
@@ -548,6 +540,10 @@ class Grid(RelativeLayout, Loop):
         # Verifie si la grille est remplit
         if self.test_grid():
             return
+        # Wait a frame for display the grid
+        Clock.schedule_once(self.grid_is_fill, 0)
+    
+    def grid_is_fill(self, *args):
         if self.id_level != 0 and not self.victoire:
             self.victoire = True
             self.parent.message = VictoireMessage(id_level=self.id_level)
