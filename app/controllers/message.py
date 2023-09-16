@@ -229,6 +229,8 @@ class VictoireMessage(Message):
     
     def __init__(self,**kw):
         super().__init__(**kw)
+        from time import sleep
+        sleep(5)
         if self.id_level == SETTINGS.get()["Current_level"]:
             self.quit_button = QuitButton(id_level=self.id_level, victoire=True)
             self.setting = False

@@ -204,15 +204,15 @@ class BlockAnimation(Loop):
         super().__init__()
         self.timer = -1
         self.asset_directory = os.path.join(current_directory, "../assets/images/elements/")
-        self.frames = os.listdir(self.asset_directory+type+"/")
+        self.frames = os.listdir(self.asset_directory+type+"/"+type.lower()+"/")
         self.frames.sort()
         self.time = time
         self.time_per_frames = time//len(self.frames)
         self.type = type
-        self.object = self.asset_directory+type.lower()+".png"
+        self.object = self.asset_directory+type+"/"+"0.png"
         self.animation_pos = animation_pos
         self.animation_size = animation_size
-        self.current_frame = self.asset_directory+self.type+"/"+self.frames[0]
+        self.current_frame = self.asset_directory+type+"/"+type.lower()+"/"+self.frames[0]
         self.object_opacity = 1
     
     def loop(self, *args):
@@ -222,7 +222,7 @@ class BlockAnimation(Loop):
             self.object_opacity = 0
         for frame_index in range(len(self.frames)):
             if frame_index * self.time_per_frames == self.timer:
-                self.current_frame = self.asset_directory+self.type+"/"+self.frames[frame_index]
+                self.current_frame = self.asset_directory+self.type+"/"+self.type.lower()+"/"+self.frames[frame_index]
         if (len(self.frames) + 1) * self.time_per_frames == self.timer:
             ANIMATION_LIST.remove(self)
             self.timer = 999999
