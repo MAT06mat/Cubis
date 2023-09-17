@@ -358,7 +358,7 @@ class CurrentPiece(RelativeLayout, Loop):
     
     def on_touch_up(self, touch):
         # Transform piece in button if is in the zone_piece
-        if self.parent.zone_piece.x+self.parent.zone_piece.width > self.x+self.width/2 > self.parent.zone_piece.x and self.parent.zone_piece.y+self.parent.zone_piece.height > self.y+self.height/2 > self.parent.zone_piece.y:
+        if self.parent.zone_piece.y+self.parent.zone_piece.height > self.y+self.height/2:
             button = PieceButton(grid=self.grid)
             self.parent.zone_piece.my_scroll_view.grid_piece.piece_button.append(button)
             self.parent.zone_piece.my_scroll_view.grid_piece.add_widget(button)
