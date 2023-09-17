@@ -302,6 +302,7 @@ class CurrentPiece(RelativeLayout, Loop):
             PopMatrix()
         self.size_hint = (None, None)
         self.size_line = size_line
+        self.forced = True
         self.loop(self, None)
         self.pos = pos
         self.delta_pos = delta_pos
@@ -348,6 +349,9 @@ class CurrentPiece(RelativeLayout, Loop):
     def on_touch_move(self, touch):
         if self.parent.message != None:
             return super().on_touch_move(touch)
+        if self.forced:
+            self.delta_pos = (touch.pos[0] - self.pos[0], touch.pos[1] - self.pos[1])
+            self.forced = False
         if self.delta_pos != None:
             self.pos = (touch.pos[0] - self.delta_pos[0], touch.pos[1] - self.delta_pos[1])
         return super().on_touch_move(touch)
