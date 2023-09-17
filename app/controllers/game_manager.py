@@ -291,7 +291,7 @@ class CurrentPiece(RelativeLayout, Loop):
     grid = ListProperty(None)
     not_reload = BooleanProperty(False)
     
-    def __init__(self, size_line, new_pos=None, **kwargs):
+    def __init__(self, size_line, pos, delta_pos, **kwargs):
         super().__init__(**kwargs)
         self.angle = 0
         self.anim = Animation(angle=0, duration=0.2)
@@ -302,13 +302,9 @@ class CurrentPiece(RelativeLayout, Loop):
             PopMatrix()
         self.size_hint = (None, None)
         self.size_line = size_line
-        self.forced = True
         self.loop(self, None)
-        if new_pos != None:
-            self.pos = new_pos
-        else:
-            self.delta_pos = (self.width/2, self.height/2)
-            self.pos = (Window.mouse_pos[0] - self.delta_pos[0], Window.mouse_pos[1] - self.delta_pos[1])
+        self.pos = pos
+        self.delta_pos = delta_pos
         Window.bind(on_resize=self.on_window_resize)
     
     def loop(self, *args):
@@ -332,10 +328,6 @@ class CurrentPiece(RelativeLayout, Loop):
     
     def on_touch_down(self, touch):
         if self.parent.message != None:
-            return super().on_touch_down(touch)
-        if self.forced:
-            self.delta_pos = (touch.pos[0] - self.pos[0], touch.pos[1] - self.pos[1])
-            self.forced = False
             return super().on_touch_down(touch)
         if self.touch_piece(touch):
             self.delta_pos = (touch.pos[0] - self.pos[0], touch.pos[1] - self.pos[1])
@@ -402,19 +394,17 @@ class PieceButton(Button, Loop):
         super().__init__(**kwargs)
         self.size_hint = (None, None)
         self.background_color = (0, 0, 0, 0)
-    
-    def on_press(self):
-        if self.parent.parent.parent.parent.current_piece != None:
-            if self.parent.parent.parent.parent.current_piece.delta_pos == None:
-                pass
-            else:
-                return super().on_press()
+
+    def on_touch_down(self, touch):
         if self.parent.parent.parent.parent.message != None:
-            return super().on_press()
-        self.parent.parent.parent.parent.change_current_piece(grid=self.grid)
-        self.parent.piece_button.remove(self)
-        self.parent.remove_widget(self)
-        return super().on_press()
+            return super().on_touch_down(touch)
+        if self.touch_piece(touch):
+            pos = self.to_window(self.x, self.y)
+            delta_pos = (touch.pos[0] - pos[0], touch.pos[1] - pos[1])
+            self.parent.parent.parent.parent.change_current_piece(grid=self.grid, pos=pos, delta_pos=delta_pos)
+            self.parent.piece_button.remove(self)
+            self.parent.remove_widget(self)
+        return super().on_touch_down(touch)
     
     def loop(self, *args):
         if self.parent != None:
@@ -423,6 +413,15 @@ class PieceButton(Button, Loop):
             self.height = self.size_line * len(self.grid)
         dispaly_grid(self, not_reload=self.not_reload)
 
+    def touch_piece(self, touch):
+        touch_piece = []
+        for y in range(len(self.grid)):
+            for x in range(len(self.grid[y])):
+                if (self.pos[0]+self.size_line*x) < touch.pos[0] < (self.pos[0]+self.size_line*(x+1)) and (self.pos[1]+self.height-self.size_line*(y+1)) < touch.pos[1] < (self.pos[1]+self.height-self.size_line*y) and self.grid[y][x] != "NV":
+                    touch_piece.append(True)
+                else:
+                    touch_piece.append(False)
+        return any(touch_piece)
 
 class GridPiece(StackLayout):
     piece_button = ListProperty([])
@@ -800,9 +799,9 @@ class Page(FloatLayout, Loop):
             self.zone_piece.my_scroll_view.grid_piece.add_widget(button)
         self.undo_saves.pop(-1)
     
-    def change_current_piece(self, grid, new_pos=None):
+    def change_current_piece(self, grid, pos, delta_pos):
         self.remove_current_piece()
-        self.current_piece = CurrentPiece(grid=grid, size_line=self.grid.size_line, new_pos=new_pos)
+        self.current_piece = CurrentPiece(grid=grid, size_line=self.grid.size_line, pos=pos, delta_pos=delta_pos)
         self.add_widget(self.current_piece)
 
     def not_reload(self):
