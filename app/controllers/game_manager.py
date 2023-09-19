@@ -93,6 +93,10 @@ def dispaly_grid(self, background=False, border=False, relative=False, animation
                 elif c_0 == "B":
                     color = (1, 1, 1)
                     block = "box"
+                elif c_0 == "T":
+                    color = (1, 1, 1)
+                    block = "hole"
+                    opacity = 1
                 rotation = 0
                 if angle != 0:
                     if 91 > angle > 0:
@@ -700,6 +704,8 @@ class Page(FloatLayout, Loop):
                                 if abs(x_piece - x_grid) < marg and abs(y_piece - y_grid) < marg and (self.grid.grid[y_g][x_g] == "NV" or (self.grid.grid[y_g][x_g][0] == "M" and self.current_piece.grid[y_p][x_p][1] == self.grid.grid[y_g][x_g][1])):
                                     self.grid.grid[y_g][x_g] = self.current_piece.grid[y_p][x_p]
                                     self.grid.grid_id[y_g][x_g] = self.new_id
+                                elif abs(x_piece - x_grid) < marg and abs(y_piece - y_grid) < marg and self.grid.grid[y_g][x_g] == "TV":
+                                    self.grid.grid[y_g][x_g] = "M" + self.current_piece.grid[y_p][x_p][1]
             self.remove_widget(self.current_piece)
             # Add score and generate new piece
             if self.id_level == 0:
@@ -849,7 +855,7 @@ class Page(FloatLayout, Loop):
                                 x_grid = get_min_x(self.grid)+self.grid.x+x_g*self.grid.size_line
                                 y_grid = get_max_y(self.grid)+self.grid.y-(y_g+1)*self.grid.size_line
                                 # if grid block match with piece block and if is void or if is a motis
-                                one.append(abs(x_piece - x_grid) < marg and abs(y_piece - y_grid) < marg and (self.grid.grid[y_g][x_g] == "NV" or (self.grid.grid[y_g][x_g][0] == "M" and self.current_piece.grid[y_p][x_p][1] == self.grid.grid[y_g][x_g][1]) or self.current_piece.grid[y_p][x_p] == "NV"))
+                                one.append(abs(x_piece - x_grid) < marg and abs(y_piece - y_grid) < marg and (self.grid.grid[y_g][x_g] == "NV" or self.grid.grid[y_g][x_g] == "TV" or (self.grid.grid[y_g][x_g][0] == "M" and self.current_piece.grid[y_p][x_p][1] == self.grid.grid[y_g][x_g][1]) or self.current_piece.grid[y_p][x_p] == "NV"))
                         check.append(any(one))
                 return all(check)
         except:
