@@ -155,6 +155,7 @@ def dispaly_grid(self, background=False, border=False, relative=False, animation
         N_ : "Normal"
         M_ : "Motif"
         H_ : "Hard Block"
+        T_ : "Hole" (Trou)
         _V : "Void"
         _0 : "Color 0"
         _1 : "Color 1"
@@ -171,6 +172,7 @@ def dispaly_grid(self, background=False, border=False, relative=False, animation
         - BNV
         - BH0
         - BM5
+        - TV
         """
     if background and not relative:
         self.background_debug.size = (self.width, self.height)
