@@ -68,7 +68,14 @@
     "35": "Suivant",
     "36": "Politique de\nconfidentialité",
     "37": "Langue",
-    "38": "Désert"
+    "38": "Désert",
+    "39": [
+      "Dans ce niveau,\nil y a des trous !",
+      "Quand une pièce est\nposée dessus, elle tombe dedans\net se transforme en motif.",
+      "Attention, la moitié une\npièce peut tomber dans un\ntrou et l'autre moitié peux\nrester à l'extérieur.",
+      "Les différentes parties\nd'une pièce sont indépendantes\nles unes des autres",
+      "Bonne chance !"
+    ]
   },
   {
     "lang": "en",
@@ -137,6 +144,13 @@
     "35": "Next",
     "36": "Privacy policy",
     "37": "Language",
-    "38": "Desert"
+    "38": "Desert",
+    "39": [
+      "In this level,\nthere are holes!",
+      "When a piece is\nplaced on them, it falls inside\nand transforms into a pattern.",
+      "Be careful, half of a\npiece can fall into a hole,\n and the other half\nmay remain outside.",
+      "The different parts\nof a piece are independent\nof each other.",
+      "Good luck!"
+  ]
   }
 ]
