@@ -8,7 +8,7 @@ from kivy.clock import Clock
 from kivy.metrics import dp
 
 from models.cadre import Cadre
-from models.data import AREAS, SETTINGS, TEXTS
+from models.data import AREAS, SETTINGS, TEXTS, LEVELS
 from models.loop import Loop
 
 import os
@@ -27,11 +27,16 @@ class PlayButtonStory(Button):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.lang_change()
+        try:
+            LEVELS.get()[str(self.id_level)]
+        except KeyError:
+            self.disabled = True
         TEXTS.bind(current_lang=self.lang_change)
     
     def lang_change(self, *args):
         self.background_normal = TEXTS.image_path("assets/images/buttons/play.png")
         self.background_down = TEXTS.image_path("assets/images/buttons/play.png")
+        self.background_disabled_normal = TEXTS.image_path("assets/images/buttons/play-disabled.png")
 
 
 class Texte(Label, Loop):
