@@ -630,14 +630,16 @@ class Page(FloatLayout, Loop):
         self.add_widget(self.zone_piece)
         self.add_widget(self.undo_button)
         self.add_widget(self.menu_button)
-        if SETTINGS.get()["Best_score"][0] == 0 and self.id_level == 0:
-            self.message = InfoMessage(message=TEXTS.key(0))
-            self.add_widget(self.message)
-        elif "Message" in LEVELS.get()[str(self.id_level)]:
-            message_key = LEVELS.get()[str(self.id_level)]["Message"]
-            message = TEXTS.key(message_key)
-            self.message = InfoMessage(message=message)
-            self.add_widget(self.message)
+        if self.id_level == 0:
+            if SETTINGS.get()["Best_score"][0] == 0:
+                self.message = InfoMessage(message=TEXTS.key(0))
+                self.add_widget(self.message)
+        else:
+            if "Message" in LEVELS.get()[str(self.id_level)]:
+                message_key = LEVELS.get()[str(self.id_level)]["Message"]
+                message = TEXTS.key(message_key)
+                self.message = InfoMessage(message=message)
+                self.add_widget(self.message)
     
     def loop(self, *args):
         if self.id_level == 0:
