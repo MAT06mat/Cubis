@@ -366,8 +366,39 @@ class CurrentPiece(RelativeLayout, Loop):
         # Transform piece in button if is in the zone_piece
         if self.parent.zone_piece.y+self.parent.zone_piece.height > self.y+self.height/2:
             button = PieceButton(grid=self.grid)
-            self.parent.zone_piece.my_scroll_view.grid_piece.piece_button.append(button)
-            self.parent.zone_piece.my_scroll_view.grid_piece.add_widget(button)
+            pieces_list = self.parent.zone_piece.my_scroll_view.grid_piece.piece_button
+            if len(pieces_list) == 0:
+                self.parent.zone_piece.my_scroll_view.grid_piece.piece_button.append(button)
+                index = 0
+            else:
+                # Find the y of the piece in the raw
+                y == None
+                for p in pieces_list:
+                    p_pos = p.to_window(p.x, p.y)
+                    if p_pos[1]+p.height+dp(5) > self.y+self.height/2:
+                        y = round(p_pos[1] + p.height, 0)
+                # Anti crash if y == None
+                if y == None:
+                    y = round(p_pos[1] + p.height, 0)
+                # Take pieces in the raw
+                pieces_in_raw = []
+                for p in pieces_list:
+                    p_pos = p.to_window(p.x, p.y)
+                    if round(p_pos[1]+p.height, 0) == y:
+                        pieces_in_raw.append(p)
+                # Find the piece before the current piece in the col
+                last_piece = None
+                for p in pieces_in_raw[::-1]:
+                    p_pos = p.to_window(p.x, p.y)
+                    if p_pos[0]+p.width/2 > self.x+self.width/2:
+                        last_piece = p
+                # Calculate the index of current piece
+                if last_piece:
+                    index = pieces_list.index(last_piece) + 1
+                else:
+                    index = pieces_list.index(pieces_in_raw[0]) + len(pieces_in_raw) + 1
+                self.parent.zone_piece.my_scroll_view.grid_piece.piece_button.insert(index - 1, button)
+            self.parent.zone_piece.my_scroll_view.grid_piece.add_widget(button, index=len(pieces_list)-index)
             self.parent.current_piece = None
             self.parent.remove_widget(self)
         return super().on_touch_up(touch)
