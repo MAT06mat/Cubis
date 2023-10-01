@@ -372,7 +372,7 @@ class CurrentPiece(RelativeLayout, Loop):
                 index = 0
             else:
                 # Find the y of the piece in the raw
-                y == None
+                y = None
                 for p in pieces_list:
                     p_pos = p.to_window(p.x, p.y)
                     if p_pos[1]+p.height+dp(5) > self.y+self.height/2:
