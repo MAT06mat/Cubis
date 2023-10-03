@@ -4,7 +4,7 @@ from kivy.uix.image import Image
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.tabbedpanel import TabbedPanel, TabbedPanelItem
-from kivy.properties import NumericProperty, ListProperty, StringProperty, ObjectProperty, DictProperty
+from kivy.properties import NumericProperty, ListProperty, StringProperty, ObjectProperty, DictProperty, BooleanProperty
 from kivy.uix.floatlayout import FloatLayout
 from kivy.clock import Clock
 
@@ -79,17 +79,24 @@ class Area(BoxLayout):
 
 class MyScrollView(ScrollView):
     nb_levels = NumericProperty(None)
+    current = BooleanProperty(False)
     
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.bar_width = 0
+        self.update()
     
     def update_from_scroll(self, *largs):
+        if self.current:
+            self.update()
+        return super().update_from_scroll(*largs)
+    
+    def update(self):
         if tuto:
             BACKGROUND_IMAGE.children[0].pos_hint = {"x": 0}
         else:
             BACKGROUND_IMAGE.children[0].pos_hint = {"x": -self.scroll_x/50*self.nb_levels-0.25} # Modified /50   |   /100 Default
-        return super().update_from_scroll(*largs)
+        
 
 
 class TabItem(TabbedPanelItem):
@@ -127,6 +134,10 @@ class TabItem(TabbedPanelItem):
         else:
             tuto = False
             BACKGROUND_IMAGE.size_hint = (4, 1)
+        if self.parent.parent:
+            self.parent.parent.parent.parent.stop_every_scroll()
+        self.scroll_view.current = True
+        self.scroll_view.update()
         return super().on_press()
 
 
@@ -154,6 +165,10 @@ class StoryMode(TabbedPanel, Loop):
                     self.switch_to(tab)
                     tab.on_press(pop=False)
                     return
+    
+    def stop_every_scroll(self):
+        for tab in self.tab_list:
+            tab.scroll_view.current = False
     
     def loop(self, *args):
         for tab in self.tab_list:
