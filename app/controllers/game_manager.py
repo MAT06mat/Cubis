@@ -8,6 +8,7 @@ from kivy.uix.scrollview import ScrollView
 from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.image import Image
+from kivy.uix.widget import Widget
 from kivy.core.window import Window
 from kivy.properties import ListProperty, NumericProperty, BooleanProperty, ObjectProperty
 from kivy.graphics.vertex_instructions import Line, Rectangle
@@ -148,12 +149,18 @@ def dispaly_grid(self, background=False, border=False, relative=False, animation
                             Line(points=(get_min_x(self)+x*self.size_line, get_max_y(self)-(y+1)*self.size_line+1, get_min_x(self)+(x+1)*self.size_line, get_max_y(self)-(y+1)*self.size_line+1), width=1.5)
         if animation:
             for animation in ANIMATION_LIST:
-                # Add object
-                Color(1, 1, 1, animation.object_opacity)
-                Rectangle(pos=animation.animation_pos, size=animation.animation_size, source=animation.object)
-                # Add animation
-                Color(1, 1, 1, 1)
-                Rectangle(pos=animation.animation_pos, size=animation.animation_size, source=animation.current_frame)
+                if animation.type != "Hole":
+                    # Add object
+                    Color(1, 1, 1, animation.object_opacity)
+                    Rectangle(pos=animation.animation_pos, size=animation.animation_size, source=animation.object)
+                    # Add animation
+                    Color(1, 1, 1, 1)
+                    Rectangle(pos=animation.animation_pos, size=animation.animation_size, source=animation.current_frame)
+                else:
+                    Color(*COLOR[int(animation.color)], animation.opacity)
+                    Rectangle(pos=animation.animation_pos, size=(self.size_line, self.size_line), source="assets/images/elements/block/0.png")
+                    if animation.opacity == None:
+                        ANIMATION_LIST.remove(animation)
         """
         B__ : "Box"
         N_ : "Normal"
@@ -231,6 +238,17 @@ class BlockAnimation(Loop):
             self.timer = 999999
         if self.timer > 999999:
             self.timer = 999999
+
+
+class HoleAnimation(Widget):
+    def __init__(self, color: str, animation_pos: tuple):
+        super().__init__()
+        self.type = "Hole"
+        self.color = color
+        self.animation_pos = animation_pos
+        self.opacity = 1
+        self.animation = Animation(duration=0.4, opacity=0)
+        self.animation.start(self)
     
 
 class RedoButton(Button, Loop):
@@ -739,6 +757,9 @@ class Page(FloatLayout, Loop):
                                     self.grid.grid_id[y_g][x_g] = self.new_id
                                 elif abs(x_piece - x_grid) < marg and abs(y_piece - y_grid) < marg and self.grid.grid[y_g][x_g] == "TV":
                                     self.grid.grid[y_g][x_g] = "M" + self.current_piece.grid[y_p][x_p][1]
+                                    pos = (get_min_x(self.grid)+x_g*self.grid.size_line, get_max_y(self.grid)-(y_g+1)*self.grid.size_line)
+                                    animation = HoleAnimation(color=self.current_piece.grid[y_p][x_p][1], animation_pos=pos)
+                                    ANIMATION_LIST.append(animation)
             self.remove_widget(self.current_piece)
             # Add score and generate new piece
             if self.id_level == 0:
