@@ -96,10 +96,12 @@ class Title(Label, Loop):
 class Back(Button):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.width = dp(40)
+        self.height = self.width
         Clock.schedule_interval(self.loop, 1/60)
         
     def loop(self, *args):
-        self.width = self.parent.width/7
+        self.width = self.parent.width/8
         self.height = self.width
     
     def on_press(self):
