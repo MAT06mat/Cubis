@@ -533,6 +533,7 @@ class MyScrollView(ScrollView, Loop):
     
     def loop(self, *args):
         self.disabled = self.parent.parent.message != None
+        self.bar_width = round(self.width / 15, 2)
 
 
 class ZonePieces(BoxLayout, Loop):
