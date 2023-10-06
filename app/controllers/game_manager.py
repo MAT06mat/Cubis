@@ -354,7 +354,7 @@ class CurrentPiece(RelativeLayout, Loop):
     def on_touch_down(self, touch):
         if self.parent.message != None:
             return super().on_touch_down(touch)
-        if self.touch_piece(touch):
+        if self.touch_piece(touch) and self.delta_pos == None:
             self.delta_pos = (touch.pos[0] - self.pos[0], touch.pos[1] - self.pos[1])
         else:
             self.delta_pos = None
