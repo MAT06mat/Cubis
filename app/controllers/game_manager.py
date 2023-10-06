@@ -450,6 +450,9 @@ class PieceButton(Button, Loop):
     def on_touch_down(self, touch):
         if self.parent.parent.parent.parent.message != None:
             return super().on_touch_down(touch)
+        if self.parent.parent.parent.parent.current_piece != None:
+            if self.parent.parent.parent.parent.current_piece.delta_pos != None:
+                return super().on_touch_down(touch)
         if self.touch_piece(touch):
             pos = self.to_window(*self.pos)
             touch_pos = self.to_window(*touch.pos)
