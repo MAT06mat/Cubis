@@ -326,7 +326,6 @@ class CurrentPiece(RelativeLayout, Loop):
             PopMatrix()
         self.size_hint = (None, None)
         self.size_line = size_line
-        self.forced = True
         self.loop(self, None)
         self.pos = pos
         self.delta_pos = delta_pos
@@ -354,7 +353,7 @@ class CurrentPiece(RelativeLayout, Loop):
     def on_touch_down(self, touch):
         if self.parent.message != None:
             return super().on_touch_down(touch)
-        if self.touch_piece(touch) and self.delta_pos == None:
+        if self.touch_piece(touch):
             self.delta_pos = (touch.pos[0] - self.pos[0], touch.pos[1] - self.pos[1])
         else:
             self.delta_pos = None
@@ -373,9 +372,6 @@ class CurrentPiece(RelativeLayout, Loop):
     def on_touch_move(self, touch):
         if self.parent.message != None:
             return super().on_touch_move(touch)
-        if self.forced:
-            self.delta_pos = (touch.pos[0] - self.pos[0], touch.pos[1] - self.pos[1])
-            self.forced = False
         if self.delta_pos != None:
             self.pos = (touch.pos[0] - self.delta_pos[0], touch.pos[1] - self.delta_pos[1])
         return super().on_touch_move(touch)
@@ -455,8 +451,9 @@ class PieceButton(Button, Loop):
         if self.parent.parent.parent.parent.message != None:
             return super().on_touch_down(touch)
         if self.touch_piece(touch):
-            pos = self.to_window(self.x, self.y)
-            delta_pos = (touch.pos[0] - pos[0], touch.pos[1] - pos[1])
+            pos = self.to_window(*self.pos)
+            touch_pos = self.to_window(*touch.pos)
+            delta_pos = (touch_pos[0] - pos[0], touch_pos[1] - pos[1])
             self.parent.parent.parent.parent.change_current_piece(grid=self.grid, pos=pos, delta_pos=delta_pos)
             self.parent.piece_button.remove(self)
             self.parent.remove_widget(self)
