@@ -582,7 +582,7 @@ class Grid(RelativeLayout, Loop):
                     line_size_calculation(self)
                     pos=(get_min_x(self)+x*self.size_line,get_max_y(self)-(y+1)*self.size_line)
                     size=(self.size_line, self.size_line)
-                    animation = BlockAnimation(time=18, type="Box", animation_pos=pos, animation_size=size)
+                    animation = BlockAnimation(time=18, type="box", animation_pos=pos, animation_size=size)
                     ANIMATION_LIST.append(animation)
     
     def loop(self, *args):
