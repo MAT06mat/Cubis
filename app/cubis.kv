@@ -143,19 +143,18 @@
         center_x: effect_slider.center_x
         y: credit_button.y
     Button:
-        pos: (0, self.parent.height-self.height)
-        size_hint: (None, 0.08)
+        size_hint: (None, 0.07)
         width: self.height
-        x: - self.height * 0.1
-        y: root.height - self.height * 0.9
+        x: dp(15)
+        y: root.height - dp(15) - self.height
         background_normal: "assets/images/buttons/left2.png"
         background_down: "assets/images/buttons/left2.png"
         on_press: app.manager.pop(transition_screen=False)
     Label:
         size_hint: (None, None)
         size: ("75dp", "20dp")
-        pos: (root.width - dp(100), 0)
-        text: "Version 1.5.0"
+        pos: (root.width - dp(125), 0)
+        text: "Version 1.5.2"
         font_size: "20dp"
         color: "#A04623"
         font_name: "assets/fonts/Coda-Regular.ttf"
