@@ -11,15 +11,15 @@ from kivy.uix.image import Image
 from kivy.uix.widget import Widget
 from kivy.core.window import Window
 from kivy.properties import ListProperty, NumericProperty, BooleanProperty, ObjectProperty
-from kivy.graphics.vertex_instructions import Line, Rectangle
+from kivy.graphics.vertex_instructions import Rectangle
 from kivy.graphics.context_instructions import PushMatrix, PopMatrix, Rotate
 from kivy.animation import Animation
-from kivy.graphics import Color
 from kivy.metrics import dp
 from kivy.clock import Clock
 
 from models.loop import Loop
 from models.data import SETTINGS, PIECES, AREAS, LEVELS, TEXTS
+from models.display_grid import ANIMATION_LIST, DisplayGrid, Calculation
 from models.decorators import if_no_message, if_no_piece
 from controllers.message import MenuMessage, InfoMessage, VictoireMessage
 
@@ -30,167 +30,6 @@ import random
 current_directory = os.path.dirname(os.path.realpath(__file__))
 kv_file_path = os.path.join(current_directory, "../views/game.kv")
 Builder.load_file(kv_file_path)
-
-COLOR = ((0.65, 0.65, 0.65), (1, 0, 0), (0, 0, 1), (0, 1, 0), (1, 1, 0), (1, 0, 1), (0, 1, 1))
-ANIMATION_LIST = []
-
-def get_min_x(self):
-    return self.width/2-self.size_line_h/2
-def get_max_x(self):
-    return self.width/2+self.size_line_h/2
-def get_min_y(self):
-    return self.height/2-self.size_line_v/2
-def get_max_y(self):
-    return self.height/2+self.size_line_v/2
-
-def line_size_calculation(self):
-    if len(self.grid) >= len(self.grid[0]):
-        self.size_line = self.height/len(self.grid)
-        self.size_line_v = self.height
-        self.size_line_h = self.size_line*len(self.grid[0])
-    else:
-        self.size_line = self.width/len(self.grid[0])
-        self.size_line_v = self.size_line*len(self.grid)
-        self.size_line_h = self.width
-
-def dispaly_grid(self, background=False, border=False, relative=False, animation=False, border_block=False, reload=True, angle=0):
-    self.canvas.clear()
-    if not reload:
-        return
-    with self.canvas:
-        if background:
-            Color(1, 1, 1)
-            self.background_debug = Rectangle(pos=(0, 0), size=(self.width, self.height)) 
-        Color(0.91, 0.72, 0.27)
-        # Line Size Calculation
-        line_size_calculation(self)
-        if border:
-            # Create cols
-            for i in range(len(self.grid[0]) + 1):
-                Line(points=(get_min_x(self)+i*self.size_line, get_min_y(self), get_min_x(self)+i*self.size_line, get_max_y(self)), width=2)
-            # Create rows
-            for i in range(len(self.grid) + 1):
-                Line(points=(get_min_x(self), get_min_y(self)+i*self.size_line, get_max_x(self), get_min_y(self)+i*self.size_line), width=2)
-        # Create block in the grid
-        rel_x = self.x
-        rel_y = self.y
-        if relative:
-            rel_x, rel_y = 0, 0
-        for y in range(len(self.grid)):
-            for x in range(len(self.grid[y])):
-                block = "block"
-                color = (1, 1, 1)
-                opacity = 1
-                c_1 = self.grid[y][x][1]
-                if c_1 == "0" or c_1 == "1" or c_1 == "2" or c_1 == "3" or c_1 == "4" or c_1 == "5" or c_1 == "6":
-                    color = COLOR[int(self.grid[y][x][1])]
-                elif c_1 == "V":
-                    opacity = 0
-                c_0 = self.grid[y][x][0]
-                if c_0 ==  "M":
-                    opacity = 0.5
-                elif c_0 == "H":
-                    block = "hard_block"
-                elif c_0 == "B":
-                    color = (1, 1, 1)
-                    block = "box"
-                elif c_0 == "T":
-                    color = (1, 1, 1)
-                    block = "hole"
-                    opacity = 1
-                rotation = 0
-                if angle != 0:
-                    if 91 > angle > 0:
-                        rotation = 90
-                    elif 181 > angle > 90:
-                        rotation = 180
-                    elif 271 > angle > 180:
-                        rotation = 270
-                    elif -91 < angle < 0:
-                        rotation = -90
-                    elif -181 < angle < -90:
-                        rotation = -180
-                    elif -271 < angle < -180:
-                        rotation = -270
-                Color(*color, opacity)
-                Rectangle(pos=(rel_x+get_min_x(self)+x*self.size_line,rel_y+get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), source=f"assets/images/elements/{block}/0.png")
-                if angle != 0:
-                    Color(*color, abs(opacity*angle/90))
-                    Rectangle(pos=(rel_x+get_min_x(self)+x*self.size_line,rel_y+get_max_y(self)-(y+1)*self.size_line), size=(self.size_line, self.size_line), source=f"assets/images/elements/{block}/{rotation}.png")
-        if border_block:
-            Color(0.91, 0.72, 0.27, 1)
-            for y in range(len(self.grid)):
-                for x in range(len(self.grid[y])):
-                    if self.grid_id[y][x] == None:
-                        continue
-                    # Side left
-                    if x == 0:
-                        Line(points=(get_min_x(self)+x*self.size_line+1, get_max_y(self)-y*self.size_line, get_min_x(self)+x*self.size_line+1, get_max_y(self)-(y+1)*self.size_line), width=1.5)
-                    else: 
-                        if self.grid_id[y][x] != self.grid_id[y][x-1]:
-                            Line(points=(get_min_x(self)+x*self.size_line+1, get_max_y(self)-y*self.size_line, get_min_x(self)+x*self.size_line+1, get_max_y(self)-(y+1)*self.size_line), width=1.5)
-                    # Side top
-                    if y == 0:
-                        Line(points=(get_min_x(self)+x*self.size_line, get_max_y(self)-y*self.size_line-1, get_min_x(self)+(x+1)*self.size_line, get_max_y(self)-y*self.size_line-1), width=1.5)
-                    else: 
-                        if self.grid_id[y][x] != self.grid_id[y-1][x]:
-                            Line(points=(get_min_x(self)+x*self.size_line, get_max_y(self)-y*self.size_line-1, get_min_x(self)+(x+1)*self.size_line, get_max_y(self)-y*self.size_line-1), width=1.5)
-                    # Side right
-                    if x+1 == len(self.grid[y]):
-                        Line(points=(get_min_x(self)+(x+1)*self.size_line-1, get_max_y(self)-y*self.size_line, get_min_x(self)+(x+1)*self.size_line-1, get_max_y(self)-(y+1)*self.size_line), width=1.5)
-                    else: 
-                        if self.grid_id[y][x] != self.grid_id[y][x+1]:
-                            Line(points=(get_min_x(self)+(x+1)*self.size_line-1, get_max_y(self)-y*self.size_line, get_min_x(self)+(x+1)*self.size_line-1, get_max_y(self)-(y+1)*self.size_line), width=1.5)
-                    # Side bottom
-                    if y+1 == len(self.grid):
-                        Line(points=(get_min_x(self)+x*self.size_line, get_max_y(self)-(y+1)*self.size_line+1, get_min_x(self)+(x+1)*self.size_line, get_max_y(self)-(y+1)*self.size_line+1), width=1.5)
-                    else: 
-                        if self.grid_id[y][x] != self.grid_id[y+1][x]:
-                            Line(points=(get_min_x(self)+x*self.size_line, get_max_y(self)-(y+1)*self.size_line+1, get_min_x(self)+(x+1)*self.size_line, get_max_y(self)-(y+1)*self.size_line+1), width=1.5)
-        if animation:
-            for animation in ANIMATION_LIST:
-                if animation.type != "Hole":
-                    # Add object
-                    Color(1, 1, 1, animation.object_opacity)
-                    Rectangle(pos=animation.animation_pos, size=animation.animation_size, source=animation.object)
-                    # Add animation
-                    Color(1, 1, 1, 1)
-                    Rectangle(pos=animation.animation_pos, size=animation.animation_size, source=animation.current_frame)
-                else:
-                    Color(*COLOR[int(animation.color)], animation.opacity)
-                    Rectangle(pos=animation.animation_pos, size=(self.size_line, self.size_line), source="assets/images/elements/block/0.png")
-                    if animation.opacity == None:
-                        ANIMATION_LIST.remove(animation)
-                        animation.reload = False
-        """
-        B__ : "Box"
-        N_ : "Normal"
-        M_ : "Motif"
-        H_ : "Hard Block"
-        T_ : "Hole" (Trou)
-        _V : "Void"
-        _0 : "Color 0"
-        _1 : "Color 1"
-        _2 : "Color 2"
-        _3 : "Color 3"
-        _4 : "Color 4"
-        _5 : "Color 5"
-        _6 : "Color 6"
-        Possibilities :
-        - NV
-        - N5
-        - M5
-        - H0
-        - BNV
-        - BH0
-        - BM5
-        - TV
-        """
-    if background and not relative:
-        self.background_debug.size = (self.width, self.height)
-        self.background_debug.pos = self.pos
-    elif background and relative:
-        self.background_debug.size = (self.width, self.height)
 
 def generate_grid(size=None, width=None, height=None):
     if size:
@@ -236,11 +75,10 @@ class BlockAnimation(Loop):
                 self.current_frame = self.asset_directory+self.type+"/"+self.type.lower()+"/"+self.frames[frame_index]
         if (len(self.frames) + 1) * self.time_per_frames == self.timer:
             ANIMATION_LIST.remove(self)
-            self.reload = False
             self.timer = 999999
+            return False
         if self.timer > 999999:
             self.timer = 999999
-        return super().loop(*args)
 
 class HoleAnimation(Widget):
     def __init__(self, color: str, animation_pos: tuple):
@@ -322,7 +160,7 @@ class MenuButton(Button, Loop):
         return super().on_press()
 
 
-class CurrentPiece(RelativeLayout, Loop):
+class CurrentPiece(RelativeLayout, Loop, DisplayGrid):
     grid = ListProperty(None)
     
     def __init__(self, size_line, pos, delta_pos, **kwargs):
@@ -355,7 +193,7 @@ class CurrentPiece(RelativeLayout, Loop):
             self.center_y = center_y
         self.rotation.origin = (self.width/2, self.height/2)
         self.rotation.angle = self.angle
-        dispaly_grid(self, relative=True, reload=self.reload, angle=self.angle)
+        self.display_grid(relative=True, reload=self.reload, angle=self.angle)
         return super().loop(*args)
     
     def on_window_resize(self, *args):
@@ -449,14 +287,14 @@ class CurrentPiece(RelativeLayout, Loop):
         self.grid = new_grid
 
 
-class PieceButton(Button, Loop):
+class PieceButton(Button, Loop, DisplayGrid):
     grid = ListProperty(None)
     
     def __init__(self,**kwargs):
         super().__init__(**kwargs)
         self.size_hint = (None, None)
         self.background_color = (0, 0, 0, 0)
-        dispaly_grid(self=self)
+        self.display_grid()
 
     def on_touch_down(self, touch):
         if self.parent.parent.parent.parent.message != None:
@@ -479,7 +317,7 @@ class PieceButton(Button, Loop):
             self.size_line = self.parent.parent.parent.parent.grid.size_line
             self.width = self.size_line * len(self.grid[0])
             self.height = self.size_line * len(self.grid)
-        dispaly_grid(self, reload=self.reload)
+        self.display_grid(reload=self.reload)
         return super().loop(*args)
 
     def touch_piece(self, touch):
@@ -563,7 +401,7 @@ class ZonePieces(BoxLayout, Loop):
         return super().loop(*args)
 
 
-class Grid(RelativeLayout, Loop):
+class Grid(RelativeLayout, Loop, DisplayGrid):
     id_level = NumericProperty(None)
     victoire = BooleanProperty(False)
     
@@ -593,8 +431,8 @@ class Grid(RelativeLayout, Loop):
             for x in range(len(self.grid[y])):
                 if self.grid[y][x][0] == "B":
                     self.grid[y][x] = self.grid[y][x][1] + self.grid[y][x][2]
-                    line_size_calculation(self)
-                    pos=(get_min_x(self)+x*self.size_line,get_max_y(self)-(y+1)*self.size_line)
+                    self.line_size_calculation()
+                    pos=(self.get_min_x()+x*self.size_line,self.get_max_y()-(y+1)*self.size_line)
                     size=(self.size_line, self.size_line)
                     animation = BlockAnimation(time=18, type="box", animation_pos=pos, animation_size=size)
                     ANIMATION_LIST.append(animation)
@@ -605,7 +443,7 @@ class Grid(RelativeLayout, Loop):
         self.height = self.width
         self.center_x = self.parent.grid_image.center_x
         self.center_y = self.parent.grid_image.center_y
-        dispaly_grid(self=self, background=True, border=True, relative=True, animation=True, border_block=True, reload=self.reload)
+        self.display_grid(background=True, border=True, relative=True, animation=True, border_block=True, reload=self.reload)
         self.replace_box()
         # Verifie si la grille est remplit
         if self.test_grid():
@@ -730,8 +568,8 @@ class Page(FloatLayout, Loop):
             for y_g in range(len(self.grid.grid)):
                 for x_g in range(len(self.grid.grid[y_g])):
                     # Calculation Global of x and y for the grid
-                    x_grid = get_min_x(self.grid)+self.grid.x+x_g*self.grid.size_line
-                    y_grid = get_max_y(self.grid)+self.grid.y-(y_g+1)*self.grid.size_line
+                    x_grid = self.grid.get_min_x()+self.grid.x+x_g*self.grid.size_line
+                    y_grid = self.grid.get_max_y()+self.grid.y-(y_g+1)*self.grid.size_line
                     if x_grid+size_line > touch.pos[0] > x_grid and y_grid+size_line > touch.pos[1] > y_grid:
                         piece_id = self.grid.grid_id[y_g][x_g]
             if piece_id == None:
@@ -769,17 +607,17 @@ class Page(FloatLayout, Loop):
                         for y_g in range(len(self.grid.grid)):
                             for x_g in range(len(self.grid.grid[y_g])):
                                 # Calculation Global of x and y for piece and grid
-                                x_piece = get_min_x(self.current_piece)+self.current_piece.x+x_p*self.current_piece.size_line
-                                y_piece = get_max_y(self.current_piece)+self.current_piece.y-(y_p+1)*self.current_piece.size_line
-                                x_grid = get_min_x(self.grid)+self.grid.x+x_g*self.grid.size_line
-                                y_grid = get_max_y(self.grid)+self.grid.y-(y_g+1)*self.grid.size_line
+                                x_piece = self.current_piece.get_min_x()+self.current_piece.x+x_p*self.current_piece.size_line
+                                y_piece = self.current_piece.get_max_y()+self.current_piece.y-(y_p+1)*self.current_piece.size_line
+                                x_grid = self.grid.get_min_x()+self.grid.x+x_g*self.grid.size_line
+                                y_grid = self.grid.get_max_y()+self.grid.y-(y_g+1)*self.grid.size_line
                                 # if grid block match with piece block and if is void or if is a motifs
                                 if abs(x_piece - x_grid) < marg and abs(y_piece - y_grid) < marg and (self.grid.grid[y_g][x_g] == "NV" or (self.grid.grid[y_g][x_g][0] == "M" and self.current_piece.grid[y_p][x_p][1] == self.grid.grid[y_g][x_g][1])):
                                     self.grid.grid[y_g][x_g] = self.current_piece.grid[y_p][x_p]
                                     self.grid.grid_id[y_g][x_g] = self.new_id
                                 elif abs(x_piece - x_grid) < marg and abs(y_piece - y_grid) < marg and self.grid.grid[y_g][x_g] == "TV":
                                     self.grid.grid[y_g][x_g] = "M" + self.current_piece.grid[y_p][x_p][1]
-                                    pos = (get_min_x(self.grid)+x_g*self.grid.size_line, get_max_y(self.grid)-(y_g+1)*self.grid.size_line)
+                                    pos = (self.grid.get_min_x()+x_g*self.grid.size_line, self.grid.get_max_y()-(y_g+1)*self.grid.size_line)
                                     animation = HoleAnimation(color=self.current_piece.grid[y_p][x_p][1], animation_pos=pos)
                                     ANIMATION_LIST.append(animation)
             self.remove_widget(self.current_piece)
@@ -945,10 +783,10 @@ class Page(FloatLayout, Loop):
                         for y_g in range(len(self.grid.grid)):
                             for x_g in range(len(self.grid.grid[y_g])):
                                 # Calculation Global of x and y for piece and grid
-                                x_piece = get_min_x(self.current_piece)+self.current_piece.x+x_p*self.current_piece.size_line
-                                y_piece = get_max_y(self.current_piece)+self.current_piece.y-(y_p+1)*self.current_piece.size_line
-                                x_grid = get_min_x(self.grid)+self.grid.x+x_g*self.grid.size_line
-                                y_grid = get_max_y(self.grid)+self.grid.y-(y_g+1)*self.grid.size_line
+                                x_piece = self.current_piece.get_min_x()+self.current_piece.x+x_p*self.current_piece.size_line
+                                y_piece = self.current_piece.get_max_y()+self.current_piece.y-(y_p+1)*self.current_piece.size_line
+                                x_grid = self.grid.get_min_x()+self.grid.x+x_g*self.grid.size_line
+                                y_grid = self.grid.get_max_y()+self.grid.y-(y_g+1)*self.grid.size_line
                                 # if grid block match with piece block and if is void or if is a motis
                                 one.append(abs(x_piece - x_grid) < marg and abs(y_piece - y_grid) < marg and (self.grid.grid[y_g][x_g] == "NV" or self.grid.grid[y_g][x_g] == "TV" or (self.grid.grid[y_g][x_g][0] == "M" and self.current_piece.grid[y_p][x_p][1] == self.grid.grid[y_g][x_g][1]) or self.current_piece.grid[y_p][x_p] == "NV"))
                         check.append(any(one))
