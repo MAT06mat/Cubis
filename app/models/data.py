@@ -13,6 +13,13 @@ class Data(EventDispatcher):
         self.file = file
 
     def init_with_user_data_dir(self, user_data_dir):
+        data = None
+        # Récupère les enciennes données si elles n'ont pas encore étés migrés
+        if 'ANDROID_ARGUMENT' in os.environ:
+            if not os.path.exists(os.path.join(user_data_dir, '.cubis')):
+                with open(os.path.join(os.path.join(user_data_dir, '.cubis'), self.file), 'r', encoding="UTF-8") as file:
+                    data = file.read()
+                
         path = user_data_dir
         # Si le dossier n'exite pas, on le créé
         if not os.path.exists(path):
@@ -20,7 +27,11 @@ class Data(EventDispatcher):
         # Si le fichier n'exite pas, on le créé et on copy les data de base
         if not os.path.exists(os.path.join(path, self.file)):
             with open(os.path.join(path, self.file), 'w', encoding="UTF-8") as file:
-                file.write('{"Best_score": [0, 0, 0, 0, 0], "Last_score": 0, "Current_level": 1, "Music": 50, "Effect": 50, "lang": "en"}')
+                # Migre les anciennes données si il y en a
+                if data:
+                    file.write(data)
+                else:
+                    file.write('{"Best_score": [0, 0, 0, 0, 0], "Last_score": 0, "Current_level": 1, "Music": 50, "Effect": 50, "lang": "en"}')
         self.path = path
         self.is_init = True
     
