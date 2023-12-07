@@ -75,7 +75,6 @@ class BlockAnimation(Loop):
                 self.current_frame = self.asset_directory+self.type+"/"+self.type.lower()+"/"+self.frames[frame_index]
         if (len(self.frames) + 1) * self.time_per_frames == self.timer:
             ANIMATION_LIST.remove(self)
-            self.timer = 999999
             return False
         if self.timer > 999999:
             self.timer = 999999
