@@ -1,5 +1,6 @@
 import json
 import os
+import platform
 
 from kivy.properties import BooleanProperty, StringProperty
 from kivy.event import EventDispatcher
@@ -12,12 +13,7 @@ class Data(EventDispatcher):
         self.file = file
 
     def init_with_user_data_dir(self, user_data_dir):
-        if 'ANDROID_ARGUMENT' in os.environ:
-            app_private_dir = user_data_dir
-            data_folder_name = '.cubis'
-            path = os.path.join(app_private_dir, data_folder_name)
-        else:
-            path = os.path.join(os.path.expanduser('~'), '.cubis')
+        path = user_data_dir
         # Si le dossier n'exite pas, on le créé
         if not os.path.exists(path):
             os.makedirs(path)
@@ -70,7 +66,11 @@ class Texts(Data):
         self.lang_dict = {"en": "English", "fr": "Français"}
     
     def setting_change(self, *args):
-        self.current_lang = SETTINGS.get()['lang']
+        try:
+            self.current_lang = SETTINGS.get()['lang']
+        except:
+            SETTINGS.modify("en", "lang")
+            self.current_lang = "en"
         
     def key(self, key):
         key = str(key)
