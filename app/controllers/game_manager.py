@@ -53,9 +53,9 @@ def line_size_calculation(self):
         self.size_line_v = self.size_line*len(self.grid)
         self.size_line_h = self.width
 
-def dispaly_grid(self, background=False, border=False, relative=False, animation=False, border_block=False, not_reload=False, angle=0):
+def dispaly_grid(self, background=False, border=False, relative=False, animation=False, border_block=False, reload=True, angle=0):
     self.canvas.clear()
-    if not_reload:
+    if not reload:
         return
     with self.canvas:
         if background:
@@ -161,6 +161,7 @@ def dispaly_grid(self, background=False, border=False, relative=False, animation
                     Rectangle(pos=animation.animation_pos, size=(self.size_line, self.size_line), source="assets/images/elements/block/0.png")
                     if animation.opacity == None:
                         ANIMATION_LIST.remove(animation)
+                        animation.reload = False
         """
         B__ : "Box"
         N_ : "Normal"
@@ -235,10 +236,11 @@ class BlockAnimation(Loop):
                 self.current_frame = self.asset_directory+self.type+"/"+self.type.lower()+"/"+self.frames[frame_index]
         if (len(self.frames) + 1) * self.time_per_frames == self.timer:
             ANIMATION_LIST.remove(self)
+            self.reload = False
             self.timer = 999999
         if self.timer > 999999:
             self.timer = 999999
-
+        return super().loop(*args)
 
 class HoleAnimation(Widget):
     def __init__(self, color: str, animation_pos: tuple):
@@ -255,6 +257,7 @@ class RedoButton(Button, Loop):
     def loop(self, *args):
         self.x = self.width*0.8
         self.y = Window.height - self.height*0.9
+        return super().loop(*args)
 
     @if_no_message
     @if_no_piece
@@ -266,6 +269,7 @@ class RedoButton(Button, Loop):
 class UndoButton(Button, Loop):
     def loop(self, *args):
         self.y = Window.height - self.height*0.9
+        return super().loop(*args)
 
     @if_no_message
     @if_no_piece
@@ -275,6 +279,10 @@ class UndoButton(Button, Loop):
 
 
 class GridImage(Image, Loop):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.reload = True
+    
     def loop(self, *args):
         self.width = Window.width
         self.height = self.width
@@ -282,6 +290,7 @@ class GridImage(Image, Loop):
             self.height -= 1
         while self.width > self.height:
             self.width -= 1
+        return super().loop(*args)
 
 
 class ScoreCase(Label, Loop):
@@ -297,12 +306,14 @@ class ScoreCase(Label, Loop):
         self.y = Window.height - self.height*0.9
         self.background_r.size = (self.size[0]*1.2, self.size[1]*0.5)
         self.background_r.pos = (self.center_x-self.background_r.size[0]/2, self.center_y-self.background_r.size[1]/2)
+        return super().loop(*args)
     
 
 class MenuButton(Button, Loop):
     def loop(self, *args):
         self.x = Window.width - self.width*0.9
         self.y = Window.height - self.height*0.9
+        return super().loop(*args)
     
     @if_no_message
     @if_no_piece
@@ -313,7 +324,6 @@ class MenuButton(Button, Loop):
 
 class CurrentPiece(RelativeLayout, Loop):
     grid = ListProperty(None)
-    not_reload = BooleanProperty(False)
     
     def __init__(self, size_line, pos, delta_pos, **kwargs):
         super().__init__(**kwargs)
@@ -345,7 +355,8 @@ class CurrentPiece(RelativeLayout, Loop):
             self.center_y = center_y
         self.rotation.origin = (self.width/2, self.height/2)
         self.rotation.angle = self.angle
-        dispaly_grid(self, relative=True, not_reload=self.not_reload, angle=self.angle)
+        dispaly_grid(self, relative=True, reload=self.reload, angle=self.angle)
+        return super().loop(*args)
     
     def on_window_resize(self, *args):
         self.pos = (Window.width/2-self.width/2, Window.height/2-self.width/2)
@@ -440,12 +451,12 @@ class CurrentPiece(RelativeLayout, Loop):
 
 class PieceButton(Button, Loop):
     grid = ListProperty(None)
-    not_reload = BooleanProperty(False)
     
     def __init__(self,**kwargs):
         super().__init__(**kwargs)
         self.size_hint = (None, None)
         self.background_color = (0, 0, 0, 0)
+        dispaly_grid(self=self)
 
     def on_touch_down(self, touch):
         if self.parent.parent.parent.parent.message != None:
@@ -459,6 +470,7 @@ class PieceButton(Button, Loop):
             delta_pos = (touch_pos[0] - pos[0], touch_pos[1] - pos[1])
             self.parent.parent.parent.parent.change_current_piece(grid=self.grid, pos=pos, delta_pos=delta_pos)
             self.parent.piece_button.remove(self)
+            self.reload = False
             self.parent.remove_widget(self)
         return super().on_touch_down(touch)
     
@@ -467,7 +479,8 @@ class PieceButton(Button, Loop):
             self.size_line = self.parent.parent.parent.parent.grid.size_line
             self.width = self.size_line * len(self.grid[0])
             self.height = self.size_line * len(self.grid)
-        dispaly_grid(self, not_reload=self.not_reload)
+        dispaly_grid(self, reload=self.reload)
+        return super().loop(*args)
 
     def touch_piece(self, touch):
         touch_piece = []
@@ -534,6 +547,7 @@ class MyScrollView(ScrollView, Loop):
     def loop(self, *args):
         self.disabled = self.parent.parent.message != None
         self.bar_width = round(self.width / 15, 2)
+        return super().loop(*args)
 
 
 class ZonePieces(BoxLayout, Loop):
@@ -546,12 +560,12 @@ class ZonePieces(BoxLayout, Loop):
     
     def loop(self, *args):
         self.height = self.parent.height - self.parent.grid_image.height - 0.15*self.parent.height
+        return super().loop(*args)
 
 
 class Grid(RelativeLayout, Loop):
     id_level = NumericProperty(None)
     victoire = BooleanProperty(False)
-    not_reload = BooleanProperty(False)
     
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -591,13 +605,14 @@ class Grid(RelativeLayout, Loop):
         self.height = self.width
         self.center_x = self.parent.grid_image.center_x
         self.center_y = self.parent.grid_image.center_y
-        dispaly_grid(self=self, background=True, border=True, relative=True, animation=True, border_block=True, not_reload=self.not_reload)
+        dispaly_grid(self=self, background=True, border=True, relative=True, animation=True, border_block=True, reload=self.reload)
         self.replace_box()
         # Verifie si la grille est remplit
         if self.test_grid():
-            return
+            return super().loop(*args)
         # Wait a frame for display the grid
         Clock.schedule_once(self.grid_is_fill, 0)
+        return super().loop(*args)
     
     def grid_is_fill(self, *args):
         if self.id_level != 0 and not self.victoire:
@@ -625,6 +640,7 @@ class Arrow(Button, Loop):
     def loop(self, *args):
         self.width = self.height
         self.y = self.parent.grid_image.y - self.height/1.2
+        return super().loop(*args)
 
 
 class RightArrow(Arrow):
@@ -664,9 +680,13 @@ class Page(FloatLayout, Loop):
         self.zone_piece = ZonePieces(id_level=self.id_level)
         self.undo_button = UndoButton()
         self.menu_button = MenuButton()
+        self.right_arrow = None
+        self.left_arrow = None
         if self.arrows:
-            self.add_widget(RightArrow())
-            self.add_widget(LeftArrow())
+            self.right_arrow = RightArrow()
+            self.left_arrow = LeftArrow()
+            self.add_widget(self.right_arrow)
+            self.add_widget(self.left_arrow)
         self.redo_button = None
         self.score_label = None
         if self.id_level != 0:
@@ -697,6 +717,7 @@ class Page(FloatLayout, Loop):
         else:
             self.redo_button.disabled = len(self.undo_saves) < 1
             self.undo_button.disabled = not (len(self.saves) >= 1 or self.current_piece != None)
+        return super().loop(*args)
     
     """def on_touch_down(self, touch):
         if self.current_piece != None:
@@ -825,6 +846,8 @@ class Page(FloatLayout, Loop):
             self.grid.grid = self.saves[-1]["grid"]
             self.grid.grid_id = self.saves[-1]["grid_id"]
             self.zone_piece.my_scroll_view.grid_piece.piece_button = []
+            for piece in self.zone_piece.my_scroll_view.grid_piece.piece_button:
+                piece.reload = False
             self.zone_piece.my_scroll_view.grid_piece.clear_widgets()
             for piece in self.saves[-1]["pieces"]:
                 button = PieceButton(grid=piece)
@@ -841,6 +864,8 @@ class Page(FloatLayout, Loop):
             self.grid.grid = self.saves[-1]["grid"]
             self.grid.grid_id = self.saves[-1]["grid_id"]
             self.zone_piece.my_scroll_view.grid_piece.piece_button = []
+            for piece in self.zone_piece.my_scroll_view.grid_piece.piece_button:
+                piece.reload = False
             self.zone_piece.my_scroll_view.grid_piece.clear_widgets()
             for grid in self.saves[-1]["pieces"]:
                 button = PieceButton(grid=grid)
@@ -856,6 +881,8 @@ class Page(FloatLayout, Loop):
         self.grid.grid = copy.deepcopy(self.undo_saves[-1]["grid"])
         self.grid.grid_id = copy.deepcopy(self.undo_saves[-1]["grid_id"])
         self.zone_piece.my_scroll_view.grid_piece.piece_button = []
+        for piece in self.zone_piece.my_scroll_view.grid_piece.piece_button:
+            piece.reload = False
         self.zone_piece.my_scroll_view.grid_piece.clear_widgets()
         for grid in self.undo_saves[-1]["pieces"]:
             button = PieceButton(grid=grid)
@@ -869,12 +896,25 @@ class Page(FloatLayout, Loop):
         self.add_widget(self.current_piece)
 
     def not_reload(self):
+        self.reload = False
+        self.grid_image.reload = False
+        self.undo_button.reload = False
+        self.menu_button.reload = False
+        if self.score_label:
+            self.score_label.reload = False
+        if self.redo_button:
+            self.redo_button.reload = False
         if self.current_piece:
-            self.current_piece.not_reload = True
-        if self.grid:
-            self.grid.not_reload = True
+            self.current_piece.reload = False
+        if self.left_arrow:
+            self.left_arrow.reload = False
+        if self.right_arrow:
+            self.right_arrow.reload = False
+        self.grid.reload = False
+        self.zone_piece.reload = False
+        self.zone_piece.my_scroll_view.reload = False
         for button in self.zone_piece.my_scroll_view.grid_piece.piece_button:
-            button.not_reload = True
+            button.reload = False
     
     def remove_current_piece(self):
         if self.current_piece != None:
