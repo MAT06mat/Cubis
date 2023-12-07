@@ -173,7 +173,7 @@ class CurrentPiece(RelativeLayout, Loop, DisplayGrid):
             PopMatrix()
         self.size_hint = (None, None)
         self.size_line = size_line
-        self.loop(self, None)
+        self.loop(None)
         self.pos = pos
         self.delta_pos = delta_pos
         Window.bind(on_resize=self.on_window_resize)
