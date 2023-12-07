@@ -19,7 +19,7 @@ from kivy.clock import Clock
 
 from models.loop import Loop
 from models.data import SETTINGS, PIECES, AREAS, LEVELS, TEXTS
-from models.display_grid import ANIMATION_LIST, DisplayGrid, Calculation
+from models.display_grid import ANIMATION_LIST, DisplayGrid
 from models.decorators import if_no_message, if_no_piece
 from controllers.message import MenuMessage, InfoMessage, VictoireMessage
 
