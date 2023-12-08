@@ -1,6 +1,6 @@
 import json
 import os
-import platform
+import shutil
 
 from kivy.properties import BooleanProperty, StringProperty
 from kivy.event import EventDispatcher
@@ -21,7 +21,7 @@ class Data(EventDispatcher):
                     data = file.read()
                 
         path = user_data_dir
-        # Si le dossier n'exite pas, on le créé
+        # Si le chemin n'exite pas, on le créé
         if not os.path.exists(path):
             os.makedirs(path)
         # Si le fichier n'exite pas, on le créé et on copy les data de base
@@ -30,6 +30,8 @@ class Data(EventDispatcher):
                 # Migre les anciennes données si il y en a
                 if data:
                     file.write(data)
+                    # Supprime l'ancien dossier de data avec les fichiers s'y trouvant à l'interrieur 
+                    shutil.rmtree(os.path.join(user_data_dir, '.cubis'))
                 else:
                     file.write('{"Best_score": [0, 0, 0, 0, 0], "Last_score": 0, "Current_level": 1, "Music": 50, "Effect": 50, "lang": "en"}')
         self.path = path
