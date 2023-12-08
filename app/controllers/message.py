@@ -51,6 +51,7 @@ class Texte(Label, Loop):
         self.score = score
         self.lang_change()
         TEXTS.bind(current_lang=self.lang_change)
+        Clock.schedule_once(self.init_font_size, 0.1)
     
     def lang_change(self, *args):
         if self.mode:
@@ -65,13 +66,12 @@ class Texte(Label, Loop):
             self.text = TEXTS.key(self.text_key)
             if self.score != None:
                 self.text += str(self.score)
-        
-    def loop(self, *args):
-        try:
-            self.font_size = self.parent.width/15
-        except:
-            pass
-                
+    
+    def init_font_size(self, *args):
+        self.parent.bind(width=self.width_change)
+    
+    def width_change(self, *args):
+        self.font_size = self.parent.width/15
 
 
 class Title(Label, Loop):
@@ -93,12 +93,11 @@ class Title(Label, Loop):
         self.font_size = self.parent.width / 8
 
 
-class Back(Button):
+class Back(Button, Loop):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.width = dp(40)
         self.height = self.width
-        Clock.schedule_interval(self.loop, 1/60)
         
     def loop(self, *args):
         self.width = self.parent.width/8
@@ -113,6 +112,8 @@ class PlayMessage(Message):
     
     def __init__(self, **kw):
         super().__init__(**kw)
+        self.on_window_resize()
+        Window.bind(on_resize=self.on_window_resize)
         for area in AREAS.get():
             for level in area["Levels"]:
                 if level["Id"] == self.id_level:
@@ -120,10 +121,8 @@ class PlayMessage(Message):
         self.add_widget(Cadre())
         self.add_widget(Back())
         self.add_widget(Title(text_key=11, id_level=self.id_level))
-        self.add_widget(Texte(mode=mode))
+        self.add_widget(Texte(mode=mode, font_size=self.width/15))
         self.add_widget(PlayButtonStory(id_level=self.id_level))
-        self.on_window_resize()
-        Window.bind(on_resize=self.on_window_resize)
     
     def on_window_resize(self, *args):
         self.width = Window.width - dp(30)
@@ -137,23 +136,15 @@ class PlayMessage(Message):
         self.parent.message_pop()
 
 
-class SettingButton(Button):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        Clock.schedule_interval(self.loop, 1/60)
-    
+class SettingButton(Button, Loop):
     def loop(self, *args):
         self.width = self.parent.height/3
         self.height = self.width
         self.y = self.parent.height/6
 
 
-class ResetButton(Button):
+class ResetButton(Button, Loop):
     id_level = NumericProperty(None)
-    
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        Clock.schedule_interval(self.loop, 1/60)
     
     def loop(self, *args):
         self.width = self.parent.height/3
@@ -192,7 +183,7 @@ class QuitButton(Button, Loop):
         self.y = self.parent.height/6
 
 
-class MenuMessage(Message):
+class MenuMessage(Message, Loop):
     id_level = NumericProperty(0)
     score = NumericProperty(0)
     mode = ListProperty(None)
@@ -203,10 +194,10 @@ class MenuMessage(Message):
         self.cadre = Cadre()
         if self.id_level != 0:
             self.level_name = Title(text_key=11, id_level=self.id_level)
-            self.mode_label = Texte(mode=self.mode)
+            self.mode_label = Texte(mode=self.mode, font_size=self.width/15)
         else:
             self.level_name = Title(text_key=12)
-            self.mode_label = Texte(text_key=13, score=self.score)
+            self.mode_label = Texte(text_key=13, score=self.score, font_size=self.width/15)
         self.quit_button = QuitButton()
         self.setting_button = SettingButton()
         self.reset_button = ResetButton(id_level=self.id_level)
@@ -217,7 +208,6 @@ class MenuMessage(Message):
         self.add_widget(self.quit_button)
         self.add_widget(self.setting_button)
         self.add_widget(self.reset_button)
-        Clock.schedule_interval(self.loop, 1/60)
     
     def loop(self, *args):
         self.width = Window.width - dp(30)
@@ -236,6 +226,8 @@ class VictoireMessage(Message):
     
     def __init__(self,**kw):
         super().__init__(**kw)
+        self.on_window_resize()
+        Window.bind(on_resize=self.on_window_resize)
         if self.id_level == SETTINGS.get()["Current_level"]:
             self.quit_button = QuitButton(id_level=self.id_level, victoire=True)
             self.setting = False
@@ -245,13 +237,11 @@ class VictoireMessage(Message):
         self.reset_button = ResetButton(id_level=self.id_level)
         self.add_widget(Cadre())
         self.add_widget(Title(text_key=14))
-        self.add_widget(Texte(text_key=11, score=self.id_level))
+        self.add_widget(Texte(text_key=11, score=self.id_level, font_size=self.width/15))
         self.add_widget(self.quit_button)
         self.add_widget(self.reset_button)
         if self.setting:
             self.add_widget(SettingButton())
-        self.on_window_resize()
-        Window.bind(on_resize=self.on_window_resize)
     
     def on_window_resize(self, *args):
         self.width = Window.width - dp(30)
@@ -277,10 +267,10 @@ class InfoMessage(Message):
     
     def __init__(self,**kw):
         super().__init__(**kw)
-        self.label = Texte(text=self.message[0], pos_hint={"center_x": 0.5, "center_y": 0.5})
-        self.add_widget(self.label)
         self.on_window_resize()
         Window.bind(on_resize=self.on_window_resize)
+        self.label = Texte(text=self.message[0], pos_hint={"center_x": 0.5, "center_y": 0.5}, font_size=self.width/15)
+        self.add_widget(self.label)
 
     def next(self):
         i = self.message.index(self.label.text)

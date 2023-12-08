@@ -233,7 +233,7 @@ class StartImage(Image, Loop):
     def loop(self, *args):
         self.timer += 1.5
         if self.timer > 100:
-            self.timer = 100
+            return False
         self.color = (1, 1, 1, self.timer/100)
 
 
@@ -245,8 +245,8 @@ class StartButton(Button, Loop):
     def loop(self, *args):
         self.wait -= 1
         if self.wait < 0:
-            self.wait = 0
             self.disabled = False
+            return False
     
 
 class StartLabel(Label, Loop):
