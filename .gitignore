@@ -4852,3 +4852,4 @@ venv/Lib/site-packages/pip-23.0.1.dist-info/REQUESTED
 venv/Lib/site-packages/pip-23.0.1.dist-info/top_level.txt
 venv/Lib/site-packages/pip-23.0.1.dist-info/WHEEL
 app/models/__pycache__/display_grid.cpython-310.pyc
+app/models/__pycache__/grid_calculation.cpython-310.pyc

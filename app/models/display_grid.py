@@ -1,32 +1,13 @@
 from kivy.graphics.vertex_instructions import Line, Rectangle
 from kivy.graphics import Color
 
+from models.grid_calculation import GridCalculation
 
 COLOR = ((0.65, 0.65, 0.65), (1, 0, 0), (0, 0, 1), (0, 1, 0), (1, 1, 0), (1, 0, 1), (0, 1, 1))
 ANIMATION_LIST = []
 
-class Calculation():
-    def get_min_x(self):
-        return self.width/2-self.size_line_h/2
-    def get_max_x(self):
-        return self.width/2+self.size_line_h/2
-    def get_min_y(self):
-        return self.height/2-self.size_line_v/2
-    def get_max_y(self):
-        return self.height/2+self.size_line_v/2
 
-    def line_size_calculation(self):
-        if len(self.grid) >= len(self.grid[0]):
-            self.size_line = self.height/len(self.grid)
-            self.size_line_v = self.height
-            self.size_line_h = self.size_line*len(self.grid[0])
-        else:
-            self.size_line = self.width/len(self.grid[0])
-            self.size_line_v = self.size_line*len(self.grid)
-            self.size_line_h = self.width
-
-
-class DisplayGrid(Calculation):
+class DisplayGrid(GridCalculation):
     def display_grid(self, background=False, border=False, relative=False, animation=False, border_block=False, reload=True, angle=0):
         self.canvas.clear()
         if not reload:
