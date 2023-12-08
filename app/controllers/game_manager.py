@@ -302,6 +302,10 @@ class PieceButton(Button, Loop, DisplayGrid):
             if self.parent.parent.parent.parent.current_piece.delta_pos != None:
                 return super().on_touch_down(touch)
         if self.touch_piece(touch):
+            # Eviter un crash si deux pieces sont clické trop vite d'affiler
+            if self.parent.piece_is_clicked:
+                return super().on_touch_down(touch)
+            self.parent.piece_is_clicked = True
             pos = self.to_window(*self.pos)
             touch_pos = self.to_window(*touch.pos)
             delta_pos = (touch_pos[0] - pos[0], touch_pos[1] - pos[1])
@@ -309,6 +313,7 @@ class PieceButton(Button, Loop, DisplayGrid):
             self.parent.piece_button.remove(self)
             self.reload = False
             self.parent.remove_widget(self)
+            self.parent.piece_is_clicked = False
         return super().on_touch_down(touch)
     
     def loop(self, *args):
@@ -330,6 +335,7 @@ class PieceButton(Button, Loop, DisplayGrid):
         return any(touch_piece)
 
 class GridPiece(StackLayout):
+    piece_is_clicked = BooleanProperty(False)
     piece_button = ListProperty([])
     tiers = NumericProperty(3)
     piece_generated = NumericProperty(70)
