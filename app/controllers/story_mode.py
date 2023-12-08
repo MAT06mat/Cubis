@@ -6,7 +6,9 @@ from kivy.uix.scrollview import ScrollView
 from kivy.uix.tabbedpanel import TabbedPanel, TabbedPanelItem
 from kivy.properties import NumericProperty, ListProperty, StringProperty, ObjectProperty, DictProperty, BooleanProperty
 from kivy.uix.floatlayout import FloatLayout
+from kivy.metrics import dp
 from kivy.clock import Clock
+from kivy.core.window import Window
 
 from models.loop import Loop
 from models.background_image import MyBackgroundImage
@@ -33,6 +35,7 @@ class Level(Button):
         self.id = self.level["Id"]
         self.mode = self.level["Mode"]
         self.text = str(self.id)
+        self.size = (dp(125), dp(125))
         if self.id > SETTINGS.get()["Current_level"]:
             self.disabled = True
         # Mettre 0 devant les chiffres pour en faire des nombre à deux chiffres
