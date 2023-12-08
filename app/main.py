@@ -21,5 +21,9 @@ class CubisApp(App):
     def on_start(self):
         SETTINGS.init_with_user_data_dir(self.user_data_dir)
 
+    def on_resume(self):
+        self.manager.reload_images()
+        return super().on_resume()
+    
 
 CubisApp().run()

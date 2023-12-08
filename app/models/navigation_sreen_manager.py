@@ -29,8 +29,6 @@ class TransitionScreen(Screen, Loop):
                 self.delay = None
         else:
             self.timer = 0
-            
-        
 
 
 class NavigationScreenManager(ScreenManager):
@@ -106,3 +104,8 @@ class NavigationScreenManager(ScreenManager):
     def suivant(self):
         if self.next_current:
             self.current = self.next_current
+    
+    def reload_images(self):
+        for screen in self.screens:
+            if screen.name == "StoryMode" or screen.name == "InfiniteMode":
+                screen.children[0].children[0].reload_image()

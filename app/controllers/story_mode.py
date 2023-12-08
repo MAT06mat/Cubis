@@ -204,7 +204,10 @@ class StoryModeFloat(FloatLayout):
         if not message:
             self.message_pop()
             self.message_push(SETTINGS.get()["Current_level"])
-        
+
+    def reload_image(self):
+        BACKGROUND_IMAGE.children[0].reload()
+
     def message_push(self, id_level):
         if not self.message: 
             level_exist = []

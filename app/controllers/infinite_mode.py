@@ -63,4 +63,6 @@ class PlayInfiniteModeButton(Button, Loop):
 
 
 class InfiniteMode(FloatLayout):
-    pass
+    def reload_image(self):
+        image = self.ids.get("background_image")
+        if image: image.reload()
