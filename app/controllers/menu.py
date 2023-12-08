@@ -265,19 +265,16 @@ class StartLabel(Label, Loop):
         self.wait -= 1
         if self.wait < 0:
             self.wait = 0
-            self.timer += 0.5
-            if self.timer == 70:
+            self.timer += 0.6
+            if 80 > self.timer > 70:
                 self.timer = 130
-            if self.timer == 200:
+            if 210 > self.timer > 200:
                 self.timer = 0
             self.color = (1, 1, 1, abs(self.timer-100)/100)
-            self.font_size = Window.width / 10
-            self.width = Window.width - dp(20)
-            self.height = self.width / 1289 * 554
-        while self.height > 0.6 * Window.height:
-            self.height -= 1
-        while self.width / 1289 * 554 > self.height:
-            self.width -= 1
+        if Window.width < dp(500):
+            self.font_size = Window.width/10
+        else:
+            self.font_size = dp(50)
 
 
 class CenterBoxLayout(BoxLayout, Loop):
