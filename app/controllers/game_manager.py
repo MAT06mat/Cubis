@@ -99,17 +99,29 @@ class UndoButton(Button, Loop):
         return super().on_press()
 
 
-class GridImage(Image, Loop):
-    reload = True
-    
-    def loop(self, *args):
-        self.width = Window.width
-        self.height = self.width
-        while self.height > 0.6 * Window.height:
-            self.height -= 1
-        while self.width > self.height:
-            self.width -= 1
-        return super().loop(*args)
+class GridImage(Image):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        Window.bind(on_resize=self.on_window_resize)
+        self.on_window_resize()
+
+    def on_window_resize(self, *args):
+        if Window.width*0.75 < Window.height:
+            self.pos_hint = {"center_x": 0.5, "top": 0.94}
+            self.width = Window.width
+            self.height = self.width
+            while self.height > 0.6 * Window.height:
+                self.height -= 1
+            while self.width > self.height:
+                self.width -= 1 
+        else:
+            self.pos_hint = {"x": 0.05, "center_y": 0.5}
+            self.height = Window.height
+            self.width = self.height
+            while self.height > 0.8 * Window.height:
+                self.height -= 1
+            while self.width > self.height:
+                self.width -= 1 
 
 
 class ScoreCase(Label, Loop):
@@ -207,8 +219,13 @@ class CurrentPiece(RelativeLayout, Loop, DisplayGrid):
         return super().on_touch_move(touch)
     
     def on_touch_up(self, touch):
+        # Format vertical ou horizontal
+        if Window.width*0.75 < Window.height:
+            condition = self.parent.zone_piece.y+self.parent.zone_piece.height > self.y+self.height/2
+        else:
+            condition = self.parent.zone_piece.x < self.x+self.width/2
         # Transform piece in button if is in the zone_piece
-        if self.parent.zone_piece.y+self.parent.zone_piece.height > self.y+self.height/2:
+        if condition:
             button = PieceButton(grid=self.grid)
             pieces_list = self.parent.zone_piece.my_scroll_view.grid_piece.piece_button
             if len(pieces_list) == 0:
@@ -375,12 +392,25 @@ class ZonePieces(BoxLayout, Loop):
     
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.pos_hint = {"right": 1}
         self.my_scroll_view = MyScrollView(id_level=self.id_level)
         self.add_widget(self.my_scroll_view)
+        Window.bind(on_resize=self.on_window_resize)
+        self.on_window_resize()
     
-    def loop(self, *args):
-        self.height = self.parent.height - self.parent.grid_image.height - 0.15*self.parent.height
-        return super().loop(*args)
+    def on_window_resize(self, *args):
+        if Window.width*0.75 < Window.height:
+            self.size_hint = (1, None)
+            height = Window.width
+            while height > 0.6 * Window.height:
+                height -= 1
+            self.height = Window.height * 0.85 - height
+        else:
+            self.size_hint = (None, 0.9)
+            width = Window.height
+            while width > 0.8 * Window.height:
+                width -= 1
+            self.width = Window.width * 0.92 - width
 
 
 class Grid(RelativeLayout, Loop, DisplayGrid):
@@ -457,13 +487,29 @@ class Grid(RelativeLayout, Loop, DisplayGrid):
 
 
 class Arrow(Button, Loop):
+    arrow_type = "left"
+    
     def loop(self, *args):
         self.width = self.height
         self.y = self.parent.grid_image.y - self.height/1.2
+        if Window.width*0.75 < Window.height:
+            if self.arrow_type == "left":
+                self.pos_hint = {}
+                self.x = 0
+            else:
+                self.pos_hint = {"right": 1}
+        else:
+            self.pos_hint = {}
+            if self.arrow_type == "left":
+                self.x = self.parent.grid_image.x
+            else:
+                self.x = self.parent.grid_image.x + self.parent.grid_image.width - self.width
         return super().loop(*args)
 
 
 class RightArrow(Arrow):
+    arrow_type = "right"
+    
     @if_no_message
     @if_no_piece
     def on_press(self):
@@ -717,7 +763,6 @@ class Page(FloatLayout, Loop):
 
     def not_reload(self):
         self.reload = False
-        self.grid_image.reload = False
         self.undo_button.reload = False
         self.menu_button.reload = False
         if self.score_label:
@@ -731,7 +776,6 @@ class Page(FloatLayout, Loop):
         if self.right_arrow:
             self.right_arrow.reload = False
         self.grid.reload = False
-        self.zone_piece.reload = False
         self.zone_piece.my_scroll_view.reload = False
         for button in self.zone_piece.my_scroll_view.grid_piece.piece_button:
             button.reload = False

@@ -5,7 +5,6 @@
     background_down: "assets/images/buttons/menu.png"
 
 <ZonePieces>:
-    size_hint: (1, None)
     padding: ("10dp", "0dp", "10dp", "10dp")
 
 <MyScrollView>:
@@ -38,22 +37,18 @@
     disabled: True
 
 <GridImage>:
-    pos_hint: {"center_x": 0.5, "top": 0.94}
     size_hint: (None, None)
     fit_mode: "contain"
     source: "assets/images/elements/grid.png"
 
 <Arrow>:
     size_hint: (None, 0.1)
-    width: self.height
 
 <LeftArrow>:
-    pos_hint: {"left": 1}
     background_down: "assets/images/buttons/left2.png"
     background_normal: "assets/images/buttons/left2.png"
 
 <RightArrow>:
-    pos_hint: {"right": 1}
     background_down: "assets/images/buttons/right2.png"
     background_normal: "assets/images/buttons/right2.png"
 
