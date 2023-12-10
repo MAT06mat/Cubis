@@ -33,35 +33,30 @@ kv_file_path = os.path.join(current_directory, "../views/game.kv")
 Builder.load_file(kv_file_path)
 
 
-class BlockAnimation(Loop):
+class BlockAnimation(Widget, Loop):
+    frame = NumericProperty(0)
+    object_opacity = NumericProperty(100)
+    
     def __init__(self, time: float, type: str, animation_pos: tuple, animation_size: tuple):
         super().__init__()
-        self.timer = -1
         self.asset_directory = os.path.join(current_directory, "../assets/images/elements/")
         self.frames = os.listdir(self.asset_directory+type+"/"+type.lower()+"/")
         self.frames.sort()
-        self.time = time
-        self.time_per_frames = time//len(self.frames)
+        self.anim = Animation(duration=time, frame=len(self.frames))
+        self.anim &= Animation(duration=time*0.7, object_opacity=0)
+        self.anim.start(self)
         self.type = type
         self.object = self.asset_directory+type+"/"+"0.png"
         self.animation_pos = animation_pos
         self.animation_size = animation_size
         self.current_frame = self.asset_directory+type+"/"+type.lower()+"/"+self.frames[0]
-        self.object_opacity = 1
     
     def loop(self, *args):
-        self.timer += 1
-        self.object_opacity = 1-self.timer*3/self.time
-        if not 0 <= self.object_opacity <= 1:
-            self.object_opacity = 0
-        for frame_index in range(len(self.frames)):
-            if frame_index * self.time_per_frames == self.timer:
-                self.current_frame = self.asset_directory+self.type+"/"+self.type.lower()+"/"+self.frames[frame_index]
-        if (len(self.frames) + 1) * self.time_per_frames == self.timer:
+        if self.frame < len(self.frames):
+            self.current_frame = self.asset_directory+self.type+"/"+self.type.lower()+"/"+self.frames[int(self.frame)]
+        else:
             ANIMATION_LIST.remove(self)
             return False
-        if self.timer > 999999:
-            self.timer = 999999
 
 class HoleAnimation(Widget):
     def __init__(self, color: str, animation_pos: tuple):
@@ -446,7 +441,7 @@ class Grid(RelativeLayout, Loop, DisplayGrid):
                     self.line_size_calculation()
                     pos=(self.get_min_x()+x*self.size_line,self.get_max_y()-(y+1)*self.size_line)
                     size=(self.size_line, self.size_line)
-                    animation = BlockAnimation(time=18, type="box", animation_pos=pos, animation_size=size)
+                    animation = BlockAnimation(time=0.5, type="box", animation_pos=pos, animation_size=size)
                     ANIMATION_LIST.append(animation)
     
     def loop(self, *args):

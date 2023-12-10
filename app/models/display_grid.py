@@ -106,7 +106,7 @@ class DisplayGrid(GridCalculation):
                 for animation in ANIMATION_LIST:
                     if animation.type != "Hole":
                         # Add object
-                        Color(1, 1, 1, animation.object_opacity)
+                        Color(1, 1, 1, animation.object_opacity/100)
                         Rectangle(pos=animation.animation_pos, size=animation.animation_size, source=animation.object)
                         # Add animation
                         Color(1, 1, 1, 1)
