@@ -182,6 +182,15 @@ class SettingImage(Image, Loop):
             self.width = self.parent.height
         self.height = self.width
 
+class InfoLabel(Label):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        Clock.schedule_interval(self.loop, 1)
+        Clock._max_fps = 30
+
+    def loop(self, *args):
+        self.text = f"FPS: {Clock.get_rfps()}    Version: 1.5.2"
+
 # ============ MAIN MENU ============
 
 class Logo(Image, Loop):   

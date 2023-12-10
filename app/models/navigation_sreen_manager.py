@@ -2,33 +2,20 @@ from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, FadeTransition
 from kivy.uix.screenmanager import Screen
 from kivy.properties import ListProperty, ObjectProperty
+from kivy.clock import Clock
 
-from models.loop import Loop
 from controllers.game_manager import Game
 from models.data import SETTINGS
 
 
-class TransitionScreen(Screen, Loop):
-    delay = None
-    timer = 0
+class TransitionScreen(Screen):
+    def __init__(self, **kw):
+        super().__init__(**kw)
+        self.app = App.get_running_app()
     
     def on_enter(self, *args):
-        app = App.get_running_app()
-        if app.manager.delay == 0:
-            app.manager.suivant()
-        else:
-            self.delay = app.manager.delay
+        Clock.schedule_once(self.app.manager.suivant, self.app.manager.delay/60)
         return super().on_enter(*args)
-
-    def loop(self, *args):
-        if self.delay:
-            self.timer += 1
-            if self.timer > self.delay:
-                app = App.get_running_app()
-                app.manager.suivant()
-                self.delay = None
-        else:
-            self.timer = 0
 
 
 class NavigationScreenManager(ScreenManager):
@@ -100,8 +87,8 @@ class NavigationScreenManager(ScreenManager):
                             screen.children[0].children[0].reset()
             self.pop(transition_screen=transition_screen, quit_level=True)
             self.level = False
-            
-    def suivant(self):
+    
+    def suivant(self, *arg):
         if self.next_current:
             self.current = self.next_current
     

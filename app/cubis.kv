@@ -150,11 +150,11 @@
         background_normal: "assets/images/buttons/left2.png"
         background_down: "assets/images/buttons/left2.png"
         on_press: app.manager.pop(transition_screen=False)
-    Label:
+    InfoLabel:
         size_hint: (None, None)
-        size: ("75dp", "20dp")
-        pos: (root.width - dp(125), 0)
-        text: "Version 1.5.2"
+        size: ("250dp", "20dp")
+        pos_hint: {"right":1} 
+        halign: 'left'
         font_size: "20dp"
         color: "#A04623"
         font_name: "assets/fonts/Coda-Regular.ttf"
