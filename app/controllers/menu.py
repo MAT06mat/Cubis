@@ -9,7 +9,8 @@ from kivy.core.window import Window
 from kivy.clock import Clock
 from kivy.graphics import Color, RoundedRectangle, ContextInstruction
 from kivy.metrics import dp
-from kivy.properties import BooleanProperty
+from kivy.animation import Animation
+from kivy.properties import BooleanProperty, NumericProperty
 from random import randint
 import webbrowser
 
@@ -224,53 +225,47 @@ class IMButton(Button):
 
 # ============ START ANIMATION ============
 
-class StartImage(Image, Loop):
+class StartImage(Image):
+    o = NumericProperty(0)
+    
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.timer = 0
-        self.color = (1, 1, 1, 0)
+        Animation(duration=1.5, o=100).start(self)
+        self.bind(o=self.opacity_update)
     
-    def loop(self, *args):
-        self.timer += 1.5
-        if self.timer > 100:
-            return False
-        self.color = (1, 1, 1, self.timer/100)
+    def opacity_update(self, *args):
+        self.color = (1, 1, 1, self.o/100)
 
 
-class StartButton(Button, Loop):
+class StartButton(Button):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.wait = 120
+        Clock.schedule_once(self.undisabled, 2.5)
     
-    def loop(self, *args):
-        self.wait -= 1
-        if self.wait < 0:
-            self.disabled = False
-            return False
+    def undisabled(self, *args):
+        self.disabled = False
     
 
 class StartLabel(Label, Loop):
+    o = NumericProperty(0)
+    
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.timer = 100
-        self.wait = 120
         self.lang_change()
+        self.color = (1, 1, 1, 0)
         TEXTS.bind(current_lang=self.lang_change)
+        self.anim = Animation(duration=1.5, o=80) + Animation(duration=1.5, o=40)
+        self.anim.repeat = True
+        Clock.schedule_once(self.start_anim, 2.5)
     
     def lang_change(self, *args):
         self.text = TEXTS.key(16)
     
+    def start_anim(self, *args):
+        self.anim.start(self)
+    
     def loop(self, *args):
-        # wait a the first delay
-        self.wait -= 1
-        if self.wait < 0:
-            self.wait = 0
-            self.timer += 0.6
-            if 80 > self.timer > 70:
-                self.timer = 130
-            if 210 > self.timer > 200:
-                self.timer = 0
-            self.color = (1, 1, 1, abs(self.timer-100)/100)
+        self.color = (1, 1, 1, self.o/100)
         if Window.width < dp(500):
             self.font_size = Window.width/10
         else:
@@ -295,27 +290,51 @@ class CenterBoxLayout(BoxLayout, Loop):
 
 # ============ CREDITS ============
 
-class CreditLabel(Label):
+class CreditLabel(Label, Loop):
+    r = 255
+    g = 255
+    b = 255
+    reload = False
+    
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.time = 0
-        Clock.schedule_interval(self.loop, 1/5)
         self.lang_change()
         TEXTS.bind(current_lang=self.lang_change)
-    
-    def time_reset(self):
-        self.time = 0
-        self.color = (1, 1, 1)
+        self.last_event = Clock.schedule_once(self.wait_time, 10.0)
+        self.last_event.cancel()
     
     def lang_change(self, *args):
         self.text = TEXTS.key(31)
     
+    def pre_enter(self):
+        self.reload = False
+        self.last_event.cancel()
+        self.last_event = Clock.schedule_once(self.wait_time, 10.0)
+    
+    def wait_time(self, *args):
+        self.reload = True
+        Clock.schedule_interval(self.loop, 1/60)
+    
     def loop(self, *args):
-        self.time += 1
-        if self.time == 50:
-            self.color = (randint(0, 100)/100, randint(0, 100)/100, randint(0, 100)/100)
-        elif self.time >= 50:
-            self.time = 49
+        self.r += randint(-10, 10)
+        self.g += randint(-10, 10)
+        self.b += randint(-10, 10)
+        if self.r > 200:
+            self.r = 200
+        if self.g > 200:
+            self.g = 200
+        if self.b > 200:
+            self.b = 200
+        if self.r < 50:
+            self.r = 50
+        if self.g < 50:
+            self.g = 50
+        if self.b < 50:
+            self.b = 50
+        self.color = (self.r/255, self.g/255, self.b/255, 1)
+        if not self.reload:
+            self.color = (1, 1, 1, 1)
+        return super().loop(*args)
     
     def on_ref_press(self, ref):
         webbrowser.open('https://mat06mat.github.io/matthieufelten/')
