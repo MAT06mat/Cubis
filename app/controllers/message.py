@@ -228,7 +228,9 @@ class VictoireMessage(Message):
         super().__init__(**kw)
         self.on_window_resize()
         Window.bind(on_resize=self.on_window_resize)
-        if self.id_level == SETTINGS.get()["Current_level"]:
+        current_level = SETTINGS.get()["Current_level"]
+        if self.id_level == current_level:
+            SETTINGS.modify(element=current_level+1, key="Current_level")
             self.quit_button = QuitButton(id_level=self.id_level, victoire=True)
             self.setting = False
         else:

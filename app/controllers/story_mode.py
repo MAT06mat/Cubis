@@ -131,7 +131,7 @@ class TabItem(TabbedPanelItem):
         BACKGROUND_IMAGE.clear_widgets()
         BACKGROUND_IMAGE.add_widget(Image(source=self.image, fit_mode="cover", mipmap=True))
         global tuto
-        if self.text == "Tutoriel":
+        if self.text_key == 15:
             tuto = True
             BACKGROUND_IMAGE.size_hint = (1, 1)
         else:
@@ -146,7 +146,6 @@ class TabItem(TabbedPanelItem):
 
 class StoryMode(TabbedPanel, Loop):
     level = NumericProperty(0)
-    in_select_first_tab = False
     
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -159,10 +158,11 @@ class StoryMode(TabbedPanel, Loop):
                 new_TabbedPanelItem.disabled = False
             self.level += len(area["Levels"])
         # Wait the loop in top is end
-        Clock.schedule_once(self.select_first_tab, -1)
+        Clock.schedule_once(self.select_first_tab)
         
     def select_first_tab(self, dt):
         if self.tab_list:
+            self.stop_every_scroll()
             for tab in self.tab_list[:-1]:
                 if tab.disabled == False:
                     self.switch_to(tab)

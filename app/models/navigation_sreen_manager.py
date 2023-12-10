@@ -63,7 +63,7 @@ class NavigationScreenManager(ScreenManager):
         self.push(self.game.name, transition_screen=transition_screen)
         self.game.restart(id_level)
 
-    def quit_level(self, transition_screen=True, delay=0, victoire=False):
+    def quit_level(self, transition_screen=True, delay=0):
         self.delay = delay
         if len(self.screen_stack) > 0:
             if self.game.id_level == 0:
@@ -80,8 +80,7 @@ class NavigationScreenManager(ScreenManager):
                     SETTINGS.modify(element=sorted_list, key="Best_score")
             elif self.game.id_level != 0:
                 current_level = SETTINGS.get()["Current_level"]
-                if self.game.id_level == current_level and victoire:
-                    SETTINGS.modify(element=current_level+1, key="Current_level")
+                if self.game.id_level+1 == current_level:
                     for screen in self.screens:
                         if screen.name == "StoryMode":
                             screen.children[0].children[0].reset()
