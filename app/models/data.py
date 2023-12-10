@@ -33,8 +33,13 @@ class Data(EventDispatcher):
                     # Supprime l'ancien dossier de data avec les fichiers s'y trouvant à l'interrieur 
                     shutil.rmtree(os.path.join(user_data_dir, '.cubis'))
                 else:
-                    file.write('{"Best_score": [0, 0, 0, 0, 0], "Last_score": 0, "Current_level": 1, "Music": 50, "Effect": 50, "lang": "en"}')
+                    file.write('{"Best_score": [0, 0, 0, 0, 0], "Last_score": 0, "Current_level": 1, "Music": 50, "Effect": 50, "lang": "en", "fps": 30}')
         self.path = path
+        # Add fps = 30 in settings if not fps in settings
+        try:
+            SETTINGS.get()['fps']
+        except:
+            SETTINGS.modify("30", "fps")
         self.is_init = True
     
     def get(self):

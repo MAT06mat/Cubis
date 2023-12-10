@@ -75,7 +75,9 @@
       "Attention, la moitié une\npièce peut tomber dans un\ntrou et l'autre moitié peux\nrester à l'extérieur.",
       "Les différentes parties\nd'une pièce sont indépendantes\nles unes des autres",
       "Bonne chance !"
-    ]
+    ],
+    "40": "IPS bas",
+    "41": "IPS élevés"
   },
   {
     "lang": "en",
@@ -151,6 +153,8 @@
       "Be careful, half of a\npiece can fall into a hole,\n and the other half\nmay remain outside.",
       "The different parts\nof a piece are independent\nof each other.",
       "Good luck!"
-  ]
+  ],
+  "40": "Low FPS",
+  "41": "High FPS"
   }
 ]

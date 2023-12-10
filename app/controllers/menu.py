@@ -83,6 +83,37 @@ class DropButton(CustomButton, Loop):
             bnt.font_size = self.width / 10
 
 
+class FPSButton(CustomButton, Loop):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.size_hint = (None, None)
+        TEXTS.bind(current_lang=self.lang_change)
+        self.lang_change()
+        Clock._max_fps = int(SETTINGS.get()["fps"])
+    
+    def lang_change(self, *args):
+        if int(SETTINGS.get()["fps"]) == 30:
+            self.text = TEXTS.key(40)
+        else:
+            self.text = TEXTS.key(41)
+    
+    def on_press(self):
+        if int(SETTINGS.get()["fps"]) == 30:
+            SETTINGS.modify(60, "fps")
+            Clock._max_fps = 60
+        else:
+            SETTINGS.modify(30, "fps")
+            Clock._max_fps = 30
+        self.lang_change()
+        return super().on_press()
+        
+    def loop(self, *args):
+        self.center_x = self.parent.ids.effect_slider.center_x
+        setting_image = self.parent.ids.setting_image
+        self.y = setting_image.y + setting_image.width * 0.35
+        self.size = self.parent.mainbutton.size
+
+
 class Setting(FloatLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -93,9 +124,11 @@ class Setting(FloatLayout):
         self.mainbutton = DropButton(text=TEXTS.key(37), size_hint=(None, None))
         self.dropdown = LangButton()
         self.mainbutton.bind(on_release=self.dropdown.open)
+        self.fps_button = FPSButton()
         #self.dropdown.bind(on_select=lambda instance, x: setattr(self.mainbutton, 'text', x))
         self.add_widget(self.mainbutton)
         self.add_widget(self.dropdown)
+        self.add_widget(self.fps_button)
 
 
 class CreditButton(CustomButton):
