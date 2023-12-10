@@ -461,7 +461,7 @@ class Grid(RelativeLayout, Loop, DisplayGrid):
         if self.test_grid():
             return super().loop(*args)
         # Wait a frame for display the grid
-        Clock.schedule_once(self.grid_is_fill, 0)
+        Clock.schedule_once(self.grid_is_fill, -1)
         return super().loop(*args)
     
     def grid_is_fill(self, *args):

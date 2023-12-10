@@ -159,7 +159,7 @@ class StoryMode(TabbedPanel, Loop):
                 new_TabbedPanelItem.disabled = False
             self.level += len(area["Levels"])
         # Wait the loop in top is end
-        Clock.schedule_once(self.select_first_tab, 0)
+        Clock.schedule_once(self.select_first_tab, -1)
         
     def select_first_tab(self, dt):
         if self.tab_list:

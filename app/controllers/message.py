@@ -51,7 +51,7 @@ class Texte(Label, Loop):
         self.score = score
         self.lang_change()
         TEXTS.bind(current_lang=self.lang_change)
-        Clock.schedule_once(self.init_font_size, 0.1)
+        Clock.schedule_once(self.init_font_size, -1)
     
     def lang_change(self, *args):
         if self.mode:

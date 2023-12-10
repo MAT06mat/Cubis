@@ -85,7 +85,7 @@ class DropButton(CustomButton, Loop):
 class Setting(FloatLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        Clock.schedule_once(self.init, 0.1)
+        Clock.schedule_once(self.init, -1)
     
     def init(self, *args):
         #TEXTS.complete_lang(TEXTS.current_lang)
