@@ -218,11 +218,17 @@ class SettingImage(Image, Loop):
 class InfoLabel(Label):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        TEXTS.bind(current_lang=self.lang_change)
+        self.lang_change()
         Clock.schedule_interval(self.loop, 1)
         Clock._max_fps = 30
+    
+    def lang_change(self, *args):
+        self.fps_name = TEXTS.key(42)
+        self.version_name = TEXTS.key(43)
 
     def loop(self, *args):
-        self.text = f"FPS: {Clock.get_rfps()}    Version: 1.5.2"
+        self.text = f"{self.fps_name}: {Clock.get_rfps()}    {self.version_name}: 1.5.2"
 
 # ============ MAIN MENU ============
 
