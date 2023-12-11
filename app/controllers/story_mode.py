@@ -34,22 +34,20 @@ class Level(Button):
         super().__init__(**kwargs)
         self.id = self.level["Id"]
         self.mode = self.level["Mode"]
-        self.text = str(self.id)
         self.size = (dp(125), dp(125))
         if self.id > SETTINGS.get()["Current_level"]:
             self.disabled = True
+            self.color = (1, 1, 1, 0)
         # Mettre 0 devant les chiffres pour en faire des nombre à deux chiffres
-        self.lines = []
-        if len(self.text) == 1:
+        self.text = str(self.id)
+        while len(self.text) < 2:
             self.text = "0" + self.text
         # if disabled : change style of button on disabled
         # if id%5 : change style of button on square
-        if self.disabled:
-            if self.id % 5 == 0:
-                self.background_disabled_normal = "assets/images/buttons/special_level_disabled.png"
-            else:
-                self.background_disabled_normal = "assets/images/buttons/level_disabled.png"
-            self.color = (1, 1, 1, 0)
+        if self.id % 5 == 0:
+            self.background_disabled_normal = "assets/images/buttons/special_level_disabled.png"
+        else:
+            self.background_disabled_normal = "assets/images/buttons/level_disabled.png"
         if self.id % 5 == 0:
             self.background_normal = "assets/images/buttons/special_level.png"
             self.background_down = "assets/images/buttons/special_level.png"
@@ -61,6 +59,13 @@ class Level(Button):
         else:
             self.pos_hint = {"center_y": 0.35}
         level_height += 1
+    
+    def reset(self):
+        if self.id <= SETTINGS.get()["Current_level"]:
+            self.disabled = False
+            self.color = "#A04623"
+        else:
+            self.color = (1, 1, 1, 0)
         
     def on_press(self):
         self.parent.parent.parent.parent.parent.message_push(self.id)
@@ -110,7 +115,8 @@ class TabItem(TabbedPanelItem):
         super().__init__(**kwargs)
         self.text_key = text_key
         self.scroll_view = MyScrollView(nb_levels=len(self.levels))
-        self.scroll_view.add_widget(Area(levels=self.levels))
+        self.area = Area(levels=self.levels)
+        self.scroll_view.add_widget(self.area)
         self.add_widget(self.scroll_view)
         self.lang_change()
         TEXTS.bind(current_lang=self.lang_change)
@@ -124,6 +130,16 @@ class TabItem(TabbedPanelItem):
             self.text = "???"
         else:
             self.text = TEXTS.key(self.text_key)
+    
+    def reset(self):
+        current_level_id = SETTINGS.get()["Current_level"]
+        for level in self.area.children:
+            level.reset()
+        for level in self.levels:
+            if level["Id"] <= current_level_id:
+                self.disabled = False
+            if level["Id"] == current_level_id:
+                self.on_press()
     
     def on_press(self, pop=True):
         if self.parent.parent and pop:
@@ -145,7 +161,8 @@ class TabItem(TabbedPanelItem):
 
 
 class StoryMode(TabbedPanel, Loop):
-    level = NumericProperty(0)
+    level = NumericProperty(1)
+    tabs = []
     
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -154,13 +171,19 @@ class StoryMode(TabbedPanel, Loop):
         for area in AREAS.get():
             new_TabbedPanelItem = TabItem(text_key=area["Name"], levels=area["Levels"], image=area["Background"], disabled=True)
             self.add_widget(new_TabbedPanelItem)
-            if self.level < SETTINGS.get()["Current_level"]:
+            self.tabs.append(new_TabbedPanelItem)
+            if self.level <= SETTINGS.get()["Current_level"]:
                 new_TabbedPanelItem.disabled = False
             self.level += len(area["Levels"])
         # Wait the loop in top is end
         Clock.schedule_once(self.select_first_tab)
-        
-    def select_first_tab(self, dt):
+
+    def reset(self):
+        for area in self.tabs:
+            area.reset()
+        self.select_first_tab()
+    
+    def select_first_tab(self, *args):
         if self.tab_list:
             self.stop_every_scroll()
             for tab in self.tab_list[:-1]:
@@ -195,8 +218,8 @@ class StoryModeFloat(FloatLayout):
     def reset(self):
         self.clear_widgets()
         self.add_widget(BACKGROUND_IMAGE)
-        self.story_mode = StoryMode()
         self.add_widget(self.story_mode)
+        self.story_mode.reset()
         message = False
         for area in AREAS.get():
             if SETTINGS.get()["Current_level"] == area["Levels"][0]["Id"]:
