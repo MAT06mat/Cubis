@@ -80,7 +80,7 @@ class NavigationScreenManager(ScreenManager):
                     SETTINGS.modify(element=sorted_list, key="Best_score")
             elif self.game.id_level != 0:
                 current_level = SETTINGS.get()["Current_level"]
-                if self.game.id_level+1 == current_level:
+                if self.game.id_level + 1 == current_level:
                     for screen in self.screens:
                         if screen.name == "StoryMode":
                             screen.children[0].children[0].reset()
