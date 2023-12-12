@@ -302,7 +302,7 @@ class StartLabel(Label, Loop):
         self.lang_change()
         self.color = (1, 1, 1, 0)
         TEXTS.bind(current_lang=self.lang_change)
-        self.anim = Animation(duration=1.5, o=80) + Animation(duration=1.5, o=40)
+        self.anim = Animation(duration=1.0, o=80, t="in_out_sine") + Animation(duration=1.0, o=40, t="in_out_sine")
         self.anim.repeat = True
         Clock.schedule_once(self.start_anim, 2.5)
     

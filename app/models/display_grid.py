@@ -104,14 +104,14 @@ class DisplayGrid(GridCalculation):
                                 Line(points=(self.get_min_x()+x*self.size_line, self.get_max_y()-(y+1)*self.size_line+1, self.get_min_x()+(x+1)*self.size_line, self.get_max_y()-(y+1)*self.size_line+1), width=1.5)
             if animation:
                 for animation in ANIMATION_LIST:
-                    if animation.type != "Hole":
+                    if animation.type == "box":
                         # Add object
                         Color(1, 1, 1, animation.object_opacity/100)
                         Rectangle(pos=animation.animation_pos, size=animation.animation_size, source=animation.object)
                         # Add animation
                         Color(1, 1, 1, 1)
                         Rectangle(pos=animation.animation_pos, size=animation.animation_size, source=animation.current_frame)
-                    else:
+                    elif animation.type == "Hole":
                         Color(*COLOR[int(animation.color)], animation.opacity)
                         Rectangle(pos=animation.animation_pos, size=(self.size_line, self.size_line), source="assets/images/elements/block/0.png")
                         if animation.opacity == None:

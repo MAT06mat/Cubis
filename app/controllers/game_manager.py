@@ -58,6 +58,7 @@ class BlockAnimation(Widget, Loop):
             ANIMATION_LIST.remove(self)
             return False
 
+
 class HoleAnimation(Widget):
     def __init__(self, color: str, animation_pos: tuple):
         super().__init__()
@@ -154,7 +155,7 @@ class CurrentPiece(RelativeLayout, Loop, DisplayGrid):
     def __init__(self, size_line, pos, delta_pos, **kwargs):
         super().__init__(**kwargs)
         self.angle = 0
-        self.anim = Animation(angle=0, duration=0.2)
+        self.anim = Animation(angle=0, duration=0.2, t="in_out_quad")
         with self.canvas.before:
             PushMatrix()
             self.rotation = Rotate(angle=self.angle, origin=self.center, axis=(0, 0, 1))
@@ -452,14 +453,9 @@ class Grid(RelativeLayout, Loop, DisplayGrid):
         self.center_y = self.parent.grid_image.center_y
         self.display_grid(background=True, border=True, relative=True, animation=True, border_block=True, reload=self.reload)
         self.replace_box()
-        # Verifie si la grille est remplit
+        # Verifie si la grille est remplit if not : return
         if self.test_grid():
             return super().loop(*args)
-        # Wait a frame for display the grid
-        Clock.schedule_once(self.grid_is_fill, -1)
-        return super().loop(*args)
-    
-    def grid_is_fill(self, *args):
         if self.id_level != 0 and not self.victoire:
             self.victoire = True
             self.parent.message = VictoireMessage(id_level=self.id_level)
@@ -478,7 +474,8 @@ class Grid(RelativeLayout, Loop, DisplayGrid):
             else:
                 self.grid = GridCalculation.generate_grid(size=8)
             self.parent.saves = []
-        self.grid_id = [[None for x in self.grid[0]] for y in self.grid]
+            self.grid_id = [[None for x in self.grid[0]] for y in self.grid]
+        return super().loop(*args)
 
 
 class Arrow(Button, Loop):
