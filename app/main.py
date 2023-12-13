@@ -1,7 +1,6 @@
 from kivy.app import App
 from kivy.properties import ObjectProperty
 from kivy.core.window import Window
-from kivy.clock import Clock
 
 from models.navigation_sreen_manager import NavigationScreenManager
 from models.data import SETTINGS
