@@ -150,6 +150,21 @@ class ResetButton(Button, Loop):
         self.width = self.parent.height/3
         self.height = self.width
         self.y = self.parent.height/6
+    
+    def on_press(self):
+        if self.id_level == 0:
+            SETTINGS.modify(element=self.parent.parent.score, key="Last_score")
+            b = False
+            for s in SETTINGS.get()["Best_score"]:
+                if self.parent.parent.score > s:
+                    b = True
+            if b:
+                best_score = list(SETTINGS.get()["Best_score"])
+                best_score.append(self.parent.parent.score)
+                sorted_list = list(sorted(best_score, reverse=True))
+                sorted_list.pop(-1)
+                SETTINGS.modify(element=sorted_list, key="Best_score")
+        return super().on_press()
 
 
 class QuitButton(Button, Loop):
