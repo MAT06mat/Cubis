@@ -16,7 +16,7 @@ class Data(EventDispatcher):
         data = None
         # Récupère les enciennes données si elles n'ont pas encore étés migrés
         if 'ANDROID_ARGUMENT' in os.environ:
-            if not os.path.exists(os.path.join(user_data_dir, '.cubis')):
+            if os.path.exists(os.path.join(user_data_dir, '.cubis')):
                 with open(os.path.join(os.path.join(user_data_dir, '.cubis'), self.file), 'r', encoding="UTF-8") as file:
                     data = file.read()
         path = user_data_dir
