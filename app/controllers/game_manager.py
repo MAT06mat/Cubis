@@ -15,7 +15,6 @@ from kivy.graphics.vertex_instructions import Rectangle
 from kivy.graphics.context_instructions import PushMatrix, PopMatrix, Rotate
 from kivy.animation import Animation
 from kivy.metrics import dp
-from kivy.clock import Clock
 
 from models.loop import Loop
 from models.data import SETTINGS, PIECES, AREAS, LEVELS, TEXTS
@@ -74,6 +73,12 @@ class RedoButton(Button, Loop):
     def loop(self, *args):
         self.x = self.width*0.8
         self.y = Window.height - self.height*0.9
+        if Window.width*0.75 < Window.height:
+            self.size_hint = (None, 0.1)
+            self.width = self.height
+        else:
+            self.size_hint = (0.07, None)
+            self.height = self.width
         return super().loop(*args)
 
     @if_no_message
@@ -86,6 +91,12 @@ class RedoButton(Button, Loop):
 class UndoButton(Button, Loop):
     def loop(self, *args):
         self.y = Window.height - self.height*0.9
+        if Window.width*0.75 < Window.height:
+            self.size_hint = (None, 0.1)
+            self.width = self.height
+        else:
+            self.size_hint = (0.07, None)
+            self.height = self.width
         return super().loop(*args)
 
     @if_no_message
@@ -140,6 +151,12 @@ class MenuButton(Button, Loop):
     def loop(self, *args):
         self.x = Window.width - self.width*0.9
         self.y = Window.height - self.height*0.9
+        if Window.width*0.75 < Window.height:
+            self.size_hint = (None, 0.1)
+            self.width = self.height
+        else:
+            self.size_hint = (0.07, None)
+            self.height = self.width
         return super().loop(*args)
     
     @if_no_message
@@ -482,15 +499,18 @@ class Arrow(Button, Loop):
     arrow_type = "left"
     
     def loop(self, *args):
-        self.width = self.height
         self.y = self.parent.grid_image.y - self.height/1.2
         if Window.width*0.75 < Window.height:
+            self.width = self.height
+            self.size_hint = (None, 0.07)
             if self.arrow_type == "left":
                 self.pos_hint = {}
                 self.x = 0
             else:
                 self.pos_hint = {"right": 1}
         else:
+            self.size_hint = (0.07, None)
+            self.height = self.width
             self.pos_hint = {}
             if self.arrow_type == "left":
                 self.x = self.parent.grid_image.x

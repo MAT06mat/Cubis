@@ -215,6 +215,16 @@ class SettingImage(Image, Loop):
             self.width = self.parent.height
         self.height = self.width
 
+class BackMenuButton(Button, Loop):
+    def loop(self, *args):
+        if Window.width * 0.75 < Window.height:
+            self.size_hint = (None, 0.1)
+            self.width = self.height
+        else:
+            self.size_hint = (0.07, None)
+            self.height = self.width
+        return super().loop(*args)
+
 class InfoLabel(Label):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
