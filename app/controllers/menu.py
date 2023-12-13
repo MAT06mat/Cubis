@@ -225,6 +225,8 @@ class BackMenuButton(Button, Loop):
             self.height = self.width
         return super().loop(*args)
 
+from kivy.logger import LoggerHistory
+
 class InfoLabel(Label):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -238,7 +240,12 @@ class InfoLabel(Label):
         self.version_name = TEXTS.key(43)
 
     def loop(self, *args):
-        self.text = f"{self.fps_name}: {Clock.get_rfps()}    {self.version_name}: 1.5.2"
+        txt = ""
+        for log in LoggerHistory.history:
+            txt += str(log)
+            txt += "\n"
+        LoggerHistory.clear_history()
+        self.text = f"{self.fps_name}: {Clock.get_rfps()}    {self.version_name}: 1.5.2\n{txt}"
 
 # ============ MAIN MENU ============
 
