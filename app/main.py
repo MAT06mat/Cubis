@@ -1,6 +1,7 @@
 from kivy.app import App
 from kivy.properties import ObjectProperty
 from kivy.core.window import Window
+from kivy.clock import Clock
 
 from models.navigation_sreen_manager import NavigationScreenManager
 from models.data import SETTINGS
@@ -20,10 +21,6 @@ class CubisApp(App):
 
     def on_start(self):
         SETTINGS.init_with_user_data_dir(self.user_data_dir)
-
-    def on_resume(self):
-        self.manager.reload_images()
-        return super().on_resume()
     
 
 CubisApp().run()
