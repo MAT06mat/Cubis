@@ -19,11 +19,7 @@ class Data(EventDispatcher):
             if not os.path.exists(os.path.join(user_data_dir, '.cubis')):
                 with open(os.path.join(os.path.join(user_data_dir, '.cubis'), self.file), 'r', encoding="UTF-8") as file:
                     data = file.read()
-                
         path = user_data_dir
-        # Si le chemin n'exite pas, on le créé
-        if not os.path.exists(path):
-            os.makedirs(path)
         # Si le fichier n'exite pas, on le créé et on copy les data de base
         if not os.path.exists(os.path.join(path, self.file)):
             with open(os.path.join(path, self.file), 'w', encoding="UTF-8") as file:
