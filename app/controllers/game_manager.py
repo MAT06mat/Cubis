@@ -74,7 +74,7 @@ class RedoButton(Button, Loop):
         self.x = self.width*0.8
         self.y = Window.height - self.height*0.9
         if Window.width*0.75 < Window.height:
-            self.size_hint = (None, 0.1)
+            self.size_hint = (None, 0.07)
             self.width = self.height
         else:
             self.size_hint = (0.07, None)
@@ -92,7 +92,7 @@ class UndoButton(Button, Loop):
     def loop(self, *args):
         self.y = Window.height - self.height*0.9
         if Window.width*0.75 < Window.height:
-            self.size_hint = (None, 0.1)
+            self.size_hint = (None, 0.07)
             self.width = self.height
         else:
             self.size_hint = (0.07, None)
@@ -152,7 +152,7 @@ class MenuButton(Button, Loop):
         self.x = Window.width - self.width*0.9
         self.y = Window.height - self.height*0.9
         if Window.width*0.75 < Window.height:
-            self.size_hint = (None, 0.1)
+            self.size_hint = (None, 0.07)
             self.width = self.height
         else:
             self.size_hint = (0.07, None)
@@ -502,14 +502,14 @@ class Arrow(Button, Loop):
         self.y = self.parent.grid_image.y - self.height/1.2
         if Window.width*0.75 < Window.height:
             self.width = self.height
-            self.size_hint = (None, 0.07)
+            self.size_hint = (None, 0.1)
             if self.arrow_type == "left":
                 self.pos_hint = {}
                 self.x = 0
             else:
                 self.pos_hint = {"right": 1}
         else:
-            self.size_hint = (0.07, None)
+            self.size_hint = (0.06, None)
             self.height = self.width
             self.pos_hint = {}
             if self.arrow_type == "left":
