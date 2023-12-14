@@ -134,15 +134,16 @@ class GridImage(Image):
 class ScoreCase(Label, Loop):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.size_hint = (None, 0.1)
+        self.size_hint = (None, 0.07)
+        self.pos_hint = {"top": 1}
         self.width = self.height
         with self.canvas.before:
             self.background_r = Rectangle(source='assets/images/elements/score.png')
     
     def loop(self, *args):
-        self.x = self.parent.menu_button.x - self.width
-        self.y = Window.height - self.height*0.9
-        self.background_r.size = (self.parent.height*0.15, self.parent.height*0.05)
+        self.x = Window.width - (self.parent.menu_button.width + self.width)
+        self.font_size = self.height/4
+        self.background_r.size = (self.parent.height*0.12, self.parent.height*0.05)
         self.background_r.pos = (self.center_x-self.background_r.size[0]/2, self.center_y-self.background_r.size[1]/2)
         return super().loop(*args)
     
