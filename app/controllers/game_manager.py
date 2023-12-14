@@ -141,9 +141,9 @@ class ScoreCase(Label, Loop):
             self.background_r = Rectangle(source='assets/images/elements/score.png')
     
     def loop(self, *args):
-        self.x = Window.width - (self.parent.menu_button.width + self.width)
+        self.x = Window.width - (self.parent.menu_button.width*1.5 + self.width)
         self.font_size = self.height/4
-        self.background_r.size = (self.parent.height*0.12, self.parent.height*0.05)
+        self.background_r.size = (Window.height*0.12, Window.height*0.05)
         self.background_r.pos = (self.center_x-self.background_r.size[0]/2, self.center_y-self.background_r.size[1]/2)
         return super().loop(*args)
     
