@@ -362,7 +362,7 @@ class GridPiece(StackLayout):
                 self.piece_button.append(button)
                 self.add_widget(button)
         else:
-            self.level = Levels.get()[str(self.id_level)]
+            self.level = Levels.get(self.id_level)
             self.piece_button = []
             for piece in self.level["Pieces"]:
                 button = PieceButton(grid=piece["Grid"])
@@ -372,7 +372,7 @@ class GridPiece(StackLayout):
     def generation(self):
         color = random.randint(1, 6)
         tier = random.randint(1, self.tiers)
-        pieces = Pieces.get()[str(tier)]
+        pieces = Pieces.get(tier)
         grid = pieces[random.randint(0, len(pieces)-1)]
         for y in range(len(grid)):
             for x  in range(len(grid[y])):
@@ -440,7 +440,7 @@ class Grid(RelativeLayout, Loop, DisplayGrid):
         if self.id_level == 0:
             self.grid = GridCalculation.generate_grid(size=4)
         else:
-            self.level = Levels.get()[str(self.id_level)]
+            self.level = Levels.get(self.id_level)
             self.grid = self.level["Grid"]
         self.grid_id = [[None for x in self.grid[0]] for y in self.grid]
         self.size_hint = (None, None)
@@ -588,8 +588,8 @@ class Page(FloatLayout, Loop):
                 self.message = InfoMessage(message=Texts.key(0))
                 self.add_widget(self.message)
         else:
-            if "Message" in Levels.get()[str(self.id_level)]:
-                message_key = Levels.get()[str(self.id_level)]["Message"]
+            if "Message" in Levels.get(self.id_level):
+                message_key = Levels.get(self.id_level)["Message"]
                 message = Texts.key(message_key)
                 self.message = InfoMessage(message=message)
                 self.add_widget(self.message)

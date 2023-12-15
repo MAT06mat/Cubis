@@ -24,7 +24,7 @@ class Traductions(Data):
     def key(self, key):
         key = str(key)
         for texts in self.get():
-            if texts["lang"] == Settings.lang:
+            if texts["lang"] == self.current_lang:
                 if key in texts:
                     text = texts[key]
                     return text

@@ -31,7 +31,7 @@ class PlayButtonStory(Button):
         super().__init__(**kwargs)
         self.lang_change()
         try:
-            Levels.get()[str(self.id_level)]
+            Levels.get(self.id_level)
         except KeyError:
             self.disabled = True
         Texts.bind(current_lang=self.lang_change)

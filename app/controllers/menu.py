@@ -53,8 +53,8 @@ class LangButton(DropDown):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.bnt_list = []
-        for lang in Texts.langs():
-            current_lang = Texts.uncomplete_lang(lang) == Texts.current_lang
+        for lang in Texts.lang_dict.keys():
+            current_lang = lang == Texts.current_lang
             b = LButton(text=Texts.complete_lang(lang), size_hint_y=None, current_lang=current_lang)
             self.add_widget(b)
             self.bnt_list.append(b)

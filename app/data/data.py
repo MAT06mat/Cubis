@@ -9,9 +9,11 @@ class Data(EventDispatcher):
         self.path = os.path.join("assets", "data")
         self.file = file
     
-    def get(self):
+    def get(self, value=None):
         with open(self.get_path(), encoding="UTF-8") as file:
             data = json.load(file)
+        if value:
+            return data[value]
         return data
     
     def get_path(self):
