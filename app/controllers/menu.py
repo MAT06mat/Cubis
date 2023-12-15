@@ -14,7 +14,8 @@ from kivy.properties import BooleanProperty, NumericProperty
 from random import randint
 import webbrowser
 
-from models.data import Settings, Texts
+from data.settings import Settings
+from data.texts import Texts
 from models.loop import Loop
 
 # ============ SETTINGS ============

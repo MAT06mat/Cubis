@@ -7,8 +7,11 @@ from kivy.properties import NumericProperty, ListProperty, StringProperty, Boole
 from kivy.clock import Clock
 from kivy.metrics import dp
 
+from data.settings import Settings
+from data.areas import Areas
+from data.levels import Levels
+from data.texts import Texts
 from models.cadre import Cadre
-from models.data import Areas, Settings, Texts, Levels
 from models.loop import Loop
 
 import os

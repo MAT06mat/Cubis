@@ -4,8 +4,8 @@ from kivy.uix.screenmanager import Screen
 from kivy.properties import ListProperty, ObjectProperty
 from kivy.clock import Clock
 
+from data.settings import Settings
 from controllers.game_manager import Game
-from models.data import Settings
 
 
 class TransitionScreen(Screen):

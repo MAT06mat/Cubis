@@ -3,7 +3,7 @@ from kivy.properties import ObjectProperty
 from kivy.core.window import Window
 
 from models.navigation_sreen_manager import NavigationScreenManager
-from models.data import Settings
+from data.settings import Settings
 
 class MyScreenManager(NavigationScreenManager):
     pass
