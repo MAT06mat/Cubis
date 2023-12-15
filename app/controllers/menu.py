@@ -45,7 +45,6 @@ class LButton(Button):
     
     def on_release(self):
         self.parent.parent.select(self.text)
-        Settings.lang = Texts.uncomplete_lang(self.text)
         Texts.change_lang(Texts.uncomplete_lang(self.text))
         return super().on_release()
 

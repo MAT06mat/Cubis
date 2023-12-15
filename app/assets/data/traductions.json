@@ -1,6 +1,7 @@
 [
   {
     "lang": "fr",
+    "complete_lang": "Français",
     "0": [
       "Bienvenue dans le\nmode infini de Cubis! ",
       "Dans ce mode,\nle but est de remplir\nle plus possible de grilles.",
@@ -83,6 +84,7 @@
   },
   {
     "lang": "en",
+    "complete_lang": "English",
     "0": [
       "Welcome to the\ninfinite mode of Cubis!",
       "In this mode,\nthe goal is to fill\nas many grids as possible.",
