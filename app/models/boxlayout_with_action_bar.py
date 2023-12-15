@@ -2,7 +2,7 @@ from kivy.lang import Builder
 from kivy.properties import StringProperty
 from kivy.uix.boxlayout import BoxLayout
 
-from models.data import TEXTS
+from models.data import Texts
 
 import os
 
@@ -16,8 +16,8 @@ class BoxLayoutWithActionBar(BoxLayout):
     
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        TEXTS.bind(current_lang=self.lang_change)
+        Texts.bind(current_lang=self.lang_change)
     
     def lang_change(self, *args):
-        self.title = TEXTS.key(self.title_key)
+        self.title = Texts.key(self.title_key)
         

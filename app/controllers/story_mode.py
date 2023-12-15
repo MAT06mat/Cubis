@@ -8,11 +8,10 @@ from kivy.properties import NumericProperty, ListProperty, StringProperty, Objec
 from kivy.uix.floatlayout import FloatLayout
 from kivy.metrics import dp
 from kivy.clock import Clock
-from kivy.core.window import Window
 
 from models.loop import Loop
 from models.background_image import MyBackgroundImage
-from models.data import SETTINGS, AREAS, TEXTS
+from models.data import Settings, Areas, Texts
 from controllers.message import PlayMessage, InfoMessage
 
 import os
@@ -35,7 +34,7 @@ class Level(Button):
         self.id = self.level["Id"]
         self.mode = self.level["Mode"]
         self.size = (dp(125), dp(125))
-        if self.id > SETTINGS.get()["Current_level"]:
+        if self.id > Settings.current_level:
             self.disabled = True
             self.color = (1, 1, 1, 0)
         # Mettre 0 devant les chiffres pour en faire des nombre à deux chiffres
@@ -61,7 +60,7 @@ class Level(Button):
         level_height += 1
     
     def reset(self):
-        if self.id <= SETTINGS.get()["Current_level"]:
+        if self.id <= Settings.current_level:
             self.disabled = False
             self.color = "#A04623"
         else:
@@ -119,7 +118,7 @@ class TabItem(TabbedPanelItem):
         self.scroll_view.add_widget(self.area)
         self.add_widget(self.scroll_view)
         self.lang_change()
-        TEXTS.bind(current_lang=self.lang_change)
+        Texts.bind(current_lang=self.lang_change)
         self.bind(disabled=self.text_change)
     
     def lang_change(self, *args):
@@ -129,16 +128,16 @@ class TabItem(TabbedPanelItem):
         if self.disabled:
             self.text = "???"
         else:
-            self.text = TEXTS.key(self.text_key)
+            self.text = Texts.key(self.text_key)
     
     def reset(self):
-        current_level_id = SETTINGS.get()["Current_level"]
+        current_level = Settings.current_level
         for level in self.area.children:
             level.reset()
         for level in self.levels:
-            if level["Id"] <= current_level_id:
+            if level["Id"] <= current_level:
                 self.disabled = False
-            if level["Id"] == current_level_id:
+            if level["Id"] == current_level:
                 self.on_press()
     
     def on_press(self, pop=True):
@@ -168,11 +167,11 @@ class StoryMode(TabbedPanel, Loop):
         super().__init__(**kwargs)
         # create tab item
         self.bar_width = 0
-        for area in AREAS.get():
+        for area in Areas.get():
             new_TabbedPanelItem = TabItem(text_key=area["Name"], levels=area["Levels"], image=area["Background"], disabled=True)
             self.add_widget(new_TabbedPanelItem)
             self.tabs.append(new_TabbedPanelItem)
-            if self.level <= SETTINGS.get()["Current_level"]:
+            if self.level <= Settings.current_level:
                 new_TabbedPanelItem.disabled = False
             self.level += len(area["Levels"])
         # Wait the loop in top is end
@@ -208,7 +207,7 @@ class StoryModeFloat(FloatLayout):
     
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        SETTINGS.bind(is_init=self.init)
+        Settings.bind(is_init=self.init)
     
     def init(self, *args):
         self.add_widget(BACKGROUND_IMAGE)
@@ -221,15 +220,15 @@ class StoryModeFloat(FloatLayout):
         self.add_widget(self.story_mode)
         self.story_mode.reset()
         message = False
-        for area in AREAS.get():
-            if SETTINGS.get()["Current_level"] == area["Levels"][0]["Id"]:
+        for area in Areas.get():
+            if Settings.current_level == area["Levels"][0]["Id"]:
                 self.message_pop()
-                self.message = InfoMessage(message=[TEXTS.key(17)+TEXTS.key(area["Name"])], title=TEXTS.key(18))
+                self.message = InfoMessage(message=[Texts.key(17)+Texts.key(area["Name"])], title=Texts.key(18))
                 self.add_widget(self.message)
                 message = True
         if not message:
             self.message_pop()
-            self.message_push(SETTINGS.get()["Current_level"])
+            self.message_push(Settings.current_level)
 
     def reload_image(self):
         BACKGROUND_IMAGE.children[0].reload()
@@ -237,11 +236,11 @@ class StoryModeFloat(FloatLayout):
     def message_push(self, id_level):
         if not self.message: 
             level_exist = []
-            for area in AREAS.get():
+            for area in Areas.get():
                 for level in area["Levels"]:
                     level_exist.append(level["Id"] == id_level)
             if not any(level_exist):
-                self.message = InfoMessage(message=TEXTS.key(20))
+                self.message = InfoMessage(message=Texts.key(20))
                 self.add_widget(self.message)
             else:
                 self.message = PlayMessage(id_level=id_level)

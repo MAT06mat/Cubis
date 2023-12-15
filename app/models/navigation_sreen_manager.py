@@ -5,7 +5,7 @@ from kivy.properties import ListProperty, ObjectProperty
 from kivy.clock import Clock
 
 from controllers.game_manager import Game
-from models.data import SETTINGS
+from models.data import Settings
 
 
 class TransitionScreen(Screen):
@@ -67,20 +67,19 @@ class NavigationScreenManager(ScreenManager):
         self.delay = delay
         if len(self.screen_stack) > 0:
             if self.game.id_level == 0:
-                SETTINGS.modify(element=self.game.page.score, key="Last_score")
+                Settings.last_score = self.game.page.score
                 b = False
-                for s in SETTINGS.get()["Best_score"]:
+                for s in Settings.best_score:
                     if self.game.page.score > s:
                         b = True
                 if b:
-                    best_score = list(SETTINGS.get()["Best_score"])
+                    best_score = list(Settings.best_score)
                     best_score.append(self.game.page.score)
                     sorted_list = list(sorted(best_score, reverse=True))
                     sorted_list.pop(-1)
-                    SETTINGS.modify(element=sorted_list, key="Best_score")
+                    Settings.best_score = sorted_list
             elif self.game.id_level != 0:
-                current_level = SETTINGS.get()["Current_level"]
-                if self.game.id_level + 1 == current_level:
+                if self.game.id_level + 1 == Settings.current_level:
                     for screen in self.screens:
                         if screen.name == "StoryMode":
                             screen.children[0].children[0].reset()

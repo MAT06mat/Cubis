@@ -14,7 +14,7 @@ from kivy.properties import BooleanProperty, NumericProperty
 from random import randint
 import webbrowser
 
-from models.data import SETTINGS, TEXTS
+from models.data import Settings, Texts
 from models.loop import Loop
 
 # ============ SETTINGS ============
@@ -27,10 +27,10 @@ class LButton(Button):
     
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        TEXTS.bind(current_lang=self.lang_change)
+        Texts.bind(current_lang=self.lang_change)
     
     def lang_change(self, *args):
-        self.current_lang = TEXTS.uncomplete_lang(self.text) == TEXTS.current_lang
+        self.current_lang = Texts.uncomplete_lang(self.text) == Texts.current_lang
         with self.canvas.before:
             ContextInstruction()
             if self.current_lang:
@@ -44,8 +44,8 @@ class LButton(Button):
     
     def on_release(self):
         self.parent.parent.select(self.text)
-        SETTINGS.modify(element=TEXTS.uncomplete_lang(self.text), key="lang")
-        TEXTS.change_lang(TEXTS.uncomplete_lang(self.text))
+        Settings.lang = Texts.uncomplete_lang(self.text)
+        Texts.change_lang(Texts.uncomplete_lang(self.text))
         return super().on_release()
 
 
@@ -53,22 +53,22 @@ class LangButton(DropDown):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.bnt_list = []
-        for lang in TEXTS.langs():
-            current_lang = TEXTS.uncomplete_lang(lang) == TEXTS.current_lang
-            b = LButton(text=TEXTS.complete_lang(lang), size_hint_y=None, current_lang=current_lang)
+        for lang in Texts.langs():
+            current_lang = Texts.uncomplete_lang(lang) == Texts.current_lang
+            b = LButton(text=Texts.complete_lang(lang), size_hint_y=None, current_lang=current_lang)
             self.add_widget(b)
             self.bnt_list.append(b)
-        self.select(SETTINGS.get()['lang'])
+        self.select(Settings.lang)
 
 
 class DropButton(CustomButton, Loop):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.lang_change()
-        TEXTS.bind(current_lang=self.lang_change)
+        Texts.bind(current_lang=self.lang_change)
     
     def lang_change(self, *args):
-        self.text = TEXTS.key(37)
+        self.text = Texts.key(37)
         
     def loop(self, *args):
         credit_button = self.parent.ids.credit_button
@@ -87,22 +87,22 @@ class FPSButton(CustomButton, Loop):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.size_hint = (None, None)
-        TEXTS.bind(current_lang=self.lang_change)
+        Texts.bind(current_lang=self.lang_change)
         self.lang_change()
-        Clock._max_fps = int(SETTINGS.get()["fps"])
+        Clock._max_fps = Settings.fps
     
     def lang_change(self, *args):
-        if int(SETTINGS.get()["fps"]) == 30:
-            self.text = TEXTS.key(40)
+        if Settings.fps == 30:
+            self.text = Texts.key(40)
         else:
-            self.text = TEXTS.key(41)
+            self.text = Texts.key(41)
     
     def on_press(self):
-        if int(SETTINGS.get()["fps"]) == 30:
-            SETTINGS.modify(60, "fps")
+        if Settings.fps == 30:
+            Settings.fps = 60
             Clock._max_fps = 60
         else:
-            SETTINGS.modify(30, "fps")
+            Settings.fps = 30
             Clock._max_fps = 30
         self.lang_change()
         return super().on_press()
@@ -121,7 +121,7 @@ class Setting(FloatLayout):
     
     def init(self, *args):
         #TEXTS.complete_lang(TEXTS.current_lang)
-        self.mainbutton = DropButton(text=TEXTS.key(37), size_hint=(None, None))
+        self.mainbutton = DropButton(text=Texts.key(37), size_hint=(None, None))
         self.dropdown = LangButton()
         self.mainbutton.bind(on_release=self.dropdown.open)
         self.fps_button = FPSButton()
@@ -135,20 +135,20 @@ class CreditButton(CustomButton):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.lang_change()
-        TEXTS.bind(current_lang=self.lang_change)
+        Texts.bind(current_lang=self.lang_change)
     
     def lang_change(self, *args):
-        self.text = TEXTS.key(30)
+        self.text = Texts.key(30)
 
 
 class PolicyButton(CustomButton):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.lang_change()
-        TEXTS.bind(current_lang=self.lang_change)
+        Texts.bind(current_lang=self.lang_change)
     
     def lang_change(self, *args):
-        self.text = TEXTS.key(36)
+        self.text = Texts.key(36)
     
     def on_press(self):
         webbrowser.open('https://mat06mat.github.io/matthieufelten/cubis-privacy-policy.html')
@@ -158,55 +158,55 @@ class PolicyButton(CustomButton):
 class MusicSlider(Slider):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        SETTINGS.bind(is_init=self.init)
+        Settings.bind(is_init=self.init)
     
     def init(self, *args):
-        self.value = SETTINGS.get()["Music"]
+        self.value = Settings.music
     
     def on_value(self, *args):
-        SETTINGS.modify(element=int(self.value), key="Music")
+        Settings.music = int(self.value)
 
 
 class EffectSlider(Slider):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        SETTINGS.bind(is_init=self.init)
+        Settings.bind(is_init=self.init)
     
     def init(self, *args):
-        self.value = SETTINGS.get()["Effect"]
+        self.value = Settings.effect
     
     def on_value(self, *args):
-        SETTINGS.modify(element=int(self.value), key="Effect")
+        Settings.effect = int(self.value)
 
 
 class EffectsLabel(Label):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.lang_change()
-        TEXTS.bind(current_lang=self.lang_change)
+        Texts.bind(current_lang=self.lang_change)
     
     def lang_change(self, *args):
-        self.text = TEXTS.key(29)
+        self.text = Texts.key(29)
     
     
 class MusicsLabel(Label):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.lang_change()
-        TEXTS.bind(current_lang=self.lang_change)
+        Texts.bind(current_lang=self.lang_change)
     
     def lang_change(self, *args):
-        self.text = TEXTS.key(28)
+        self.text = Texts.key(28)
 
 
 class SettingImage(Image, Loop):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.lang_change()
-        TEXTS.bind(current_lang=self.lang_change)
+        Texts.bind(current_lang=self.lang_change)
 
     def lang_change(self, *args):
-        self.source = TEXTS.image_path("assets/images/elements/setting.png")
+        self.source = Texts.image_path("assets/images/elements/setting.png")
         
     def loop(self, *args):
         if self.parent.width < self.parent.height:
@@ -229,14 +229,14 @@ class BackMenuButton(Button, Loop):
 class InfoLabel(Label):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        TEXTS.bind(current_lang=self.lang_change)
+        Texts.bind(current_lang=self.lang_change)
         self.lang_change()
         Clock.schedule_interval(self.loop, 1)
         Clock._max_fps = 30
     
     def lang_change(self, *args):
-        self.fps_name = TEXTS.key(42)
-        self.version_name = TEXTS.key(43)
+        self.fps_name = Texts.key(42)
+        self.version_name = Texts.key(43)
 
     def loop(self, *args):
         self.text = f"{self.fps_name}: {Clock.get_rfps()}    {self.version_name}: 1.5.2"
@@ -265,22 +265,22 @@ class SMButton(Button):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.lang_change()
-        TEXTS.bind(current_lang=self.lang_change)
+        Texts.bind(current_lang=self.lang_change)
 
     def lang_change(self, *args):
-        self.background_normal = TEXTS.image_path("assets/images/buttons/story_mode.png")
-        self.background_down = TEXTS.image_path("assets/images/buttons/story_mode.png")
+        self.background_normal = Texts.image_path("assets/images/buttons/story_mode.png")
+        self.background_down = Texts.image_path("assets/images/buttons/story_mode.png")
 
 
 class IMButton(Button):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.lang_change()
-        TEXTS.bind(current_lang=self.lang_change)
+        Texts.bind(current_lang=self.lang_change)
 
     def lang_change(self, *args):
-        self.background_normal = TEXTS.image_path("assets/images/buttons/infinite_mode.png")
-        self.background_down = TEXTS.image_path("assets/images/buttons/infinite_mode.png")
+        self.background_normal = Texts.image_path("assets/images/buttons/infinite_mode.png")
+        self.background_down = Texts.image_path("assets/images/buttons/infinite_mode.png")
 
 # ============ START ANIMATION ============
 
@@ -312,13 +312,13 @@ class StartLabel(Label, Loop):
         super().__init__(**kwargs)
         self.lang_change()
         self.color = (1, 1, 1, 0)
-        TEXTS.bind(current_lang=self.lang_change)
+        Texts.bind(current_lang=self.lang_change)
         self.anim = Animation(duration=1.0, o=80, t="in_out_sine") + Animation(duration=1.0, o=40, t="in_out_sine")
         self.anim.repeat = True
         Clock.schedule_once(self.start_anim, 2.5)
     
     def lang_change(self, *args):
-        self.text = TEXTS.key(16)
+        self.text = Texts.key(16)
     
     def start_anim(self, *args):
         self.anim.start(self)
@@ -358,12 +358,12 @@ class CreditLabel(Label, Loop):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.lang_change()
-        TEXTS.bind(current_lang=self.lang_change)
+        Texts.bind(current_lang=self.lang_change)
         self.last_event = Clock.schedule_once(self.wait_time, 10.0)
         self.last_event.cancel()
     
     def lang_change(self, *args):
-        self.text = TEXTS.key(31)
+        self.text = Texts.key(31)
     
     def pre_enter(self):
         self.reload = False
