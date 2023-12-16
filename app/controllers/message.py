@@ -11,7 +11,7 @@ from data.settings import Settings
 from data.areas import Areas
 from data.levels import Levels
 from data.texts import Texts
-from models.cadre import Cadre
+from uix.cadre import Cadre
 from models.loop import Loop
 
 import os
@@ -23,6 +23,7 @@ Builder.load_file(kv_file_path)
 
 class Message(RelativeLayout):
     pass
+
 
 class PlayButtonStory(Button):
     id_level = NumericProperty(None)

@@ -13,7 +13,7 @@ from data.settings import Settings
 from data.areas import Areas
 from data.texts import Texts
 from models.loop import Loop
-from models.background_image import MyBackgroundImage
+from uix.background_image import MyBackgroundImage
 from controllers.message import PlayMessage, InfoMessage
 
 import os

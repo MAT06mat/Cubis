@@ -20,4 +20,3 @@ class BoxLayoutWithActionBar(BoxLayout):
     
     def lang_change(self, *args):
         self.title = Texts.key(self.title_key)
-        
