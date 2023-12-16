@@ -15,6 +15,7 @@ class SettingsData(Data):
     __effect = None
     __lang = None
     __fps = None
+    __easter_egg = None
     
     def init_with_user_data_dir(self, user_data_dir):
         data = None
@@ -139,6 +140,18 @@ class SettingsData(Data):
         self.__fps = value
     
     fps = property(__get_fps, __set_fps)
+    
+    # Easter_egg property
+    def __get_Easter_egg(self):
+        if not self.__easter_egg:
+            self.__easter_egg = self.__get("Easter_egg", False)
+        return self.__easter_egg
+    
+    def __set_Easter_egg(self, value):
+        self.__set("Easter_egg", value)
+        self.__easter_egg = value
+    
+    easter_egg = property(__get_Easter_egg, __set_Easter_egg)
 
 
 Settings = SettingsData(file='settings.json')
