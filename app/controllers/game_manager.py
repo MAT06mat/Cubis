@@ -23,7 +23,7 @@ from data.levels import Levels
 from data.texts import Texts
 from models.loop import Loop
 from models.display_grid import ANIMATION_LIST, DisplayGrid
-from models.grid_calculation import GridCalculation
+from models.grid_calculation import generate_grid, turn
 from models.decorators import if_no_message, if_no_piece
 from controllers.message import MenuMessage, InfoMessage, VictoireMessage
 
@@ -286,7 +286,7 @@ class CurrentPiece(RelativeLayout, Loop, DisplayGrid):
         self.angle += 90
         self.anim.cancel(self)
         self.anim.start(self)
-        new_grid = GridCalculation.generate_grid(width=len(self.grid), height=len(self.grid[0]))
+        new_grid = generate_grid(width=len(self.grid), height=len(self.grid[0]))
         for y in range(len(self.grid)):
             for x in range(len(self.grid[y])):
                 new_grid[x][-(y+1)] = self.grid[y][x]
@@ -296,7 +296,7 @@ class CurrentPiece(RelativeLayout, Loop, DisplayGrid):
         self.angle -= 90
         self.anim.cancel(self)
         self.anim.start(self)
-        new_grid = GridCalculation.generate_grid(width=len(self.grid), height=len(self.grid[0]))
+        new_grid = generate_grid(width=len(self.grid), height=len(self.grid[0]))
         for y in range(len(self.grid)):
             for x in range(len(self.grid[y])):
                 new_grid[-(x+1)][y] = self.grid[y][x]
@@ -379,7 +379,7 @@ class GridPiece(StackLayout):
                 if grid[y][x] == "GC":
                     grid[y][x] = "N" + str(color)
         for i in range(random.randint(0, 3)):
-            grid = GridCalculation.turn(grid)
+            grid = turn(grid)
         self.piece_generated += 1
         if self.piece_generated > 90:
             self.tiers = int(self.piece_generated//30)
@@ -438,7 +438,7 @@ class Grid(RelativeLayout, Loop, DisplayGrid):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         if self.id_level == 0:
-            self.grid = GridCalculation.generate_grid(size=4)
+            self.grid = generate_grid(size=4)
         else:
             self.level = Levels.get(self.id_level)
             self.grid = self.level["Grid"]
@@ -462,7 +462,7 @@ class Grid(RelativeLayout, Loop, DisplayGrid):
                 if self.grid[y][x][0] == "B":
                     self.grid[y][x] = self.grid[y][x][1] + self.grid[y][x][2]
                     self.line_size_calculation()
-                    pos=(self.get_min_x()+x*self.size_line,self.get_max_y()-(y+1)*self.size_line)
+                    pos=(self.min_x+x*self.size_line,self.max_y-(y+1)*self.size_line)
                     size=(self.size_line, self.size_line)
                     animation = BlockAnimation(time=0.5, type="box", animation_pos=pos, animation_size=size)
                     ANIMATION_LIST.append(animation)
@@ -486,15 +486,15 @@ class Grid(RelativeLayout, Loop, DisplayGrid):
             # Si oui, on regenère la grille suivant les tiers
             tiers = self.parent.zone_piece.my_scroll_view.grid_piece.tiers
             if 0 < tiers <= 5:
-                self.grid = GridCalculation.generate_grid(size=4)
+                self.grid = generate_grid(size=4)
             elif 5 < tiers <= 7:
-                self.grid = GridCalculation.generate_grid(size=5)
+                self.grid = generate_grid(size=5)
             elif 7 < tiers <= 9:
-                self.grid = GridCalculation.generate_grid(size=6)
+                self.grid = generate_grid(size=6)
             elif 9 < tiers <= 11:
-                self.grid = GridCalculation.generate_grid(size=7)
+                self.grid = generate_grid(size=7)
             else:
-                self.grid = GridCalculation.generate_grid(size=8)
+                self.grid = generate_grid(size=8)
             self.parent.saves = []
             self.grid_id = [[None for x in self.grid[0]] for y in self.grid]
         return super().loop(*args)
@@ -614,8 +614,8 @@ class Page(FloatLayout, Loop):
             for y_g in range(len(self.grid.grid)):
                 for x_g in range(len(self.grid.grid[y_g])):
                     # Calculation Global of x and y for the grid
-                    x_grid = self.grid.get_min_x()+self.grid.x+x_g*self.grid.size_line
-                    y_grid = self.grid.get_max_y()+self.grid.y-(y_g+1)*self.grid.size_line
+                    x_grid = self.grid.min_x+self.grid.x+x_g*self.grid.size_line
+                    y_grid = self.grid.max_y+self.grid.y-(y_g+1)*self.grid.size_line
                     if x_grid+size_line > touch.pos[0] > x_grid and y_grid+size_line > touch.pos[1] > y_grid:
                         piece_id = self.grid.grid_id[y_g][x_g]
             if piece_id == None:
@@ -652,17 +652,17 @@ class Page(FloatLayout, Loop):
                     for y_g in range(len(self.grid.grid)):
                         for x_g in range(len(self.grid.grid[y_g])):
                             # Calculation Global of x and y for piece and grid
-                            x_piece = self.current_piece.get_min_x()+self.current_piece.x+x_p*self.current_piece.size_line
-                            y_piece = self.current_piece.get_max_y()+self.current_piece.y-(y_p+1)*self.current_piece.size_line
-                            x_grid = self.grid.get_min_x()+self.grid.x+x_g*self.grid.size_line
-                            y_grid = self.grid.get_max_y()+self.grid.y-(y_g+1)*self.grid.size_line
+                            x_piece = self.current_piece.min_x+self.current_piece.x+x_p*self.current_piece.size_line
+                            y_piece = self.current_piece.max_y+self.current_piece.y-(y_p+1)*self.current_piece.size_line
+                            x_grid = self.grid.min_x+self.grid.x+x_g*self.grid.size_line
+                            y_grid = self.grid.max_y+self.grid.y-(y_g+1)*self.grid.size_line
                             # if grid block match with piece block and if is void or if is a motifs
                             if abs(x_piece - x_grid) < marg and abs(y_piece - y_grid) < marg and (self.grid.grid[y_g][x_g] == "NV" or (self.grid.grid[y_g][x_g][0] == "M" and self.current_piece.grid[y_p][x_p][1] == self.grid.grid[y_g][x_g][1])):
                                 self.grid.grid[y_g][x_g] = self.current_piece.grid[y_p][x_p]
                                 self.grid.grid_id[y_g][x_g] = self.new_id
                             elif abs(x_piece - x_grid) < marg and abs(y_piece - y_grid) < marg and self.grid.grid[y_g][x_g] == "TV":
                                 self.grid.grid[y_g][x_g] = "M" + self.current_piece.grid[y_p][x_p][1]
-                                pos = (self.grid.get_min_x()+x_g*self.grid.size_line, self.grid.get_max_y()-(y_g+1)*self.grid.size_line)
+                                pos = (self.grid.min_x+x_g*self.grid.size_line, self.grid.max_y-(y_g+1)*self.grid.size_line)
                                 animation = HoleAnimation(color=self.current_piece.grid[y_p][x_p][1], animation_pos=pos)
                                 ANIMATION_LIST.append(animation)
         self.remove_widget(self.current_piece)
@@ -826,10 +826,10 @@ class Page(FloatLayout, Loop):
                     for y_g in range(len(self.grid.grid)):
                         for x_g in range(len(self.grid.grid[y_g])):
                             # Calculation Global of x and y for piece and grid
-                            x_piece = self.current_piece.get_min_x()+self.current_piece.x+x_p*self.current_piece.size_line
-                            y_piece = self.current_piece.get_max_y()+self.current_piece.y-(y_p+1)*self.current_piece.size_line
-                            x_grid = self.grid.get_min_x()+self.grid.x+x_g*self.grid.size_line
-                            y_grid = self.grid.get_max_y()+self.grid.y-(y_g+1)*self.grid.size_line
+                            x_piece = self.current_piece.min_x+self.current_piece.x+x_p*self.current_piece.size_line
+                            y_piece = self.current_piece.max_y+self.current_piece.y-(y_p+1)*self.current_piece.size_line
+                            x_grid = self.grid.min_x+self.grid.x+x_g*self.grid.size_line
+                            y_grid = self.grid.max_y+self.grid.y-(y_g+1)*self.grid.size_line
                             # if grid block match with piece block and if is void or if is a motis
                             one.append(abs(x_piece - x_grid) < marg and abs(y_piece - y_grid) < marg and (self.grid.grid[y_g][x_g] == "NV" or self.grid.grid[y_g][x_g] == "TV" or (self.grid.grid[y_g][x_g][0] == "M" and self.current_piece.grid[y_p][x_p][1] == self.grid.grid[y_g][x_g][1]) or self.current_piece.grid[y_p][x_p] == "NV"))
                     check.append(any(one))

@@ -1,11 +1,15 @@
 class GridCalculation():
-    def get_min_x(self):
+    @property
+    def min_x(self):
         return self.width/2-self.size_line_h/2
-    def get_max_x(self):
+    @property
+    def max_x(self):
         return self.width/2+self.size_line_h/2
-    def get_min_y(self):
+    @property
+    def min_y(self):
         return self.height/2-self.size_line_v/2
-    def get_max_y(self):
+    @property
+    def max_y(self):
         return self.height/2+self.size_line_v/2
 
     def line_size_calculation(self):
@@ -17,20 +21,20 @@ class GridCalculation():
             self.size_line = self.width/len(self.grid[0])
             self.size_line_v = self.size_line*len(self.grid)
             self.size_line_h = self.width
-    
-    def generate_grid(size=None, width=None, height=None):
-        if size:
-            width, height = size, size
-        elif width and height:
-            pass
-        else:
-            return ValueError
-        return [["NV" for x in range(width)] for y in range(height)]
-    
 
-    def turn(grid):
-        new_grid = [["NV" for x in grid] for y in grid[0]]
-        for y in range(len(grid)):
-            for x in range(len(grid[y])):
-                new_grid[-(x+1)][y] = grid[y][x]
-        return new_grid
+
+def generate_grid(size=None, width=None, height=None):
+    if size:
+        width, height = size, size
+    elif width and height:
+        pass
+    else:
+        return ValueError
+    return [["NV" for x in range(width)] for y in range(height)]
+
+def turn(grid):
+    new_grid = [["NV" for x in grid] for y in grid[0]]
+    for y in range(len(grid)):
+        for x in range(len(grid[y])):
+            new_grid[-(x+1)][y] = grid[y][x]
+    return new_grid

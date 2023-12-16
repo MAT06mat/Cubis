@@ -22,10 +22,10 @@ class DisplayGrid(GridCalculation):
             if border:
                 # Create cols
                 for i in range(len(self.grid[0]) + 1):
-                    Line(points=(self.get_min_x()+i*self.size_line, self.get_min_y(), self.get_min_x()+i*self.size_line, self.get_max_y()), width=2)
+                    Line(points=(self.min_x+i*self.size_line, self.min_y, self.min_x+i*self.size_line, self.max_y), width=2)
                 # Create rows
                 for i in range(len(self.grid) + 1):
-                    Line(points=(self.get_min_x(), self.get_min_y()+i*self.size_line, self.get_max_x(), self.get_min_y()+i*self.size_line), width=2)
+                    Line(points=(self.min_x, self.min_y+i*self.size_line, self.max_x, self.min_y+i*self.size_line), width=2)
             # Create block in the grid
             rel_x = self.x
             rel_y = self.y
@@ -68,10 +68,10 @@ class DisplayGrid(GridCalculation):
                         elif -271 < angle < -180:
                             rotation = -270
                     Color(*color, opacity)
-                    Rectangle(pos=(rel_x+self.get_min_x()+x*self.size_line,rel_y+self.get_max_y()-(y+1)*self.size_line), size=(self.size_line, self.size_line), source=f"assets/images/elements/{block}/0.png")
+                    Rectangle(pos=(rel_x+self.min_x+x*self.size_line,rel_y+self.max_y-(y+1)*self.size_line), size=(self.size_line, self.size_line), source=f"assets/images/elements/{block}/0.png")
                     if angle != 0:
                         Color(*color, abs(opacity*angle/90))
-                        Rectangle(pos=(rel_x+self.get_min_x()+x*self.size_line,rel_y+self.get_max_y()-(y+1)*self.size_line), size=(self.size_line, self.size_line), source=f"assets/images/elements/{block}/{rotation}.png")
+                        Rectangle(pos=(rel_x+self.min_x+x*self.size_line,rel_y+self.max_y-(y+1)*self.size_line), size=(self.size_line, self.size_line), source=f"assets/images/elements/{block}/{rotation}.png")
             if border_block:
                 Color(0.91, 0.72, 0.27, 1)
                 for y in range(len(self.grid)):
@@ -80,28 +80,28 @@ class DisplayGrid(GridCalculation):
                             continue
                         # Side left
                         if x == 0:
-                            Line(points=(self.get_min_x()+x*self.size_line+1, self.get_max_y()-y*self.size_line, self.get_min_x()+x*self.size_line+1, self.get_max_y()-(y+1)*self.size_line), width=1.5)
+                            Line(points=(self.min_x+x*self.size_line+1, self.max_y-y*self.size_line, self.min_x+x*self.size_line+1, self.max_y-(y+1)*self.size_line), width=1.5)
                         else: 
                             if self.grid_id[y][x] != self.grid_id[y][x-1]:
-                                Line(points=(self.get_min_x()+x*self.size_line+1, self.get_max_y()-y*self.size_line, self.get_min_x()+x*self.size_line+1, self.get_max_y()-(y+1)*self.size_line), width=1.5)
+                                Line(points=(self.min_x+x*self.size_line+1, self.max_y-y*self.size_line, self.min_x+x*self.size_line+1, self.max_y-(y+1)*self.size_line), width=1.5)
                         # Side top
                         if y == 0:
-                            Line(points=(self.get_min_x()+x*self.size_line, self.get_max_y()-y*self.size_line-1, self.get_min_x()+(x+1)*self.size_line, self.get_max_y()-y*self.size_line-1), width=1.5)
+                            Line(points=(self.min_x+x*self.size_line, self.max_y-y*self.size_line-1, self.min_x+(x+1)*self.size_line, self.max_y-y*self.size_line-1), width=1.5)
                         else: 
                             if self.grid_id[y][x] != self.grid_id[y-1][x]:
-                                Line(points=(self.get_min_x()+x*self.size_line, self.get_max_y()-y*self.size_line-1, self.get_min_x()+(x+1)*self.size_line, self.get_max_y()-y*self.size_line-1), width=1.5)
+                                Line(points=(self.min_x+x*self.size_line, self.max_y-y*self.size_line-1, self.min_x+(x+1)*self.size_line, self.max_y-y*self.size_line-1), width=1.5)
                         # Side right
                         if x+1 == len(self.grid[y]):
-                            Line(points=(self.get_min_x()+(x+1)*self.size_line-1, self.get_max_y()-y*self.size_line, self.get_min_x()+(x+1)*self.size_line-1, self.get_max_y()-(y+1)*self.size_line), width=1.5)
+                            Line(points=(self.min_x+(x+1)*self.size_line-1, self.max_y-y*self.size_line, self.min_x+(x+1)*self.size_line-1, self.max_y-(y+1)*self.size_line), width=1.5)
                         else: 
                             if self.grid_id[y][x] != self.grid_id[y][x+1]:
-                                Line(points=(self.get_min_x()+(x+1)*self.size_line-1, self.get_max_y()-y*self.size_line, self.get_min_x()+(x+1)*self.size_line-1, self.get_max_y()-(y+1)*self.size_line), width=1.5)
+                                Line(points=(self.min_x+(x+1)*self.size_line-1, self.max_y-y*self.size_line, self.min_x+(x+1)*self.size_line-1, self.max_y-(y+1)*self.size_line), width=1.5)
                         # Side bottom
                         if y+1 == len(self.grid):
-                            Line(points=(self.get_min_x()+x*self.size_line, self.get_max_y()-(y+1)*self.size_line+1, self.get_min_x()+(x+1)*self.size_line, self.get_max_y()-(y+1)*self.size_line+1), width=1.5)
+                            Line(points=(self.min_x+x*self.size_line, self.max_y-(y+1)*self.size_line+1, self.min_x+(x+1)*self.size_line, self.max_y-(y+1)*self.size_line+1), width=1.5)
                         else: 
                             if self.grid_id[y][x] != self.grid_id[y+1][x]:
-                                Line(points=(self.get_min_x()+x*self.size_line, self.get_max_y()-(y+1)*self.size_line+1, self.get_min_x()+(x+1)*self.size_line, self.get_max_y()-(y+1)*self.size_line+1), width=1.5)
+                                Line(points=(self.min_x+x*self.size_line, self.max_y-(y+1)*self.size_line+1, self.min_x+(x+1)*self.size_line, self.max_y-(y+1)*self.size_line+1), width=1.5)
             if animation:
                 for animation in ANIMATION_LIST:
                     if animation.type == "box":
