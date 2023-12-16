@@ -285,11 +285,11 @@ class IMButton(Button):
 # ============ START ANIMATION ============
 
 class StartImage(Image):
-    o = NumericProperty(0)
+    o = NumericProperty(-20)
     
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        Animation(duration=1.5, o=100).start(self)
+        Animation(duration=3, o=100).start(self)
         self.bind(o=self.opacity_update)
     
     def opacity_update(self, *args):
@@ -299,7 +299,7 @@ class StartImage(Image):
 class StartButton(Button):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        Clock.schedule_once(self.undisabled, 2.5)
+        Clock.schedule_once(self.undisabled, 4)
     
     def undisabled(self, *args):
         self.disabled = False
@@ -313,9 +313,9 @@ class StartLabel(Label, Loop):
         self.lang_change()
         self.color = (1, 1, 1, 0)
         Texts.bind(current_lang=self.lang_change)
-        self.anim = Animation(duration=1.0, o=80, t="in_out_sine") + Animation(duration=1.0, o=40, t="in_out_sine")
+        self.anim = Animation(duration=1, o=80, t="in_out_sine") + Animation(duration=1, o=40, t="in_out_sine")
         self.anim.repeat = True
-        Clock.schedule_once(self.start_anim, 2.5)
+        Clock.schedule_once(self.start_anim, 3.5)
     
     def lang_change(self, *args):
         self.text = Texts.key(16)
