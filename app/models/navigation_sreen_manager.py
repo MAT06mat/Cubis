@@ -9,7 +9,7 @@ from controllers.game_manager import Game
 
 
 class TransitionScreen(Screen):
-    def __init__(self, **kw):
+    def __init__(self, **kw) -> None:
         super().__init__(**kw)
         self.app = App.get_running_app()
     
@@ -23,12 +23,12 @@ class NavigationScreenManager(ScreenManager):
     transition = ObjectProperty(FadeTransition(duration=0.2))
     game = ObjectProperty(Game(name="Game"))
     
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
         self.level = False
         self.add_widget(self.game)
 
-    def change_transition(self, transition_screen, screen_name):
+    def change_transition(self, transition_screen, screen_name) -> None:
         if transition_screen:
             self.transition = FadeTransition(duration=0.4)
             self.current = "TransitionScreen"
@@ -36,14 +36,14 @@ class NavigationScreenManager(ScreenManager):
             self.transition = FadeTransition(duration=0)
             self.current = screen_name
     
-    def push(self, screen_name, transition_screen=True, delay=0):
+    def push(self, screen_name, transition_screen=True, delay=0) -> None:
         self.delay = delay
         if screen_name not in self.screen_stack:
             self.screen_stack.append(self.current)
             self.change_transition(transition_screen, screen_name)
             self.next_current = screen_name
 
-    def pop(self, transition_screen=True, delay=0, quit_level=False):
+    def pop(self, transition_screen=True, delay=0, quit_level=False) -> None:
         self.delay = delay
         if len(self.screen_stack) > 0:
             screen_name = self.screen_stack[-1]
@@ -55,7 +55,7 @@ class NavigationScreenManager(ScreenManager):
                     if screen.name == "StoryMode":
                         screen.children[0].children[0].message_pop()
     
-    def start_level(self, id_level=0, transition_screen=True, delay=0):
+    def start_level(self, id_level=0, transition_screen=True, delay=0) -> None:
         self.delay = delay
         if self.level:
             self.pop(transition_screen=transition_screen)
@@ -63,7 +63,7 @@ class NavigationScreenManager(ScreenManager):
         self.push(self.game.name, transition_screen=transition_screen)
         self.game.restart(id_level)
 
-    def quit_level(self, transition_screen=True, delay=0):
+    def quit_level(self, transition_screen=True, delay=0) -> None:
         self.delay = delay
         if len(self.screen_stack) > 0:
             if self.game.id_level == 0:
@@ -86,11 +86,6 @@ class NavigationScreenManager(ScreenManager):
             self.pop(transition_screen=transition_screen, quit_level=True)
             self.level = False
     
-    def suivant(self, *arg):
+    def suivant(self, *arg) -> None:
         if self.next_current:
             self.current = self.next_current
-    
-    def reload_images(self):
-        for screen in self.screens:
-            if screen.name == "StoryMode" or screen.name == "InfiniteMode":
-                screen.children[0].children[0].reload_image()

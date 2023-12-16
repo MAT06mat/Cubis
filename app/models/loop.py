@@ -7,5 +7,5 @@ class Loop:
     def __init__(self) -> None:
         Clock.schedule_interval(self.loop, 1/60)
     
-    def loop(self, *args):
+    def loop(self, *args) -> bool:
         return self.reload

@@ -35,26 +35,27 @@ class SettingsData(Data):
                     shutil.rmtree(os.path.join(user_data_dir, '.cubis'))
                 else:
                     file.write('{}')
-        self.path = path
+        self.relative_path = path
         # Add fps = 30 in settings if not fps in settings
         self.is_init = True
     
-    def get_path(self):
-        return os.path.join(self.path, self.file)
+    @property
+    def path(self):
+        return os.path.join(self.relative_path, self.file)
     
     def __get(self, key, default):
         data = self.get()
         if key in data:
             return data[key]
         data[key] = default
-        with open(self.get_path(), "w", encoding="UTF-8") as file:
+        with open(self.path, "w", encoding="UTF-8") as file:
             file.write(json.dumps(data))
         return default
     
     def __set(self, key, value):
         data = self.get()
         data[key] = value
-        with open(self.get_path(), "w", encoding="UTF-8") as file:
+        with open(self.path, "w", encoding="UTF-8") as file:
             file.write(json.dumps(data))
     
     # Best_score property

@@ -8,7 +8,8 @@ ANIMATION_LIST = []
 
 
 class DisplayGrid(GridCalculation):
-    def display_grid(self, background=False, border=False, relative=False, animation=False, border_block=False, reload=True, angle=0):
+    def display_grid(self, background=False, border=False, relative=False, animation=False, border_block=False, reload=True, angle=0) -> None:
+        """Display the grid with parameters"""
         self.canvas.clear()
         if not reload:
             return
@@ -117,32 +118,34 @@ class DisplayGrid(GridCalculation):
                         if animation.opacity == None:
                             ANIMATION_LIST.remove(animation)
                             animation.reload = False
-            """
-            B__ : "Box"
-            N_ : "Normal"
-            M_ : "Motif"
-            H_ : "Hard Block"
-            T_ : "Hole" (Trou)
-            _V : "Void"
-            _0 : "Color 0"
-            _1 : "Color 1"
-            _2 : "Color 2"
-            _3 : "Color 3"
-            _4 : "Color 4"
-            _5 : "Color 5"
-            _6 : "Color 6"
-            Possibilities :
-            - NV
-            - N5
-            - M5
-            - H0
-            - BNV
-            - BH0
-            - BM5
-            - TV
-            """
         if background and not relative:
             self.background_debug.size = (self.width, self.height)
             self.background_debug.pos = self.pos
         elif background and relative:
             self.background_debug.size = (self.width, self.height)
+
+
+"""
+B__ : "Box"
+N_ : "Normal"
+M_ : "Motif"
+H_ : "Hard Block"
+T_ : "Hole" (Trou)
+_V : "Void"
+_0 : "Color 0"
+_1 : "Color 1"
+_2 : "Color 2"
+_3 : "Color 3"
+_4 : "Color 4"
+_5 : "Color 5"
+_6 : "Color 6"
+Possibilities :
+- NV
+- N5
+- M5
+- H0
+- BNV
+- BH0
+- BM5
+- TV
+"""

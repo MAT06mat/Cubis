@@ -6,4 +6,4 @@ class PiecesData(Data):
         return super().get(str(value))
 
 
-Pieces = Data(file='pieces.json')
+Pieces = PiecesData(file='pieces.json')

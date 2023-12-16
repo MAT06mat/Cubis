@@ -105,7 +105,6 @@ class MyScrollView(ScrollView):
             BACKGROUND_IMAGE.children[0].pos_hint = {"x": 0}
         else:
             BACKGROUND_IMAGE.children[0].pos_hint = {"x": -self.scroll_x/50*self.nb_levels-0.25} # Modified /50   |   /100 Default
-        
 
 
 class TabItem(TabbedPanelItem):
@@ -231,9 +230,6 @@ class StoryModeFloat(FloatLayout):
         if not message:
             self.message_pop()
             self.message_push(Settings.current_level)
-
-    def reload_image(self):
-        BACKGROUND_IMAGE.children[0].reload()
 
     def message_push(self, id_level):
         if not self.message: 
