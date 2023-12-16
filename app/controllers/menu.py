@@ -114,7 +114,7 @@ class FPSButton(CustomButton, Loop):
         self.size = self.parent.mainbutton.size
 
 
-class Setting(FloatLayout):
+class FloatSettings(FloatLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         Clock.schedule_once(self.init, -1)
@@ -372,6 +372,7 @@ class CreditLabel(Label, Loop):
     
     def wait_time(self, *args):
         self.reload = True
+        Settings.easter_egg = True
         Clock.schedule_interval(self.loop, 1/60)
     
     def loop(self, *args):

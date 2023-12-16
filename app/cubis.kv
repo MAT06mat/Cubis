@@ -27,7 +27,7 @@
             InfiniteMode:
     Screen:
         name: "Setting"
-        Setting:
+        FloatSettings:
     Screen:
         name: "Credits"
         on_pre_enter: self.children[0].children[0].pre_enter()
@@ -85,7 +85,7 @@
                     on_press: app.manager.push("InfiniteMode", transition_screen=False)
 
 
-<Setting>:
+<FloatSettings>:
     Image:
         source: "assets/images/backgrounds/menu.jpg"
         fit_mode: "cover"
