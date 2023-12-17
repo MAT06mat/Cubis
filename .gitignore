@@ -4860,3 +4860,5 @@ app/screens/__pycache__/start_screen.cpython-310.pyc
 app/screens/__pycache__/story_mode.cpython-310.pyc
 app/uix/__pycache__/boxlayout_with_action_bar.cpython-310.pyc
 app/uix/__pycache__/custom_button.cpython-310.pyc
+app/uix/__pycache__/background_image.cpython-310.pyc
+app/uix/__pycache__/cadre.cpython-310.pyc
