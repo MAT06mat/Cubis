@@ -1,4 +1,4 @@
-from kivy.uix.boxlayout import BoxLayout
+from kivy.lang import Builder
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.label import Label
 from kivy.uix.image import Image
@@ -8,20 +8,20 @@ from kivy.uix.dropdown import DropDown
 from kivy.core.window import Window
 from kivy.clock import Clock
 from kivy.graphics import Color, RoundedRectangle, ContextInstruction
-from kivy.metrics import dp
-from kivy.animation import Animation
-from kivy.properties import BooleanProperty, NumericProperty
-from random import randint
+from kivy.properties import BooleanProperty
 import webbrowser
 
 from data.settings import Settings
 from data.texts import Texts
 from models.loop import Loop
+from uix.custom_button import CustomButton
+
+
+Builder.load_file("screens/settings.kv")
+
 
 # ============ SETTINGS ============
 
-class CustomButton(Button):
-    pass
 
 class LButton(Button):
     current_lang = BooleanProperty(False)
@@ -240,162 +240,3 @@ class InfoLabel(Label):
 
     def loop(self, *args):
         self.text = f"{self.fps_name}: {Clock.get_rfps()}    {self.version_name}: 1.5.2"
-
-# ============ MAIN MENU ============
-
-class Logo(Image, Loop):   
-    def loop(self, *args):
-        self.width = Window.width - dp(30)
-        self.height = self.width / 1160 * 343
-        while self.height > 0.3 * Window.height:
-            self.height -= 1
-
-
-class MenuBoxLayout(BoxLayout, Loop):
-    def loop(self, *args):
-        self.width = Window.width - dp(50)
-        self.height = self.width / 1289 * 958
-        while self.height > 0.6 * Window.height:
-            self.height -= 1
-        while self.width / 1289 * 958 > self.height:
-            self.width -= 1
-
-
-class SMButton(Button):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.lang_change()
-        Texts.bind(current_lang=self.lang_change)
-
-    def lang_change(self, *args):
-        self.background_normal = Texts.image_path("assets/images/buttons/story_mode.png")
-        self.background_down = Texts.image_path("assets/images/buttons/story_mode.png")
-
-
-class IMButton(Button):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.lang_change()
-        Texts.bind(current_lang=self.lang_change)
-
-    def lang_change(self, *args):
-        self.background_normal = Texts.image_path("assets/images/buttons/infinite_mode.png")
-        self.background_down = Texts.image_path("assets/images/buttons/infinite_mode.png")
-
-# ============ START ANIMATION ============
-
-class StartImage(Image):
-    o = NumericProperty(-20)
-    
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        Animation(duration=3, o=100).start(self)
-        self.bind(o=self.opacity_update)
-    
-    def opacity_update(self, *args):
-        self.color = (1, 1, 1, self.o/100)
-
-
-class StartButton(Button):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        Clock.schedule_once(self.undisabled, 4)
-    
-    def undisabled(self, *args):
-        self.disabled = False
-    
-
-class StartLabel(Label, Loop):
-    o = NumericProperty(0)
-    
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.lang_change()
-        self.color = (1, 1, 1, 0)
-        Texts.bind(current_lang=self.lang_change)
-        self.anim = Animation(duration=1, o=80, t="in_out_sine") + Animation(duration=1, o=40, t="in_out_sine")
-        self.anim.repeat = True
-        Clock.schedule_once(self.start_anim, 3.5)
-    
-    def lang_change(self, *args):
-        self.text = Texts.key(16)
-    
-    def start_anim(self, *args):
-        self.anim.start(self)
-    
-    def loop(self, *args):
-        self.color = (1, 1, 1, self.o/100)
-        if Window.width < dp(500):
-            self.font_size = Window.width/10
-        else:
-            self.font_size = dp(50)
-
-
-class CenterBoxLayout(BoxLayout, Loop):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.size_hint = (None, None)
-        self.orientation = "vertical"
-    
-    def loop(self, *args):
-        try:
-            width = self.children[0].width
-            self.width = width
-            height = self.children[0].height + self.children[1].height
-            self.height = height
-        except:
-            pass
-        self.spacing = (Window.height - self.height) / 5
-
-# ============ CREDITS ============
-
-class CreditLabel(Label, Loop):
-    r = 255
-    g = 255
-    b = 255
-    reload = False
-    
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.lang_change()
-        Texts.bind(current_lang=self.lang_change)
-        self.last_event = Clock.schedule_once(self.wait_time, 10.0)
-        self.last_event.cancel()
-    
-    def lang_change(self, *args):
-        self.text = Texts.key(31)
-    
-    def pre_enter(self):
-        self.reload = False
-        self.last_event.cancel()
-        self.last_event = Clock.schedule_once(self.wait_time, 10.0)
-    
-    def wait_time(self, *args):
-        self.reload = True
-        Settings.easter_egg = True
-        Clock.schedule_interval(self.loop, 1/60)
-    
-    def loop(self, *args):
-        self.r += randint(-10, 10)
-        self.g += randint(-10, 10)
-        self.b += randint(-10, 10)
-        if self.r > 200:
-            self.r = 200
-        if self.g > 200:
-            self.g = 200
-        if self.b > 200:
-            self.b = 200
-        if self.r < 50:
-            self.r = 50
-        if self.g < 50:
-            self.g = 50
-        if self.b < 50:
-            self.b = 50
-        self.color = (self.r/255, self.g/255, self.b/255, 1)
-        if not self.reload:
-            self.color = (1, 1, 1, 1)
-        return super().loop(*args)
-    
-    def on_ref_press(self, ref):
-        webbrowser.open('https://mat06mat.github.io/matthieufelten/')
-        return super().on_ref_press(ref)

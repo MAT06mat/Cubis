@@ -25,15 +25,14 @@ from models.loop import Loop
 from models.display_grid import ANIMATION_LIST, DisplayGrid
 from models.grid_calculation import generate_grid, turn
 from models.decorators import if_no_message, if_no_piece
-from controllers.message import MenuMessage, InfoMessage, VictoireMessage
+from models.message import MenuMessage, InfoMessage, VictoireMessage
 
 import os
 import copy
 import random
 
-current_directory = os.path.dirname(os.path.realpath(__file__))
-kv_file_path = os.path.join(current_directory, "../views/game.kv")
-Builder.load_file(kv_file_path)
+
+Builder.load_file("screens/game_screen.kv")
 
 
 class BlockAnimation(Widget, Loop):
@@ -42,6 +41,7 @@ class BlockAnimation(Widget, Loop):
     
     def __init__(self, time: float, type: str, animation_pos: tuple, animation_size: tuple):
         super().__init__()
+        current_directory = os.path.dirname(os.path.realpath(__file__))
         self.asset_directory = os.path.join(current_directory, "../assets/images/elements/")
         self.frames = os.listdir(self.asset_directory+type+"/"+type.lower()+"/")
         self.frames.sort()

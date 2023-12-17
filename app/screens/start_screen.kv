@@ -1,0 +1,18 @@
+<StartScreen@FloatLayout>:
+    BlackScreen:
+    StartImage:
+        color: (1, 1, 1, 0)
+        source: "assets/images/backgrounds/start.jpg"
+        fit_mode: "cover"
+    StartLabel:
+        color: (1, 1, 1, 0)
+        font_name: "assets/fonts/Coda-Regular.ttf"
+        pos_hint: {"center_x": 0.5, "center_y": 0.5}
+        size_hint: (0.5, 0.5)
+    StartButton:
+        disabled: True
+        size_hint: (1, 1)
+        background_normal: ""
+        background_down: ""
+        background_color: (0, 0, 0, 0)
+        on_press: app.manager.push("MainMenu", transition_screen=True, delay=50)

@@ -1,13 +1,16 @@
+#:import screens.start_screen screens.start_screen
+#:import screens.menu screens.menu
+#:import screens.story_mode screens.story_mode
+#:import screens.infinite_mode screens.infinite_mode
+#:import screens.settings screens.settings
+#:import screens.credits screens.credits
 #:import uix.boxlayout_with_action_bar uix.boxlayout_with_action_bar
-#:import controllers.story_mode controllers.story_mode
-#:import controllers.infinite_mode controllers.infinite_mode
-#:import controllers.menu controllers.menu
 
 
 <MyScreenManager>:
     Screen:
-        name: "StartPage"
-        StartPage:
+        name: "StartScreen"
+        StartScreen:
     Screen:
         name: "MainMenu"
         MainMenu:
@@ -33,178 +36,6 @@
     TransitionScreen:
         name: "TransitionScreen"
         BlackScreen:
-
-
-<StartPage@FloatLayout>:
-    BlackScreen:
-    StartImage:
-        color: (1, 1, 1, 0)
-        source: "assets/images/backgrounds/start.jpg"
-        fit_mode: "cover"
-    StartLabel:
-        color: (1, 1, 1, 0)
-        font_name: "assets/fonts/Coda-Regular.ttf"
-        pos_hint: {"center_x": 0.5, "center_y": 0.5}
-        size_hint: (0.5, 0.5)
-    StartButton:
-        disabled: True
-        size_hint: (1, 1)
-        background_normal: ""
-        background_down: ""
-        background_color: (0, 0, 0, 0)
-        on_press: app.manager.push("MainMenu", transition_screen=True, delay=50)
-
-<MainMenu@FloatLayout>:
-    Image:
-        source: "assets/images/backgrounds/menu.jpg"
-        fit_mode: "cover"
-    Button:
-        size_hint: (None, None)
-        size: ("75dp", "75dp")
-        pos: (0, 0)
-        background_normal: "assets/images/buttons/setting.png"
-        background_down: "assets/images/buttons/setting.png"
-        on_press: app.manager.push("Setting", transition_screen=False)
-    AnchorLayout:
-        anchor_x: "center"
-        anchor_y: "center"
-        CenterBoxLayout:
-            Logo:
-                source: "assets/images/elements/logo.png"
-                pos_hint: {"center_x": 0.5}
-                size_hint: (None, None)
-            MenuBoxLayout:
-                pos_hint: {"center_x": 0.5}
-                size_hint: (None, None)
-                orientation: "vertical"
-                SMButton:
-                    on_press: app.manager.push("StoryMode", transition_screen=False)
-                IMButton:
-                    on_press: app.manager.push("InfiniteMode", transition_screen=False)
-
-
-<FloatSettings>:
-    Image:
-        source: "assets/images/backgrounds/menu.jpg"
-        fit_mode: "cover"
-    SettingImage:
-        id: setting_image
-        size_hint: (None, None)
-        fit_mode: "cover"
-        pos_hint: {"center_x": 0.5, "center_y": 0.5}
-    MusicSlider:
-        id: musique_slider
-        size_hint: (None, None)
-        width: setting_image.width/3
-        cursor_size: ("15dp", "15dp")
-        pos_hint: {"center_y": 0.5}
-        x: setting_image.x+setting_image.width*15/100
-        min: 0
-        max: 100
-    MusicsLabel:
-        size_hint: (None, None)
-        width: musique_slider.width
-        x: musique_slider.x
-        y: dp(15)+musique_slider.y
-        font_size: self.width/10
-        color: "#A04623"
-        font_name: "assets/fonts/Coda-Regular.ttf"
-    EffectSlider:
-        id: effect_slider
-        size_hint: (None, None)
-        width: setting_image.width/3
-        cursor_size: ("15dp", "15dp")
-        pos_hint: {"center_y": 0.5}
-        x: setting_image.x+setting_image.width*55/100
-        min: 0
-        max: 100
-    EffectsLabel:
-        size_hint: (None, None)
-        width: effect_slider.width
-        x: effect_slider.x
-        y: dp(15)+effect_slider.y
-        font_size: self.width/10
-        color: "#A04623"
-        font_name: "assets/fonts/Coda-Regular.ttf"
-    CreditButton:
-        id: credit_button
-        size_hint: (None, None)
-        width: musique_slider.width/2
-        height: self.width/3666*1122
-        center_x: musique_slider.center_x
-        y: setting_image.y+setting_image.width*0.2
-        on_press: app.manager.push("Credits")
-    PolicyButton:
-        id: policy_button
-        size_hint: (None, None)
-        size: credit_button.size
-        line_height: 0.8
-        center_x: effect_slider.center_x
-        y: credit_button.y
-    BackMenuButton:
-        x: dp(10)
-        y: root.height - dp(10) - self.height
-        background_normal: "assets/images/buttons/left2.png"
-        background_down: "assets/images/buttons/left2.png"
-        on_press: app.manager.pop(transition_screen=False)
-    InfoLabel:
-        size_hint: (None, None)
-        size: ("250dp", "20dp")
-        pos_hint: {"right":1} 
-        halign: 'left'
-        font_size: "20dp"
-        color: "#A04623"
-        font_name: "assets/fonts/Coda-Regular.ttf"
-
-<CustomButton>:
-    font_size: self.width/8
-    color: "#A04623"
-    font_name: "assets/fonts/Coda-Regular.ttf"
-    background_normal: ""
-    background_down: ""
-    background_color: (0, 0, 0, 0)
-    canvas.before:
-        Color:
-            rgba: (0.82, 0.44, 0.15, 1)
-        RoundedRectangle:
-            pos: self.pos
-            size: self.size
-            radius: [5,]
-
-<LButton>:
-    font_size: self.width/8
-    color: "#A04623"
-    font_name: "assets/fonts/Coda-Regular.ttf"
-    background_normal: ""
-    background_down: ""
-    background_color: (0, 0, 0, 0)
-    canvas.before:
-        Color:
-            rgba: (0.72, 0.34, 0.05, 1) if self.current_lang else (0.82, 0.44, 0.15, 1)
-        RoundedRectangle:
-            pos: self.pos
-            size: self.size
-            radius: [5,]
-        Color:
-            rgba: (0.82, 0.44, 0.15, 1) if self.current_lang else (0, 0, 0, 0)
-        RoundedRectangle:
-            pos: self.x + 2, self.y + 2
-            size: self.width - 4, self.height - 4
-            radius: [5,]
-
-<Credits@FloatLayout>:
-    Button:
-        size_hint: (1, 1)
-        background_normal: ""
-        background_down: ""
-        background_color: (0, 0, 0, 1)
-        on_press: app.manager.pop()
-    CreditLabel:
-        halign: 'center'
-        valign: 'middle'
-        font_size: self.parent.width/20
-        markup: True
-        pos_hint: {"center_x": 0.5, "center_y": 0.5}
 
 <BlackScreen@BoxLayout>:
     canvas.before:

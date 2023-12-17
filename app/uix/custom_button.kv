@@ -1,0 +1,14 @@
+<CustomButton>:
+    font_size: self.width/8
+    color: "#A04623"
+    font_name: "assets/fonts/Coda-Regular.ttf"
+    background_normal: ""
+    background_down: ""
+    background_color: (0, 0, 0, 0)
+    canvas.before:
+        Color:
+            rgba: (0.82, 0.44, 0.15, 1)
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [5,]

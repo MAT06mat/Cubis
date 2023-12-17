@@ -1,0 +1,13 @@
+<Credits@FloatLayout>:
+    Button:
+        size_hint: (1, 1)
+        background_normal: ""
+        background_down: ""
+        background_color: (0, 0, 0, 1)
+        on_press: app.manager.pop()
+    CreditLabel:
+        halign: 'center'
+        valign: 'middle'
+        font_size: self.parent.width/20
+        markup: True
+        pos_hint: {"center_x": 0.5, "center_y": 0.5}

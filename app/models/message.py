@@ -14,11 +14,8 @@ from data.texts import Texts
 from uix.cadre import Cadre
 from models.loop import Loop
 
-import os
 
-current_directory = os.path.dirname(os.path.realpath(__file__))
-kv_file_path = os.path.join(current_directory, "../views/message.kv")
-Builder.load_file(kv_file_path)
+Builder.load_file("models/message.kv")
 
 
 class Message(RelativeLayout):

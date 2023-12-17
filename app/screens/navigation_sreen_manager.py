@@ -5,7 +5,7 @@ from kivy.properties import ListProperty, ObjectProperty
 from kivy.clock import Clock
 
 from data.settings import Settings
-from controllers.game_manager import Game
+from screens.game_screen import Game
 
 
 class TransitionScreen(Screen):

@@ -10,11 +10,8 @@ from data.settings import Settings
 from data.texts import Texts
 from models.loop import Loop
 
-import os
 
-current_directory = os.path.dirname(os.path.realpath(__file__))
-kv_file_path = os.path.join(current_directory, "../views/infinite_mode.kv")
-Builder.load_file(kv_file_path)
+Builder.load_file("screens/infinite_mode.kv")
 
 
 class ScoreListLabel(Label, Loop):

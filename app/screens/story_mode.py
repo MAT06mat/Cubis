@@ -13,14 +13,11 @@ from data.settings import Settings
 from data.areas import Areas
 from data.texts import Texts
 from models.loop import Loop
+from models.message import PlayMessage, InfoMessage
 from uix.background_image import MyBackgroundImage
-from controllers.message import PlayMessage, InfoMessage
 
-import os
 
-current_directory = os.path.dirname(os.path.realpath(__file__))
-kv_file_path = os.path.join(current_directory, "../views/story_mode.kv")
-Builder.load_file(kv_file_path)
+Builder.load_file("screens/story_mode.kv")
 
 
 global tuto
