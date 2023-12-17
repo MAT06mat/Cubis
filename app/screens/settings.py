@@ -151,7 +151,7 @@ class PolicyButton(CustomButton):
         self.text = Texts.key(36)
     
     def on_press(self):
-        webbrowser.open('https://mat06mat.github.io/matthieufelten/cubis-privacy-policy.html')
+        webbrowser.open('https://mat06mat.github.io/MAT06mat/html/cubis-privacy-policy.html')
         return super().on_press()
 
 

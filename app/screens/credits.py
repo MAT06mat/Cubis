@@ -63,5 +63,5 @@ class CreditLabel(Label, Loop):
         return super().loop(*args)
     
     def on_ref_press(self, ref):
-        webbrowser.open('https://mat06mat.github.io/matthieufelten/')
+        webbrowser.open('https://mat06mat.github.io/MAT06mat/')
         return super().on_ref_press(ref)
