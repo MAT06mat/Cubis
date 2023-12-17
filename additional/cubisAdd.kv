@@ -1,0 +1,43 @@
+MyScreen:
+
+<Grid>:
+    size_hint: (0.2, 1)
+
+<PanelLeft>:
+    size_hint: (0.4, 1)
+    orientation: "vertical"
+    BoxLayout:
+        size_hint: (1, None)
+        height: "100dp"
+        orientation: "vertical"
+        TextInput:
+            text: "4"
+            on_text: root.parent.grid.new_grid(c=self.text)
+        TextInput:
+            text: "4"
+            on_text: root.parent.grid.new_grid(l=self.text)
+    Button:
+        text: "Load json"
+        on_press: root.parent.load()
+    Button:
+        text: "Generate json"
+        on_press: root.parent.output()
+    BoxLayout:
+        size_hint: (1, None)
+        height: "50dp"
+        TextInput:
+            text: ""
+            on_text: root.parent.grid.change_block_text(self.text)
+        Button:
+            size_hint: (None, 1)
+            height: "50dp"
+            text: "Ok"
+            on_press: root.parent.grid.change_block2()
+
+<PanelRight>:
+    orientation: "vertical"
+    size_hint: (0.4, 1)
+
+<BlockButton>:
+    size_hint: ("150dp", "150dp")
+    on_press: self.parent.parent.parent.grid.change_block(self.type)

@@ -1,0 +1,12 @@
+{
+  "1": {
+    "Grid": [
+      ["NV", "NV", "NV", "BNV", "BNV", "BNV", "BNV"],
+      ["NV", "NV", "NV", "BNV", "BNV", "BNV", "BNV"],
+      ["NV", "NV", "NV", "BNV", "BNV", "BNV", "BNV"],
+      ["NV", "NV", "NV", "NV", "BNV", "BNV", "BNV"],
+      ["NV", "NV", "NV", "NV", "BNV", "BNV", "BNV"]
+    ],
+    "Pieces": []
+  }
+}
