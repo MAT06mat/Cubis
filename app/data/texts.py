@@ -11,8 +11,8 @@ class Traductions(Data):
         super().__init__(file)
         Settings.bind(is_init=self.init)
         self.lang_dict = {}
-        traductions = self.get()
-        for traduction in traductions:
+        self.traductions = self.get()
+        for traduction in self.traductions:
             lang = traduction["lang"]
             complete_lang = traduction["complete_lang"]
             self.lang_dict[lang] = complete_lang
@@ -23,7 +23,7 @@ class Traductions(Data):
     
     def key(self, key):
         key = str(key)
-        for texts in self.get():
+        for texts in self.traductions:
             if texts["lang"] == self.current_lang:
                 if key in texts:
                     text = texts[key]
