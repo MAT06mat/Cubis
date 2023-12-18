@@ -362,7 +362,7 @@ class GridPiece(StackLayout):
                 self.piece_button.append(button)
                 self.add_widget(button)
         else:
-            self.level = Levels.get(self.id_level)
+            self.level = Levels[str(self.id_level)]
             self.piece_button = []
             for piece in self.level["Pieces"]:
                 button = PieceButton(grid=piece["Grid"])
@@ -440,7 +440,7 @@ class Grid(RelativeLayout, Loop, DisplayGrid):
         if self.id_level == 0:
             self.grid = generate_grid(size=4)
         else:
-            self.level = Levels.get(self.id_level)
+            self.level = Levels[str(self.id_level)]
             self.grid = self.level["Grid"]
         self.grid_id = [[None for x in self.grid[0]] for y in self.grid]
         self.size_hint = (None, None)
@@ -588,8 +588,8 @@ class Page(FloatLayout, Loop):
                 self.message = InfoMessage(message=Texts.key(0))
                 self.add_widget(self.message)
         else:
-            if "Message" in Levels.get(self.id_level):
-                message_key = Levels.get(self.id_level)["Message"]
+            if "Message" in Levels[str(self.id_level)]:
+                message_key = Levels[str(self.id_level)]["Message"]
                 message = Texts.key(message_key)
                 self.message = InfoMessage(message=message)
                 self.add_widget(self.message)
@@ -854,7 +854,7 @@ class Game(Screen):
             self.arrows = True
             self.background = "assets/images/backgrounds/space.jpg"
         else:
-            for area in Areas.get():
+            for area in Areas:
                 for level in area["Levels"]:
                     if level["Id"] == self.id_level:
                         self.mode = level["Mode"]

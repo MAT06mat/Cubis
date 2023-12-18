@@ -165,7 +165,7 @@ class StoryMode(TabbedPanel, Loop):
         super().__init__(**kwargs)
         # create tab item
         self.bar_width = 0
-        for area in Areas.get():
+        for area in Areas:
             new_TabbedPanelItem = TabItem(text_key=area["Name"], levels=area["Levels"], image=area["Background"], disabled=True)
             self.add_widget(new_TabbedPanelItem)
             self.tabs.append(new_TabbedPanelItem)
@@ -218,7 +218,7 @@ class StoryModeFloat(FloatLayout):
         self.add_widget(self.story_mode)
         self.story_mode.reset()
         message = False
-        for area in Areas.get():
+        for area in Areas:
             if Settings.current_level == area["Levels"][0]["Id"]:
                 self.message_pop()
                 self.message = InfoMessage(message=[Texts.key(17)+Texts.key(area["Name"])], title=Texts.key(18))
@@ -231,7 +231,7 @@ class StoryModeFloat(FloatLayout):
     def message_push(self, id_level):
         if not self.message: 
             level_exist = []
-            for area in Areas.get():
+            for area in Areas:
                 for level in area["Levels"]:
                     level_exist.append(level["Id"] == id_level)
             if not any(level_exist):

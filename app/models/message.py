@@ -29,7 +29,7 @@ class PlayButtonStory(Button):
         super().__init__(**kwargs)
         self.lang_change()
         try:
-            Levels.get(self.id_level)
+            Levels[str(self.id_level)]
         except KeyError:
             self.disabled = True
         Texts.bind(current_lang=self.lang_change)
@@ -115,7 +115,7 @@ class PlayMessage(Message):
         super().__init__(**kw)
         self.on_window_resize()
         Window.bind(on_resize=self.on_window_resize)
-        for area in Areas.get():
+        for area in Areas:
             for level in area["Levels"]:
                 if level["Id"] == self.id_level:
                     mode = level["Mode"]
