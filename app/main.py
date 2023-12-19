@@ -22,4 +22,5 @@ class CubisApp(App):
         Settings.init_with_user_data_dir(self.user_data_dir)
     
 
-CubisApp().run()
+if __name__ == '__main__':
+    CubisApp().run()
