@@ -71,7 +71,7 @@ class HoleAnimation(Widget):
         self.opacity = 1
         self.animation = Animation(duration=0.4, opacity=0)
         self.animation.start(self)
-    
+
 
 class RedoButton(Button, Loop):
     def loop(self, *args):
@@ -150,7 +150,7 @@ class ScoreCase(Label, Loop):
         self.background_r.size = (Window.height*0.12, Window.height*0.05)
         self.background_r.pos = (self.center_x-self.background_r.size[0]/2, self.center_y-self.background_r.size[1]/2)
         return super().loop(*args)
-    
+
 
 class MenuButton(Button, Loop):
     def loop(self, *args):
@@ -286,21 +286,13 @@ class CurrentPiece(RelativeLayout, Loop, DisplayGrid):
         self.angle += 90
         self.anim.cancel(self)
         self.anim.start(self)
-        new_grid = generate_grid(width=len(self.grid), height=len(self.grid[0]))
-        for y in range(len(self.grid)):
-            for x in range(len(self.grid[y])):
-                new_grid[x][-(y+1)] = self.grid[y][x]
-        self.grid = new_grid
+        self.grid = turn(self.grid)
     
     def left(self):
         self.angle -= 90
         self.anim.cancel(self)
         self.anim.start(self)
-        new_grid = generate_grid(width=len(self.grid), height=len(self.grid[0]))
-        for y in range(len(self.grid)):
-            for x in range(len(self.grid[y])):
-                new_grid[-(x+1)][y] = self.grid[y][x]
-        self.grid = new_grid
+        self.grid = turn(self.grid, right=False)
 
 
 class PieceButton(Button, Loop, DisplayGrid):
@@ -347,6 +339,7 @@ class PieceButton(Button, Loop, DisplayGrid):
                     touch_piece.append(False)
         return any(touch_piece)
 
+
 class GridPiece(StackLayout):
     piece_button = ListProperty([])
     tiers = NumericProperty(3)
@@ -386,6 +379,7 @@ class GridPiece(StackLayout):
         if self.tiers > 13:
             self.tiers = 13
         return grid
+
 
 class MyScrollView(ScrollView, Loop):
     id_level = NumericProperty(0)
@@ -810,7 +804,7 @@ class Page(FloatLayout, Loop):
         if not self.message:
             self.message = MenuMessage(score=self.score, id_level=self.id_level, mode=self.mode)
             self.add_widget(self.message)
-        
+    
     def message_pop(self):
         if self.message:
             self.remove_widget(self.message)

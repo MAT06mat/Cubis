@@ -32,9 +32,15 @@ def generate_grid(size=None, width=None, height=None) -> list:
         return ValueError
     return [["NV" for x in range(width)] for y in range(height)]
 
-def turn(grid) -> list:
-    new_grid = [["NV" for x in grid] for y in grid[0]]
-    for y in range(len(grid)):
-        for x in range(len(grid[y])):
-            new_grid[-(x+1)][y] = grid[y][x]
+def turn(grid, right=True) -> list:
+    if right:
+        new_grid = [["NV" for x in grid] for y in grid[0]]
+        for y in range(len(grid)):
+            for x in range(len(grid[y])):
+                new_grid[x][-(y+1)] = grid[y][x]
+    else:
+        new_grid = [["NV" for x in grid] for y in grid[0]]
+        for y in range(len(grid)):
+            for x in range(len(grid[y])):
+                new_grid[-(x+1)][y] = grid[y][x]
     return new_grid
