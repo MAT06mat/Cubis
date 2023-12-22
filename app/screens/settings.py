@@ -11,8 +11,7 @@ from kivy.graphics import Color, RoundedRectangle, ContextInstruction
 from kivy.properties import BooleanProperty
 import webbrowser
 
-from data.settings import Settings
-from data.texts import Texts
+from data import *
 from models.loop import Loop
 from uix.custom_button import CustomButton
 

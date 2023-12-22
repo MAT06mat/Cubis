@@ -5,7 +5,7 @@ from kivy.core.window import Window
 from kivy.metrics import dp
 from kivy.lang import Builder
 
-from data.texts import Texts
+from data import *
 from models.loop import Loop
 
 

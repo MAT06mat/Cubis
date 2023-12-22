@@ -9,9 +9,7 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.metrics import dp
 from kivy.clock import Clock
 
-from data.settings import Settings
-from data.areas import Areas
-from data.texts import Texts
+from data import *
 from models.loop import Loop
 from models.message import PlayMessage, InfoMessage
 from uix.background_image import MyBackgroundImage

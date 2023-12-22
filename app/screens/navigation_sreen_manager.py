@@ -4,7 +4,7 @@ from kivy.uix.screenmanager import Screen
 from kivy.properties import ListProperty, ObjectProperty
 from kivy.clock import Clock
 
-from data.settings import Settings
+from data import *
 from screens.game_screen import Game
 
 

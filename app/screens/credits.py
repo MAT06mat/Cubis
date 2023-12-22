@@ -4,8 +4,7 @@ from kivy.lang import Builder
 from random import randint
 import webbrowser
 
-from data.settings import Settings
-from data.texts import Texts
+from data import *
 from models.loop import Loop
 
 

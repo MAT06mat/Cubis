@@ -9,7 +9,7 @@ from kivy.animation import Animation
 from kivy.properties import NumericProperty
 from kivy.lang import Builder
 
-from data.texts import Texts
+from data import *
 from models.loop import Loop
 
 

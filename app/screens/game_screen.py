@@ -16,11 +16,7 @@ from kivy.graphics.context_instructions import PushMatrix, PopMatrix, Rotate
 from kivy.animation import Animation
 from kivy.metrics import dp
 
-from data.settings import Settings
-from data.pieces import Pieces
-from data.areas import Areas
-from data.levels import Levels
-from data.texts import Texts
+from data import *
 from models.loop import Loop
 from models.display_grid import ANIMATION_LIST, DisplayGrid
 from models.decorators import if_no_message, if_no_piece

@@ -3,7 +3,7 @@ from kivy.properties import ObjectProperty
 from kivy.core.window import Window
 
 from screens.navigation_sreen_manager import NavigationScreenManager
-from data.settings import Settings
+from data import *
 
 class MyScreenManager(NavigationScreenManager):
     pass
@@ -20,7 +20,7 @@ class CubisApp(App):
 
     def on_start(self):
         Settings.init_with_user_data_dir(self.user_data_dir)
-    
+
 
 if __name__ == '__main__':
     CubisApp().run()

@@ -6,8 +6,7 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.relativelayout import RelativeLayout
 from kivy.metrics import dp
 
-from data.settings import Settings
-from data.texts import Texts
+from data import *
 from models.loop import Loop
 
 

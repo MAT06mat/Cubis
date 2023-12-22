@@ -2,7 +2,7 @@ from kivy.lang import Builder
 from kivy.properties import StringProperty
 from kivy.uix.boxlayout import BoxLayout
 
-from data.texts import Texts
+from data import *
 
 
 Builder.load_file("uix/boxlayout_with_action_bar.kv")
