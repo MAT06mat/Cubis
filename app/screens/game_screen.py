@@ -641,7 +641,7 @@ class Page(FloatLayout, Loop):
                 for x in y:
                     if x != "NV":
                         block_in_piece += 1
-            self.score += int(sqrt(Pieces.increase_int+1)*block_in_piece)
+            self.score += int(sqrt((Pieces.increase_int+1)*2)*block_in_piece/2)
             self.score_label.text = str(self.score)
             grid = Pieces.random_piece()
             Pieces.increase()
