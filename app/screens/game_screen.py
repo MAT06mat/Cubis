@@ -17,11 +17,7 @@ from kivy.animation import Animation
 from kivy.metrics import dp
 
 from data import *
-from models.loop import Loop
-from models.display_grid import ANIMATION_LIST, DisplayGrid
-from models.decorators import if_no_message, if_no_piece
-from models.grid_calculation import generate_grid, turn, random_grid
-from models.message import MenuMessage, InfoMessage, VictoireMessage
+from models import *
 
 from math import sqrt
 import os

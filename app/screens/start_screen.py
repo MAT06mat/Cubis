@@ -10,7 +10,7 @@ from kivy.properties import NumericProperty
 from kivy.lang import Builder
 
 from data import *
-from models.loop import Loop
+from models import *
 
 
 Builder.load_file("screens/start_screen.kv")

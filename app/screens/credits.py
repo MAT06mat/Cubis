@@ -5,7 +5,7 @@ from random import randint
 import webbrowser
 
 from data import *
-from models.loop import Loop
+from models import *
 
 
 Builder.load_file("screens/credits.kv")

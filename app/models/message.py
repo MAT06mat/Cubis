@@ -7,9 +7,12 @@ from kivy.properties import NumericProperty, ListProperty, StringProperty, Boole
 from kivy.clock import Clock
 from kivy.metrics import dp
 
-from data import *
-from uix.cadre import Cadre
+from data.texts import Texts
+from data.levels import Levels
+from data.areas import Areas
+from data.settings import Settings
 from models.loop import Loop
+from uix.cadre import Cadre
 
 
 Builder.load_file("models/message.kv")

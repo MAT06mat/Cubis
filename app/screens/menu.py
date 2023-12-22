@@ -6,7 +6,7 @@ from kivy.metrics import dp
 from kivy.lang import Builder
 
 from data import *
-from models.loop import Loop
+from models import *
 
 
 Builder.load_file("screens/menu.kv")

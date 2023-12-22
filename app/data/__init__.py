@@ -1,5 +1,10 @@
 """
-Import Areas, Levels, Pieces, Settings and Texts object
+Import objects:
+    - Areas
+    - Levels
+    - Pieces
+    - Settings
+    - Texts
 """
 
 from data.areas import Areas

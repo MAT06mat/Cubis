@@ -10,8 +10,7 @@ from kivy.metrics import dp
 from kivy.clock import Clock
 
 from data import *
-from models.loop import Loop
-from models.message import PlayMessage, InfoMessage
+from models import *
 from uix.background_image import MyBackgroundImage
 
 

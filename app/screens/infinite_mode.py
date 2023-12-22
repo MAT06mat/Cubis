@@ -7,7 +7,7 @@ from kivy.uix.relativelayout import RelativeLayout
 from kivy.metrics import dp
 
 from data import *
-from models.loop import Loop
+from models import *
 
 
 Builder.load_file("screens/infinite_mode.kv")

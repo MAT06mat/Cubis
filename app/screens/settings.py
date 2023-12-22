@@ -12,7 +12,7 @@ from kivy.properties import BooleanProperty
 import webbrowser
 
 from data import *
-from models.loop import Loop
+from models import *
 from uix.custom_button import CustomButton
 
 
