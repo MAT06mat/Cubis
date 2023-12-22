@@ -11,7 +11,7 @@ from kivy.clock import Clock
 
 from data import *
 from models import *
-from uix.background_image import MyBackgroundImage
+from uix import *
 
 
 Builder.load_file("screens/story_mode.kv")

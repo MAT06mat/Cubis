@@ -13,7 +13,7 @@ import webbrowser
 
 from data import *
 from models import *
-from uix.custom_button import CustomButton
+from uix import *
 
 
 Builder.load_file("screens/settings.kv")
