@@ -6,7 +6,7 @@
     - CustomButton
 """
 
-from background_image import MyBackgroundImage
-from boxlayout_with_action_bar import BoxLayoutWithActionBar
-from cadre import Cadre
-from custom_button import CustomButton
+from uix.background_image import MyBackgroundImage
+from uix.boxlayout_with_action_bar import BoxLayoutWithActionBar
+from uix.cadre import Cadre
+from uix.custom_button import CustomButton
