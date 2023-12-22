@@ -1,302 +1,110 @@
-{
-  "1": [[["GC"]]],
-  "2": [[["GC"], ["GC"]]],
-  "3": [
+[
+  {"Proba": 100, "Piece": [["GC"]]},
+  {"Proba": 90, "Piece": [["GC"], ["GC"]]},
+  {"Proba": 70, "Piece": 
     [
       ["NV", "GC"],
       ["GC", "GC"]
     ]
-  ],
-  "4": [
+  },
+  {"Proba": 20, "Piece":
+    [["GC", "GC", "GC"]]
+  },
+  {"Proba": 0.5, "Piece": 
+    [
+      ["GC", "NV", "NV"],
+      ["GC", "GC", "GC"]
+    ]
+  },
+  {"Proba": 0.1, "Piece": 
     [
       ["GC", "GC"],
       ["GC", "GC"]
-    ],
-    [["GC", "GC", "GC"]]
-  ],
-  "5": [
-    [
-      ["GC", "NV", "NV"],
-      ["GC", "GC", "GC"]
-    ],
-    [
-      ["NV", "NV", "GC"],
-      ["GC", "GC", "GC"]
-    ],
-    [
-      ["NV", "GC", "NV"],
-      ["GC", "GC", "GC"]
-    ],
+    ]
+  },
+  {"Proba": 0.05, "Piece":
     [
       ["GC", "GC", "NV"],
       ["NV", "GC", "GC"]
-    ],
+    ]
+  },
+  {"Proba": 0.01, "Piece":
     [
-      ["NV", "GC", "GC"],
-      ["GC", "GC", "NV"]
-    ],
-    [["GC"]]
-  ],
-  "6": [
-    [["GC", "GC", "GC", "GC"]],
+      ["NV", "GC", "NV"],
+      ["GC", "GC", "GC"]
+    ]
+  },
+  {"Proba": 0.005, "Piece":
+    [["GC", "GC", "GC", "GC"]]
+  },
+  {"Proba": 0.001, "Piece":
+    [
+      ["GC", "NV", "GC"],
+      ["GC", "GC", "GC"]
+    ]
+  },
+  {"Proba": 0.0005, "Piece":
     [
       ["GC", "GC", "GC"],
       ["GC", "GC", "GC"]
-    ],
-    [["GC"]]
-  ],
-  "7": [
+    ]
+  },
+  {"Proba": 0.0001, "Piece":
     [
       ["NV", "NV", "NV", "GC"],
       ["GC", "GC", "GC", "GC"]
-    ],
-    [
-      ["GC", "NV", "NV", "NV"],
-      ["GC", "GC", "GC", "GC"]
-    ],
+    ]
+  },
+  {"Proba": 0.00005, "Piece":
     [
       ["NV", "NV", "GC", "NV"],
       ["GC", "GC", "GC", "GC"]
-    ],
-    [
-      ["NV", "GC", "NV", "NV"],
-      ["GC", "GC", "GC", "GC"]
-    ],
+    ]
+  },
+  {"Proba": 0.00001, "Piece":
     [
       ["NV", "GC", "GC", "NV"],
       ["GC", "GC", "GC", "GC"]
-    ],
+    ]
+  },
+  {"Proba": 0.000005, "Piece":
     [
       ["GC", "NV", "NV", "GC"],
       ["GC", "GC", "GC", "GC"]
-    ],
+    ]
+  },
+  {"Proba": 0.000001, "Piece":
     [
       ["GC", "GC", "GC", "NV"],
       ["NV", "GC", "GC", "GC"]
-    ],
-    [
-      ["NV", "GC", "GC", "GC"],
-      ["GC", "GC", "GC", "NV"]
-    ],
-    [["GC"], ["GC"]],
-    [["GC"], ["GC"]],
-    [["GC"]],
-    [["GC"]]
-  ],
-  "8": [
-    [
-      ["GC", "GC", "GC", "GC"],
-      ["GC", "GC", "GC", "GC"]
-    ],
-    [["GC", "GC", "GC", "GC", "GC"]],
-    [["GC"]]
-  ],
-  "9": [
-    [
-      ["NV", "NV", "NV", "NV", "GC"],
-      ["GC", "GC", "GC", "GC", "GC"]
-    ],
-    [
-      ["GC", "NV", "NV", "NV", "NV"],
-      ["GC", "GC", "GC", "GC", "GC"]
-    ],
-    [
-      ["NV", "GC", "NV", "GC", "NV"],
-      ["GC", "GC", "GC", "GC", "GC"]
-    ],
-    [
-      ["GC", "NV", "GC", "NV", "GC"],
-      ["GC", "GC", "GC", "GC", "GC"]
-    ],
-    [
-      ["NV", "NV", "GC", "GC", "GC"],
-      ["GC", "GC", "GC", "NV", "NV"]
-    ],
-    [
-      ["GC", "NV", "NV", "NV", "GC"],
-      ["GC", "GC", "GC", "GC", "GC"]
-    ],
-    [
-      ["NV", "GC", "GC", "GC", "NV"],
-      ["GC", "GC", "NV", "GC", "GC"]
-    ],
-    [
-      ["GC", "NV", "NV"],
-      ["GC", "GC", "GC"]
-    ],
-    [
-      ["NV", "NV", "GC"],
-      ["GC", "GC", "GC"]
-    ],
-    [
-      ["NV", "GC", "NV"],
-      ["GC", "GC", "GC"]
-    ],
-    [
-      ["GC", "GC", "NV"],
-      ["NV", "GC", "GC"]
-    ],
-    [
-      ["NV", "GC", "GC"],
-      ["GC", "GC", "NV"]
     ]
-  ],
-  "10": [
+  },
+  {"Proba": 0.0000005, "Piece":
+    [
+      ["GC", "GC", "GC"],
+      ["NV", "GC", "NV"],
+      ["NV", "GC", "NV"]
+    ]
+  },
+  {"Proba": 0.0000001, "Piece":
     [
       ["NV", "GC", "NV"],
       ["GC", "GC", "GC"],
       ["NV", "GC", "NV"]
-    ],
+    ]
+  },
+  {"Proba": 0.00000005, "Piece":
     [
       ["GC", "GC", "NV"],
       ["NV", "GC", "GC"],
       ["GC", "GC", "NV"]
-    ],
-    [
-      ["NV", "GC", "NV"],
-      ["NV", "GC", "NV"],
-      ["GC", "GC", "GC"]
-    ],
+    ]
+  },
+  {"Proba": 0.00000001, "Piece":
     [
       ["GC", "GC", "GC"],
       ["NV", "GC", "NV"],
       ["GC", "GC", "GC"]
-    ],
-    [
-      ["GC", "GC"],
-      ["GC", "GC"]
-    ],
-    [["GC", "GC", "GC"]],
-    [["GC"]]
-  ],
-  "11": [
-    [
-      ["GC", "GC", "GC", "GC", "GC"],
-      ["GC", "GC", "GC", "GC", "GC"]
-    ],
-    [
-      ["GC", "NV", "GC", "GC"],
-      ["GC", "NV", "NV", "GC"],
-      ["GC", "GC", "GC", "GC"]
-    ],
-    [
-      ["NV", "GC", "GC", "NV"],
-      ["GC", "GC", "GC", "GC"],
-      ["NV", "GC", "GC", "NV"]
-    ],
-    [
-      ["GC", "NV", "NV", "GC"],
-      ["GC", "GC", "GC", "GC"],
-      ["GC", "NV", "NV", "GC"]
-    ],
-    [
-      ["GC", "NV", "NV", "NV"],
-      ["GC", "NV", "NV", "NV"],
-      ["GC", "GC", "GC", "GC"]
-    ],
-    [
-      ["GC", "NV", "NV"],
-      ["GC", "GC", "GC"]
-    ],
-    [
-      ["NV", "NV", "GC"],
-      ["GC", "GC", "GC"]
-    ],
-    [
-      ["NV", "GC", "NV"],
-      ["GC", "GC", "GC"]
-    ],
-    [
-      ["GC", "GC", "NV"],
-      ["NV", "GC", "GC"]
-    ],
-    [
-      ["NV", "GC", "GC"],
-      ["GC", "GC", "NV"]
-    ],
-    [
-      ["GC", "GC"],
-      ["GC", "GC"]
-    ],
-    [["GC", "GC", "GC"]],
-    [
-      ["GC", "GC"],
-      ["GC", "GC"]
-    ],
-    [["GC", "GC", "GC"]]
-  ],
-  "12": [
-    [
-      ["NV", "GC", "GC", "GC", "NV"],
-      ["GC", "GC", "GC", "GC", "GC"],
-      ["NV", "GC", "GC", "GC", "NV"]
-    ],
-    [
-      ["GC", "GC", "NV", "NV", "NV"],
-      ["NV", "GC", "GC", "GC", "NV"],
-      ["NV", "GC", "GC", "GC", "GC"]
-    ],
-    [
-      ["GC", "NV", "NV", "NV", "GC"],
-      ["GC", "GC", "GC", "GC", "GC"],
-      ["GC", "NV", "NV", "NV", "GC"]
-    ],
-    [
-      ["GC", "GC"],
-      ["GC", "GC"]
-    ],
-    [["GC", "GC", "GC"]],
-    [["GC"], ["GC"]]
-  ],
-  "13": [
-    [
-      ["NV", "GC", "GC", "NV"],
-      ["GC", "GC", "GC", "GC"],
-      ["GC", "GC", "GC", "GC"],
-      ["NV", "GC", "GC", "NV"]
-    ],
-    [
-      ["GC", "NV", "NV", "GC"],
-      ["GC", "GC", "GC", "GC"],
-      ["GC", "GC", "GC", "GC"],
-      ["GC", "NV", "NV", "GC"]
-    ],
-    [
-      ["GC", "NV", "NV", "NV"],
-      ["GC", "NV", "NV", "NV"],
-      ["GC", "NV", "NV", "NV"],
-      ["GC", "GC", "GC", "GC"]
-    ],
-    [
-      ["GC", "GC", "GC", "GC"],
-      ["GC", "NV", "NV", "GC"],
-      ["GC", "NV", "NV", "GC"],
-      ["GC", "GC", "GC", "GC"]
-    ],
-    [
-      ["GC", "NV", "NV"],
-      ["GC", "GC", "GC"]
-    ],
-    [
-      ["NV", "NV", "GC"],
-      ["GC", "GC", "GC"]
-    ],
-    [
-      ["NV", "GC", "NV"],
-      ["GC", "GC", "GC"]
-    ],
-    [
-      ["GC", "GC", "NV"],
-      ["NV", "GC", "GC"]
-    ],
-    [
-      ["NV", "GC", "GC"],
-      ["GC", "GC", "NV"]
-    ],
-    [
-      ["GC", "GC"],
-      ["GC", "GC"]
-    ],
-    [["GC", "GC", "GC"]]
-  ]
-}
+    ]
+  }
+]

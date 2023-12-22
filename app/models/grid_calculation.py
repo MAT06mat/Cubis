@@ -1,3 +1,6 @@
+import random
+
+
 class GridCalculation():
     @property
     def min_x(self) -> float:
@@ -51,3 +54,61 @@ def symmetry(grid, vertical=True):
             else:
                 new_grid[y][x] = grid[-(y+1)][x]
     return new_grid
+
+def random_grid(size, nb):
+    grid = generate_grid(size=size)
+    if nb <= 30:
+        return grid
+    types_grid = []
+    chance = 0
+    # Append type of grid that be used
+    if nb > 30:
+        types_grid.append(["H0"])
+        chance += 10
+    if nb > 50:
+        types_grid.append(["MC"])
+    if nb > 80:
+        types_grid.append(["H0", "MC"])
+        chance += 5
+    if nb > 130:
+        types_grid.append(["TV"])
+    if nb > 150:
+        types_grid.append(["BNV"])
+        chance += 4
+    if nb > 170:
+        types_grid.append(["BH0"])
+    if nb > 200:
+        types_grid.append(["BNV", "BH0"])
+        chance += 3
+    if nb > 250:
+        types_grid.append(["H0", "BNV", "BH0"])
+    if nb > 250:
+        types_grid.append(["MC", "TV"])
+        chance += 2
+    # Choose a random type of grid
+    type_grid = random.choice(types_grid)
+    # Choose a random interger of point in grid
+    nb_point = random.randint(0, 50)
+    if nb_point > chance:
+        return grid
+    a = size**2
+    # Append a absolu index of points in grid
+    point_list = []
+    for i in range(0, int(nb_point/60*a)):
+        point_list.append(random.randint(0, a))
+    index = 0
+    # Add in grid the points
+    for y in range(len(grid)):
+        for x in range(len(grid[0])):
+            index += 1
+            if index in point_list:
+                grid[y][x] = random.choice(type_grid)
+    # Choose random color
+    colors = random.choices(population=["1", "2", "3", "4", "5", "6"], k=random.choice([1, 2, 3]))
+    # Color the block can be colored
+    for y in range(len(grid)):
+        for x in range(len(grid[0])):
+            if grid[y][x][-1] == "C":
+                grid[y][x] = grid[y][x][:-1]
+                grid[y][x] = grid[y][x] + random.choice(colors)
+    return grid

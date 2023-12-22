@@ -23,13 +23,13 @@ from data.levels import Levels
 from data.texts import Texts
 from models.loop import Loop
 from models.display_grid import ANIMATION_LIST, DisplayGrid
-from models.grid_calculation import generate_grid, turn
 from models.decorators import if_no_message, if_no_piece
+from models.grid_calculation import generate_grid, turn, random_grid
 from models.message import MenuMessage, InfoMessage, VictoireMessage
 
+from math import sqrt
 import os
 import copy
-import random
 
 
 Builder.load_file("screens/game_screen.kv")
@@ -350,7 +350,7 @@ class GridPiece(StackLayout):
         super().__init__(**kwargs)
         if self.id_level == 0:
             for i in range(6):
-                grid = self.generation()
+                grid = Pieces.random_piece()
                 button = PieceButton(grid=grid)
                 self.piece_button.append(button)
                 self.add_widget(button)
@@ -361,24 +361,6 @@ class GridPiece(StackLayout):
                 button = PieceButton(grid=piece["Grid"])
                 self.piece_button.append(button)
                 self.add_widget(button)
-    
-    def generation(self):
-        color = random.randint(1, 6)
-        tier = random.randint(1, self.tiers)
-        pieces = Pieces.get(tier)
-        grid = pieces[random.randint(0, len(pieces)-1)]
-        for y in range(len(grid)):
-            for x  in range(len(grid[y])):
-                if grid[y][x] == "GC":
-                    grid[y][x] = "N" + str(color)
-        for i in range(random.randint(0, 3)):
-            grid = turn(grid)
-        self.piece_generated += 1
-        if self.piece_generated > 90:
-            self.tiers = int(self.piece_generated//30)
-        if self.tiers > 13:
-            self.tiers = 13
-        return grid
 
 
 class MyScrollView(ScrollView, Loop):
@@ -477,18 +459,18 @@ class Grid(RelativeLayout, Loop, DisplayGrid):
             self.parent.message = VictoireMessage(id_level=self.id_level)
             self.parent.add_widget(self.parent.message)
         elif self.id_level == 0:
-            # Si oui, on regenère la grille suivant les tiers
-            tiers = self.parent.zone_piece.my_scroll_view.grid_piece.tiers
-            if 0 < tiers <= 5:
+            # Si oui, on regenère la grille suivant ne nombre de pièces posées
+            nb = Pieces.increase_int
+            if nb <= 30:
                 self.grid = generate_grid(size=4)
-            elif 5 < tiers <= 7:
-                self.grid = generate_grid(size=5)
-            elif 7 < tiers <= 9:
-                self.grid = generate_grid(size=6)
-            elif 9 < tiers <= 11:
-                self.grid = generate_grid(size=7)
+            elif nb <= 100:
+                self.grid = random_grid(size=5, nb=nb)
+            elif nb <= 250:
+                self.grid = random_grid(size=6, nb=nb)
+            elif nb <= 500:
+                self.grid = random_grid(size=7, nb=nb)
             else:
-                self.grid = generate_grid(size=8)
+                self.grid = random_grid(size=8, nb=nb)
             self.parent.saves = []
             self.grid_id = [[None for x in self.grid[0]] for y in self.grid]
         return super().loop(*args)
@@ -662,14 +644,15 @@ class Page(FloatLayout, Loop):
         self.remove_widget(self.current_piece)
         # Add score and generate new piece
         if self.id_level == 0:
-            score = 0
+            block_in_piece = 0
             for y in self.current_piece.grid:
                 for x in y:
                     if x != "NV":
-                        score += 1
-            self.score += score * score
+                        block_in_piece += 1
+            self.score += int(sqrt(Pieces.increase_int+1)*block_in_piece)
             self.score_label.text = str(self.score)
-            grid = self.zone_piece.my_scroll_view.grid_piece.generation()
+            grid = Pieces.random_piece()
+            Pieces.increase()
             button = PieceButton(grid=grid)
             self.zone_piece.my_scroll_view.grid_piece.piece_button.append(button)
             self.zone_piece.my_scroll_view.grid_piece.add_widget(button)
