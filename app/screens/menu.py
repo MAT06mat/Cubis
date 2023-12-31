@@ -1,12 +1,12 @@
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.image import Image
-from kivy.uix.button import Button
 from kivy.core.window import Window
 from kivy.metrics import dp
 from kivy.lang import Builder
 
 from data import *
 from models import *
+from uix import CustomPressButton
 
 
 Builder.load_file("screens/menu.kv")
@@ -33,7 +33,7 @@ class MenuBoxLayout(BoxLayout, Loop):
             self.width -= 1
 
 
-class SMButton(Button):
+class SMButton(CustomPressButton):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.lang_change()
@@ -44,7 +44,7 @@ class SMButton(Button):
         self.background_down = Texts.image_path("assets/images/buttons/story_mode.png")
 
 
-class IMButton(Button):
+class IMButton(CustomPressButton):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.lang_change()

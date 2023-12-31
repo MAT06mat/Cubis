@@ -1,6 +1,5 @@
 from kivy.lang import Builder
 from kivy.core.window import Window
-from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.relativelayout import RelativeLayout
 from kivy.properties import NumericProperty, ListProperty, StringProperty, BooleanProperty
@@ -12,7 +11,7 @@ from data.levels import Levels
 from data.areas import Areas
 from data.settings import Settings
 from models.loop import Loop
-from uix.cadre import Cadre
+from uix import *
 
 
 Builder.load_file("models/message.kv")
@@ -22,7 +21,7 @@ class Message(RelativeLayout):
     pass
 
 
-class PlayButtonStory(Button):
+class PlayButtonStory(CustomPressButton):
     id_level = NumericProperty(None)
     
     def __init__(self, **kwargs):
@@ -94,7 +93,7 @@ class Title(Label, Loop):
         self.font_size = self.parent.width / 8
 
 
-class Back(Button, Loop):
+class Back(CustomPressButton, Loop):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.width = dp(40)
@@ -104,9 +103,10 @@ class Back(Button, Loop):
         self.width = self.parent.width/8
         self.height = self.width
     
-    def on_press(self):
+    def on_custom_press(self, *args):
         self.parent.message_pop()
-        return super().on_press()
+        return super().on_custom_press(*args)
+
 
 class PlayMessage(Message):
     id_level = NumericProperty(None)
@@ -137,14 +137,14 @@ class PlayMessage(Message):
         self.parent.message_pop()
 
 
-class SettingButton(Button, Loop):
+class SettingButton(CustomPressButton, Loop):
     def loop(self, *args):
         self.width = self.parent.height/3
         self.height = self.width
         self.y = self.parent.height/6
 
 
-class ResetButton(Button, Loop):
+class ResetButton(CustomPressButton, Loop):
     id_level = NumericProperty(None)
     
     def loop(self, *args):
@@ -152,7 +152,7 @@ class ResetButton(Button, Loop):
         self.height = self.width
         self.y = self.parent.height/6
     
-    def on_press(self):
+    def on_custom_press(self, *args):
         if self.id_level == 0:
             Settings.last_score = self.parent.parent.score
             b = False
@@ -165,10 +165,10 @@ class ResetButton(Button, Loop):
                 sorted_list = list(sorted(best_score, reverse=True))
                 sorted_list.pop(-1)
                 Settings.best_score = sorted_list
-        return super().on_press()
+        return super().on_custom_press(*args)
 
 
-class QuitButton(Button, Loop):
+class QuitButton(CustomPressButton, Loop):
     id_level = NumericProperty(0)
     victoire = BooleanProperty(False)
     
@@ -269,7 +269,7 @@ class VictoireMessage(Message):
         self.parent.message_pop()
 
 
-class NextButton(Button):
+class NextButton(CustomPressButton):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.text = Texts.key(35)

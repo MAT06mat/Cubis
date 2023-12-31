@@ -1,7 +1,6 @@
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.uix.image import Image
-from kivy.uix.button import Button
 from kivy.core.window import Window
 from kivy.clock import Clock
 from kivy.metrics import dp
@@ -11,6 +10,7 @@ from kivy.lang import Builder
 
 from data import *
 from models import *
+from uix import CustomPressButton
 
 
 Builder.load_file("screens/start_screen.kv")
@@ -31,7 +31,7 @@ class StartImage(Image):
         self.color = (1, 1, 1, self.o/100)
 
 
-class StartButton(Button):
+class StartButton(CustomPressButton):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         Clock.schedule_once(self.undisabled, 4)

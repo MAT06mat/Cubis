@@ -2,7 +2,7 @@
     size_hint: (0.75, None)
     height: self.width/1192*501
     pos_hint: {"center_x": 0.5, "center_y": 0.3}
-    on_press: app.manager.start_level(self.id_level)
+    on_custom_press: app.manager.start_level(self.id_level)
 
 <Back>:
     background_normal: "assets/images/buttons/croix.png"
@@ -28,18 +28,18 @@
     pos_hint: {"center_x": 0.5}
     background_normal: "assets/images/buttons/setting.png"
     background_down: "assets/images/buttons/setting.png"
-    on_press: app.manager.push("Setting", transition_screen=False)
+    on_custom_press: app.manager.push("Setting", transition_screen=False)
 
 <QuitButton>:
     size_hint: (None, None)
-    on_press: app.manager.quit_level()
+    on_custom_press: app.manager.quit_level()
 
 <ResetButton>:
     size_hint: (None, None)
     pos_hint: {"center_x": 0.25}
     background_normal: "assets/images/buttons/reset.png"
     background_down: "assets/images/buttons/reset.png"
-    on_press: app.manager.start_level(self.id_level, transition_screen=False)
+    on_custom_press: app.manager.start_level(self.id_level, transition_screen=False)
 
 <InfoMessage>:
     Cadre:
@@ -55,4 +55,4 @@
         font_name: "assets/fonts/Coda-Regular.ttf"
         background_normal: "assets/images/buttons/2.png"
         background_down: "assets/images/buttons/2.png"
-        on_press: root.next()
+        on_custom_press: root.next()

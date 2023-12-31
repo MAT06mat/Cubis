@@ -3,7 +3,6 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.label import Label
 from kivy.uix.image import Image
 from kivy.uix.slider import Slider
-from kivy.uix.button import Button
 from kivy.uix.dropdown import DropDown
 from kivy.core.window import Window
 from kivy.clock import Clock
@@ -22,7 +21,7 @@ Builder.load_file("screens/settings.kv")
 # ============ SETTINGS ============
 
 
-class LButton(Button):
+class LButton(CustomPressButton):
     current_lang = BooleanProperty(False)
     
     def __init__(self, **kwargs):
@@ -214,7 +213,7 @@ class SettingImage(Image, Loop):
             self.width = self.parent.height
         self.height = self.width
 
-class BackMenuButton(Button, Loop):
+class BackMenuButton(CustomPressButton, Loop):
     def loop(self, *args):
         if Window.width * 0.75 < Window.height:
             self.size_hint = (None, 0.07)

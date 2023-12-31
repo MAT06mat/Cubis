@@ -1,13 +1,13 @@
 from kivy.lang import Builder
 from kivy.core.window import Window
 from kivy.uix.label import Label
-from kivy.uix.button import Button
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.relativelayout import RelativeLayout
 from kivy.metrics import dp
 
 from data import *
 from models import *
+from uix import CustomPressButton
 
 
 Builder.load_file("screens/infinite_mode.kv")
@@ -38,7 +38,7 @@ class ScoreLayout(RelativeLayout, Loop):
             self.width -= 1
 
 
-class PlayInfiniteModeButton(Button, Loop):
+class PlayInfiniteModeButton(CustomPressButton, Loop):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.lang_change()

@@ -1,5 +1,4 @@
 from kivy.lang import Builder
-from kivy.uix.button import Button
 from kivy.uix.image import Image
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.scrollview import ScrollView
@@ -22,7 +21,7 @@ tuto = True
 BACKGROUND_IMAGE = MyBackgroundImage()
 
 
-class Level(Button):
+class Level(CustomPressButton):
     level = DictProperty(None)
     
     def __init__(self, **kwargs):
@@ -61,10 +60,10 @@ class Level(Button):
             self.color = "#A04623"
         else:
             self.color = (1, 1, 1, 0)
-        
-    def on_press(self):
+    
+    def on_custom_press(self, *args):
         self.parent.parent.parent.parent.parent.message_push(self.id)
-        return super().on_press()
+        return super().on_custom_press(*args)
 
 
 class Area(BoxLayout):

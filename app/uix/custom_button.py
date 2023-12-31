@@ -1,9 +1,9 @@
-from kivy.uix.button import Button
+from uix.custom_press_button import CustomPressButton
 from kivy.lang import Builder
 
 
 Builder.load_file("uix/custom_button.kv")
 
 
-class CustomButton(Button):
+class CustomButton(CustomPressButton):
     pass

@@ -18,6 +18,7 @@ from kivy.metrics import dp
 
 from data import *
 from models import *
+from uix import CustomPressButton
 
 from math import sqrt
 import os
@@ -65,7 +66,7 @@ class HoleAnimation(Widget):
         self.animation.start(self)
 
 
-class RedoButton(Button, Loop):
+class RedoButton(CustomPressButton, Loop):
     def loop(self, *args):
         self.x = self.width*0.8
         self.y = Window.height - self.height*0.9
@@ -79,12 +80,12 @@ class RedoButton(Button, Loop):
 
     @if_no_message
     @if_no_piece
-    def on_press(self):
+    def on_custom_press(self, *args):
         self.parent.redo()
-        return super().on_press()
+        return super().on_custom_press(*args)
 
 
-class UndoButton(Button, Loop):
+class UndoButton(CustomPressButton, Loop):
     def loop(self, *args):
         self.y = Window.height - self.height*0.9
         if Window.width*0.75 < Window.height:
@@ -97,9 +98,9 @@ class UndoButton(Button, Loop):
 
     @if_no_message
     @if_no_piece
-    def on_press(self):
+    def on_custom_press(self, *args):
         self.parent.undo()
-        return super().on_press()
+        return super().on_custom_press(*args)
 
 
 class GridImage(Image):
@@ -144,7 +145,7 @@ class ScoreCase(Label, Loop):
         return super().loop(*args)
 
 
-class MenuButton(Button, Loop):
+class MenuButton(CustomPressButton, Loop):
     def loop(self, *args):
         self.x = Window.width - self.width*0.9
         self.y = Window.height - self.height*0.9
@@ -158,9 +159,9 @@ class MenuButton(Button, Loop):
     
     @if_no_message
     @if_no_piece
-    def on_press(self):
+    def on_custom_press(self, *args):
         self.parent.message_push()
-        return super().on_press()
+        return super().on_custom_press(*args)
 
 
 class CurrentPiece(RelativeLayout, Loop, DisplayGrid):
