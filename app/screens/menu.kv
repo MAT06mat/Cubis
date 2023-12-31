@@ -2,12 +2,11 @@
     Image:
         source: "assets/images/backgrounds/menu.jpg"
         fit_mode: "cover"
-    CustomPressButton:
+    CustomResizeButton:
         size_hint: (None, None)
         size: ("75dp", "75dp")
         pos: (0, 0)
-        background_normal: "assets/images/buttons/setting.png"
-        background_down: "assets/images/buttons/setting.png"
+        source: "assets/images/buttons/setting.png"
         on_custom_press: app.manager.push("Setting", transition_screen=False)
     AnchorLayout:
         anchor_x: "center"

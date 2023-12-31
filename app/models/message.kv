@@ -4,12 +4,6 @@
     pos_hint: {"center_x": 0.5, "center_y": 0.3}
     on_custom_press: app.manager.start_level(self.id_level)
 
-<Back>:
-    background_normal: "assets/images/buttons/croix.png"
-    background_down: "assets/images/buttons/croix.png"
-    size_hint: (None, None)
-    pos_hint: {"right": 0.94, "top": 0.92}
-
 <Title>:
     color: "#59173D"
     pos_hint: {"center_x": 0.5, "center_y": 0.8}
@@ -26,8 +20,7 @@
 <SettingButton>:
     size_hint: (None, None)
     pos_hint: {"center_x": 0.5}
-    background_normal: "assets/images/buttons/setting.png"
-    background_down: "assets/images/buttons/setting.png"
+    source: "assets/images/buttons/setting.png"
     on_custom_press: app.manager.push("Setting", transition_screen=False)
 
 <QuitButton>:
@@ -37,8 +30,7 @@
 <ResetButton>:
     size_hint: (None, None)
     pos_hint: {"center_x": 0.25}
-    background_normal: "assets/images/buttons/reset.png"
-    background_down: "assets/images/buttons/reset.png"
+    source: "assets/images/buttons/reset.png"
     on_custom_press: app.manager.start_level(self.id_level, transition_screen=False)
 
 <InfoMessage>:
@@ -53,6 +45,5 @@
         font_size: self.width/10
         color: "#A04623"
         font_name: "assets/fonts/Coda-Regular.ttf"
-        background_normal: "assets/images/buttons/2.png"
-        background_down: "assets/images/buttons/2.png"
+        source: "assets/images/buttons/2.png"
         on_custom_press: root.next()

@@ -6,7 +6,7 @@ from kivy.lang import Builder
 
 from data import *
 from models import *
-from uix import CustomPressButton
+from uix import *
 
 
 Builder.load_file("screens/menu.kv")
@@ -33,23 +33,21 @@ class MenuBoxLayout(BoxLayout, Loop):
             self.width -= 1
 
 
-class SMButton(CustomPressButton):
+class SMButton(CustomResizeButton):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.lang_change()
         Texts.bind(current_lang=self.lang_change)
 
     def lang_change(self, *args):
-        self.background_normal = Texts.image_path("assets/images/buttons/story_mode.png")
-        self.background_down = Texts.image_path("assets/images/buttons/story_mode.png")
+        self.source = Texts.image_path("assets/images/buttons/story_mode.png")
 
 
-class IMButton(CustomPressButton):
+class IMButton(CustomResizeButton):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.lang_change()
         Texts.bind(current_lang=self.lang_change)
 
     def lang_change(self, *args):
-        self.background_normal = Texts.image_path("assets/images/buttons/infinite_mode.png")
-        self.background_down = Texts.image_path("assets/images/buttons/infinite_mode.png")
+        self.source = Texts.image_path("assets/images/buttons/infinite_mode.png")

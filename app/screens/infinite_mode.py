@@ -7,7 +7,7 @@ from kivy.metrics import dp
 
 from data import *
 from models import *
-from uix import CustomPressButton
+from uix import *
 
 
 Builder.load_file("screens/infinite_mode.kv")
@@ -38,15 +38,14 @@ class ScoreLayout(RelativeLayout, Loop):
             self.width -= 1
 
 
-class PlayInfiniteModeButton(CustomPressButton, Loop):
+class PlayInfiniteModeButton(CustomResizeButton, Loop):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.lang_change()
         Texts.bind(current_lang=self.lang_change)
     
     def lang_change(self, *args):
-        self.background_normal = Texts.image_path("assets/images/buttons/play.png")
-        self.background_down = Texts.image_path("assets/images/buttons/play.png")
+        self.source = Texts.image_path("assets/images/buttons/play.png")
     
     def loop(self, *args):
         self.width = Window.width - dp(30)

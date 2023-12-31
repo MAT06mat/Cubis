@@ -213,7 +213,7 @@ class SettingImage(Image, Loop):
             self.width = self.parent.height
         self.height = self.width
 
-class BackMenuButton(CustomPressButton, Loop):
+class BackMenuButton(CustomResizeButton, Loop):
     def loop(self, *args):
         if Window.width * 0.75 < Window.height:
             self.size_hint = (None, 0.07)

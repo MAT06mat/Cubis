@@ -10,7 +10,7 @@ from kivy.lang import Builder
 
 from data import *
 from models import *
-from uix import CustomPressButton
+from uix import *
 
 
 Builder.load_file("screens/start_screen.kv")
@@ -38,7 +38,7 @@ class StartButton(CustomPressButton):
     
     def undisabled(self, *args):
         self.disabled = False
-    
+
 
 class StartLabel(Label, Loop):
     o = NumericProperty(0)

@@ -18,7 +18,7 @@ from kivy.metrics import dp
 
 from data import *
 from models import *
-from uix import CustomPressButton
+from uix import *
 
 from math import sqrt
 import os
@@ -66,7 +66,7 @@ class HoleAnimation(Widget):
         self.animation.start(self)
 
 
-class RedoButton(CustomPressButton, Loop):
+class RedoButton(CustomResizeButton):
     def loop(self, *args):
         self.x = self.width*0.8
         self.y = Window.height - self.height*0.9
@@ -85,7 +85,7 @@ class RedoButton(CustomPressButton, Loop):
         return super().on_custom_press(*args)
 
 
-class UndoButton(CustomPressButton, Loop):
+class UndoButton(CustomResizeButton):
     def loop(self, *args):
         self.y = Window.height - self.height*0.9
         if Window.width*0.75 < Window.height:
@@ -145,7 +145,7 @@ class ScoreCase(Label, Loop):
         return super().loop(*args)
 
 
-class MenuButton(CustomPressButton, Loop):
+class MenuButton(CustomResizeButton):
     def loop(self, *args):
         self.x = Window.width - self.width*0.9
         self.y = Window.height - self.height*0.9
@@ -469,7 +469,7 @@ class Grid(RelativeLayout, Loop, DisplayGrid):
         return super().loop(*args)
 
 
-class Arrow(Button, Loop):
+class Arrow(CustomResizeButton, Loop):
     arrow_type = "left"
     
     def loop(self, *args):

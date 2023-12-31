@@ -21,7 +21,7 @@ class Message(RelativeLayout):
     pass
 
 
-class PlayButtonStory(CustomPressButton):
+class PlayButtonStory(CustomResizeButton):
     id_level = NumericProperty(None)
     
     def __init__(self, **kwargs):
@@ -34,9 +34,7 @@ class PlayButtonStory(CustomPressButton):
         Texts.bind(current_lang=self.lang_change)
     
     def lang_change(self, *args):
-        self.background_normal = Texts.image_path("assets/images/buttons/play.png")
-        self.background_down = Texts.image_path("assets/images/buttons/play.png")
-        self.background_disabled_normal = Texts.image_path("assets/images/buttons/play-disabled.png")
+        self.source = Texts.image_path("assets/images/buttons/play.png")
 
 
 class Texte(Label, Loop):
@@ -93,15 +91,19 @@ class Title(Label, Loop):
         self.font_size = self.parent.width / 8
 
 
-class Back(CustomPressButton, Loop):
+class Back(CustomResizeButton):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.source = "assets/images/buttons/croix.png"
+        self.size_hint = (None, None)
+        self.pos_hint = {"right": 0.94, "top": 0.92}
         self.width = dp(40)
         self.height = self.width
-        
+    
     def loop(self, *args):
         self.width = self.parent.width/8
         self.height = self.width
+        return super().loop(*args)
     
     def on_custom_press(self, *args):
         self.parent.message_pop()
@@ -137,20 +139,22 @@ class PlayMessage(Message):
         self.parent.message_pop()
 
 
-class SettingButton(CustomPressButton, Loop):
+class SettingButton(CustomResizeButton):
     def loop(self, *args):
         self.width = self.parent.height/3
         self.height = self.width
         self.y = self.parent.height/6
+        return super().loop(*args)
 
 
-class ResetButton(CustomPressButton, Loop):
+class ResetButton(CustomResizeButton):
     id_level = NumericProperty(None)
     
     def loop(self, *args):
         self.width = self.parent.height/3
         self.height = self.width
         self.y = self.parent.height/6
+        return super().loop(*args)
     
     def on_custom_press(self, *args):
         if self.id_level == 0:
@@ -168,7 +172,7 @@ class ResetButton(CustomPressButton, Loop):
         return super().on_custom_press(*args)
 
 
-class QuitButton(CustomPressButton, Loop):
+class QuitButton(CustomResizeButton):
     id_level = NumericProperty(0)
     victoire = BooleanProperty(False)
     
@@ -182,12 +186,10 @@ class QuitButton(CustomPressButton, Loop):
             Texts.bind(current_lang=self.lang_change)
         else:
             self.coeff_h = 1
-            self.background_normal = "assets/images/buttons/quit.png"
-            self.background_down = "assets/images/buttons/quit.png"
+            self.source = "assets/images/buttons/quit.png"
 
     def lang_change(self, *args):
-        self.background_normal = Texts.image_path("assets/images/buttons/next.png")
-        self.background_down = Texts.image_path("assets/images/buttons/next.png")
+        self.source = Texts.image_path("assets/images/buttons/next.png")
     
     def loop(self, *args):
         if self.id_level == 0:
@@ -197,6 +199,7 @@ class QuitButton(CustomPressButton, Loop):
             self.height = self.parent.height/3*self.coeff_h
             self.width = self.height/823*1886
         self.y = self.parent.height/6
+        return super().loop(*args)
 
 
 class MenuMessage(Message, Loop):
@@ -269,7 +272,7 @@ class VictoireMessage(Message):
         self.parent.message_pop()
 
 
-class NextButton(CustomPressButton):
+class NextButton(CustomResizeButton):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.text = Texts.key(35)

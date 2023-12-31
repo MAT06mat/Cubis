@@ -59,8 +59,7 @@
     BackMenuButton:
         x: dp(10)
         y: root.height - dp(10) - self.height
-        background_normal: "assets/images/buttons/left2.png"
-        background_down: "assets/images/buttons/left2.png"
+        source: "assets/images/buttons/left2.png"
         on_custom_press: app.manager.pop(transition_screen=False)
     InfoLabel:
         size_hint: (None, None)
@@ -75,8 +74,6 @@
     font_size: self.width/8
     color: "#A04623"
     font_name: "assets/fonts/Coda-Regular.ttf"
-    background_normal: ""
-    background_down: ""
     background_color: (0, 0, 0, 0)
     canvas.before:
         Color:
