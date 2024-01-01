@@ -436,7 +436,7 @@ class Grid(RelativeLayout, Loop, DisplayGrid):
         if self.id_level == 0:
             self.grid = generate_grid(size=4)
         else:
-            self.level = Levels[str(self.id_level)]
+            self.level = copy.deepcopy(Levels[str(self.id_level)])
             self.grid = self.level["Grid"]
         self.grid_id = [[None for x in self.grid[0]] for y in self.grid]
         self.size_hint = (None, None)
