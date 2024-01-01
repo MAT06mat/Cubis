@@ -68,6 +68,10 @@ class HoleAnimation(Widget):
 
 
 class RedoButton(CustomResizeButton):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.disabled = True
+    
     def loop(self, *args):
         self.x = self.width*0.8
         self.y = Window.height - self.height*0.9
@@ -78,15 +82,25 @@ class RedoButton(CustomResizeButton):
             self.size_hint = (0.07, None)
             self.height = self.width
         return super().loop(*args)
-
-    @if_no_message
-    @if_no_piece
+    
+    def condition(self):
+        if self.parent.message:
+            return False
+        if self.parent.current_piece:
+            if self.parent.current_piece.delta_pos:
+                return False
+        return True
+    
     def on_custom_press(self, *args):
         self.parent.redo()
         return super().on_custom_press(*args)
 
 
 class UndoButton(CustomResizeButton):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.disabled = True
+    
     def loop(self, *args):
         self.y = Window.height - self.height*0.9
         if Window.width*0.75 < Window.height:
@@ -96,9 +110,15 @@ class UndoButton(CustomResizeButton):
             self.size_hint = (0.07, None)
             self.height = self.width
         return super().loop(*args)
-
-    @if_no_message
-    @if_no_piece
+    
+    def condition(self):
+        if self.parent.message:
+            return False
+        if self.parent.current_piece:
+            if self.parent.current_piece.delta_pos:
+                return False
+        return True
+    
     def on_custom_press(self, *args):
         self.parent.undo()
         return super().on_custom_press(*args)
@@ -158,8 +178,14 @@ class MenuButton(CustomResizeButton):
             self.height = self.width
         return super().loop(*args)
     
-    @if_no_message
-    @if_no_piece
+    def condition(self):
+        if self.parent.message:
+            return False
+        if self.parent.current_piece:
+            if self.parent.current_piece.delta_pos:
+                return False
+        return True
+    
     def on_custom_press(self, *args):
         self.parent.message_push()
         return super().on_custom_press(*args)
