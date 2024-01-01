@@ -10,6 +10,7 @@ class MyScreenManager(NavigationScreenManager):
 
 
 class CubisApp(App):
+    click_disabled = False
     manager = ObjectProperty(None)
     icon = "assets/images/app/logo.png"
     

@@ -26,6 +26,7 @@ class PlayButtonStory(CustomResizeButton):
     
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.wait_end = True
         self.lang_change()
         try:
             Levels[str(self.id_level)]
@@ -178,6 +179,7 @@ class QuitButton(CustomResizeButton):
     
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.wait_end = True
         self.pos_hint = {"center_x": 0.75}
         if self.id_level != 0:
             self.coeff_h = 0.95
@@ -275,6 +277,7 @@ class VictoireMessage(Message):
 class NextButton(CustomResizeButton):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.wait_end = True
         self.text = Texts.key(35)
 
 

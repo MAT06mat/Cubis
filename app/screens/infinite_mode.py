@@ -41,6 +41,7 @@ class ScoreLayout(RelativeLayout, Loop):
 class PlayInfiniteModeButton(CustomResizeButton, Loop):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.wait_end = True
         self.lang_change()
         Texts.bind(current_lang=self.lang_change)
     

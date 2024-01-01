@@ -27,6 +27,12 @@ class NavigationScreenManager(ScreenManager):
         super().__init__(**kwargs)
         self.level = False
         self.add_widget(self.game)
+    
+    def on_touch_down(self, touch):
+        # Disable the click event for all widget if click_disabled
+        if App.get_running_app().click_disabled:
+            return
+        return super().on_touch_down(touch)
 
     def change_transition(self, transition_screen, screen_name) -> None:
         if transition_screen:
