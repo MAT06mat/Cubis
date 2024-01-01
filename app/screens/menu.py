@@ -19,18 +19,18 @@ class Logo(Image, Loop):
     def loop(self, *args):
         self.width = Window.width - dp(50)
         self.height = self.width / 1160 * 343
-        while self.height > 0.25 * Window.height:
-            self.height -= 1
+        if self.height > 0.25 * Window.height:
+            self.height = 0.25 * Window.height
 
 
 class MenuBoxLayout(BoxLayout, Loop):
     def loop(self, *args):
         self.width = Window.width - dp(90)
         self.height = self.width / 1289 * 958
-        while self.height > 0.5 * Window.height:
-            self.height -= 1
-        while self.width / 1289 * 958 > self.height:
-            self.width -= 1
+        if self.height > 0.5 * Window.height:
+            self.height = 0.5 * Window.height
+        if self.width > self.height * 1289 / 958:
+            self.width = self.height * 1289 / 958
 
 
 class SMButton(CustomResizeButton):

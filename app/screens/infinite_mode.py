@@ -32,10 +32,10 @@ class ScoreLayout(RelativeLayout, Loop):
     def loop(self, *args):
         self.width = Window.width - dp(30)
         self.height = self.width / 1894 * 1400
-        while self.height > 0.5 * Window.height:
-            self.height -= 1
-        while self.width / 1894 * 1400 > self.height:
-            self.width -= 1
+        if self.height > 0.5 * Window.height:
+            self.height = 0.5 * Window.height
+        if self.width > self.height * 1894 / 1400:
+            self.width = self.height * 1894 / 1400
 
 
 class PlayInfiniteModeButton(CustomResizeButton, Loop):
@@ -51,10 +51,10 @@ class PlayInfiniteModeButton(CustomResizeButton, Loop):
     def loop(self, *args):
         self.width = Window.width - dp(50)
         self.height = self.width / 1192 * 501
-        while self.height > 0.25 * Window.height:
-            self.height -= 1
-        while self.width / 1192 * 501 > self.height:
-            self.width -= 1
+        if self.height > 0.25 * Window.height:
+            self.height =  0.25 * Window.height
+        if self.width > self.height * 1192 / 501:
+            self.width = self.height * 1192 / 501
 
 
 class InfiniteMode(FloatLayout):

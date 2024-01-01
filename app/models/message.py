@@ -131,10 +131,10 @@ class PlayMessage(Message):
     def on_window_resize(self, *args):
         self.width = Window.width - dp(30)
         self.height = self.width / 1894 * 1400
-        while self.height > 0.5 * Window.height:
-            self.height -= 1
-        while self.width / 1894 * 1400 > self.height:
-            self.width -= 1
+        if self.height > 0.5 * Window.height:
+            self.height = 0.5 * Window.height
+        if self.width > self.height * 1894 / 1400:
+            self.width = self.height * 1894 / 1400
     
     def message_pop(self):
         self.parent.message_pop()
@@ -233,10 +233,10 @@ class MenuMessage(Message, Loop):
     def loop(self, *args):
         self.width = Window.width - dp(30)
         self.height = self.width / 1894 * 1400
-        while self.height > 0.5 * Window.height:
-            self.height -= 1
-        while self.width / 1894 * 1400 > self.height:
-            self.width -= 1
+        if self.height > 0.5 * Window.height:
+            self.height = 0.5 * Window.height
+        if self.width > self.height * 1894 / 1400:
+            self.width = self.height * 1894 / 1400
     
     def message_pop(self):
         self.parent.message_pop()
@@ -265,10 +265,10 @@ class VictoireMessage(Message):
     def on_window_resize(self, *args):
         self.width = Window.width - dp(30)
         self.height = self.width / 1894 * 1400
-        while self.height > 0.5 * Window.height:
-            self.height -= 1
-        while self.width / 1894 * 1400 > self.height:
-            self.width -= 1
+        if self.height > 0.5 * Window.height:
+            self.height = 0.5 * Window.height
+        if self.width > self.height * 1894 / 1400:
+            self.width = self.height * 1894 / 1400
     
     def message_pop(self):
         self.parent.message_pop()
@@ -304,7 +304,7 @@ class InfoMessage(Message):
     def on_window_resize(self, *args):
         self.width = Window.width - dp(30)
         self.height = self.width / 1894 * 1400
-        while self.height > 0.5 * Window.height:
-            self.height -= 1
-        while self.width / 1894 * 1400 > self.height:
-            self.width -= 1
+        if self.height > 0.5 * Window.height:
+            self.height = 0.5 * Window.height
+        if self.width > self.height * 1894 / 1400:
+            self.width = self.height * 1894 / 1400

@@ -136,18 +136,18 @@ class GridImage(Image):
             self.pos_hint = {"center_x": 0.5, "top": 0.94}
             self.width = Window.width
             self.height = self.width
-            while self.height > 0.6 * Window.height:
-                self.height -= 1
-            while self.width > self.height:
-                self.width -= 1 
+            if self.height > 0.6 * Window.height:
+                self.height = 0.6 * Window.height
+            if self.width > self.height:
+                self.width = self.height
         else:
             self.pos_hint = {"x": 0.05, "center_y": 0.5}
             self.height = Window.height
             self.width = self.height
-            while self.height > 0.8 * Window.height:
-                self.height -= 1
-            while self.width > self.height:
-                self.width -= 1 
+            if self.height > 0.8 * Window.height:
+                self.height = 0.8 * Window.height
+            if self.width > self.height:
+                self.width = self.height
 
 
 class ScoreCase(Label, Loop):
@@ -417,14 +417,14 @@ class ZonePieces(BoxLayout, Loop):
         if Window.width*0.75 < Window.height:
             self.size_hint = (1, None)
             height = Window.width
-            while height > 0.6 * Window.height:
-                height -= 1
+            if height > 0.6 * Window.height:
+                height = 0.6 * Window.height
             self.height = Window.height * 0.85 - height
         else:
             self.size_hint = (None, 0.9)
             width = Window.height
-            while width > 0.8 * Window.height:
-                width -= 1
+            if width > 0.8 * Window.height:
+                width = 0.8 * Window.height
             self.width = Window.width * 0.92 - width
 
 
