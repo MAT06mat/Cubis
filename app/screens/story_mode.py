@@ -132,9 +132,9 @@ class TabItem(TabbedPanelItem):
             if level["Id"] <= current_level:
                 self.disabled = False
             if level["Id"] == current_level:
-                self.on_press()
+                self.on_release()
     
-    def on_press(self, pop=True):
+    def on_release(self, pop=True):
         if self.parent.parent and pop:
             self.parent.parent.parent.parent.parent.message_pop()
         BACKGROUND_IMAGE.clear_widgets()
@@ -150,7 +150,7 @@ class TabItem(TabbedPanelItem):
             self.parent.parent.parent.parent.stop_every_scroll()
         self.scroll_view.current = True
         self.scroll_view.update()
-        return super().on_press()
+        return super().on_release()
 
 
 class StoryMode(TabbedPanel, Loop):
@@ -182,7 +182,7 @@ class StoryMode(TabbedPanel, Loop):
             for tab in self.tab_list[:-1]:
                 if tab.disabled == False:
                     self.switch_to(tab)
-                    tab.on_press(pop=False)
+                    tab.on_release(pop=False)
                     return
     
     def stop_every_scroll(self):

@@ -7,6 +7,8 @@ class CustomPressButton(Button):
     custom_press = NumericProperty(0)
     
     def on_press(self):
+        if not self.condition():
+            return super().on_press()
         self.__last_press = True
         return super().on_press()
     
@@ -18,3 +20,8 @@ class CustomPressButton(Button):
 
     def on_custom_press(self, *args):
         pass
+    
+    def condition(self):
+        """Condition for start animation on the `on_press` event and call `on_custom_press` func.
+        `Default: return True`"""
+        return True

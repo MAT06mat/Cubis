@@ -36,17 +36,8 @@ class CustomResizeButton(CustomPressButton, Loop):
         self.image.center = self.center
     
     def on_press(self):
-        try:
-            if self.parent.message != None:
-                return super().on_press()
-        except:
-            pass
-        try:
-            if self.parent.current_piece != None:
-                if self.parent.current_piece.delta_pos != None:
-                    return super().on_press()
-        except:
-            pass
+        if not self.condition():
+            return super().on_press()
         self.__last_press = True
         self.__touch_inside = True
         self.anim.cancel(self)

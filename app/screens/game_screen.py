@@ -10,6 +10,7 @@ from kivy.uix.label import Label
 from kivy.uix.image import Image
 from kivy.uix.widget import Widget
 from kivy.core.window import Window
+from kivy.clock import Clock
 from kivy.properties import ListProperty, NumericProperty, BooleanProperty, ObjectProperty
 from kivy.graphics.vertex_instructions import Rectangle
 from kivy.graphics.context_instructions import PushMatrix, PopMatrix, Rotate
@@ -470,7 +471,7 @@ class Grid(RelativeLayout, Loop, DisplayGrid):
 
 
 class Arrow(CustomResizeButton, Loop):
-    arrow_type = "left"
+    arrow_type = None
     
     def loop(self, *args):
         self.y = self.parent.grid_image.y - self.height/1.2
@@ -492,25 +493,33 @@ class Arrow(CustomResizeButton, Loop):
                 self.x = self.parent.grid_image.x + self.parent.grid_image.width - self.width
         return super().loop(*args)
 
+    def condition(self):
+        if self.parent.message:
+            return False
+        if self.parent.current_piece:
+            if self.parent.current_piece.delta_pos:
+                return False
+        return True
+
 
 class RightArrow(Arrow):
     arrow_type = "right"
     
-    @if_no_message
-    @if_no_piece
-    def on_press(self):
+    def on_custom_press(self, *args):
         if self.parent.current_piece:
             self.parent.current_piece.right()
-        return super().on_press()
+            Clock.schedule_once(self.parent.put_current_piece_in_grid)
+        return super().on_custom_press(*args)
 
 
 class LeftArrow(Arrow):
-    @if_no_message
-    @if_no_piece
-    def on_press(self):
+    arrow_type = "left"
+    
+    def on_custom_press(self, *args):
         if self.parent.current_piece:
             self.parent.current_piece.left()
-        return super().on_press()
+            Clock.schedule_once(self.parent.put_current_piece_in_grid)
+        return super().on_custom_press(*args)
 
 
 class Page(FloatLayout, Loop):
@@ -609,8 +618,14 @@ class Page(FloatLayout, Loop):
         return super().on_touch_down(touch)"""
     
     def on_touch_up(self, touch):
-        if self.message or not self.verify():
+        if self.message:
             return super().on_touch_up(touch)
+        self.put_current_piece_in_grid()
+        return super().on_touch_up(touch)
+    
+    def put_current_piece_in_grid(self, *args):
+        if not self.verify():
+            return
         # Add current piece to grid
         self.save()
         marg = int(self.grid.size_line/2)
@@ -650,7 +665,6 @@ class Page(FloatLayout, Loop):
             self.zone_piece.my_scroll_view.grid_piece.piece_button.append(button)
             self.zone_piece.my_scroll_view.grid_piece.add_widget(button)
         self.current_piece = None
-        return super().on_touch_up(touch)
     
     def save(self, redo=False):
         if self.id_level == 0:
