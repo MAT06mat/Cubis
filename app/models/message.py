@@ -18,7 +18,13 @@ Builder.load_file("models/message.kv")
 
 
 class Message(RelativeLayout):
-    pass
+    def on_window_resize(self, *args):
+        self.width = Window.width - dp(30)
+        self.height = self.width / 1894 * 1400
+        if self.height > 0.5 * Window.height:
+            self.height = 0.5 * Window.height
+        if self.width > self.height * 1894 / 1400:
+            self.width = self.height * 1894 / 1400
 
 
 class PlayButtonStory(CustomResizeButton):
@@ -127,14 +133,6 @@ class PlayMessage(Message):
         self.add_widget(Title(text_key=11, id_level=self.id_level))
         self.add_widget(Texte(mode=mode, font_size=self.width/15))
         self.add_widget(PlayButtonStory(id_level=self.id_level))
-    
-    def on_window_resize(self, *args):
-        self.width = Window.width - dp(30)
-        self.height = self.width / 1894 * 1400
-        if self.height > 0.5 * Window.height:
-            self.height = 0.5 * Window.height
-        if self.width > self.height * 1894 / 1400:
-            self.width = self.height * 1894 / 1400
     
     def message_pop(self):
         self.parent.message_pop()
@@ -262,14 +260,6 @@ class VictoireMessage(Message):
         self.add_widget(self.quit_button)
         self.add_widget(self.reset_button)
     
-    def on_window_resize(self, *args):
-        self.width = Window.width - dp(30)
-        self.height = self.width / 1894 * 1400
-        if self.height > 0.5 * Window.height:
-            self.height = 0.5 * Window.height
-        if self.width > self.height * 1894 / 1400:
-            self.width = self.height * 1894 / 1400
-    
     def message_pop(self):
         self.parent.message_pop()
 
@@ -300,11 +290,3 @@ class InfoMessage(Message):
             my = self.parent.message
             self.parent.message = None
             self.parent.remove_widget(my)
-    
-    def on_window_resize(self, *args):
-        self.width = Window.width - dp(30)
-        self.height = self.width / 1894 * 1400
-        if self.height > 0.5 * Window.height:
-            self.height = 0.5 * Window.height
-        if self.width > self.height * 1894 / 1400:
-            self.width = self.height * 1894 / 1400
