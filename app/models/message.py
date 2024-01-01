@@ -97,12 +97,12 @@ class Back(CustomResizeButton):
         super().__init__(**kwargs)
         self.source = "assets/images/buttons/croix.png"
         self.size_hint = (None, None)
-        self.pos_hint = {"right": 0.94, "top": 0.92}
-        self.width = dp(40)
+        self.pos_hint = {"right": 0.93, "top": 0.91}
+        self.width = dp(35)
         self.height = self.width
     
     def loop(self, *args):
-        self.width = self.parent.width/8
+        self.width = self.parent.width/10
         self.height = self.width
         return super().loop(*args)
     
@@ -142,7 +142,7 @@ class PlayMessage(Message):
 
 class SettingButton(CustomResizeButton):
     def loop(self, *args):
-        self.width = self.parent.height/3
+        self.width = self.parent.height/3.5
         self.height = self.width
         self.y = self.parent.height/6
         return super().loop(*args)
@@ -152,7 +152,7 @@ class ResetButton(CustomResizeButton):
     id_level = NumericProperty(None)
     
     def loop(self, *args):
-        self.width = self.parent.height/3
+        self.width = self.parent.height/3.5
         self.height = self.width
         self.y = self.parent.height/6
         return super().loop(*args)
@@ -195,10 +195,10 @@ class QuitButton(CustomResizeButton):
     
     def loop(self, *args):
         if self.id_level == 0:
-            self.height = self.parent.height/3*self.coeff_h
+            self.height = self.parent.height/3.5*self.coeff_h
             self.width = self.height
         else:
-            self.height = self.parent.height/3*self.coeff_h
+            self.height = self.parent.height/3.5*self.coeff_h
             self.width = self.height/823*1886
         self.y = self.parent.height/6
         return super().loop(*args)

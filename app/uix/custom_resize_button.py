@@ -13,7 +13,7 @@ class CustomResizeButton(CustomPressButton, Loop):
     last_press = False
     """`Private var`"""
     
-    coef_size = NumericProperty(170)
+    coef_size = NumericProperty(0)
     """`Private var`"""
     
     source = StringProperty('')
@@ -44,8 +44,8 @@ class CustomResizeButton(CustomPressButton, Loop):
         self.add_widget(self.image)
         self.bind(source=self._source_change, disabled_source=self._source_change, disabled=self._source_change)
         self.bind(size=self._update_image, coef_size=self._update_image, center=self._update_image)
-        self.anim = Animation(d=0.1, t="in_out_quad", coef_size=170)
-        self.anim_reverse = Animation(d=0.1, t="in_out_quad", coef_size=160)
+        self.anim = Animation(d=0.1, t="in_out_quad", coef_size=0)
+        self.anim_reverse = Animation(d=0.1, t="in_out_quad", coef_size=50)
     
     def _source_change(self, *args):
         if self.disabled:
@@ -54,7 +54,7 @@ class CustomResizeButton(CustomPressButton, Loop):
             self.image.source = self.source
     
     def _update_image(self, *args):
-        self.image.size = (self.size[0]*self.coef_size/200, self.size[1]*self.coef_size/200)
+        self.image.size = (self.size[0]*(1-self.coef_size/1000), self.size[1]*(1-self.coef_size/1000))
         self.image.center = self.center
     
     def on_press(self):

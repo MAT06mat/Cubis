@@ -17,17 +17,17 @@ Builder.load_file("screens/menu.kv")
 
 class Logo(Image, Loop):   
     def loop(self, *args):
-        self.width = Window.width - dp(30)
+        self.width = Window.width - dp(50)
         self.height = self.width / 1160 * 343
-        while self.height > 0.3 * Window.height:
+        while self.height > 0.25 * Window.height:
             self.height -= 1
 
 
 class MenuBoxLayout(BoxLayout, Loop):
     def loop(self, *args):
-        self.width = Window.width - dp(50)
+        self.width = Window.width - dp(90)
         self.height = self.width / 1289 * 958
-        while self.height > 0.6 * Window.height:
+        while self.height > 0.5 * Window.height:
             self.height -= 1
         while self.width / 1289 * 958 > self.height:
             self.width -= 1

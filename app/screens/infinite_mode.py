@@ -49,9 +49,9 @@ class PlayInfiniteModeButton(CustomResizeButton, Loop):
         self.source = Texts.image_path("assets/images/buttons/play.png")
     
     def loop(self, *args):
-        self.width = Window.width - dp(30)
+        self.width = Window.width - dp(50)
         self.height = self.width / 1192 * 501
-        while self.height > 0.3 * Window.height:
+        while self.height > 0.25 * Window.height:
             self.height -= 1
         while self.width / 1192 * 501 > self.height:
             self.width -= 1

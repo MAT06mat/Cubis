@@ -73,13 +73,13 @@ class RedoButton(CustomResizeButton):
         self.disabled = True
     
     def loop(self, *args):
-        self.x = self.width*0.8
-        self.y = Window.height - self.height*0.9
+        self.x = self.width*1.2
+        self.y = Window.height - self.height*1.1
         if Window.width*0.75 < Window.height:
-            self.size_hint = (None, 0.07)
+            self.size_hint = (None, 0.06)
             self.width = self.height
         else:
-            self.size_hint = (0.07, None)
+            self.size_hint = (0.06, None)
             self.height = self.width
         return super().loop(*args)
     
@@ -102,12 +102,13 @@ class UndoButton(CustomResizeButton):
         self.disabled = True
     
     def loop(self, *args):
-        self.y = Window.height - self.height*0.9
+        self.x = self.width*0.1
+        self.y = Window.height - self.height*1.1
         if Window.width*0.75 < Window.height:
-            self.size_hint = (None, 0.07)
+            self.size_hint = (None, 0.06)
             self.width = self.height
         else:
-            self.size_hint = (0.07, None)
+            self.size_hint = (0.06, None)
             self.height = self.width
         return super().loop(*args)
     
@@ -168,13 +169,13 @@ class ScoreCase(Label, Loop):
 
 class MenuButton(CustomResizeButton):
     def loop(self, *args):
-        self.x = Window.width - self.width*0.9
-        self.y = Window.height - self.height*0.9
+        self.x = Window.width - self.width*1.1
+        self.y = Window.height - self.height*1.1
         if Window.width*0.75 < Window.height:
-            self.size_hint = (None, 0.07)
+            self.size_hint = (None, 0.06)
             self.width = self.height
         else:
-            self.size_hint = (0.07, None)
+            self.size_hint = (0.06, None)
             self.height = self.width
         return super().loop(*args)
     
@@ -500,17 +501,17 @@ class Arrow(CustomResizeButton, Loop):
     arrow_type = None
     
     def loop(self, *args):
-        self.y = self.parent.grid_image.y - self.height/1.2
+        self.y = self.parent.grid_image.y - self.height*0.9
         if Window.width*0.75 < Window.height:
             self.width = self.height
-            self.size_hint = (None, 0.1)
+            self.size_hint = (None, 0.08)
             if self.arrow_type == "left":
                 self.pos_hint = {}
                 self.x = 0
             else:
                 self.pos_hint = {"right": 1}
         else:
-            self.size_hint = (0.06, None)
+            self.size_hint = (0.05, None)
             self.height = self.width
             self.pos_hint = {}
             if self.arrow_type == "left":
