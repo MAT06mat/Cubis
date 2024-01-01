@@ -2,7 +2,6 @@ from kivy.uix.image import Image
 from kivy.animation import Animation
 from kivy.properties import NumericProperty, StringProperty
 
-from models.decorators import *
 from models.loop import Loop
 from uix.custom_press_button import CustomPressButton
 
