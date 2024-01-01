@@ -55,6 +55,7 @@ class CustomResizeButton(CustomPressButton, Loop):
         return super().on_touch_move(touch)
     
     def on_touch_up(self, touch):
-        self.anim.start(self)
-        self.anim_reverse.cancel(self)
+        if self.__last_press:
+            self.anim.start(self)
+            self.anim_reverse.cancel(self)
         return super().on_touch_up(touch)
