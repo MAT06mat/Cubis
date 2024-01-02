@@ -3,6 +3,7 @@ from kivy.uix.screenmanager import ScreenManager, FadeTransition
 from kivy.uix.screenmanager import Screen
 from kivy.properties import ListProperty, ObjectProperty
 from kivy.clock import Clock
+from kivy.core.window import Window
 
 from data import *
 from screens.game_screen import Game
@@ -26,6 +27,7 @@ class NavigationScreenManager(ScreenManager):
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
         self.level = False
+        Window.bind(on_keyboard=self.android_back_click)
         self.add_widget(self.game)
     
     def on_touch_down(self, touch):
@@ -33,7 +35,33 @@ class NavigationScreenManager(ScreenManager):
         if App.get_running_app().click_disabled:
             return
         return super().on_touch_down(touch)
-
+    
+    def android_back_click(self, window, key, *largs):
+        if key == 27 and not self.current == "TransitionScreen":
+            if self.current == "StartScreen":
+                return
+            elif self.current == "MainMenu":
+                self.pop(delay=50)
+            elif self.current == "StoryMode":
+                for screen in self.screens:
+                    if screen.name == "StoryMode":
+                        if screen.children[0].children[0].message:
+                            screen.children[0].children[0].message_pop()
+                        else:
+                            self.pop(transition_screen=False)
+                        return True
+            elif self.current == "Credits":
+                self.pop()
+            elif self.current == "Game":
+                if self.game.page.message:
+                    self.game.page.message_pop()
+                else:
+                    self.game.page.message_push()
+            else:
+                self.pop(transition_screen=False)
+        if key == 27:
+            return True
+    
     def change_transition(self, transition_screen, screen_name) -> None:
         if transition_screen:
             self.transition = FadeTransition(duration=0.4)
