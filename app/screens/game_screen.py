@@ -477,7 +477,7 @@ class Grid(RelativeLayout, Loop, DisplayGrid):
             return super().loop(*args)
         if self.id_level != 0 and not self.victoire:
             self.victoire = True
-            self.parent.message = VictoireMessage(id_level=self.id_level)
+            self.parent.message = VictoireMessage(id_level=self.id_level, temp_parent=self.parent)
             self.parent.add_widget(self.parent.message)
         elif self.id_level == 0:
             # Si oui, on regenère la grille suivant ne nombre de pièces posées
@@ -590,13 +590,13 @@ class Page(FloatLayout, Loop):
         self.add_widget(self.menu_button)
         if self.id_level == 0:
             if Settings.best_score[0] == 0:
-                self.message = InfoMessage(message=Texts.key(0))
+                self.message = InfoMessage(message=Texts.key(0), temp_parent=self)
                 self.add_widget(self.message)
         else:
             if "Message" in Levels[str(self.id_level)]:
                 message_key = Levels[str(self.id_level)]["Message"]
                 message = Texts.key(message_key)
-                self.message = InfoMessage(message=message)
+                self.message = InfoMessage(message=message, temp_parent=self)
                 self.add_widget(self.message)
     
     def loop(self, *args):
@@ -819,7 +819,7 @@ class Page(FloatLayout, Loop):
     
     def message_push(self):
         if not self.message:
-            self.message = MenuMessage(score=self.score, id_level=self.id_level, mode=self.mode)
+            self.message = MenuMessage(score=self.score, id_level=self.id_level, mode=self.mode, temp_parent=self)
             self.add_widget(self.message)
     
     def message_pop(self):

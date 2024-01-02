@@ -5,6 +5,7 @@ from kivy.uix.relativelayout import RelativeLayout
 from kivy.properties import NumericProperty, ListProperty, StringProperty, BooleanProperty
 from kivy.clock import Clock
 from kivy.metrics import dp
+from kivy.animation import Animation
 
 from data.texts import Texts
 from data.levels import Levels
@@ -18,6 +19,18 @@ Builder.load_file("models/message.kv")
 
 
 class Message(RelativeLayout):
+    def __init__(self, temp_parent, **kw):
+        super().__init__(**kw)
+        self.on_window_resize()
+        Window.bind(on_resize=self.on_window_resize)
+        self.background_button = BackGroundButton(message=self)
+        temp_parent.add_widget(self.background_button)
+        self.temp_parent = temp_parent
+    
+    def on_parent(self, *args):
+        if self.parent == None:
+            self.temp_parent.remove_widget(self.background_button)
+    
     def on_window_resize(self, *args):
         self.width = Window.width - dp(30)
         self.height = self.width / 1894 * 1400
@@ -25,6 +38,30 @@ class Message(RelativeLayout):
             self.height = 0.5 * Window.height
         if self.width > self.height * 1894 / 1400:
             self.width = self.height * 1894 / 1400
+
+
+class BackGroundButton(CustomPressButton):
+    def __init__(self, message, **kwargs):
+        super().__init__(**kwargs)
+        # self.disabled = True
+        self.message = message
+        self.background_color = (0, 0, 0, 1)
+        self.opacity = 0
+        self.anim = Animation(d=0.2, opacity=0.4)
+        self.anim.start(self)
+        self.on_window_resize()
+        Window.bind(on_resize=self.on_window_resize)
+    
+    def on_custom_press(self, *args):
+        for obj in self.message.children:
+            if not self.message.collide_point(*Window.mouse_pos) and isinstance(obj, Back):
+                self.message.temp_parent.message_pop()
+                return super().on_custom_press(*args)
+        return super().on_custom_press(*args)
+    
+    def on_window_resize(self, *args):
+        self.size = Window.size
+        self.pos = (0, 0)
 
 
 class PlayButtonStory(CustomResizeButton):
@@ -122,8 +159,6 @@ class PlayMessage(Message):
     
     def __init__(self, **kw):
         super().__init__(**kw)
-        self.on_window_resize()
-        Window.bind(on_resize=self.on_window_resize)
         for area in Areas:
             for level in area["Levels"]:
                 if level["Id"] == self.id_level:
@@ -202,7 +237,7 @@ class QuitButton(CustomResizeButton):
         return super().loop(*args)
 
 
-class MenuMessage(Message, Loop):
+class MenuMessage(Message):
     id_level = NumericProperty(0)
     score = NumericProperty(0)
     mode = ListProperty(None)
@@ -228,14 +263,6 @@ class MenuMessage(Message, Loop):
         self.add_widget(self.setting_button)
         self.add_widget(self.reset_button)
     
-    def loop(self, *args):
-        self.width = Window.width - dp(30)
-        self.height = self.width / 1894 * 1400
-        if self.height > 0.5 * Window.height:
-            self.height = 0.5 * Window.height
-        if self.width > self.height * 1894 / 1400:
-            self.width = self.height * 1894 / 1400
-    
     def message_pop(self):
         self.parent.message_pop()
 
@@ -245,8 +272,6 @@ class VictoireMessage(Message):
     
     def __init__(self,**kw):
         super().__init__(**kw)
-        self.on_window_resize()
-        Window.bind(on_resize=self.on_window_resize)
         self.add_widget(Cadre())
         self.add_widget(Title(text_key=14))
         self.add_widget(Texte(text_key=11, score=self.id_level, font_size=self.width/15))
@@ -277,8 +302,6 @@ class InfoMessage(Message):
     
     def __init__(self,**kw):
         super().__init__(**kw)
-        self.on_window_resize()
-        Window.bind(on_resize=self.on_window_resize)
         self.label = Texte(text=self.message[0], pos_hint={"center_x": 0.5, "center_y": 0.5}, font_size=self.width/15)
         self.add_widget(self.label)
 
