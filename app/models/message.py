@@ -23,7 +23,7 @@ class Message(RelativeLayout):
         super().__init__(**kw)
         self.on_window_resize()
         Window.bind(on_resize=self.on_window_resize)
-        self.background_button = BackGroundButton(message=self)
+        self.background_button = BackgroundButton(message=self)
         temp_parent.add_widget(self.background_button)
         self.temp_parent = temp_parent
     
@@ -40,14 +40,15 @@ class Message(RelativeLayout):
             self.width = self.height * 1894 / 1400
 
 
-class BackGroundButton(CustomPressButton):
+class BackgroundButton(CustomPressButton):
     def __init__(self, message, **kwargs):
         super().__init__(**kwargs)
-        # self.disabled = True
         self.message = message
+        self.background_normal = ""
+        self.background_down = ""
         self.background_color = (0, 0, 0, 1)
         self.opacity = 0
-        self.anim = Animation(d=0.2, opacity=0.4)
+        self.anim = Animation(d=0.2, opacity=0.3)
         self.anim.start(self)
         self.on_window_resize()
         Window.bind(on_resize=self.on_window_resize)
