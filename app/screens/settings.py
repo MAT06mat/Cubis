@@ -59,7 +59,7 @@ class LangButton(DropDown):
         self.select(Settings.lang)
 
 
-class DropButton(CustomButton, Loop):
+class DropButton(CustomBrownButton, Loop):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.lang_change()
@@ -81,7 +81,7 @@ class DropButton(CustomButton, Loop):
             bnt.font_size = self.width / 10
 
 
-class FPSButton(CustomButton, Loop):
+class FPSButton(CustomBrownButton, Loop):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.size_hint = (None, None)
@@ -129,7 +129,7 @@ class FloatSettings(FloatLayout):
         self.add_widget(self.fps_button)
 
 
-class CreditButton(CustomButton):
+class CreditButton(CustomBrownButton):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.lang_change()
@@ -139,7 +139,7 @@ class CreditButton(CustomButton):
         self.text = Texts.key(30)
 
 
-class PolicyButton(CustomButton):
+class PolicyButton(CustomBrownButton):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.lang_change()
