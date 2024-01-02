@@ -859,6 +859,8 @@ class Game(Screen):
             self.page.not_reload()
         self.clear_widgets()
         self.id_level = id_level
+        # Reset Pieces
+        Pieces.init()
         self.my_float = FloatLayout()
         if id_level == 0:
             self.mode = []

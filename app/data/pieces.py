@@ -8,6 +8,9 @@ from models.grid_calculation import symmetry, turn
 class PiecesData(Data):
     def __init__(self, file):
         super().__init__(file)
+        self.init()
+    
+    def init(self):
         self.pieces_list = self.get()
         self.increase_int = 0
     
