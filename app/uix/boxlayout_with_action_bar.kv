@@ -1,13 +1,25 @@
 <BoxLayoutWithActionBar>:
     orientation: "vertical"
-    ActionBar:
-        ActionView:
-            ActionPrevious:
-                title: root.title
-                on_release: app.manager.pop(transition_screen=False)
-                padding: "4dp"
-                spacing: "4dp"
-                app_icon: ""
-                previous_image: "assets/images/buttons/home.png"
-                previous_image_height: "40dp"
-                previous_image_width: "40dp"
+    MyBar:
+        canvas.before:
+            Color:
+                rgb: (0.19, 0.19, 0.19)
+            Rectangle:
+                pos: (0, 0)
+                size: (root.width, self.height)
+        CustomResizeButton:
+            id: back_button
+            pos: (self.parent.height / 2 - self.height / 2, self.parent.height / 2 - self.height / 2)
+            size_hint: (None, None)
+            height: "40dp"
+            width: "40dp"
+            on_custom_press: app.manager.pop(transition_screen=False)
+            source: "assets/images/buttons/home.png"
+        Label:
+            pos: (back_button.width + dp(10), 0)
+            size_hint: (None, None)
+            size: (back_button.width*3, self.parent.height)
+            text: root.title
+            text_size: self.size
+            halign: "left"
+            valign: "center"

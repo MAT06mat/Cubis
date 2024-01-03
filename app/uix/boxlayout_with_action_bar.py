@@ -1,6 +1,8 @@
 from kivy.lang import Builder
 from kivy.properties import StringProperty
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.relativelayout import RelativeLayout
+from kivy.metrics import dp
 
 from data.texts import Texts
 
@@ -18,3 +20,10 @@ class BoxLayoutWithActionBar(BoxLayout):
     
     def lang_change(self, *args):
         self.title = Texts.key(self.title_key)
+
+
+class MyBar(RelativeLayout):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.size_hint = (None, None)
+        self.height = dp(50)
