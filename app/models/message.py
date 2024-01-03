@@ -6,6 +6,7 @@ from kivy.properties import NumericProperty, ListProperty, StringProperty, Boole
 from kivy.clock import Clock
 from kivy.metrics import dp
 from kivy.animation import Animation
+from kivy.app import App
 
 from data.texts import Texts
 from data.levels import Levels
@@ -196,11 +197,16 @@ class ResetButton(CustomResizeButton):
             Settings.last_score = self.parent.parent.score
             b = False
             for s in Settings.best_score:
-                if self.parent.parent.score > s:
+                if Settings.last_score > s:
                     b = True
+            app = App.get_running_app()
+            if Settings.best_score[0] < Settings.last_score:
+                    for screen in app.manager.screens:
+                        if screen.name == "InfiniteMode":
+                            screen.children[0].children[0].message_push()
             if b:
                 best_score = list(Settings.best_score)
-                best_score.append(self.parent.parent.score)
+                best_score.append(Settings.last_score)
                 sorted_list = list(sorted(best_score, reverse=True))
                 sorted_list.pop(-1)
                 Settings.best_score = sorted_list
@@ -301,11 +307,17 @@ class InfoMessage(Message):
     message = ListProperty(None)
     title = StringProperty("")
     
-    def __init__(self,**kw):
+    def __init__(self, title=None, back=False, **kw):
         super().__init__(**kw)
-        self.title = Texts.key(15)
-        self.label = Texte(text=self.message[0], pos_hint={"center_x": 0.5, "center_y": 0.5}, font_size=self.width/15)
+        if title:
+            self.title = title
+        else:
+            self.title = Texts.key(15)
+        self.label = Texte(text=self.message[0], pos_hint={"center_x": 0.5, "center_y": 0.5}, font_size=self.width/15, markup=True)
         self.add_widget(self.label)
+        if back:
+            self.back = Back()
+            self.add_widget(self.back)
 
     def next(self):
         i = self.message.index(self.label.text)
@@ -315,3 +327,6 @@ class InfoMessage(Message):
             my = self.parent.message
             self.parent.message = None
             self.parent.remove_widget(my)
+    
+    def message_pop(self):
+        self.parent.message_pop()

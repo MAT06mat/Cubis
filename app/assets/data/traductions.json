@@ -80,7 +80,8 @@
     "40": "IPS bas",
     "41": "IPS élevés",
     "42": "IPS",
-    "43": "Version"
+    "43": "Version",
+    "44": "Nouveau meilleur score !"
   },
   {
     "lang": "en",
@@ -161,6 +162,7 @@
   "40": "Low FPS",
   "41": "High FPS",
   "42": "FPS",
-  "43": "Version"
+  "43": "Version",
+  "44": "New best score !"
   }
 ]

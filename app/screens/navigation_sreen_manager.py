@@ -50,6 +50,14 @@ class NavigationScreenManager(ScreenManager):
                         else:
                             self.pop(transition_screen=False)
                         return True
+            elif self.current == "InfiniteMode":
+                for screen in self.screens:
+                    if screen.name == "InfiniteMode":
+                        if screen.children[0].children[0].message:
+                            screen.children[0].children[0].message_pop()
+                        else:
+                            self.pop(transition_screen=False)
+                        return True
             elif self.current == "Credits":
                 self.pop()
             elif self.current == "Game":
@@ -86,7 +94,7 @@ class NavigationScreenManager(ScreenManager):
             self.next_current = screen_name
             if not quit_level:
                 for screen in self.screens:
-                    if screen.name == "StoryMode":
+                    if screen.name == "StoryMode" or screen.name == "InfiniteMode":
                         screen.children[0].children[0].message_pop()
     
     def start_level(self, id_level=0, transition_screen=True, delay=0) -> None:
@@ -104,11 +112,15 @@ class NavigationScreenManager(ScreenManager):
                 Settings.last_score = self.game.page.score
                 b = False
                 for s in Settings.best_score:
-                    if self.game.page.score > s:
+                    if Settings.last_score > s:
                         b = True
+                if Settings.best_score[0] < Settings.last_score:
+                    for screen in self.screens:
+                        if screen.name == "InfiniteMode":
+                            screen.children[0].children[0].message_push()
                 if b:
                     best_score = list(Settings.best_score)
-                    best_score.append(self.game.page.score)
+                    best_score.append(Settings.last_score)
                     sorted_list = list(sorted(best_score, reverse=True))
                     sorted_list.pop(-1)
                     Settings.best_score = sorted_list

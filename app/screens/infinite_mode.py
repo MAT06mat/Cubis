@@ -58,6 +58,17 @@ class PlayInfiniteModeButton(CustomResizeButton, Loop):
 
 
 class InfiniteMode(FloatLayout):
-    def reload_image(self):
-        image = self.ids.get("background_image")
-        if image: image.reload()
+    message = None
+    
+    def message_push(self):
+        if not self.message:
+            self.message = InfoMessage(title=Texts.key(18), message=[Texts.key(44) + "\n\n[b]----- " + str(Settings.last_score) + " -----[/b]"], back=True, temp_parent=self)
+            self.add_widget(self.message)
+        else:
+            self.message_pop()
+            self.message_push()
+    
+    def message_pop(self):
+        if self.message:
+            self.remove_widget(self.message)
+            self.message = None
