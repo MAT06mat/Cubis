@@ -6,14 +6,14 @@
         size_hint: (None, None)
         size: ("70dp", "70dp")
         pos: ("5dp", "5dp")
-        source: "assets/images/buttons/setting.png"
+        source: "atlas://assets/images/buttons/setting"
         on_custom_press: app.manager.push("Setting", transition_screen=False)
     AnchorLayout:
         anchor_x: "center"
         anchor_y: "center"
         CenterBoxLayout:
             Logo:
-                source: "assets/images/elements/logo.png"
+                source: "atlas://assets/images/elements/logo"
                 pos_hint: {"center_x": 0.5}
                 size_hint: (None, None)
             MenuBoxLayout:

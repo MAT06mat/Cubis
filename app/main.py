@@ -4,6 +4,7 @@ from kivy.core.window import Window
 
 from screens.navigation_sreen_manager import NavigationScreenManager
 from data import *
+import time
 
 class MyScreenManager(NavigationScreenManager):
     pass
@@ -20,8 +21,11 @@ class CubisApp(App):
         return self.manager
 
     def on_start(self):
+        end = time.time()
+        print(end-start)
         Settings.init_with_user_data_dir(self.user_data_dir)
 
 
 if __name__ == '__main__':
+    start = time.time()
     CubisApp().run()

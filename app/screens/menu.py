@@ -40,7 +40,7 @@ class SMButton(CustomResizeButton):
         Texts.bind(current_lang=self.lang_change)
 
     def lang_change(self, *args):
-        self.source = Texts.image_path("assets/images/buttons/story_mode.png")
+        self.source = Texts.image_path("atlas://assets/images/buttons/story_mode")
 
 
 class IMButton(CustomResizeButton):
@@ -50,4 +50,4 @@ class IMButton(CustomResizeButton):
         Texts.bind(current_lang=self.lang_change)
 
     def lang_change(self, *args):
-        self.source = Texts.image_path("assets/images/buttons/infinite_mode.png")
+        self.source = Texts.image_path("atlas://assets/images/buttons/infinite_mode")
