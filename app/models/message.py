@@ -80,7 +80,7 @@ class PlayButtonStory(CustomResizeButton):
         Texts.bind(current_lang=self.lang_change)
     
     def lang_change(self, *args):
-        self.source = Texts.image_path("assets/images/buttons/play.png")
+        self.source = Texts.image_path("atlas://assets/images/buttons/play")
 
 
 class Texte(Label, Loop):
@@ -140,7 +140,7 @@ class Title(Label, Loop):
 class Back(CustomResizeButton):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.source = "assets/images/buttons/croix.png"
+        self.source = "atlas://assets/images/buttons/croix"
         self.size_hint = (None, None)
         self.pos_hint = {"right": 0.93, "top": 0.91}
         self.width = dp(35)
@@ -228,10 +228,10 @@ class QuitButton(CustomResizeButton):
             Texts.bind(current_lang=self.lang_change)
         else:
             self.coeff_h = 1
-            self.source = "assets/images/buttons/quit.png"
+            self.source = "atlas://assets/images/buttons/quit"
 
     def lang_change(self, *args):
-        self.source = Texts.image_path("assets/images/buttons/next.png")
+        self.source = Texts.image_path("atlas://assets/images/buttons/next")
     
     def loop(self, *args):
         if self.id_level == 0:

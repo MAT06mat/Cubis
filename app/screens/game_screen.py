@@ -157,7 +157,7 @@ class ScoreCase(Label, Loop):
         self.pos_hint = {"top": 1}
         self.width = self.height
         with self.canvas.before:
-            self.background_r = Rectangle(source='assets/images/elements/score.png')
+            self.background_r = Rectangle(source='atlas://assets/images/elements/score')
     
     def loop(self, *args):
         self.x = Window.width - (self.parent.menu_button.width*1.5 + self.width)

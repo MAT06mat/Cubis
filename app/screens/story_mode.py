@@ -39,12 +39,12 @@ class Level(CustomPressButton):
         # if disabled : change style of button on disabled
         # if id%5 : change style of button on square
         if self.id % 5 == 0:
-            self.background_disabled_normal = "assets/images/buttons/special_level_disabled.png"
+            self.background_disabled_normal = "atlas://assets/images/buttons/special_level_disabled"
         else:
-            self.background_disabled_normal = "assets/images/buttons/level_disabled.png"
+            self.background_disabled_normal = "atlas://assets/images/buttons/level_disabled"
         if self.id % 5 == 0:
-            self.background_normal = "assets/images/buttons/special_level.png"
-            self.background_down = "assets/images/buttons/special_level.png"
+            self.background_normal = "atlas://assets/images/buttons/special_level"
+            self.background_down = "atlas://assets/images/buttons/special_level"
         
         # put 1/2 on top and 1/2 on bottom
         global level_height
