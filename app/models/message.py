@@ -299,10 +299,11 @@ class NextButton(CustomResizeButton):
 
 class InfoMessage(Message):
     message = ListProperty(None)
-    title = StringProperty(Texts.key(15))
+    title = StringProperty("")
     
     def __init__(self,**kw):
         super().__init__(**kw)
+        self.title = Texts.key(15)
         self.label = Texte(text=self.message[0], pos_hint={"center_x": 0.5, "center_y": 0.5}, font_size=self.width/15)
         self.add_widget(self.label)
 
