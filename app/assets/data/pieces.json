@@ -1,107 +1,119 @@
 [
-  {"Proba": 100, "Piece": [["GC"]]},
-  {"Proba": 90, "Piece": [["GC"], ["GC"]]},
-  {"Proba": 70, "Piece": 
-    [
+  { "Proba": 100, "Piece": [["GC"]] },
+  { "Proba": 90, "Piece": [["GC"], ["GC"]] },
+  {
+    "Proba": 70,
+    "Piece": [
       ["NV", "GC"],
       ["GC", "GC"]
     ]
   },
-  {"Proba": 20, "Piece":
-    [["GC", "GC", "GC"]]
-  },
-  {"Proba": 0.5, "Piece": 
-    [
+  { "Proba": 20, "Piece": [["GC", "GC", "GC"]] },
+  {
+    "Proba": 0.5,
+    "Piece": [
       ["GC", "NV", "NV"],
       ["GC", "GC", "GC"]
     ]
   },
-  {"Proba": 0.1, "Piece": 
-    [
+  {
+    "Proba": 0.1,
+    "Piece": [
       ["GC", "GC"],
       ["GC", "GC"]
     ]
   },
-  {"Proba": 0.05, "Piece":
-    [
+  {
+    "Proba": 0.05,
+    "Piece": [
       ["GC", "GC", "NV"],
       ["NV", "GC", "GC"]
     ]
   },
-  {"Proba": 0.01, "Piece":
-    [
+  {
+    "Proba": 0.01,
+    "Piece": [
       ["NV", "GC", "NV"],
       ["GC", "GC", "GC"]
     ]
   },
-  {"Proba": 0.005, "Piece":
-    [["GC", "GC", "GC", "GC"]]
-  },
-  {"Proba": 0.001, "Piece":
-    [
+  { "Proba": 0.005, "Piece": [["GC", "GC", "GC", "GC"]] },
+  {
+    "Proba": 0.001,
+    "Piece": [
       ["GC", "NV", "GC"],
       ["GC", "GC", "GC"]
     ]
   },
-  {"Proba": 0.0005, "Piece":
-    [
+  {
+    "Proba": 0.0005,
+    "Piece": [
       ["GC", "GC", "GC"],
       ["GC", "GC", "GC"]
     ]
   },
-  {"Proba": 0.0001, "Piece":
-    [
+  {
+    "Proba": 0.0001,
+    "Piece": [
       ["NV", "NV", "NV", "GC"],
       ["GC", "GC", "GC", "GC"]
     ]
   },
-  {"Proba": 0.00005, "Piece":
-    [
+  {
+    "Proba": 0.00005,
+    "Piece": [
       ["NV", "NV", "GC", "NV"],
       ["GC", "GC", "GC", "GC"]
     ]
   },
-  {"Proba": 0.00001, "Piece":
-    [
+  {
+    "Proba": 0.00001,
+    "Piece": [
       ["NV", "GC", "GC", "NV"],
       ["GC", "GC", "GC", "GC"]
     ]
   },
-  {"Proba": 0.000005, "Piece":
-    [
+  {
+    "Proba": 0.000005,
+    "Piece": [
       ["GC", "NV", "NV", "GC"],
       ["GC", "GC", "GC", "GC"]
     ]
   },
-  {"Proba": 0.000001, "Piece":
-    [
+  {
+    "Proba": 0.000001,
+    "Piece": [
       ["GC", "GC", "GC", "NV"],
       ["NV", "GC", "GC", "GC"]
     ]
   },
-  {"Proba": 0.0000005, "Piece":
-    [
+  {
+    "Proba": 0.0000005,
+    "Piece": [
       ["GC", "GC", "GC"],
       ["NV", "GC", "NV"],
       ["NV", "GC", "NV"]
     ]
   },
-  {"Proba": 0.0000001, "Piece":
-    [
+  {
+    "Proba": 0.0000001,
+    "Piece": [
       ["NV", "GC", "NV"],
       ["GC", "GC", "GC"],
       ["NV", "GC", "NV"]
     ]
   },
-  {"Proba": 0.00000005, "Piece":
-    [
+  {
+    "Proba": 0.00000005,
+    "Piece": [
       ["GC", "GC", "NV"],
       ["NV", "GC", "GC"],
       ["GC", "GC", "NV"]
     ]
   },
-  {"Proba": 0.00000001, "Piece":
-    [
+  {
+    "Proba": 0.00000001,
+    "Piece": [
       ["GC", "GC", "GC"],
       ["NV", "GC", "NV"],
       ["GC", "GC", "GC"]

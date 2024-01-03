@@ -158,11 +158,11 @@
       "Be careful, half of a\npiece can fall into a hole,\n and the other half\nmay remain outside.",
       "The different parts\nof a piece are independent\nof each other.",
       "Good luck!"
-  ],
-  "40": "Low FPS",
-  "41": "High FPS",
-  "42": "FPS",
-  "43": "Version",
-  "44": "New best score !"
+    ],
+    "40": "Low FPS",
+    "41": "High FPS",
+    "42": "FPS",
+    "43": "Version",
+    "44": "New best score !"
   }
 ]
