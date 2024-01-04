@@ -41,9 +41,6 @@ class SettingsData(Data):
         self.relative_path = path
         # Add fps = 30 in settings if not fps in settings
         self.is_init = True
-        
-        self.nb_hint = 50
-        self.next_hint_time = None
     
     @property
     def path(self):
