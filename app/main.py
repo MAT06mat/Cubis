@@ -13,6 +13,7 @@ class CubisApp(App):
     click_disabled = False
     manager = ObjectProperty(None)
     icon = "assets/images/app/logo.png"
+    debug = True
     
     def build(self):
         Window.clearcolor = (1, 1, 1, 1)

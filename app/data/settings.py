@@ -2,6 +2,7 @@ import shutil
 import json
 import os
 
+from kivy.app import App
 from kivy.properties import BooleanProperty
 
 from data.data import Data
@@ -41,6 +42,10 @@ class SettingsData(Data):
         self.relative_path = path
         # Add fps = 30 in settings if not fps in settings
         self.is_init = True
+        
+        app = App.get_running_app()
+        if app.debug:
+            self.nb_hint = 50
     
     @property
     def path(self):
