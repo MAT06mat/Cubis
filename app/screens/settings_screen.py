@@ -15,7 +15,7 @@ from models import *
 from uix import *
 
 
-Builder.load_file("screens/settings.kv")
+Builder.load_file("screens/settings_screen.kv")
 
 
 # ============ SETTINGS ============
