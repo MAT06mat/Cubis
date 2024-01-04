@@ -103,6 +103,35 @@ class DisplayGrid(GridCalculation):
                         else: 
                             if self.grid_id[y][x] != self.grid_id[y+1][x]:
                                 Line(points=(self.min_x+x*self.size_line, self.max_y-(y+1)*self.size_line+1, self.min_x+(x+1)*self.size_line, self.max_y-(y+1)*self.size_line+1), width=1.5)
+                Color(0.95, 0.77, 1.0, 1)
+                for y in range(len(self.grid)):
+                    for x in range(len(self.grid[y])):
+                        if self.grid_hint_id[y][x] == None:
+                            continue
+                        # Side left
+                        if x == 0:
+                            Line(points=(self.min_x+x*self.size_line, self.max_y-y*self.size_line, self.min_x+x*self.size_line, self.max_y-(y+1)*self.size_line), width=3)
+                        else: 
+                            if self.grid_hint_id[y][x] != self.grid_hint_id[y][x-1]:
+                                Line(points=(self.min_x+x*self.size_line, self.max_y-y*self.size_line, self.min_x+x*self.size_line, self.max_y-(y+1)*self.size_line), width=3)
+                        # Side top
+                        if y == 0:
+                            Line(points=(self.min_x+x*self.size_line, self.max_y-y*self.size_line, self.min_x+(x+1)*self.size_line, self.max_y-y*self.size_line), width=3)
+                        else: 
+                            if self.grid_hint_id[y][x] != self.grid_hint_id[y-1][x]:
+                                Line(points=(self.min_x+x*self.size_line, self.max_y-y*self.size_line, self.min_x+(x+1)*self.size_line, self.max_y-y*self.size_line), width=3)
+                        # Side right
+                        if x+1 == len(self.grid[y]):
+                            Line(points=(self.min_x+(x+1)*self.size_line, self.max_y-y*self.size_line, self.min_x+(x+1)*self.size_line, self.max_y-(y+1)*self.size_line), width=3)
+                        else: 
+                            if self.grid_hint_id[y][x] != self.grid_hint_id[y][x+1]:
+                                Line(points=(self.min_x+(x+1)*self.size_line, self.max_y-y*self.size_line, self.min_x+(x+1)*self.size_line, self.max_y-(y+1)*self.size_line), width=3)
+                        # Side bottom
+                        if y+1 == len(self.grid):
+                            Line(points=(self.min_x+x*self.size_line, self.max_y-(y+1)*self.size_line, self.min_x+(x+1)*self.size_line, self.max_y-(y+1)*self.size_line), width=3)
+                        else: 
+                            if self.grid_hint_id[y][x] != self.grid_hint_id[y+1][x]:
+                                Line(points=(self.min_x+x*self.size_line, self.max_y-(y+1)*self.size_line, self.min_x+(x+1)*self.size_line, self.max_y-(y+1)*self.size_line), width=3)
             if animation:
                 for animation in ANIMATION_LIST:
                     if animation.type == "box":

@@ -6,6 +6,7 @@ from kivy.properties import BooleanProperty
 
 from data.data import Data
 
+
 class SettingsData(Data):
     is_init = BooleanProperty(False)
     __best_score = None
@@ -16,6 +17,8 @@ class SettingsData(Data):
     __lang = None
     __fps = None
     __easter_egg = None
+    __nb_hint = None
+    __next_hint_time = None
     
     def init_with_user_data_dir(self, user_data_dir):
         data = None
@@ -38,6 +41,9 @@ class SettingsData(Data):
         self.relative_path = path
         # Add fps = 30 in settings if not fps in settings
         self.is_init = True
+        
+        self.nb_hint = 50
+        self.next_hint_time = None
     
     @property
     def path(self):
@@ -143,16 +149,40 @@ class SettingsData(Data):
     fps = property(__get_fps, __set_fps)
     
     # Easter_egg property
-    def __get_Easter_egg(self):
+    def __get_easter_egg(self):
         if not self.__easter_egg:
             self.__easter_egg = self.__get("Easter_egg", False)
         return self.__easter_egg
     
-    def __set_Easter_egg(self, value):
+    def __set_easter_egg(self, value):
         self.__set("Easter_egg", value)
         self.__easter_egg = value
     
-    easter_egg = property(__get_Easter_egg, __set_Easter_egg)
+    easter_egg = property(__get_easter_egg, __set_easter_egg)
+    
+    # Nb_hint property
+    def __get_nb_hint(self):
+        if not self.__nb_hint:
+            self.__nb_hint = self.__get("Nb_hint", 3)
+        return self.__nb_hint
+    
+    def __set_nb_hint(self, value):
+        self.__set("Nb_hint", value)
+        self.__nb_hint = value
+    
+    nb_hint = property(__get_nb_hint, __set_nb_hint)
+    
+    # Next hint time property
+    def __get_next_hint_time(self):
+        if not self.__next_hint_time:
+            self.__next_hint_time = self.__get("Next_hint_time", None)
+        return self.__next_hint_time
+    
+    def __set_next_hint_time(self, value):
+        self.__set("Next_hint_time", value)
+        self.__next_hint_time = value
+    
+    next_hint_time = property(__get_next_hint_time, __set_next_hint_time)
 
 
 Settings = SettingsData(file='settings.json')

@@ -33,17 +33,21 @@
     source: "atlas://assets/images/buttons/reset"
     on_custom_press: app.manager.start_level(self.id_level, transition_screen=False)
 
-<InfoMessage>:
-    Cadre:
-    Title:
-        text: root.title
-    NextButton:
-        size_hint: (None, None)
-        width: root.width/3.5
-        height: self.width/1222*661
-        pos_hint: {"center_x": 0.5, "center_y": 0.2}
-        font_size: self.width/10
-        color: "#A04623"
-        font_name: "assets/fonts/Coda-Regular.ttf"
-        source: "atlas://assets/images/buttons/2"
-        on_custom_press: root.next()
+<NextButton>:
+    size_hint: (None, None)
+    width: self.parent.width/3.5 if self.parent else 20
+    height: self.width/1222*661
+    pos_hint: {"center_x": 0.5, "center_y": 0.2}
+    font_size: self.width/10
+    color: "#A04623"
+    font_name: "assets/fonts/Coda-Regular.ttf"
+    source: "atlas://assets/images/buttons/2"
+
+<ChoiceButton>:
+    size_hint: (None, None)
+    width: self.parent.width/3.5 if self.parent else 20
+    height: self.width/1222*661
+    font_size: self.width/7
+    color: "#A04623"
+    font_name: "assets/fonts/Coda-Regular.ttf"
+    source: "atlas://assets/images/buttons/2"

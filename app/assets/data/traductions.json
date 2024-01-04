@@ -81,7 +81,17 @@
     "41": "IPS élevés",
     "42": "IPS",
     "43": "Version",
-    "44": "Nouveau meilleur score !"
+    "44": "Nouveau meilleur score !",
+    "45": "Indice",
+    "46": "Voulez-vous utiliser un indice\npour révéler une pièce dans\nla grille ?\nIl vous en reste ",
+    "47": ".",
+    "48": "Oui",
+    "49": "Non",
+    "50": "Vous n'avez plus d'indice...",
+    "51": "Prochain dans",
+    "52": "Erreur",
+    "53": "Il ne reste plus aucune pièce\npour en révéler une autre.",
+    "54": "Oups...\nUne erreur s'est produite,\nveuillez réessayer\nultérieurement."
   },
   {
     "lang": "en",
@@ -163,6 +173,16 @@
     "41": "High FPS",
     "42": "FPS",
     "43": "Version",
-    "44": "New best score !"
+    "44": "New best score !",
+    "45": "Hint",
+    "46": "Do you want to use a hint\nto reveal a piece in the grid?\nYou have ",
+    "47": " left.",
+    "48": "Yes",
+    "49": "No",
+    "50": "You no longer have any hint...",
+    "51": "Next in",
+    "52": "Error",
+    "53": "There are no pieces left\nto reveal another.",
+    "54": "Oops...\nAn error occurred,\nplease try again later."
   }
 ]

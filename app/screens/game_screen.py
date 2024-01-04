@@ -24,6 +24,7 @@ from uix import *
 from math import sqrt
 import os
 import copy
+import random
 
 
 Builder.load_file("screens/game_screen.kv")
@@ -189,6 +190,31 @@ class MenuButton(CustomResizeButton):
     
     def on_custom_press(self, *args):
         self.parent.message_push()
+        return super().on_custom_press(*args)
+
+
+class HelpButton(CustomResizeButton):
+    def loop(self, *args):
+        self.x = self.parent.menu_button.x - self.width*1.1
+        self.center_y = self.parent.menu_button.center_y
+        if Window.width*0.75 < Window.height:
+            self.size_hint = (None, 0.04)
+            self.width = self.height
+        else:
+            self.size_hint = (0.04, None)
+            self.height = self.width
+        return super().loop(*args)
+    
+    def condition(self):
+        if self.parent.message:
+            return False
+        if self.parent.current_piece:
+            if self.parent.current_piece.delta_pos:
+                return False
+        return True
+    
+    def on_custom_press(self, *args):
+        self.parent.message_push(type="help")
         return super().on_custom_press(*args)
 
 
@@ -440,6 +466,7 @@ class Grid(RelativeLayout, Loop, DisplayGrid):
             self.level = copy.deepcopy(Levels[str(self.id_level)])
             self.grid = self.level["Grid"]
         self.grid_id = [[None for x in self.grid[0]] for y in self.grid]
+        self.grid_hint_id = [[None for x in self.grid[0]] for y in self.grid]
         self.size_hint = (None, None)
     
     def test_grid(self):
@@ -578,7 +605,9 @@ class Page(FloatLayout, Loop):
         self.redo_button = None
         self.score_label = None
         if self.id_level != 0:
+            self.help_button = HelpButton()
             self.redo_button = RedoButton()
+            self.add_widget(self.help_button)
             self.add_widget(self.redo_button)
         else:
             self.score_label = ScoreCase(text=str(self.score))
@@ -817,15 +846,81 @@ class Page(FloatLayout, Loop):
         self.zone_piece.my_scroll_view.grid_piece.add_widget(button)
         self.current_piece = None
     
-    def message_push(self):
+    def message_push(self, type="menu"):
         if not self.message:
-            self.message = MenuMessage(score=self.score, id_level=self.id_level, mode=self.mode, temp_parent=self)
+            if type == "help":
+                self.message = HelpMessage(temp_parent=self)
+            elif type == "no_piece":
+                self.message = InfoMessage(title=Texts.key(52), message=[Texts.key(53)], back=True, temp_parent=self)
+            elif type == "error":
+                self.message = InfoMessage(title=Texts.key(52), message=[Texts.key(54)], back=True,temp_parent=self)
+            else:
+                self.message = MenuMessage(score=self.score, id_level=self.id_level, mode=self.mode, temp_parent=self)
             self.add_widget(self.message)
     
     def message_pop(self):
         if self.message:
             self.remove_widget(self.message)
             self.message = None
+    
+    def use_hint(self):
+        current_level = copy.deepcopy(Levels[str(self.id_level)])
+        
+        # Count id, count_id = {"1": 5, "2": 3} -> {"id": nb_id}
+        count_id = {}
+        for y in range(len(current_level["Filled_grid"])):
+            for x in range(len(current_level["Filled_grid"][y])):
+                if str(current_level["Filled_grid"][y][x]) in count_id:
+                    count_id[str(current_level["Filled_grid"][y][x])] += 1
+                elif current_level["Filled_grid"][y][x]:
+                    count_id[str(current_level["Filled_grid"][y][x])] = 1
+        
+        
+        # Remove piece in right place
+        for piece_id in list(count_id.keys()):
+            right_pos = 0
+            current_piece_id = None
+            for y in range(len(current_level["Filled_grid"])):
+                for x in range(len(current_level["Filled_grid"][y])):
+                    # If piece already in grid
+                    if str(current_level["Filled_grid"][y][x]) == piece_id and self.grid.grid_id[y][x]:
+                        if not current_piece_id:
+                            current_piece_id = str(self.grid.grid_id[y][x])
+                        if current_piece_id == str(self.grid.grid_id[y][x]):
+                            right_pos += 1
+                    # If is already a hint_piece
+                    if self.grid.grid_hint_id[y][x] == int(piece_id):
+                        right_pos += 1
+                    # If piece is in a box
+                    if str(current_level["Filled_grid"][y][x]) == piece_id and self.grid.grid[y][x][0] == "B":
+                        right_pos += 1
+            
+            if right_pos >= count_id[piece_id]:
+                count_id.pop(piece_id)
+        
+        if len(list(count_id.keys())) < 1:
+            return "no_piece"
+        
+        # find the biggests ids
+        biggest_id = [(None, -1)]
+        for piece_id in list(count_id.keys()):
+            if count_id[piece_id] > biggest_id[0][1]:
+                biggest_id = [(piece_id, count_id[piece_id])]
+            elif count_id[piece_id] == biggest_id[0][1]:
+                biggest_id.append((piece_id, count_id[piece_id]))
+        
+        # Random choice piece
+        piece_id_hint = random.choice(biggest_id)[0]
+        
+        # Set grid_hint_id to see the piece reveal
+        for y in range(len(current_level["Filled_grid"])):
+            for x in range(len(current_level["Filled_grid"][y])):
+                if str(current_level["Filled_grid"][y][x]) == str(piece_id_hint):
+                    self.grid.grid_hint_id[y][x] = copy.deepcopy(int(piece_id_hint))
+        
+        Settings.nb_hint -= 1
+        
+        return True
     
     def verify(self):
         try:

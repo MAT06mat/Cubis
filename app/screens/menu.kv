@@ -3,11 +3,16 @@
         source: "assets/images/backgrounds/menu.jpg"
         fit_mode: "cover"
     CustomResizeButton:
+        id: setting_button
         size_hint: (None, None)
         size: ("70dp", "70dp")
         pos: ("5dp", "5dp")
         source: "atlas://assets/images/buttons/setting"
         on_custom_press: app.manager.push("Setting", transition_screen=False)
+    HintBoxLayout:
+        size_hint: (None, None)
+        size: ("200dp", setting_button.height)
+        pos_hint: {"bottom": 1, "right": 1}
     AnchorLayout:
         anchor_x: "center"
         anchor_y: "center"
@@ -24,3 +29,16 @@
                     on_custom_press: app.manager.push("StoryMode", transition_screen=False)
                 IMButton:
                     on_custom_press: app.manager.push("InfiniteMode", transition_screen=False)
+
+<HintLabel>:
+    size_hint: (None, None)
+    color: "#A04623"
+    font_name: "assets/fonts/Coda-Regular.ttf"
+
+<FirstHintLabel>:
+    halign: "right"
+    valign: "center"
+    text_size: self.size
+
+<SecondHintLabel>:
+    size: self.texture_size

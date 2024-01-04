@@ -41,7 +41,7 @@ class CustomResizeButton(CustomPressButton, Loop):
         super().__init__(**kwargs)
         self.background_color = (1, 1, 1, 0)
         self.image = Image(source=self.source, size=self.size, pos=self.pos)
-        self.add_widget(self.image)
+        self.add_widget(self.image, canvas="before")
         self.bind(source=self._source_change, disabled_source=self._source_change, disabled=self._source_change)
         self.bind(size=self._update_image, coef_size=self._update_image, center=self._update_image)
         self.anim = Animation(d=0.1, t="in_out_quad", coef_size=0)
