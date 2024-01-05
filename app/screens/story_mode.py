@@ -29,9 +29,7 @@ class Level(CustomPressButton):
         self.id = self.level["Id"]
         self.mode = self.level["Mode"]
         self.size = (dp(125), dp(125))
-        if self.id > Settings.current_level:
-            self.disabled = True
-            self.color = (1, 1, 1, 0)
+        Clock.schedule_once(self.reset)
         # Mettre 0 devant les chiffres pour en faire des nombre à deux chiffres
         self.text = str(self.id)
         while len(self.text) < 2:
@@ -54,7 +52,7 @@ class Level(CustomPressButton):
             self.pos_hint = {"center_y": 0.35}
         level_height += 1
     
-    def reset(self):
+    def reset(self, *args):
         if self.id <= Settings.current_level:
             self.disabled = False
             self.color = "#A04623"
@@ -165,13 +163,11 @@ class StoryMode(TabbedPanel, Loop):
             new_TabbedPanelItem = TabItem(text_key=area["Name"], levels=area["Levels"], image=area["Background"], disabled=True)
             self.add_widget(new_TabbedPanelItem)
             self.tabs.append(new_TabbedPanelItem)
-            if self.level <= Settings.current_level:
-                new_TabbedPanelItem.disabled = False
             self.level += len(area["Levels"])
         # Wait the loop in top is end
-        Clock.schedule_once(self.select_first_tab)
+        Clock.schedule_once(self.reset)
 
-    def reset(self):
+    def reset(self, *args):
         for area in self.tabs:
             area.reset()
         self.select_first_tab()
