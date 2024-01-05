@@ -68,6 +68,16 @@ class HoleAnimation(Widget):
         self.animation.start(self)
 
 
+class HintAnimation(Widget):
+    def __init__(self, animation_pos: tuple, **kwargs):
+        super().__init__(**kwargs)
+        self.type = "Hint"
+        self.opacity = 0.1
+        self.animation_pos = animation_pos
+        self.animation = Animation(duration=1, opacity=1, t="in_out_quad") + Animation(duration=0.5, opacity=1) + Animation(duration=1, opacity=0, t="in_out_quad")
+        self.animation.start(self)
+
+
 class RedoButton(CustomResizeButton):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -702,6 +712,7 @@ class Page(FloatLayout, Loop):
                                 self.grid.grid_id[y_g][x_g] = self.new_id
                             elif abs(x_piece - x_grid) < marg and abs(y_piece - y_grid) < marg and self.grid.grid[y_g][x_g] == "TV":
                                 self.grid.grid[y_g][x_g] = "M" + self.current_piece.grid[y_p][x_p][1]
+                                self.grid.grid_id[y_g][x_g] = self.new_id
                                 pos = (self.grid.min_x+x_g*self.grid.size_line, self.grid.max_y-(y_g+1)*self.grid.size_line)
                                 animation = HoleAnimation(color=self.current_piece.grid[y_p][x_p][1], animation_pos=pos)
                                 ANIMATION_LIST.append(animation)
@@ -870,11 +881,14 @@ class Page(FloatLayout, Loop):
         count_id = {}
         for y in range(len(current_level["Filled_grid"])):
             for x in range(len(current_level["Filled_grid"][y])):
-                if str(current_level["Filled_grid"][y][x]) in count_id:
-                    count_id[str(current_level["Filled_grid"][y][x])] += 1
-                elif current_level["Filled_grid"][y][x]:
-                    count_id[str(current_level["Filled_grid"][y][x])] = 1
-        
+                # Put the content into list for the hole detector
+                if type(current_level["Filled_grid"][y][x]) != list:
+                    current_level["Filled_grid"][y][x] = [current_level["Filled_grid"][y][x]]
+                for piece_id in current_level["Filled_grid"][y][x]:
+                    if str(piece_id) in count_id:
+                        count_id[str(piece_id)] += 1
+                    elif piece_id:
+                        count_id[str(piece_id)] = 1
         
         # Remove piece in right place
         for piece_id in list(count_id.keys()):
@@ -882,18 +896,22 @@ class Page(FloatLayout, Loop):
             current_piece_id = None
             for y in range(len(current_level["Filled_grid"])):
                 for x in range(len(current_level["Filled_grid"][y])):
-                    # If piece already in grid
-                    if str(current_level["Filled_grid"][y][x]) == piece_id and self.grid.grid_id[y][x]:
-                        if not current_piece_id:
-                            current_piece_id = str(self.grid.grid_id[y][x])
-                        if current_piece_id == str(self.grid.grid_id[y][x]):
-                            right_pos += 1
-                    # If is already a hint_piece
-                    if self.grid.grid_hint_id[y][x] == int(piece_id):
-                        right_pos += 1
-                    # If piece is in a box
-                    if str(current_level["Filled_grid"][y][x]) == piece_id and self.grid.grid[y][x][0] == "B":
-                        right_pos += 1
+                    for p_id in current_level["Filled_grid"][y][x]:
+                        # If piece already in grid
+                        if str(p_id) == str(piece_id) and self.grid.grid_id[y][x]:
+                            if not current_piece_id:
+                                current_piece_id = str(self.grid.grid_id[y][x])
+                            if current_piece_id == str(self.grid.grid_id[y][x]):
+                                right_pos += 1
+                        # If piece is in a box
+                        if str(p_id) == str(piece_id) and self.grid.grid[y][x][0] == "B":
+                            right_pos += 10000
+                        # If is already a hint
+                        if str(p_id) == str(piece_id) and self.grid.grid_hint_id[y][x]:
+                            right_pos += 10000
+                        # If is a hole
+                        if str(p_id) == str(piece_id) and ("T" not in self.grid.grid[y][x]) and "T" in current_level["Grid"][y][x]:
+                            right_pos += 10000
             
             if right_pos >= count_id[piece_id]:
                 count_id.pop(piece_id)
@@ -915,8 +933,12 @@ class Page(FloatLayout, Loop):
         # Set grid_hint_id to see the piece reveal
         for y in range(len(current_level["Filled_grid"])):
             for x in range(len(current_level["Filled_grid"][y])):
-                if str(current_level["Filled_grid"][y][x]) == str(piece_id_hint):
-                    self.grid.grid_hint_id[y][x] = copy.deepcopy(int(piece_id_hint))
+                for piece_id in current_level["Filled_grid"][y][x]:
+                    if str(piece_id) == str(piece_id_hint):
+                        pos = (self.grid.min_x+x*self.grid.size_line, self.grid.max_y-(y+1)*self.grid.size_line)
+                        animation = HintAnimation(animation_pos=pos)
+                        ANIMATION_LIST.append(animation)
+                        self.grid.grid_hint_id[y][x] = copy.deepcopy(int(piece_id_hint))
         
         Settings.nb_hint -= 1
         

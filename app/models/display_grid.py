@@ -74,6 +74,7 @@ class DisplayGrid(GridCalculation):
                         Color(*color, abs(opacity*angle/90))
                         Rectangle(pos=(rel_x+self.min_x+x*self.size_line,rel_y+self.max_y-(y+1)*self.size_line), size=(self.size_line, self.size_line), source=f"assets/images/elements/{block}/{rotation}.png")
             if border_block:
+                border_block_width = 1.5
                 Color(0.91, 0.72, 0.27, 1)
                 for y in range(len(self.grid)):
                     for x in range(len(self.grid[y])):
@@ -81,57 +82,58 @@ class DisplayGrid(GridCalculation):
                             continue
                         # Side left
                         if x == 0:
-                            Line(points=(self.min_x+x*self.size_line+1, self.max_y-y*self.size_line, self.min_x+x*self.size_line+1, self.max_y-(y+1)*self.size_line), width=1.5)
+                            Line(points=(self.min_x+x*self.size_line+1, self.max_y-y*self.size_line, self.min_x+x*self.size_line+1, self.max_y-(y+1)*self.size_line), width=border_block_width)
                         else: 
                             if self.grid_id[y][x] != self.grid_id[y][x-1]:
-                                Line(points=(self.min_x+x*self.size_line+1, self.max_y-y*self.size_line, self.min_x+x*self.size_line+1, self.max_y-(y+1)*self.size_line), width=1.5)
+                                Line(points=(self.min_x+x*self.size_line+1, self.max_y-y*self.size_line, self.min_x+x*self.size_line+1, self.max_y-(y+1)*self.size_line), width=border_block_width)
                         # Side top
                         if y == 0:
-                            Line(points=(self.min_x+x*self.size_line, self.max_y-y*self.size_line-1, self.min_x+(x+1)*self.size_line, self.max_y-y*self.size_line-1), width=1.5)
+                            Line(points=(self.min_x+x*self.size_line, self.max_y-y*self.size_line-1, self.min_x+(x+1)*self.size_line, self.max_y-y*self.size_line-1), width=border_block_width)
                         else: 
                             if self.grid_id[y][x] != self.grid_id[y-1][x]:
-                                Line(points=(self.min_x+x*self.size_line, self.max_y-y*self.size_line-1, self.min_x+(x+1)*self.size_line, self.max_y-y*self.size_line-1), width=1.5)
+                                Line(points=(self.min_x+x*self.size_line, self.max_y-y*self.size_line-1, self.min_x+(x+1)*self.size_line, self.max_y-y*self.size_line-1), width=border_block_width)
                         # Side right
                         if x+1 == len(self.grid[y]):
-                            Line(points=(self.min_x+(x+1)*self.size_line-1, self.max_y-y*self.size_line, self.min_x+(x+1)*self.size_line-1, self.max_y-(y+1)*self.size_line), width=1.5)
+                            Line(points=(self.min_x+(x+1)*self.size_line-1, self.max_y-y*self.size_line, self.min_x+(x+1)*self.size_line-1, self.max_y-(y+1)*self.size_line), width=border_block_width)
                         else: 
                             if self.grid_id[y][x] != self.grid_id[y][x+1]:
-                                Line(points=(self.min_x+(x+1)*self.size_line-1, self.max_y-y*self.size_line, self.min_x+(x+1)*self.size_line-1, self.max_y-(y+1)*self.size_line), width=1.5)
+                                Line(points=(self.min_x+(x+1)*self.size_line-1, self.max_y-y*self.size_line, self.min_x+(x+1)*self.size_line-1, self.max_y-(y+1)*self.size_line), width=border_block_width)
                         # Side bottom
                         if y+1 == len(self.grid):
-                            Line(points=(self.min_x+x*self.size_line, self.max_y-(y+1)*self.size_line+1, self.min_x+(x+1)*self.size_line, self.max_y-(y+1)*self.size_line+1), width=1.5)
+                            Line(points=(self.min_x+x*self.size_line, self.max_y-(y+1)*self.size_line+1, self.min_x+(x+1)*self.size_line, self.max_y-(y+1)*self.size_line+1), width=border_block_width)
                         else: 
                             if self.grid_id[y][x] != self.grid_id[y+1][x]:
-                                Line(points=(self.min_x+x*self.size_line, self.max_y-(y+1)*self.size_line+1, self.min_x+(x+1)*self.size_line, self.max_y-(y+1)*self.size_line+1), width=1.5)
-                Color(0.95, 0.77, 1.0, 1)
+                                Line(points=(self.min_x+x*self.size_line, self.max_y-(y+1)*self.size_line+1, self.min_x+(x+1)*self.size_line, self.max_y-(y+1)*self.size_line+1), width=border_block_width)
+                Color(0.94, 0.77, 1.0, 1)
+                hint_border_width = 3
                 for y in range(len(self.grid)):
                     for x in range(len(self.grid[y])):
                         if self.grid_hint_id[y][x] == None:
                             continue
                         # Side left
                         if x == 0:
-                            Line(points=(self.min_x+x*self.size_line, self.max_y-y*self.size_line, self.min_x+x*self.size_line, self.max_y-(y+1)*self.size_line), width=3)
+                            Line(points=(self.min_x+x*self.size_line, self.max_y-y*self.size_line, self.min_x+x*self.size_line, self.max_y-(y+1)*self.size_line), width=hint_border_width)
                         else: 
                             if self.grid_hint_id[y][x] != self.grid_hint_id[y][x-1]:
-                                Line(points=(self.min_x+x*self.size_line, self.max_y-y*self.size_line, self.min_x+x*self.size_line, self.max_y-(y+1)*self.size_line), width=3)
+                                Line(points=(self.min_x+x*self.size_line, self.max_y-y*self.size_line, self.min_x+x*self.size_line, self.max_y-(y+1)*self.size_line), width=hint_border_width)
                         # Side top
                         if y == 0:
-                            Line(points=(self.min_x+x*self.size_line, self.max_y-y*self.size_line, self.min_x+(x+1)*self.size_line, self.max_y-y*self.size_line), width=3)
+                            Line(points=(self.min_x+x*self.size_line, self.max_y-y*self.size_line, self.min_x+(x+1)*self.size_line, self.max_y-y*self.size_line), width=hint_border_width)
                         else: 
                             if self.grid_hint_id[y][x] != self.grid_hint_id[y-1][x]:
-                                Line(points=(self.min_x+x*self.size_line, self.max_y-y*self.size_line, self.min_x+(x+1)*self.size_line, self.max_y-y*self.size_line), width=3)
+                                Line(points=(self.min_x+x*self.size_line, self.max_y-y*self.size_line, self.min_x+(x+1)*self.size_line, self.max_y-y*self.size_line), width=hint_border_width)
                         # Side right
                         if x+1 == len(self.grid[y]):
-                            Line(points=(self.min_x+(x+1)*self.size_line, self.max_y-y*self.size_line, self.min_x+(x+1)*self.size_line, self.max_y-(y+1)*self.size_line), width=3)
+                            Line(points=(self.min_x+(x+1)*self.size_line, self.max_y-y*self.size_line, self.min_x+(x+1)*self.size_line, self.max_y-(y+1)*self.size_line), width=hint_border_width)
                         else: 
                             if self.grid_hint_id[y][x] != self.grid_hint_id[y][x+1]:
-                                Line(points=(self.min_x+(x+1)*self.size_line, self.max_y-y*self.size_line, self.min_x+(x+1)*self.size_line, self.max_y-(y+1)*self.size_line), width=3)
+                                Line(points=(self.min_x+(x+1)*self.size_line, self.max_y-y*self.size_line, self.min_x+(x+1)*self.size_line, self.max_y-(y+1)*self.size_line), width=hint_border_width)
                         # Side bottom
                         if y+1 == len(self.grid):
-                            Line(points=(self.min_x+x*self.size_line, self.max_y-(y+1)*self.size_line, self.min_x+(x+1)*self.size_line, self.max_y-(y+1)*self.size_line), width=3)
+                            Line(points=(self.min_x+x*self.size_line, self.max_y-(y+1)*self.size_line, self.min_x+(x+1)*self.size_line, self.max_y-(y+1)*self.size_line), width=hint_border_width)
                         else: 
                             if self.grid_hint_id[y][x] != self.grid_hint_id[y+1][x]:
-                                Line(points=(self.min_x+x*self.size_line, self.max_y-(y+1)*self.size_line, self.min_x+(x+1)*self.size_line, self.max_y-(y+1)*self.size_line), width=3)
+                                Line(points=(self.min_x+x*self.size_line, self.max_y-(y+1)*self.size_line, self.min_x+(x+1)*self.size_line, self.max_y-(y+1)*self.size_line), width=hint_border_width)
             if animation:
                 for animation in ANIMATION_LIST:
                     if animation.type == "box":
@@ -145,6 +147,12 @@ class DisplayGrid(GridCalculation):
                         Color(*COLOR[int(animation.color)], animation.opacity)
                         Rectangle(pos=animation.animation_pos, size=(self.size_line, self.size_line), source="assets/images/elements/block/0.png")
                         if animation.opacity == None:
+                            ANIMATION_LIST.remove(animation)
+                            animation.reload = False
+                    elif animation.type == "Hint":
+                        Color(0.96, 0.9, 1, animation.opacity)
+                        Rectangle(pos=animation.animation_pos, size=(self.size_line, self.size_line), source="assets/images/elements/hint/0.png")
+                        if animation.opacity == 0:
                             ANIMATION_LIST.remove(animation)
                             animation.reload = False
         if background and not relative:
