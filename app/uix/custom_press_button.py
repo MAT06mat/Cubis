@@ -4,6 +4,9 @@ from kivy.clock import Clock
 from kivy.app import App
 
 
+from data.sounds import Sounds
+
+
 class CustomPressButton(Button):
     last_press = False
     """`Private var`"""
@@ -27,6 +30,7 @@ class CustomPressButton(Button):
             return super().on_press()
 
         self.last_press = True
+        Sounds.button
         return super().on_press()
     
     def on_touch_up(self, touch):

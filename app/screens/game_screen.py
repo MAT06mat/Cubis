@@ -338,6 +338,7 @@ class CurrentPiece(RelativeLayout, Loop, DisplayGrid):
             self.parent.zone_piece.my_scroll_view.grid_piece.add_widget(button, index=len(pieces_list)-index)
             self.parent.current_piece = None
             self.parent.remove_widget(self)
+            Sounds.piece
         return super().on_touch_up(touch)
     
     def right(self):
@@ -377,6 +378,7 @@ class PieceButton(Button, Loop, DisplayGrid):
         self.parent.piece_button.remove(self)
         self.reload = False
         self.parent.remove_widget(self)
+        Sounds.piece
         return super().on_touch_down(touch)
     
     def loop(self, *args):
@@ -733,6 +735,7 @@ class Page(FloatLayout, Loop):
             self.zone_piece.my_scroll_view.grid_piece.piece_button.append(button)
             self.zone_piece.my_scroll_view.grid_piece.add_widget(button)
         self.current_piece = None
+        Sounds.piece
     
     def save(self, redo=False):
         if self.id_level == 0:

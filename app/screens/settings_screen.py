@@ -169,12 +169,16 @@ class EffectSlider(Slider):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         Settings.bind(is_init=self.init)
+        self.init_sound = True
     
     def init(self, *args):
         self.value = Settings.effect
+        self.init_sound = False
     
     def on_value(self, *args):
         Settings.effect = int(self.value)
+        if not self.init_sound:
+            Sounds.button
 
 
 class EffectsLabel(Label):

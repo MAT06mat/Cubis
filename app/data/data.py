@@ -6,7 +6,7 @@ from kivy.event import EventDispatcher
 
 class Data(EventDispatcher):
     def __init__(self, file):
-        self.relative_path = os.path.join("assets", "data")
+        self.relative_path = os.path.join("assets", "json")
         self.file = file
     
     def get(self, value=None):
