@@ -54,7 +54,8 @@ class BlockAnimation(Widget, Loop):
             self.current_frame = self.asset_directory+self.type+"/"+self.type.lower()+"/"+self.frames[int(self.frame)]
         else:
             ANIMATION_LIST.remove(self)
-            return False
+            self.reload = False
+        return super().loop(*args)
 
 
 class HoleAnimation(Widget):
@@ -978,6 +979,10 @@ class Game(Screen):
         self.id_level = id_level
         # Reset Pieces
         Pieces.init()
+        # Reset animations
+        for anim in ANIMATION_LIST:
+            anim.reload = False
+            ANIMATION_LIST.remove(anim)
         self.my_float = FloatLayout()
         if id_level == 0:
             self.mode = []
