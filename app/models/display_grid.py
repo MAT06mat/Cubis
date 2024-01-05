@@ -105,7 +105,7 @@ class DisplayGrid(GridCalculation):
                             if self.grid_id[y][x] != self.grid_id[y+1][x]:
                                 Line(points=(self.min_x+x*self.size_line, self.max_y-(y+1)*self.size_line+1, self.min_x+(x+1)*self.size_line, self.max_y-(y+1)*self.size_line+1), width=border_block_width)
                 Color(0.94, 0.77, 1.0, 1)
-                hint_border_width = 5
+                hint_border_width = 7
                 for y in range(len(self.grid)):
                     for x in range(len(self.grid[y])):
                         if self.grid_hint_id[y][x] == None:
