@@ -27,7 +27,8 @@ class setting_propertie:
             with open(Path, encoding="UTF-8") as file:
                 data = json.load(file)
             if self.name in data:
-                return data[self.name]
+                self.value = data[self.name]
+                return self.value
             data[self.name] = self.default
             with open(Path, "w", encoding="UTF-8") as file:
                 file.write(json.dumps(data))
