@@ -1,5 +1,6 @@
 from kivy.lang import Builder
 from kivy.core.window import Window
+from kivy.clock import Clock
 from kivy.uix.label import Label
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.relativelayout import RelativeLayout
@@ -13,8 +14,12 @@ from uix import *
 Builder.load_file("screens/infinite_mode.kv")
 
 
-class ScoreListLabel(Label, Loop):
-    def loop(self, *args):
+class ScoreListLabel(Label):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        Clock.schedule_once(self.update)
+    
+    def update(self, *args):
         # add 0 before the score to have a 4-digit number
         text = Texts.key(8) + self.format_score(Settings.last_score) + Texts.key(9)
         for score in Settings.best_score:

@@ -70,14 +70,17 @@ class SettingsData(Data):
                     file.write('{}')
         self.relative_path = path
         
+        # ----- Set Path -----
         global Path
         Path = os.path.join(self.relative_path, self.file)
         
-        self.is_init = True
-        
+        # ----- Debug -----
         app = App.get_running_app()
         if app.debug:
-            self.nb_hint = 50
+            self.nb_hint = 1
+        
+        # ----- Call other func of other class -----
+        self.is_init = True
     
     @property
     def path(self):

@@ -124,6 +124,9 @@ class NavigationScreenManager(ScreenManager):
                     sorted_list = list(sorted(best_score, reverse=True))
                     sorted_list.pop(-1)
                     Settings.best_score = sorted_list
+                for screen in self.screens:
+                    if screen.name == "InfiniteMode":
+                        screen.children[0].children[0].ids["score_label_list"].update()
             elif self.game.id_level != 0:
                 if self.game.id_level + 1 == Settings.current_level:
                     for screen in self.screens:
