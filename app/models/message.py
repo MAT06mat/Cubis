@@ -62,9 +62,9 @@ class BackgroundButton(CustomPressButton):
     
     def condition(self):
         for obj in self.message.children:
-            if isinstance(obj, Back) and not self.message.collide_point(Window.mouse_pos[0]*dp(1), Window.mouse_pos[1]*dp(1)):
+            if isinstance(obj, Back) and not self.message.collide_point(*self.last_touch.pos):
                 return True
-        if isinstance(self.message, InfoMessage) and not self.message.collide_point(Window.mouse_pos[0]*dp(1), Window.mouse_pos[1]*dp(1)):
+        if isinstance(self.message, InfoMessage) and not self.message.collide_point(*self.last_touch.pos):
             return True
         return False
     
