@@ -123,7 +123,7 @@ class HintBoxLayout(RelativeLayout):
         self.first_label.center_y = self.center_y
         self.hint_image.size = (size, size)
         self.hint_image.center_y = self.center_y + 2
-        self.second_label.font_size = self.width / 8
+        self.second_label.font_size = self.width / 12
         self.second_label.center_y = self.center_y
         
         # Define pos

@@ -57,6 +57,7 @@ class Level(CustomPressButton):
             self.disabled = False
             self.color = "#A04623"
         else:
+            self.disabled = True
             self.color = (1, 1, 1, 0)
     
     def on_custom_press(self, *args):
