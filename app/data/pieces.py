@@ -41,9 +41,10 @@ class PiecesData(Data):
     def increase(self):
         self.increase_int += 1
         for piece in self.pieces_list[::-1]:
-            piece["Proba"] *= 1.09
-            if piece["Proba"] > 100:
-                piece["Proba"] *= 0.92
+            if piece["Proba"] < 100:
+                piece["Proba"] *= 1.09
+            else:
+                piece["Proba"] *= 1.04
 
 
 Pieces = PiecesData(file='pieces.json')
