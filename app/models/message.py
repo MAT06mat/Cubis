@@ -2,7 +2,7 @@ from kivy.lang import Builder
 from kivy.core.window import Window
 from kivy.uix.label import Label
 from kivy.uix.relativelayout import RelativeLayout
-from kivy.properties import NumericProperty, ListProperty, StringProperty, BooleanProperty
+from kivy.properties import NumericProperty, ListProperty, BooleanProperty
 from kivy.clock import Clock
 from kivy.metrics import dp
 from kivy.animation import Animation
@@ -70,10 +70,10 @@ class BackgroundButton(CustomPressButton):
     
     def on_custom_press(self, *args):
         for obj in self.message.children:
-            if isinstance(obj, Back):
+            if isinstance(obj, Back) and not self.message.collide_point(Window.mouse_pos[0]*dp(1), Window.mouse_pos[1]*dp(1)):
                 self.message.temp_parent.message_pop()
                 return super().on_custom_press(*args)
-        if isinstance(self.message, InfoMessage):
+        if isinstance(self.message, InfoMessage) and not self.message.collide_point(Window.mouse_pos[0]*dp(1), Window.mouse_pos[1]*dp(1)):
             self.message.next()
         return super().on_custom_press(*args)
     
