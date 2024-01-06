@@ -55,7 +55,7 @@ class BackgroundButton(CustomPressButton):
         self.background_down = ""
         self.background_color = (0, 0, 0, 1)
         self.opacity = 0
-        self.anim = Animation(d=0.2, opacity=0.3)
+        self.anim = Animation(d=0.2, opacity=0.4)
         self.anim.start(self)
         self.on_window_resize()
         Window.bind(on_resize=self.on_window_resize)
