@@ -57,36 +57,39 @@ def symmetry(grid, vertical=True):
 
 def random_grid(size, nb):
     grid = generate_grid(size=size)
-    if nb <= 30:
+    if nb <= 50:
         return grid
     types_grid = []
     chance = 0
     # Append type of grid that be used
-    if nb > 30:
+    if nb > 50:
         types_grid.append(["H0"])
         chance += 10
-    if nb > 50:
+    if nb > 90:
         types_grid.append(["MC"])
-    if nb > 80:
+    if nb > 130:
         types_grid.append(["H0", "MC"])
         chance += 5
-    if nb > 130:
+    if nb > 180:
         types_grid.append(["TV"])
-    if nb > 150:
+    if nb > 240:
         types_grid.append(["BNV"])
         chance += 4
-    if nb > 170:
+    if nb > 300:
         types_grid.append(["BH0"])
-    if nb > 200:
+    if nb > 350:
         types_grid.append(["BNV", "BH0"])
         chance += 3
-    if nb > 250:
+    if nb > 400:
         types_grid.append(["H0", "BNV", "BH0"])
-    if nb > 250:
+    if nb > 450:
         types_grid.append(["MC", "TV"])
         chance += 2
     # Choose a random type of grid
-    type_grid = random.choice(types_grid)
+    try:
+        type_grid = random.choice(types_grid)
+    except:
+        return grid
     # Choose a random interger of point in grid
     nb_point = random.randint(0, 50)
     if nb_point > chance:

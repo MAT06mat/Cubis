@@ -510,7 +510,7 @@ class Grid(RelativeLayout, Loop, DisplayGrid):
         self.height = self.width
         self.center_x = self.parent.grid_image.center_x
         self.center_y = self.parent.grid_image.center_y
-        self.display_grid(background=True, border=True, relative=True, animation=True, border_block=True, reload=self.reload)
+        self.display_grid(background=True, border=True, relative=True, animation=True, border_block=True, reload=self.reload, hint=self.id_level != 0)
         self.replace_box()
         # Verifie si la grille est remplit if not : return
         if self.test_grid():
