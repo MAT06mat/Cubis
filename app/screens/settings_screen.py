@@ -241,4 +241,4 @@ class InfoLabel(Label):
         self.version_name = Texts.key(43)
 
     def loop(self, *args):
-        self.text = f"{self.fps_name}: {Clock.get_rfps()}    {self.version_name}: 1.5.2"
+        self.text = f"{self.fps_name}: {Clock.get_rfps()}    {self.version_name}: 1.6.0"
