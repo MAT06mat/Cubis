@@ -524,7 +524,7 @@ class Grid(RelativeLayout, Loop, DisplayGrid):
             nb = Pieces.increase_int
             if nb <= 30:
                 self.grid = generate_grid(size=4)
-            elif nb <= 100:
+            elif nb <= 150:
                 self.grid = random_grid(size=5, nb=nb)
             elif nb <= 250:
                 self.grid = random_grid(size=6, nb=nb)
