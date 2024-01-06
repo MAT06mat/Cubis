@@ -33,8 +33,9 @@ class StartImage(Image):
 
 
 class StartButton(CustomPressButton):
-    def start(self, *args):
-        Clock.schedule_once(self.undisabled, 3.5)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        Clock.schedule_once(self.undisabled, 5.5)
     
     def undisabled(self, *args):
         self.disabled = False
@@ -50,9 +51,7 @@ class StartLabel(Label, Loop):
         Texts.bind(current_lang=self.lang_change)
         self.anim = Animation(duration=1, o=80, t="in_out_sine") + Animation(duration=1, o=40, t="in_out_sine")
         self.anim.repeat = True
-    
-    def start(self, *args):
-        Clock.schedule_once(self.start_anim, 3.5)
+        Clock.schedule_once(self.start_anim, 5)
     
     def lang_change(self, *args):
         self.text = Texts.key(16)
