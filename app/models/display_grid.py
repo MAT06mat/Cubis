@@ -151,7 +151,7 @@ class DisplayGrid(GridCalculation):
                             animation.reload = False
                     elif animation.type == "Hint":
                         Color(0.96, 0.9, 1, animation.opacity)
-                        Rectangle(pos=animation.animation_pos, size=(self.size_line, self.size_line), source="assets/images/elements/block/0.png")
+                        Rectangle(pos=animation.animation_pos, size=(self.size_line, self.size_line), source="assets/images/elements/hint/0.png")
                         if animation.opacity == 0:
                             ANIMATION_LIST.remove(animation)
                             animation.reload = False
