@@ -77,7 +77,7 @@ class SettingsData(Data):
         # ----- Debug -----
         app = App.get_running_app()
         if app.debug:
-            self.nb_hint = 1
+            self.nb_hint = 3
         
         # ----- Call other func of other class -----
         self.is_init = True
