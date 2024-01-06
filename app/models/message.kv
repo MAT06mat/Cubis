@@ -20,7 +20,7 @@
 <SettingButton>:
     size_hint: (None, None)
     pos_hint: {"center_x": 0.5}
-    source: "atlas://assets/images/buttons/setting"
+    source: "assets/images/buttons/setting.png"
     on_custom_press: app.manager.push("Setting", transition_screen=False)
 
 <QuitButton>:
@@ -30,7 +30,7 @@
 <ResetButton>:
     size_hint: (None, None)
     pos_hint: {"center_x": 0.25}
-    source: "atlas://assets/images/buttons/reset"
+    source: "assets/images/buttons/reset.png"
     on_custom_press: app.manager.start_level(self.id_level, transition_screen=False)
 
 <NextButton>:
@@ -41,7 +41,7 @@
     font_size: self.width/10
     color: "#A04623"
     font_name: "assets/fonts/Coda-Regular.ttf"
-    source: "atlas://assets/images/buttons/2"
+    source: "assets/images/buttons/2.png"
 
 <ChoiceButton>:
     size_hint: (None, None)
@@ -50,4 +50,4 @@
     font_size: self.width/7
     color: "#A04623"
     font_name: "assets/fonts/Coda-Regular.ttf"
-    source: "atlas://assets/images/buttons/2"
+    source: "assets/images/buttons/2.png"

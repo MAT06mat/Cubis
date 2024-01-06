@@ -39,7 +39,10 @@ class Traductions(Data):
             return KeyError
     
     def image_path(self, path: str):
-        path = path + '-' + self.current_lang
+        path = path.split(".")
+        if len(path) != 2:
+            return ValueError
+        path = f'{path[0]}-{self.current_lang}.{path[1]}'
         return path
     
     def complete_lang(self, lang):

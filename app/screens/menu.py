@@ -46,7 +46,7 @@ class SMButton(CustomResizeButton):
         Texts.bind(current_lang=self.lang_change)
 
     def lang_change(self, *args):
-        self.source = Texts.image_path("atlas://assets/images/buttons/story_mode")
+        self.source = Texts.image_path("assets/images/buttons/story_mode.png")
 
 
 class IMButton(CustomResizeButton):
@@ -56,7 +56,7 @@ class IMButton(CustomResizeButton):
         Texts.bind(current_lang=self.lang_change)
 
     def lang_change(self, *args):
-        self.source = Texts.image_path("atlas://assets/images/buttons/infinite_mode")
+        self.source = Texts.image_path("assets/images/buttons/infinite_mode.png")
 
 
 class HintLabel(Label):
@@ -75,7 +75,7 @@ class HintBoxLayout(RelativeLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.first_label = FirstHintLabel()
-        self.hint_image = Image(source="atlas://assets/images/buttons/help2", size_hint=(None, None))
+        self.hint_image = Image(source="assets/images/buttons/help2.png", size_hint=(None, None))
         self.second_label = SecondHintLabel()
         self.add_widget(self.first_label)
         self.add_widget(self.hint_image)

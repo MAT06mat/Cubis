@@ -51,7 +51,7 @@ class PlayInfiniteModeButton(CustomResizeButton, Loop):
         Texts.bind(current_lang=self.lang_change)
     
     def lang_change(self, *args):
-        self.source = Texts.image_path("atlas://assets/images/buttons/play")
+        self.source = Texts.image_path("assets/images/buttons/play.png")
     
     def loop(self, *args):
         self.width = Window.width - dp(50)

@@ -208,7 +208,7 @@ class SettingImage(Image, Loop):
         Texts.bind(current_lang=self.lang_change)
 
     def lang_change(self, *args):
-        self.source = Texts.image_path("atlas://assets/images/elements/setting")
+        self.source = Texts.image_path("assets/images/elements/setting.png")
         
     def loop(self, *args):
         if self.parent.width < self.parent.height:
