@@ -22,6 +22,10 @@ class CubisApp(App):
 
     def on_start(self):
         Settings.init_with_user_data_dir(self.user_data_dir)
+        for screen in self.manager.screens:
+            if screen.name == "StartScreen":
+                screen.children[0].ids["start_label"].start()
+                screen.children[0].ids["start_button"].start()
 
 
 if __name__ == '__main__':
