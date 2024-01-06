@@ -75,7 +75,7 @@ class HintBoxLayout(RelativeLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.first_label = FirstHintLabel()
-        self.hint_image = Image(source="assets/images/help2.png", size_hint=(None, None))
+        self.hint_image = Image(source="atlas://assets/images/buttons/help2", size_hint=(None, None))
         self.second_label = SecondHintLabel()
         self.add_widget(self.first_label)
         self.add_widget(self.hint_image)
