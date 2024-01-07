@@ -26,21 +26,21 @@ class Level(CustomPressButton):
     
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.id_level = self.level["Id"]
+        self.id = self.level["Id"]
         self.mode = self.level["Mode"]
         self.size = (dp(125), dp(125))
         Clock.schedule_once(self.reset)
         # Mettre 0 devant les chiffres pour en faire des nombre à deux chiffres
-        self.text = str(self.id_level)
+        self.text = str(self.id)
         while len(self.text) < 2:
             self.text = "0" + self.text
         # if disabled : change style of button on disabled
         # if id%5 : change style of button on square
-        if self.id_level % 5 == 0:
+        if self.id % 5 == 0:
             self.background_disabled_normal = "assets/images/buttons/special_level_disabled.png"
         else:
             self.background_disabled_normal = "assets/images/buttons/level_disabled.png"
-        if self.id_level % 5 == 0:
+        if self.id % 5 == 0:
             self.background_normal = "assets/images/buttons/special_level.png"
             self.background_down = "assets/images/buttons/special_level.png"
         
@@ -53,7 +53,7 @@ class Level(CustomPressButton):
         level_height += 1
     
     def reset(self, *args):
-        if self.id_level <= Settings.current_level:
+        if self.id <= Settings.current_level:
             self.disabled = False
             self.color = "#A04623"
         else:
@@ -61,7 +61,7 @@ class Level(CustomPressButton):
             self.color = (1, 1, 1, 0)
     
     def on_custom_press(self, *args):
-        self.parent.parent.parent.parent.parent.message_push(self.id_level)
+        self.parent.parent.parent.parent.parent.message_push(self.id)
         return super().on_custom_press(*args)
 
 
