@@ -69,20 +69,18 @@ def random_grid(size, nb):
         types_grid.append(["MC"])
     if nb > 130:
         types_grid.append(["H0", "MC"])
-        chance += 5
+        chance += 10
     if nb > 180:
         types_grid.append(["TV"])
     if nb > 240:
-        types_grid.append(["BNV"])
-        chance += 4
-    if nb > 300:
         types_grid.append(["BH0"])
-    if nb > 350:
+        chance += 5
+    if nb > 300:
         types_grid.append(["BNV", "BH0"])
         chance += 3
-    if nb > 400:
+    if nb > 350:
         types_grid.append(["H0", "BNV", "BH0"])
-    if nb > 450:
+    if nb > 400:
         types_grid.append(["MC", "TV"])
         chance += 2
     # Choose a random type of grid
@@ -91,13 +89,13 @@ def random_grid(size, nb):
     except:
         return grid
     # Choose a random interger of point in grid
-    nb_point = random.randint(0, 50)
+    nb_point = random.randint(0, 30)
     if nb_point > chance:
         return grid
     a = size**2
     # Append a absolu index of points in grid
     point_list = []
-    for i in range(0, int(nb_point/60*a)):
+    for i in range(0, random.randint(int(nb_point/100*a), int(nb_point/60*a))):
         point_list.append(random.randint(0, a))
     index = 0
     # Add in grid the points
@@ -107,7 +105,7 @@ def random_grid(size, nb):
             if index in point_list:
                 grid[y][x] = random.choice(type_grid)
     # Choose random color
-    colors = random.choices(population=["1", "2", "3", "4", "5", "6"], k=random.choice([1, 2, 3]))
+    colors = random.choices(population=["1", "2", "3", "4", "5", "6"], k=random.choice([2, 3, 4]))
     # Color the block can be colored
     for y in range(len(grid)):
         for x in range(len(grid[0])):

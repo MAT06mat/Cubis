@@ -44,7 +44,7 @@ class PiecesData(Data):
             if piece["Proba"] < 100:
                 piece["Proba"] *= 1.09
             else:
-                piece["Proba"] *= 1.04
+                piece["Proba"] *= 2
 
 
 Pieces = PiecesData(file='pieces.json')
