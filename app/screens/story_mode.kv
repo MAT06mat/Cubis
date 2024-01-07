@@ -1,3 +1,5 @@
+#:import utils kivy.utils
+
 <StoryMode>:
     background_color: (0, 0, 0, 0)
     do_default_tab: False
@@ -9,7 +11,7 @@
 <Level>:
     size_hint: (None, None)
     font_size: self.width / 4
-    color: "#A04623"
+    color: utils.get_color_from_hex("#A04623")
     font_name: "assets/fonts/Coda-Regular.ttf"
     background_normal: "assets/images/buttons/level.png"
     background_down: "assets/images/buttons/level.png"
@@ -22,8 +24,8 @@
 
 <TabItem>:
     font_name: "assets/fonts/Coda-Regular.ttf"
-    background_color: "#FFFFFF"
+    background_color: utils.get_color_from_hex("#FFFFFF")
     border: [0, 0, 0, 0]
-    color: "#FFFFFF"
+    color: utils.get_color_from_hex("#FFFFFF")
     background_normal: "assets/images/buttons/tab.png"
     background_down: "assets/images/buttons/tab.png"

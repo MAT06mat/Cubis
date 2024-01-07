@@ -1,3 +1,5 @@
+#:import utils kivy.utils
+
 <FloatSettings>:
     Image:
         source: "assets/images/backgrounds/menu.jpg"
@@ -22,7 +24,7 @@
         x: musique_slider.x
         y: dp(15)+musique_slider.y
         font_size: self.width/10
-        color: "#A04623"
+        color: utils.get_color_from_hex("#A04623")
         font_name: "assets/fonts/Coda-Regular.ttf"
     EffectSlider:
         id: effect_slider
@@ -39,7 +41,7 @@
         x: effect_slider.x
         y: dp(15)+effect_slider.y
         font_size: self.width/10
-        color: "#A04623"
+        color: utils.get_color_from_hex("#A04623")
         font_name: "assets/fonts/Coda-Regular.ttf"
     CreditButton:
         id: credit_button
@@ -68,12 +70,12 @@
         halign: 'left'
         valign: 'center'
         font_size: "20dp"
-        color: "#A04623"
+        color: utils.get_color_from_hex("#A04623")
         font_name: "assets/fonts/Coda-Regular.ttf"
 
 <LButton>:
     font_size: self.width/8
-    color: "#A04623"
+    color: utils.get_color_from_hex("#A04623")
     font_name: "assets/fonts/Coda-Regular.ttf"
     background_color: (0, 0, 0, 0)
     canvas.before:

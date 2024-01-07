@@ -1,3 +1,5 @@
+#:import utils kivy.utils
+
 <MainMenu@FloatLayout>:
     Image:
         source: "assets/images/backgrounds/menu.jpg"
@@ -32,7 +34,7 @@
 
 <HintLabel>:
     size_hint: (None, None)
-    color: "#A04623"
+    color: utils.get_color_from_hex("#A04623")
     font_name: "assets/fonts/Coda-Regular.ttf"
 
 <FirstHintLabel>:
